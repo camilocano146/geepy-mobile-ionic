@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-login',
@@ -44,6 +45,8 @@ export class LoginPage implements OnInit {
    */
   public password: FormControl;
 
+  public l: any;
+
   constructor(
     private authenticationService: AuthenticationService,
     private localStorageService: LocalStorageService,
@@ -60,6 +63,7 @@ export class LoginPage implements OnInit {
     this.existUser = true;
     this.email = new FormControl("", [Validators.required, Validators.email]);
     this.password = new FormControl("", [Validators.required]);
+    
   }
   /**
    * Método de inicio de sesión

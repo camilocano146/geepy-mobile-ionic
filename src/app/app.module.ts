@@ -26,6 +26,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/assets/i18n/','.json');
+}
+
 @NgModule({
   declarations: [
     AppComponent
@@ -41,11 +47,11 @@ import { AppRoutingModule } from './app-routing.module';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
     }),
-    IonicStorageModule.forRoot(),
+    //IonicStorageModule.forRoot(),
     IonicModule.forRoot(),
     AppRoutingModule,
    
@@ -66,8 +72,3 @@ import { AppRoutingModule } from './app-routing.module';
 })
 export class AppModule {}
 
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
