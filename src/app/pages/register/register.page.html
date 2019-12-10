@@ -1,0 +1,73 @@
+<ion-header>
+</ion-header>
+<ion-content>
+    <ion-grid class="container-all">
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../assets/Logo/BANNER.png" height="70px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <ion-row class="container-form">
+                    <ion-col size="12">
+                        <div class="full-width" style="text-align: justify;">
+
+                        </div>
+                    </ion-col>
+                    <ion-col size="12">
+                        <mat-form-field class="full-width">
+                            <mat-label>First name</mat-label>
+                            <input matInput [formControl]="name" required>
+                            <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="12">
+                        <mat-form-field class="full-width">
+                            <mat-label>Lastname</mat-label>
+                            <input matInput [formControl]="lastname" required>
+                            <mat-error *ngIf="lastname.invalid">{{getErrorMessageLastname()}}</mat-error>
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="12">
+                        <mat-form-field class="full-width">
+                            <mat-label>Email</mat-label>
+                            <input matInput [formControl]="email" required>
+                            <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="12">
+                        <mat-form-field class="full-width">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Enter your password" [formControl]="password" [type]="hide ? 'password' : 'text'" required>
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                          <mat-icon class="color-blue-aqua">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                      </button>
+                            <mat-error *ngIf="password.invalid">{{getErrorMessagePassword()}}</mat-error>
+                        </mat-form-field>
+                    </ion-col>
+                    <ion-col size="12">
+                        <mat-form-field class="full-width">
+                            <mat-label>Confirm password</mat-label>
+                            <input matInput placeholder="Confirm your password" [formControl]="confirmPassword" [type]="Chide ? 'password' : 'text'" required>
+                            <button mat-icon-button matSuffix (click)="Chide = !Chide">
+                                          <mat-icon class="color-blue-aqua">{{Chide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                      </button>
+                            <mat-error *ngIf="confirmPassword.invalid">{{getErrorMessageConfirmPassword()}}</mat-error>
+
+                        </mat-form-field>
+                        <mat-label *ngIf="(confirmPassword.value != password.value) && confirmPassword.value.length > 2" style="color: rgb(244, 67, 54); font-size: 12px;">
+                            Passwords don't match.
+                        </mat-label>
+                    </ion-col>
+                    <ion-col size="12" class="center">
+                        <button class="btn-material-padding-top-bottom" mat-raised-button color="primary" (click)="create()">Crear Usuario</button>
+                    </ion-col>
+                    <ion-col size="12" class="center">
+                        <div class="full-width center">
+                            <a [routerLink]="['']" class="ForgetPwd" routerDirection="back">Back to home</a>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -9,18 +9,58 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+
 /* Core CSS required for Ionic components to work properly */
+
 @import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
+
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
+
 @import "~@ionic/angular/css/padding.css";
 @import "~@ionic/angular/css/float-elements.css";
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* Tema Material */
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.full-width {
+    width: 100%;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.btn-material-padding-top-bottom {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+}
+
+.container-all {
+    background-color: #E6F1F7 !important;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-form {
+    background-color: white;
+    padding: 10px !important;
+    border-radius: 10px !important;
+}
+
+.color-blue-aqua {
+    color: #67B7CF !important;
+}
