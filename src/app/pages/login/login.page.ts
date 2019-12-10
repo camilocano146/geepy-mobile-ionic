@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-login',
