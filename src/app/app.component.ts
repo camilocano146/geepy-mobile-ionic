@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
   constructor(
 
     private platform: Platform,
@@ -17,13 +18,16 @@ export class AppComponent {
     private statusBar: StatusBar,
     private translate: TranslateService
   ) {
-    this.initializeApp();
+    this.translate.setDefaultLang('en');
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+
       //this.translate.setDefaultLang('en');
       /**
        * this.translate.setDefaultLang('en');

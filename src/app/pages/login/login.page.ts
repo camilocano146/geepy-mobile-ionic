@@ -16,7 +16,8 @@ import { User } from 'src/app/models/user/user';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit  {
+
 
   /**
    * Campo de ocultar contraseña 
@@ -44,7 +45,7 @@ export class LoginPage implements OnInit {
    */
   public password: FormControl;
 
-  public l: any;
+  public login: any;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -52,17 +53,16 @@ export class LoginPage implements OnInit {
     private translate: TranslateService,
     public toastController: ToastController,
     public navCotroller: NavController,
-    private userService: UserService
+    private userService: UserService,
   ) {
     this.hide = true;
     this.preloadSignIn = false;
-  }
-
-  ngOnInit() {
     this.existUser = true;
     this.email = new FormControl("", [Validators.required, Validators.email]);
     this.password = new FormControl("", [Validators.required]);
-    
+  }
+  ngOnInit(): void {
+
   }
   /**
    * Método de inicio de sesión
@@ -119,22 +119,14 @@ export class LoginPage implements OnInit {
    * Devuelve el mensaje de email incorrecto
    */
   getErrorMessageEmail() {
-        return this.email.hasError("required")
-          ? this.translate.instant('login.sign-in.required-value')
-          : this.email.hasError("email")
-            ? this.translate.instant('login.sign-in.error-email')
-            : "";
+       
       }
 
   /**
    * Devuelve el mensaje de password incorrecto
    */
   getErrorMessagePassword() {
-        return this.password.hasError("required")
-          ? this.translate.instant('login.sign-in.required-value')
-          : this.password.hasError("pattern")
-            ? this.translate.instant('login.sign-in.error-password')
-            : "";
+        
       }
 
 

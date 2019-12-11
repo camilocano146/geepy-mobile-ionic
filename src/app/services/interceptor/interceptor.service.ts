@@ -44,7 +44,7 @@ export class InterceptorService implements HttpInterceptor  {
         headers: request.headers.set("Content-Type", "application/json"),
       });
     }
-    console.log(request);
+   
     if (request.url != "/assets/i18n/en.json" && request.url != "/assets/i18n/es.json") {
       
       request = request.clone({
@@ -53,7 +53,7 @@ export class InterceptorService implements HttpInterceptor  {
       //LLamamos al preload
     this.presentLoading();
     }
-    
+    console.log(request);
     return next.handle(request).pipe(
       
       map((event: HttpEvent<any>) => {
@@ -72,8 +72,7 @@ export class InterceptorService implements HttpInterceptor  {
         this.dismissLoading();
         return throwError(error);
       })
-    );
-  
+    ); 
   }
 
 

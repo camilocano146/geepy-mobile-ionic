@@ -9,8 +9,12 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
+
 import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
+/** Transale */
+import { HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from '../../app.module';
 
 @NgModule({
   imports: [
@@ -21,7 +25,14 @@ import { LoginPage } from './login.page';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    TranslateModule.forChild(),
+    //Traductor
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     IonicModule,
     ReactiveFormsModule,
     LoginPageRoutingModule
