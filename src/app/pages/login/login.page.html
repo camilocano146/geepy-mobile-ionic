@@ -1,39 +1,40 @@
 <ion-header>
 </ion-header>
 <ion-content>
+    <div class="background-all"></div>
     <ion-grid class="container-all">
         <ion-row>
             <ion-col size="12" style="text-align: center;">
-                <img src="../../../assets/Logo/BANNER.png" height="70px" alt="">
+                <img src="../../../assets/Logo/BANNER.png" class="img_logo" height="70px" alt="">
             </ion-col>
             <ion-col size="12" style="text-align: center !important;">
                 <form>
                     <ion-row class="container-form">
                         <ion-col size="12">
                             <mat-form-field class="full-width">
-                                <mat-label>{{'login.email' | translate }}</mat-label>
+                                <mat-label>{{'login.data.email' | translate }}</mat-label>
                                 <input matInput [formControl]="email" required>
                                 <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
                             </mat-form-field>
                         </ion-col>
                         <ion-col size="12">
                             <mat-form-field class="full-width">
-                                <mat-label>Password</mat-label>
-                                <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'">
+                                <mat-label>{{'login.data.password' | translate }}</mat-label>
+                                <input matInput [formControl]="password" [type]="hide ? 'password' : 'text'" required>
                                 <button mat-icon-button matSuffix (click)="hide = !hide">
-                                    <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                    <mat-icon class="color-blue-aqua">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                                 </button>
                                 <mat-error *ngIf="password.invalid">{{getErrorMessagePassword()}}</mat-error>
                             </mat-form-field>
                         </ion-col>
                         <ion-col size="12" class="center">
-                            <button class="btn-material-padding-top-bottom" mat-raised-button color="primary" (click)="signIn()" style="width: 70%;">Iniciar sesión</button>
+                            <button class="btn-material-padding-top-bottom" mat-raised-button color="primary" (click)="signIn()" style="width: 70%;">{{'login.data.sign-in' | translate }}</button>
                         </ion-col>
                         <ion-col size="12" class="center">
-                            <a routerLink="/register" routerDirection="forward">Eres nuevo? Crea una cuenta!</a>
+                            <a routerLink="/register" routerDirection="forward">{{'login.data.new-account' | translate }}</a>
                         </ion-col>
                         <ion-col size="12" class="center">
-                            <a routerLink="/send-code" routerDirection="forward">Olvido su contraseña</a>
+                            <a routerLink="/send-code" routerDirection="forward">{{'login.data.forgot-password' | translate }}</a>
                         </ion-col>
                     </ion-row>
                 </form>

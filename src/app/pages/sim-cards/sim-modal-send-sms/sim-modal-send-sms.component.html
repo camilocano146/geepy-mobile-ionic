@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">New SMS</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../../assets/img/email.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="label-msg">Destinatary</mat-label>
+                    <input matInput [formControl]="number" maxlength="16" placeholder="Type your contact number here.">
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" hintLabel="Max 160 characters" appearance="outline">
+                    <mat-label class="label-msg">Message</mat-label>
+                    <textarea matInput [formControl]="textSMS" maxlength="160" placeholder="Type your SMS here." rows="4"></textarea>
+                    <mat-hint align="end">{{textSMS.value.length || 0}}/160</mat-hint>
+                </mat-form-field>
+
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <label style="color: gray; font-size: 11.25px !important;">€ 0.25 EUR or $0.30 USD per SMS.</label>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-button style="text-transform: none;" (click)="sendSMS1()">
+                    <ion-icon name="send" style="margin-right: 10px;"></ion-icon>
+                    Send
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>

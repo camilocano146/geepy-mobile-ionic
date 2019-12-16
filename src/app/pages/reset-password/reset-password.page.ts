@@ -37,13 +37,9 @@ export class ResetPasswordPage implements OnInit {
   ) {
     this.hide = true;
     this.Chide = true;
-    this.password = new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(20)]);
-    this.confirmPassword = new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(20)]);
-    this.code = new FormControl("", [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(8)
-    ]);
+    this.password = new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(16)]);
+    this.confirmPassword = new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(16)]);
+    this.code = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
   }
 
   ngOnInit() {
@@ -65,13 +61,15 @@ export class ResetPasswordPage implements OnInit {
       this.authenticationService.resetPassword(resetPassword).subscribe(
         res => {
           if (res.detail == "Password changed, please login") {
-            this.presentToastOk("Password changed, please Sign in.");
+            this.presentToastOk(this.translate.instant('reset_password.data.password_update'));
             this.navCotroller.navigateForward([""]);
           }
         },
         err => {
           if (err.status == 422 && err.error.detail == "unknown code") {
-            this.presentToastError("this.translate.instant('login.reset-password.wrong code')");
+            this.presentToastError(this.translate.instant('reset_password.error.wrong_code'));
+          } else if(err.status == 500){
+            this.presentToastError(this.translate.instant('reset_password.error.server_error'));
           }
         }
       );
@@ -99,9 +97,9 @@ export class ResetPasswordPage implements OnInit {
  */
   getErrorMessagePassword() {
     return this.password.hasError("required")
-      ? this.translate.instant('validations.required-value')
-      : this.password.hasError("pattern")
-        ? this.translate.instant('validations.error-password')
+      ? this.translate.instant('reset_password.error.required_value')
+      : this.password.hasError("minlength") || this.password.hasError("maxlength")
+        ? this.translate.instant('reset_password.error.password_min_max')
         : "";
   }
   /**
@@ -109,20 +107,21 @@ export class ResetPasswordPage implements OnInit {
    */
   getErrorMessageConfirmPassword() {
     return this.confirmPassword.hasError("required")
-      ? this.translate.instant('validations.required-value')
-      : this.confirmPassword.hasError("pattern")
-        ? this.translate.instant('validations.error-password')
+      ? this.translate.instant('reset_password.error.required_value')
+      : this.confirmPassword.hasError("minlength") || this.confirmPassword.hasError("maxlength")
+        ? this.translate.instant('reset_password.error.password_min_max')
         : "";
   }
+  /**
+   * Mensaje de error de código
+   */
   getErrorMessageCode() {
     return this.code.hasError("minlength")
-      ? this.translate.instant('validations.error-8-characteres')
+      ? this.translate.instant('reset_password.error.code_min_max')
       : this.code.hasError("maxlength")
-        ? this.translate.instant('validations.error-8-characteres')
+        ? this.translate.instant('reset_password.error.code_min_max')
         : this.code.hasError("required")
-          ? this.translate.instant('validations.required-value')
+          ? this.translate.instant('reset_password.error.required_value')
           : "";
   }
 }
-
-

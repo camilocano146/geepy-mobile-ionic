@@ -1,9 +1,91 @@
 {
     "login": {
-        "email": "Email",
-        "password": "Password",
-        "sign-in": "Sign In",
-        "new-account": "Are u new? Create an account!",
-        "forgot-password": "Forgot your password?"
+        "data": {
+            "email": "Correo electronico",
+            "password": "Contraseña",
+            "sign-in": "Iniciar sesión",
+            "new-account": "Eres nuevo? Crea una cuenta!",
+            "forgot-password": "Olvidaste tu contraseña?"
+        },
+        "error": {
+            "is-blocked": "Cuenta bloqueada. Por favor contacta al administrador del sitio.",
+            "error-user-wrong-credentials": "Correo electronico o contraseña incorrectos.",
+            "error-user-not-found": "Correo electronico no encontrado.",
+            "server_error": "Error en el servidor",
+            "account-disabled": "Cuenta desactivada.",
+            "required_value": "Debes ingresar un valor.",
+            "error_email": "Correo electronico invalido."
+        }
+    },
+    "activate_account": {
+        "data": {
+            "p1": "Tu cuenta está desactivada. Se ha enviado un código de activación a tu correo electronico. Por favor revisa tu bandeja de entrada o SPAM.",
+            "code": "Código",
+            "btn_send_code": "Enviar código",
+            "btn_back_home": "Volver al inicio",
+            "account_verificated": "Tu cuenta ha sido activada."
+        },
+        "error": {
+            "wrong_code": "El código ingresado no es válido.",
+            "required_value": "Debes ingresar un valor.",
+            "code_min_max": "El código debe tener 8 caracteres."
+        }
+    },
+    "send_code": {
+        "data": {
+            "p1": "Ingresa tu correo electronico para enviar un código de restauración. Please check your inbox or SPAM.",
+            "email": "Correo electronico",
+            "btn_send_code": "Enviar código",
+            "btn_back_home": "Volver al inicio",
+            "code_sent": "Código enviado."
+        },
+        "error": {
+            "error-user-not-found": "Correo electronico no valido.",
+            "required_value": "Debes ingresar un valor.",
+            "error_email": "Correo electronico no valido."
+        }
+    },
+    "reset_password": {
+        "data": {
+            "p1": "Ingresa tu correo electronico para enviar un código de restauración. Please check your inbox or SPAM.",
+            "code": "Código",
+            "password": "Nueva contraseña",
+            "confirm_password": "Confirmar nueva contraseña",
+            "btn_change": "Cambiar contraseña",
+            "btn_back_home": "Volver al inicio",
+            "password_update": "Tu contraseña ha sido actualizada. Por favor inicia sesión."
+        },
+        "error": {
+            "password_not_match": "Contraseñas no coinciden.",
+            "wrong_code": "El código ingresado no es valido.",
+            "required_value": "Debes ingresar un valor.",
+            "password_min_max": "La contraseña debe tener entre 6 y 16 caracteres.",
+            "error_email": "Correo electronico no valido.",
+            "server_error": "Error en el servidor.",
+            "code_min_max": "El código debe tener 8 caracteres."
+        }
+    },
+    "register_user": {
+        "data": {
+            "name": "Nombres",
+            "lastname": "Apellidos",
+            "email": "Correo electronico",
+            "password": "Contraseña",
+            "confirm_password": "Confirma tu contraseña",
+            "btn_register": "Crear cuenta",
+            "btn_back_home": "Volver al inicio",
+            "ok_created": "Cuenta creada exitosamente. Por favor inicia sesión"
+        },
+        "error": {
+            "password_not_match": "Contraseñas no coinciden.",
+            "required_value": "Debes escribir un valor.",
+            "error_email": "Correo electronico no valido.",
+            "name_min_max": "Debe tener entre 3 y 50 caracteres",
+            "password_min_max": "La contraseña debe tener entre 6 y 16 caracteres.",
+            "email_in_use": "Correo electronico ya en uso.",
+            "error_mail_service": "Error servicio de correo. Por favor contacte con el adminstrador del sitio.",
+            "server_error": "Error en el servidor.",
+            "not_created": "No se pudo crear la cuenta."
+        }
     }
 }

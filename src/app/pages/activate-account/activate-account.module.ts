@@ -12,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 /** Rutas */
 import { ActivateAccountPageRoutingModule } from './activate-account-routing.module';
 import { ActivateAccountPage } from './activate-account.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -23,6 +24,8 @@ import { ActivateAccountPage } from './activate-account.page';
     MatIconModule,
     MatInputModule,
     IonicModule,
+    //Traductor
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     ActivateAccountPageRoutingModule
   ],

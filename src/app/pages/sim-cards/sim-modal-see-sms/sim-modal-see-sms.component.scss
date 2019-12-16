@@ -1,0 +1,16 @@
+@import '../../../../global.scss';
+.title-card-sim-details {
+    margin-bottom: 5px !important;
+    color: white !important;
+    background-color: #67B7CF !important;
+    font-size: 15px !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+}
+
+.popover-wrapper {
+    .popover-content {
+        width: 300px;
+        max-width: 300px;
+    }
+}

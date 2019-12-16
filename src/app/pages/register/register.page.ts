@@ -69,20 +69,19 @@ export class RegisterPage implements OnInit {
       user.password = sha1(this.password.value);
       user.role = 5;
       this.authenticationService.createUserWithOutToken(user).subscribe(res => {
-        console.log(res);
         if(res.status == 201){
-          this.presentToastOk("User created successfully!");
+          this.presentToastOk(this.translate.instant('register_user.data.ok_created'));
           this.navCotroller.navigateRoot("");
         }
       },err => {
         if (err.status == 400) {
-          this.presentToastError("Email alrealdy in use.");
+          this.presentToastError(this.translate.instant('register_user.error.email_in_use'));
         } else if (err.status == 422 && err.error.detail == "Error to send email"){
-          this.presentToastError("Error in Mail service. Please contact with administrator site.");
+          this.presentToastError(this.translate.instant('register_user.error.error_mail_service'));
         } else if (err.status == 500){
-          this.presentToastError("Server error. Please contact with administrator site.");
+          this.presentToastError(this.translate.instant('register_user.error.server_error'));
         } else {
-          this.presentToastError("We couldn't create new user.");
+          this.presentToastError(this.translate.instant('register_user.error.not_created'));
         }
       });
     }
@@ -109,9 +108,9 @@ export class RegisterPage implements OnInit {
  */
   getErrorMessagePassword() {
     return this.password.hasError("required")
-      ? this.translate.instant('validations.required-value')
-      : this.password.hasError("pattern")
-        ? this.translate.instant('validations.error-password')
+      ? this.translate.instant('register_user.error.required_value')
+      : this.password.hasError("minlength") || this.password.hasError("maxlength")
+        ? this.translate.instant('register_user.error.password_min_max')
         : "";
   }
   /**
@@ -119,34 +118,34 @@ export class RegisterPage implements OnInit {
    */
   getErrorMessageConfirmPassword() {
     return this.confirmPassword.hasError("required")
-      ? this.translate.instant('validations.required-value')
-      : this.confirmPassword.hasError("pattern")
-        ? this.translate.instant('validations.error-password')
+      ? this.translate.instant('register_user.error.required_value')
+      : this.confirmPassword.hasError("minlength") || this.confirmPassword.hasError("maxlength")
+        ? this.translate.instant('register_user.error.password_min_max')
         : "";
   }
   getErrorMessageName() {
     return this.name.hasError("minlength")
-      ? this.translate.instant('validations.error-8-characteres')
+      ? this.translate.instant('register_user.error.name_min_max')
       : this.name.hasError("maxlength")
-        ? this.translate.instant('validations.error-8-characteres')
+        ? this.translate.instant('register_user.error.name_min_max')
         : this.name.hasError("required")
-          ? this.translate.instant('validations.required-value')
+          ? this.translate.instant('register_user.error.required_value')
           : "";
   }
   getErrorMessageLastname() {
     return this.lastname.hasError("minlength")
-      ? this.translate.instant('validations.error-8-characteres')
+      ? this.translate.instant('register_user.error.name_min_max')
       : this.lastname.hasError("maxlength")
-        ? this.translate.instant('validations.error-8-characteres')
+        ? this.translate.instant('register_user.error.name_min_max')
         : this.lastname.hasError("required")
-          ? this.translate.instant('validations.required-value')
+          ? this.translate.instant('register_user.error.required_value')
           : "";
   }
   getErrorMessageEmail() {
-    return this.lastname.hasError("email")
-      ? this.translate.instant('validations.error-8-characteres')
-        : this.lastname.hasError("required")
-          ? this.translate.instant('validations.required-value')
+    return this.email.hasError("email")
+      ? this.translate.instant('register_user.error.error_email')
+        : this.email.hasError("required")
+          ? this.translate.instant('register_user.error.required_value')
           : "";
   }
 }

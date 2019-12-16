@@ -4,6 +4,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { VerifyEmail } from 'src/app/models/reset-password/verify-email';
 import { ActivationCode } from 'src/app/models/user/code-activation/activation-code';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-activate-account',
@@ -23,7 +24,8 @@ export class ActivateAccountPage implements OnInit {
   constructor(
     public navCotroller: NavController,
     private authenticationService: AuthenticationService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private translate: TranslateService,
   ) {
     this.code = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
   }
@@ -38,12 +40,12 @@ export class ActivateAccountPage implements OnInit {
         .sendActivationCode(new ActivationCode(this.code.value))
         .subscribe(res => {
           if (res.detail == "verified account") {
-            this.presentToastOk("Cuenta activada exitosamente.");
+            this.presentToastOk(this.translate.instant('activate_account.data.account_verificated'));
             this.navCotroller.navigateBack([""]);
           }
         }, err => {
           if (err.error.detail == "code not found") {
-            this.presentToastError("this.translate.instant('login.have-activation-code.wrong code')");
+            this.presentToastError(this.translate.instant('activate_account.error.wrong_code'));
           }
         });
     }
@@ -54,8 +56,17 @@ export class ActivateAccountPage implements OnInit {
    */
   getErrorMessagecode() {
     return this.code.hasError("required")
-      ? ""
+      ? this.translate.instant('activate_account.error.required_value')
       : "";
+  }
+  getErrorMessageCode() {
+    return this.code.hasError("minlength")
+      ? this.translate.instant('activate_account.error.code_min_max')
+      : this.code.hasError("maxlength")
+        ? this.translate.instant('activate_account.error.code_min_max')
+        : this.code.hasError("required")
+          ? this.translate.instant('activate_account.error.required_value')
+          : "";
   }
   async presentToastError(text: string) {
     const toast = await this.toastController.create({
@@ -73,13 +84,5 @@ export class ActivateAccountPage implements OnInit {
     });
     toast.present();
   }
-  getErrorMessageCode() {
-    return this.code.hasError("minlength")
-      ? "this.translate.instant('validations.error-8-characteres')"
-      : this.code.hasError("maxlength")
-        ? "this.translate.instant('validations.error-8-characteres')"
-        : this.code.hasError("required")
-          ? "this.translate.instant('validations.required-value')"
-          : "";
-  }
+  
 }

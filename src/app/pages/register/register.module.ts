@@ -9,9 +9,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { TranslateModule } from '@ngx-translate/core';
-
 import { RegisterPageRoutingModule } from './register-routing.module';
-
 import { RegisterPage } from './register.page';
 
 @NgModule({
@@ -25,6 +23,8 @@ import { RegisterPage } from './register.page';
     MatIconModule,
     TranslateModule,
     MatInputModule,
+    //Traductor
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     RegisterPageRoutingModule
   ],

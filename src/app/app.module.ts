@@ -25,7 +25,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /** Pagina */
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { Globalization } from '@ionic-native/globalization/ngx';
+import { ServiceAccountService } from './services/service-account/service-account.service';
+import { ExtraNumbersService } from './services/extra-numbers/extra-numbers.service';
+import { AgmCoreModule } from '@agm/core';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
     //Traductor
     TranslateModule.forRoot({
       loader: {
@@ -51,7 +55,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    //IonicStorageModule.forRoot(),
+    
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(),
     AppRoutingModule,
    
@@ -61,6 +66,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     AuthenticationService,
     LocalStorageService,
+    ServiceAccountService,
+    ExtraNumbersService,
+    Globalization,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

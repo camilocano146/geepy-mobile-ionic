@@ -53,7 +53,6 @@ export class InterceptorService implements HttpInterceptor  {
       //LLamamos al preload
     this.presentLoading();
     }
-    console.log(request);
     return next.handle(request).pipe(
       
       map((event: HttpEvent<any>) => {
@@ -124,9 +123,12 @@ export class InterceptorService implements HttpInterceptor  {
 
   // Creación del loading
   async presentLoading() {
+    if(this.isLoading == true){
+      this.dismissLoading();
+    }
     this.isLoading = true;
     return await this.loadingCtrl.create({
-      duration: 5000,
+     
     }).then(a => {
       a.present().then(() => {
         if (!this.isLoading) {

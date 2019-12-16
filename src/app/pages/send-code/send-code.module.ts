@@ -12,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 import { SendCodePageRoutingModule } from './send-code-routing.module';
 
 import { SendCodePage } from './send-code.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -23,6 +24,8 @@ import { SendCodePage } from './send-code.page';
     MatIconModule,
     MatInputModule,
     IonicModule,
+    //Traductor
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     SendCodePageRoutingModule
   ],

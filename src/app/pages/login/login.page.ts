@@ -16,7 +16,7 @@ import { User } from 'src/app/models/user/user';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit  {
+export class LoginPage implements OnInit {
 
 
   /**
@@ -80,17 +80,14 @@ export class LoginPage implements OnInit  {
           if (res.status == 200) {
             let token: Token = (res.body);
             this.localStorageService.storageToken(token);
-            console.log(this.localStorageService.getStorageToken());
             this.userService.obtainUserByToken().subscribe(res => {
               let u = res.body;
               let user: User = new User(u.email, u.first_name, u.last_name);
               user.id = u.id;
               user.is_lock = u.is_lock;
-              console.log(user);
               this.localStorageService.setStorageUser(user);
               if (user.is_lock) {
-                this.existUser = true;
-                this.presentToastWarning("translate.instant('login.sign-in.is-blocked')");
+                this.presentToastError("translate.instant('login.error.is-blocked')");
               } else {
                 this.navCotroller.navigateRoot('home');
               }
@@ -99,60 +96,65 @@ export class LoginPage implements OnInit  {
         }, err => {
           console.log(err);
           if (err.status == 403) {
-            this.presentToastError('login.sign-in.is-blocked')
+            this.presentToastError(this.translate.instant('login.error.is-blocked'))
           } else if (err.status == 400) {
-            this.presentToastError('login.sign-in.error-user-wrong-credentials');
+            this.presentToastError(this.translate.instant('login.error.error-user-wrong-credentials'));
           } else if (err.status == 401 && err.error.error == "user don't found") {
-            this.presentToastError('login.sign-in.error-user-not-found');
+            this.presentToastError(this.translate.instant('login.error.error-user-not-found'));
           } else if (err.status == 500) {
-            this.presentToastError('Server error');
+            this.presentToastError(this.translate.instant('login.error.server_error'));
           } else if (err.status == 401 && err.error.error == "unverify email") {
-            this.presentToastWarning("Cuenta deasctivada.")
+            this.presentToastWarning(this.translate.instant('login.error.account-disabled'))
             this.navCotroller.navigateRoot(["activate-account"]);
           }
         });
-      }
     }
+  }
 
 
   /**
    * Devuelve el mensaje de email incorrecto
    */
   getErrorMessageEmail() {
-       
-      }
+    return this.email.hasError("required")
+      ? this.translate.instant('login.error.required_value')
+      : this.email.hasError("email")
+        ? this.translate.instant('login.error.error_email')
+        : "";
+  }
 
   /**
    * Devuelve el mensaje de password incorrecto
    */
   getErrorMessagePassword() {
-        
-      }
-
+    return this.password.hasError("required")
+      ? this.translate.instant('login.error.required_value')
+      : "";
+  }
 
   async presentToastError(text: string) {
-        const toast = await this.toastController.create({
-          message: text,
-          duration: 3000,
-          color: 'danger'
-        });
-        toast.present();
-      }
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 3000,
+      color: 'danger'
+    });
+    toast.present();
+  }
   async presentToastOk(text: string) {
-        const toast = await this.toastController.create({
-          message: text,
-          duration: 3000,
-          color: 'success'
-        });
-        toast.present();
-      }
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 3000,
+      color: 'success'
+    });
+    toast.present();
+  }
   async presentToastWarning(text: string) {
-        const toast = await this.toastController.create({
-          message: text,
-          duration: 3000,
-          color: 'warning'
-        });
-        toast.present();
-      }
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 3000,
+      color: 'warning'
+    });
+    toast.present();
+  }
 
 }

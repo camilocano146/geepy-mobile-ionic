@@ -1,0 +1,95 @@
+@import '../../../../global.scss';
+.panel-header {
+    background-color: #3880ff !important;
+    height: 40px !important;
+    max-height: 40px !important;
+}
+
+.title-panel {
+    font-size: 14px;
+    font-weight: bold;
+    color: white !important;
+}
+
+.title-card-sim-details {
+    margin-bottom: 5px !important;
+    color: white !important;
+    background-color: #67B7CF !important;
+    font-size: 15px !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+}
+
+.container-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-info {
+    width: 330px;
+    max-width: 330px;
+    background-color: white !important;
+}
+
+.card-package {
+    width: 330px;
+    max-width: 330px;
+    background-color: white !important;
+}
+
+#cdk-accordion-child-2 {
+    padding: 0px !important;
+}
+
+#cdk-accordion-child-0 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-1 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-2 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-3 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-4 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-5 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+#cdk-accordion-child-6 {
+    padding: 0px !important;
+    background-color: rgb(240, 240, 240);
+}
+
+.item-native {
+    padding: 0px !important;
+}
+
+.popover-wrapper {
+    .popover-content {
+        width: 200px;
+        max-width: 200px;
+    }
+}
+
+//---------------Location--------
+agm-map {
+    width: 100%;
+    height: 330px;
+}

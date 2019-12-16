@@ -1,0 +1,21 @@
+@import '../../../global.scss';
+.card-sim-size {
+    width: 330px;
+    max-width: 330px;
+    max-height: 150px !important;
+    height: 150px !important;
+    background-color: white !important;
+}
+
+.container-sim-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.popover-wrapper {
+    .popover-content {
+        width: 200px;
+        max-width: 200px;
+    }
+}

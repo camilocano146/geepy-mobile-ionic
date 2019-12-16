@@ -4,6 +4,7 @@ import { NavController, NavParams, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { VerifyEmail } from 'src/app/models/reset-password/verify-email';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,12 +21,10 @@ export class SendCodePage implements OnInit {
   constructor(
     public navCotroller: NavController,
     private authenticationService: AuthenticationService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private translate: TranslateService
   ) {
-    this.emailRecovery = new FormControl("", [
-      Validators.required,
-      Validators.email
-    ]);
+    this.emailRecovery = new FormControl("", [Validators.required,Validators.email]);
   }
 
   ngOnInit() {
@@ -39,12 +38,12 @@ export class SendCodePage implements OnInit {
         .sendEmailrecoveryPassword(email)
         .subscribe(res => {
           if (res.detail == "email sent") {
-            this.presentToastOk("Code send");
+            this.presentToastOk(this.translate.instant('send_code.data.code_sent'));
           }
           this.navCotroller.navigateRoot("reset-password");
         }, err => {
           if (err.error.detail == "email don't exist") {
-            this.presentToastError('login.sign-in.error-user-not-found');
+            this.presentToastError(this.translate.instant('send_code.error.error-user-not-found'));
           }
         });
     }
@@ -55,9 +54,9 @@ export class SendCodePage implements OnInit {
    */
   getErrorMessageEmailRecovery() {
     return this.emailRecovery.hasError("required")
-      ? ""
+      ? this.translate.instant('send_code.error.required_value')
       : this.emailRecovery.hasError("email")
-        ? "this.translate.instant('validations.error-email')"
+        ? this.translate.instant('send_code.error.error_email')
         : "";
   }
   async presentToastError(text: string) {

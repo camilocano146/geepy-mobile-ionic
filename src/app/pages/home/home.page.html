@@ -1,9 +1,30 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
 
-<ion-content>
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="simcards">
+            <mat-icon>sim_card</mat-icon>
+            <ion-label>Sims</ion-label>
+        </ion-tab-button>
 
-</ion-content>
+        <ion-tab-button tab="itinerary">
+            <mat-icon>today</mat-icon>
+            <ion-label>Itenerary</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="profile">
+            <mat-icon>account_circle</mat-icon>
+            <ion-label>Profile</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="transactions">
+            <mat-icon>credit_card</mat-icon>
+            <ion-label>Payment</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="help">
+            <mat-icon>public</mat-icon>
+            <ion-label>Zones</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+
+</ion-tabs>

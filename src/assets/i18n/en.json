@@ -1,9 +1,91 @@
 {
     "login": {
-        "email": "Email",
-        "password": "Password",
-        "sign-in": "Sign In",
-        "new-account": "Are u new? Create an account!",
-        "forgot-password": "Forgot your password?"
+        "data": {
+            "email": "Email",
+            "password": "Password",
+            "sign-in": "Sign In",
+            "new-account": "Are u new? Create an account!",
+            "forgot-password": "Forgot your password?"
+        },
+        "error": {
+            "is-blocked": "Account blocked. Please contact with administrator site.",
+            "error-user-wrong-credentials": "Email or password incorrect.",
+            "error-user-not-found": "Email not found.",
+            "server_error": "Server error",
+            "account-disabled": "Account deactivated.",
+            "required_value": "You must write a value.",
+            "error_email": "Invalid email."
+        }
+    },
+    "activate_account": {
+        "data": {
+            "p1": "Your account is deactivated. An activation code has been sent to your email. Please check your inbox or SPAM.",
+            "code": "Code",
+            "btn_send_code": "Send code",
+            "btn_back_home": "Back to home",
+            "account_verificated": "Your account has been activated."
+        },
+        "error": {
+            "wrong_code": "The code entered is not valid.",
+            "required_value": "You must write a value.",
+            "code_min_max": "The code must have 8 characters."
+        }
+    },
+    "send_code": {
+        "data": {
+            "p1": "Entry your email amd we will send a restore code. Please check your inbox or SPAM.",
+            "email": "Email",
+            "btn_send_code": "Send code",
+            "btn_back_home": "Back to home",
+            "code_sent": "Code sent."
+        },
+        "error": {
+            "error-user-not-found": "Email not found.",
+            "required_value": "You must write a value.",
+            "error_email": "Invalid email."
+        }
+    },
+    "reset_password": {
+        "data": {
+            "p1": "We have sent a restore code to your email. Please check your inbox or SPAM.",
+            "code": "Code",
+            "password": "New password",
+            "confirm_password": "Confirm new password",
+            "btn_change": "Change password",
+            "btn_back_home": "Back to home",
+            "password_update": "Your password has been updated. Please sign in."
+        },
+        "error": {
+            "password_not_match": "Passwords don't match.",
+            "wrong_code": "The code entered is not valid.",
+            "required_value": "You must write a value.",
+            "password_min_max": "Password must have between 6 and 16 characters.",
+            "error_email": "Invalid email.",
+            "server_error": "Server error.",
+            "code_min_max": "The code must have 8 characters."
+        }
+    },
+    "register_user": {
+        "data": {
+            "name": "First name",
+            "lastname": "Lastname",
+            "email": "Email",
+            "password": "New password",
+            "confirm_password": "Confirm new password",
+            "btn_register": "Create account",
+            "btn_back_home": "Back to home",
+            "ok_created": "Account created successfully."
+        },
+        "error": {
+            "password_not_match": "Passwords don't match.",
+            "required_value": "You must write a value.",
+            "error_email": "Invalid email.",
+            "name_min_max": "Must have between 3 and 50 characters.",
+            "password_min_max": "Password must have between 6 and 16 characters.",
+            "email_in_use": "Email alrealdy in use.",
+            "error_mail_service": "Error in Mail service. Please contact with administrator site.",
+            "server_error": "Server error.",
+            "not_created": "We couldn't create new user."
+        }
     }
 }

@@ -11,6 +11,7 @@ import { MatInputModule } from "@angular/material/input";
 /** Rutas */
 import { ResetPasswordPageRoutingModule } from './reset-password-routing.module';
 import { ResetPasswordPage } from './reset-password.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -22,6 +23,8 @@ import { ResetPasswordPage } from './reset-password.page';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    //Traductor
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     ResetPasswordPageRoutingModule
   ],

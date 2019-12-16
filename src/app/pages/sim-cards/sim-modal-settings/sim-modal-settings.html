@@ -1,0 +1,520 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">Information</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
+                <img src="../../../../assets/img/settings.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
+                <ion-label class="full-width"><strong>ICCID: </strong><label style="color: #737373;">{{sim_current.iccid}}</label></ion-label>
+            </ion-col>
+            <ion-col size="12">
+                <mat-accordion>
+                    <mat-expansion-panel expanded>
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">Details</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="container-cards">
+                            <ion-card style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Information</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label *ngIf="sim_current.status == 1" color="primary"><strong>ACTIVATED</strong></ion-label>
+                                                <ion-label *ngIf="sim_current.status == 2" color="warning"><strong>SUSPENDED</strong></ion-label>
+                                                <ion-label *ngIf="sim_current.status == 3" color="danger"><strong>DELETED</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">IMSI:</strong><label style="color: #737373;">{{sim_current.imsi}}</label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">MSISDN:</strong><label style="color: #737373;">{{sim_current.msisdn}}</label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">ICCID:</strong><label style="color: #737373;">{{sim_current.iccid}}</label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="preload_package" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Plan</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label *ngIf="!package.type" color="success" style="font-size: 18px; font-weight: bold;"><strong>{{package.text}}</strong></ion-label>
+                                                <ion-label *ngIf="package.type" color="success" style="font-size: 18px; font-weight: bold;"><strong>{{package.type}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col *ngIf="package.type" size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">Data:</strong><label style="color: #737373;">{{package.amount}} MB</label>
+                                            </ion-col>
+                                            <ion-col *ngIf="package.type" size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">Cost:</strong><label style="color: #737373;">{{package.cost | currency}}</label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="preload_conectivity && preload_events" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Connectivity</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row *ngIf="!conectivity.get_lu" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="danger" style="font-size: 18px; font-weight: bold;"><strong>OFFLINE</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="conectivity.get_lu" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="success" style="font-size: 18px; font-weight: bold;"><strong>ONLINE</strong></ion-label>
+                                                <ion-label color="success" *ngIf="conectivity.get_lu.gprs_lu_first" style="font-size: 18px; font-weight: bold;"><strong> / 4G</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col *ngIf="lastEvents.get_last_activity.data" size="12" style="text-align: center !important;">
+                                                <ion-label *ngIf="lastEvents.get_last_activity.data.country != null" color="primary"><strong>{{lastEvents.get_last_activity.data.country}} / {{lastEvents.get_last_activity.data.operator}}</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+
+                            <ion-card *ngIf="preload_simcard" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Data used</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+
+                                    <ion-grid *ngIf="!simCurrent.card_stat.discount || simCurrent.card_stat.discount == null">
+                                        <ion-row>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label style="font-size: 18px; font-weight: bold;" color="warning"><strong>No data currently</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <ion-grid *ngIf="simCurrent.card_stat.discount ">
+                                        <ion-row *ngIf="simCurrent.card_stat.discount.gprs" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="primary">Data: {{simCurrent.card_stat.discount.gprs.init_volume | number : '1.1-1'}} MB </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="success">Avaiable: {{simCurrent.card_stat.discount.gprs.left_volume | number : '1.1-1'}} MB </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="danger">Spended: {{leftData | number : '1.1-1'}} MB </ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="!simCurrent.card_stat.discount.gprs">
+                                            <ion-col size="12" *ngIf="!simCurrent.card_stat.discount.gprs" style="text-align: center !important;">
+                                                <ion-label style="font-size: 18px; font-weight: bold;" color="warning"><strong>No data currently</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="preload_simcard" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>End point</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row *ngIf="preload_endpoint" class="ion-justify-content-center">
+                                            <ion-col *ngIf="endpoint.endpoint == null" size="12" style="text-align: center !important;">
+                                                <ion-label color="warning">Without endpoint</ion-label>
+                                            </ion-col>
+                                            <ion-col *ngIf="endpoint.endpoint != null" size="12" style="text-align: center !important;">
+                                                <ion-label><strong style="color: black;">Name: </strong></ion-label>
+                                            </ion-col>
+                                            <ion-col *ngIf="endpoint.endpoint != null" size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{endpoint.endpoint}}</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">Packages</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="preload_avaiable_packages == true && preload_package == true">
+                            <ion-label color="success" style="font-size: 20px;"><strong>Data</strong></ion-label>
+                            <ion-card *ngIf="avaibalePackages.getserviceoptions.gprs.activation_fee" style="margin-top: 10px;" class="card-package">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Package code: {{avaibalePackages.getserviceoptions.gprs.package_code}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{avaibalePackages.getserviceoptions.gprs.package_name}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                                <ion-label>{{avaibalePackages.getserviceoptions.gprs.activation_fee}} {{avaibalePackages.getserviceoptions.gprs.currency}}</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-button>Buy</ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <div *ngIf="!avaibalePackages.getserviceoptions.gprs.activation_fee" class="container-cards">
+                                <ion-card *ngFor="let item of avaibalePackages.getserviceoptions.gprs" style="margin-top: 10px;" class="card-package">
+                                    <ion-card-header>
+                                        <ion-card-title class="center title-card-sim-details"><strong>Package code: {{item.package_code}}</strong></ion-card-title>
+                                    </ion-card-header>
+                                    <ion-card-content style="margin-top: -20px;">
+                                        <ion-grid>
+                                            <ion-row class="ion-justify-content-center">
+                                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                    <ion-label color="primary"><strong>{{item.package_name}}</strong></ion-label>
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                    <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                                    <ion-label>{{item.activation_fee}} {{item.currency}}</ion-label>
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                    <ion-button *ngIf="package.package_code != item.package_code" (click)="activatePackage(item.package_code, 'dailygprs')">Buy</ion-button>
+                                                    <ion-button color="danger" *ngIf="package.package_code == item.package_code" (click)="cancelPackage(item.package_code, 'dailygprs')">Cancel</ion-button>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-card-content>
+                                </ion-card>
+                            </div>
+                            <ion-label color="warning" style="font-size: 20px;"><strong>Location</strong></ion-label>
+                            <ion-card *ngIf="avaibalePackages.getserviceoptions.lbs.activation_fee" style="margin-top: 10px;" class="card-package">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Package code: {{avaibalePackages.getserviceoptions.lbs.activation_fee.package_code}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{avaibalePackages.getserviceoptions.lbs.activation_fee.package_name}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                                <ion-label>{{avaibalePackages.getserviceoptions.lbs.activation_fee}}</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="danger"><strong>Queries: </strong></ion-label>
+                                                <ion-label>{{avaibalePackages.getserviceoptions.lbs.amount_of_requests}}</ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <div *ngIf="!avaibalePackages.getserviceoptions.lbs.activation_fee" class="container-cards">
+                                <ion-card *ngFor="let item of avaibalePackages.getserviceoptions.lbs" style="margin-top: 10px;" class="card-package">
+                                    <ion-card-header>
+                                        <ion-card-title class="center title-card-sim-details"><strong>Package code: {{item.package_code}}</strong></ion-card-title>
+                                    </ion-card-header>
+                                    <ion-card-content style="margin-top: -20px;">
+                                        <ion-grid>
+                                            <ion-row class="ion-justify-content-center">
+                                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                    <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                                    <ion-label>{{item.activation_fee}} </ion-label>
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                    <ion-label color="danger"><strong>Queries: </strong></ion-label>
+                                                    <ion-label>{{item.amount_of_requests}}</ion-label>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-card-content>
+                                </ion-card>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel style="padding: 0px !important;" id="panelsms">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">SMS</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="6" style="text-align: left;">
+                                    <ion-label color="success" style="margin-top: 10px !important; font-size: 20px; display: flex; align-items: flex-end;"><strong>
+                                        SMS
+                                    </strong></ion-label>
+                                </ion-col>
+                                <ion-col size="6" style="text-align: right;">
+                                    <ion-button style="text-transform: none;" (click)="openModalSendSMS()">
+                                        <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                        New
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="12" style="padding: 0px !important;">
+                                    <ion-list style="padding: 0px !important;">
+                                        <ion-item *ngFor="let item of listSMS" style="padding: 0px !important;" detail (click)="openModalSeeSMS(item)">
+                                            <ion-label style="padding: 0px !important;" class="contenido">{{item.sms_text}}</ion-label>
+                                        </ion-item>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">Location</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="location_service_on == 1" class="container-cards" style="padding: 0px !important;">
+                            <ion-card *ngFor="let item of avaibalePackages.getserviceoptions.lbs" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Package {{item.package_code}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 20px;">
+                                                <strong>{{item.amount_of_requests}} </strong>
+                                                <ion-label color="primary"> Queries!</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <ion-label color="success">Cost: </ion-label><strong> {{item.activation_fee}}</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center;">
+                                                <ion-button color="primary" style="text-transform: none;" (click)="activateLocationService(item.package_code)">
+                                                    <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                                    Buy
+                                                </ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <ion-label color="warning"><strong>Note: </strong></ion-label>Validity of 30 calendar days. The activation and ending time of the package is defined by the time of Estonia (GMT + 2).
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </div>
+                        <div *ngIf="location_service_on == 2" class="container-cards" style="padding: 0px !important;">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="6">
+                                        <ion-button color="primary" style="text-transform: none;" (click)="obtainLocation()">
+                                            <ion-icon name="search" style="margin-right: 10px;"></ion-icon>
+                                            Search
+                                        </ion-button>
+                                    </ion-col>
+                                    <ion-col size="6">
+                                        Queries: {{location_status.records.record.queries_left}} / {{total_location_queries}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <agm-map *ngIf="!showHeat" [latitude]="lat" [longitude]="lng" [zoom]="4" (zoomChange)="zoomChange($event)">
+
+                            </agm-map>
+                            <agm-map *ngIf="showHeat" [latitude]="lat" [longitude]="lng" [zoom]="4" (mapReady)="onMapLoad($event)" (zoomChange)="zoomChange($event)">
+
+                            </agm-map>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">Settings</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="preload_simcard" class="container-cards">
+                            <ion-card *ngIf="simCurrent.card_stat.card.blocked == 'false'" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                Suspend the SIM Card connectivity service.
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center;">
+                                                <ion-button color="danger" style="text-transform: none;" (click)="blockSimcard()">
+                                                    <ion-icon name="power" style="margin-right: 10px;"></ion-icon>
+                                                    Suspend
+                                                </ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="simCurrent.card_stat.card.blocked == 'true'" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Activate the SIM Card connectivity service.</strong>
+
+                                            </ion-col>
+
+                                            <ion-button color="success" style="text-transform: none;" (click)="unblockSimcard()">
+                                                <ion-icon name="power" style="margin-right: 10px;"></ion-icon>
+                                                Activate
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Reset Sim Card connectivity service.</strong>
+                                            </ion-col>
+                                            <ion-button color="primary" style="text-transform: none;" (click)="reconect()">
+                                                <ion-icon name="refresh" style="margin-right: 10px;"></ion-icon>
+                                                Reset connectivity
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="simCurrent.card_stat.card.enum ==  null" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Buy extra number</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                1 year per 10 USD
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <mat-form-field class="full-width">
+                                                    <mat-label>Numbers availables</mat-label>
+                                                    <mat-select [formControl]="newNumber">
+                                                        <mat-option *ngFor="let item of extraNumbersList" [value]="item">
+                                                            {{item}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <mat-error *ngIf="newNumber.invalid">{{getErrorMessageNew()}}
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </ion-col>
+                                            <ion-button color="success" style="text-transform: none;" (click)="addNewNumber()">
+                                                <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                                Buy extra number
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="simCurrent.card_stat.card.enum !=  null" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Remove extra number</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                Non refundable
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                <mat-form-field class="example-form-field full-width">
+                                                    <mat-label>Extra number</mat-label>
+                                                    <input matInput type="text" [formControl]="number_to_delete" readonly>
+                                                </mat-form-field>
+                                            </ion-col>
+                                            <ion-button color="warning" style="text-transform: none; color: black !important;" (click)="deleteNumber()">
+                                                <ion-icon name="remove-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                                Remove number
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="preload_endpoint" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Update Endpoint </strong>
+                                            </ion-col>
+
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                <mat-form-field class="example-form-field full-width">
+                                                    <input matInput type="text" [formControl]="value_endpoint">
+                                                    <mat-error *ngIf="value_endpoint.invalid">{{getErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </ion-col>
+                                            <ion-button color="primary" style="text-transform: none; color: black !important;" (click)="updateEndpointName()">
+                                                <ion-icon name="refresh" style="margin-right: 10px;"></ion-icon>
+                                                Update Endpoint
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>Delete Sim card</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                This action is irreversible.
+                                            </ion-col>
+                                            <ion-button color="danger" style="text-transform: none; color: black !important;" (click)="updateEndpointName()">
+                                                <ion-icon name="trash" style="margin-right: 10px;"></ion-icon>
+                                                Delete
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

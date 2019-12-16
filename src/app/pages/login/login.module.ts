@@ -26,13 +26,7 @@ import { HttpLoaderFactory } from '../../app.module';
     MatIconModule,
     MatInputModule,
     //Traductor
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
+    TranslateModule.forChild(),
     IonicModule,
     ReactiveFormsModule,
     LoginPageRoutingModule
