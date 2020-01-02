@@ -1,0 +1,78 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="color: white !important;">Itinerary {{this.data.id}}</ion-title>
+
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row *ngIf="!preload_data">
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">Destiny</ion-label>
+                    <ion-input *ngIf="currentLang == 'es'" value="{{data.destination.nombre}}" readonly></ion-input>
+                    <ion-input *ngIf="currentLang != 'es'" value="{{data.destination.name}}" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">Start date</ion-label>
+                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="startDate" placeholder="Select Date" [min]="minDayToPlanning" [max]="maxDayToPlanning" readonly></ion-datetime>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">Sim Card</ion-label>
+                    <ion-input [formControl]="simcard" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">Package</ion-label>
+                    <ion-input value="{{packageselected.package_name}}" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">Cost</ion-label>
+                    <ion-input *ngIf="data.sim_card.account_top_connect.alias == 'USD'" value="{{packageselected.activation_fee_usd}} {{data.sim_card.account_top_connect.alias}}" readonly></ion-input>
+                    <ion-input *ngIf="data.sim_card.account_top_connect.alias == 'EUR'" value="{{packageselected.activation_fee_eur}} {{data.sim_card.account_top_connect.alias}}" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                Do you need change date of start? Please entry the new date:
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>New start date</ion-label>
+                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="newDate" placeholder="Select Date" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
+                </ion-item>
+            </ion-col>
+            <ion-col size="6" style="text-align: center;">
+                <ion-button (click)="save()">
+                    <ion-icon name="save"></ion-icon>
+                    Save Date
+                </ion-button>
+            </ion-col>
+
+            <ion-col size="6" style="text-align: right;">
+                <ion-button color="danger" (click)="cancel()">
+                    <ion-icon name="close"></ion-icon>
+                    Cancel
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" style="font-size: 12px;">
+                <ion-label color="warning"><strong co>Note: </strong>
+                    <ion-label style="color:black !important">
+                        You can only change the date or cancel this plan with 48 hours in advance.</ion-label>
+                </ion-label>
+            </ion-col>
+        </ion-row>
+
+    </ion-grid>
+</ion-content>

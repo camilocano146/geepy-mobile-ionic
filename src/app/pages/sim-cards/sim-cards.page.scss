@@ -1,10 +1,9 @@
 @import '../../../global.scss';
 .card-sim-size {
-    width: 330px;
-    max-width: 330px;
-    max-height: 150px !important;
-    height: 150px !important;
-    background-color: white !important;
+    width: 290px;
+    max-width: 290px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
 }
 
 .container-sim-cards {
@@ -15,7 +14,20 @@
 
 .popover-wrapper {
     .popover-content {
-        width: 200px;
-        max-width: 200px;
+        min-width: 300px !important;
+        width: 300px !important;
+        max-width: 300px !important;
     }
+}
+
+.title-register {
+    color: white !important;
+    background-color: #67B7CF !important;
+    font-size: 20px !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+}
+
+#filter-input {
+    border-radius: 5px !important;
 }

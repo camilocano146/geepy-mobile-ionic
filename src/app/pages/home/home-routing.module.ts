@@ -39,21 +39,20 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'help',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../help/help.module').then(m => m.HelpPageModule)
-          }
-        ]
-      },
-      {
         path: 'transacitions',
         children: [
           {
             path: '',
-            loadChildren: () => import('../transacitions/transacitions.module').then( m => m.TransacitionsPageModule)
+            loadChildren: () => import('../transacitions/transacitions.module').then(m => m.TransacitionsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'zones',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../zones/zones.module').then(m => m.ZonesPageModule)
           }
         ]
       },
@@ -75,4 +74,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomePageRoutingModule {}
+export class HomePageRoutingModule { }

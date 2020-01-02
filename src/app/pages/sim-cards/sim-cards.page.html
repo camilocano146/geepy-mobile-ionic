@@ -1,67 +1,99 @@
 <ion-header>
-    <ion-toolbar color="secondary">
-        <ion-button slot="start" fill="clear">
+    <ion-toolbar color="dark">
+        <!--
+ <ion-button slot="start" fill="clear">
             <ion-icon style="color: white !important;" name="menu"></ion-icon>
         </ion-button>
-        <ion-title style="color: white !important;">Sim Cards</ion-title>
+        -->
+        <ion-title style="color: white !important;">{{'simcard.data.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
         </ion-button>
-
     </ion-toolbar>
 </ion-header>
 <ion-content>
     <div class="background-all"></div>
     <ion-grid>
-        <ion-card style="background-color: white !important;">
-            <ion-card-header>
-                <ion-card-title>Import by:</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <ion-row class="ion-justify-content-center">
-                    <ion-col size="6" class="center">
-                        <ion-button style="text-transform: none;" (click)="openModalImportICCID()">
-                            <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
-                            ICCID
-                        </ion-button>
-                    </ion-col>
-                    <ion-col size="6" class="center">
-                        <ion-button style="text-transform: none;" (click)="openModalImportONUM()">
-                            <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
-                            ONUM
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-card-content>
-        </ion-card>
         <ion-row>
-            <ion-col size="8">
-                <label style="color: black; font-size: 18px; font-weight: bold;">List of Sims</label>
+            <ion-col size="12" style="text-align: center !important;">
+                <ion-card style="background-color: white !important; text-align: center;">
+                    <ion-card-header style="padding-bottom: 0px !important;">
+                        <ion-card-title class="title-register">{{'simcard.data.register_by' | translate}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row class="ion-justify-content-center">
+                            <ion-col size="12" class="center">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="5" style="display: flex; align-items: center; justify-content: center;">
+                                            <ion-button style="text-transform: none;" class="full-width" (click)="openModalImportICCID()">
+                                                <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
+                                                ICCID
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="7" style="display: flex; align-items: center; justify-content: flex-start; text-align: left;">
+                                            <ion-label>{{'simcard.data.example_iccid' | translate}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                            <ion-col size="12" class="center">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="5" style="display: flex; align-items: center; justify-content: center;">
+                                            <ion-button style="text-transform: none;" class="full-width" (click)="openModalImportONUM()">
+                                                <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
+                                                ONUM
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="7" style="display: flex; align-items: center; justify-content: flex-start; text-align: left;">
+                                            <ion-label>{{'simcard.data.example_onum' | translate}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
             </ion-col>
-            <ion-col size="4" style="text-align: right !important;">
-                <ion-button color="success" (click)="ngOnInit()" fill="clear" style="height: 20px">
-                    <ion-icon style="margin-top: -5px;" name="refresh"></ion-icon>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="12" style="text-align: center !important;margin-top: 5px;">
+                <ion-label color="primary" style="font-size: 18px; font-weight: bold; text-align: center ;">{{'simcard.data.my_sims' | translate}}</ion-label>
+            </ion-col>
+            <ion-col size="8" id="filter-input">
+                <!-- Inputs with labels -->
+                <ion-item style="margin-left: 10px;">
+                    <ion-icon name="search"></ion-icon>
+                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="number" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">
+                <ion-button color="success" (click)="ionViewDidEnter()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+                    <ion-icon style=" font-size: 35px;" name="refresh"></ion-icon>
                 </ion-button>
             </ion-col>
             <ion-col size="12">
                 <div class="center container-sim-cards">
-                    <ion-card *ngFor="let item of simsList" class="card-sim-size" (click)="openModalSettings(item)">
+                    <ion-card *ngFor="let item of simsList " class="card-sim-size" [ngStyle]="{'background-color':item.status == 2 ? '#FFFFEC' : '#ffffff' }" (click)="openModalSettings(item)">
                         <ion-card-header style="padding-bottom: 0px !important;">
+                            <ion-card-title class="title-register"></ion-card-title>
                             <ion-card-subtitle><strong style="color: black !important;">ICCID:</strong> {{item.iccid}}</ion-card-subtitle>
                         </ion-card-header>
-                        <ion-card-content style="padding-right: 5px !important; padding-left: 5px !important;">
+                        <ion-card-content style="padding:0px !important;">
                             <ion-grid>
                                 <ion-row>
                                     <ion-col size="4">
-                                        <img src="../../../assets/img/simcard.svg" height="110px" style="margin-top: -7px;" alt="">
+                                        <img src="../../../assets/img/simcard.svg" height="120px" style="margin-top: 0px;" alt="">
                                     </ion-col>
                                     <ion-col size="8">
                                         <ion-grid style="padding: 0px !important;">
                                             <ion-row>
                                                 <ion-col size="12" class="center" style="padding: 0px !important;">
-                                                    <ion-label *ngIf="item.status == 1" color="primary"><strong>ACTIVATED</strong></ion-label>
-                                                    <ion-label *ngIf="item.status == 2" color="warning"><strong>SUSPENDED</strong></ion-label>
-                                                    <ion-label *ngIf="item.status == 3" color="danger"><strong>DELETED</strong></ion-label>
+                                                    <ion-label *ngIf="item.status == 1" color="primary"><strong>{{'simcard.data.activated' | translate}}</strong></ion-label>
+                                                    <ion-label *ngIf="item.status == 2" color="warning"><strong>{{'simcard.data.suspended' | translate}}</strong></ion-label>
+                                                    <ion-label *ngIf="item.status == 3" color="danger"><strong>{{'simcard.data.deleted' | translate}}</strong></ion-label>
                                                 </ion-col>
                                                 <ion-col size="12" style="text-align: left !important; font-size: 12px;">
                                                     <strong style="color: black !important;">IMSI:</strong>{{item.imsi}}
@@ -73,6 +105,9 @@
                                                     <strong style="color: black !important;">ENUM:</strong>
                                                     <label *ngIf="item.enum == ''">N/A</label>
                                                     <label *ngIf="item.enum != ''">{{item.enum}}</label>
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: left !important; font-size: 12px;">
+                                                    <ion-label color="success"> <strong>{{'simcard.data.currency' | translate}}: </strong></ion-label><label>{{item.account_top_connect.alias}}</label>
                                                 </ion-col>
                                             </ion-row>
                                         </ion-grid>

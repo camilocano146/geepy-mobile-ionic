@@ -6,6 +6,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -13,6 +14,8 @@ import { HomePage } from './home.page';
     CommonModule,
     FormsModule,
     MatIconModule,
+    //Traductor
+    TranslateModule.forChild(),
     HomePageRoutingModule
   ],
   declarations: [HomePage]

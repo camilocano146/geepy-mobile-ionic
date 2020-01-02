@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "184822089138",
+    "firebase_url": "https://iot-alacena-999b5.firebaseio.com",
+    "project_id": "iot-alacena-999b5",
+    "storage_bucket": "iot-alacena-999b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184822089138:android:d92a0129907427fff4d0ab",
+        "android_client_info": {
+          "package_name": "com.ms.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184822089138-4frqt23n1hcs6s986taej7guog1o2nmc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfhZOIqXdXTNsyahf0xQW11xxk1zNGMNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184822089138-4frqt23n1hcs6s986taej7guog1o2nmc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ms.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

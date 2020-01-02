@@ -10,7 +10,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-
 import { MatSelectModule } from '@angular/material/select';
 import { SimCardsPageRoutingModule } from './sim-cards-routing.module';
 
@@ -19,14 +18,15 @@ import { SimModalImportICCID } from './sim-modal-import-iccid/sim-modal-import-i
 import { TranslateModule } from '@ngx-translate/core';
 import { SimModalSettings } from './sim-modal-settings/sim-modal-settings';
 import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onum';
-import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { SimModalSendSmsComponent } from './sim-modal-send-sms/sim-modal-send-sms.component';
 import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.component';
 import { AgmCoreModule } from '@agm/core';
+import { PopoverModule } from 'src/app/common-components/popover/popover.module';
 
 
 @NgModule({
   imports: [
+    PopoverModule,
     CommonModule,
     FormsModule,
     IonicModule,
@@ -42,24 +42,23 @@ import { AgmCoreModule } from '@agm/core';
       apiKey: "AIzaSyBMtHVqHc6m1dPc85aFmzg4uS8r6SlzosQ" + '&libraries=visualization'
     }),
     ReactiveFormsModule,
-    SimCardsPageRoutingModule
+    SimCardsPageRoutingModule,
   ],
   declarations: [
-    PopoverComponent,
     SimCardsPage,
     SimModalImportICCID,
     SimModalImportONUM,
     SimModalSettings,
     SimModalSendSmsComponent,
-    SimModalSeeSmsComponent
+    SimModalSeeSmsComponent,
   ],
   entryComponents: [
-    PopoverComponent,
     SimModalImportICCID,
     SimModalImportONUM,
     SimModalSettings,
     SimModalSendSmsComponent,
-    SimModalSeeSmsComponent
+    SimModalSeeSmsComponent,
+    
   ]
 })
 export class SimCardsPageModule { }

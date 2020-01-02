@@ -1,0 +1,8 @@
+@import '../../../global.scss';
+.popover-wrapper {
+    .popover-content {
+        min-width: 300px !important;
+        width: 300px !important;
+        max-width: 300px !important;
+    }
+}

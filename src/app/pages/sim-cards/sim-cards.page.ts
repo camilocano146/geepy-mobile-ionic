@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
 import { UserService } from 'src/app/services/user/user.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
@@ -24,32 +24,75 @@ export class SimCardsPage implements OnInit {
    * Lista de sims
    */
   public simsList: any[];
+  public copyFull: any[];
+  public auxText: string;
   /**
    * Preload de sims
    */
   public preloadSims: boolean;
 
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
     private localStorageService: LocalStorageService,
     private simCardService: SimCardService,
     private alertController: AlertController,
     private navController: NavController,
     public popoverController: PopoverController,
-    public modalController: ModalController) {
+    public modalController: ModalController,
+    private toastController: ToastController) {
     this.preloadSims = false;
     this.simsList = [];
+    this.copyFull = [];
     this.user = this.localStorageService.getStorageUser();
   }
 
   ngOnInit() {
+    
+  }
+  /**
+   * Carga el contenido cuando entra
+   */
+  ionViewDidEnter(){
     this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
       if (res.status == 200) {
         this.simsList = res.body[1];
+        for (let index = 0; index < this.simsList.length; index++) {
+          if(this.simsList[index].status == 3){
+            this.simsList.splice(index,1);
+          }
+        }
+        this.simsList.sort( (a,b) => b.id - a.id);
+        this.simsList.forEach(element => {
+          this.copyFull.push(element);
+        });
+        
+        this.preloadSims = true;
       }
     }, err => {
-      console.log(err);
+      this.presentToastError("We couldn't load sim cards.");
     });
   }
+  /**
+   * Filtro
+   */
+  applyFilter(filterValue: string) {
+    if (filterValue != this.auxText) {
+      this.auxText = filterValue;
+      this.simsList.splice(0, this.simsList.length);
+      this.copyFull.forEach(element => {
+        this.simsList.push(element);
+      });
+      let aux = [];
+      for (let index = 0; index < this.simsList.length; index++) {
+        const element: string = this.simsList[index].iccid;
+        if (element.includes(filterValue)) {
+          aux.push(this.simsList[index]);
+        }
+      }
+      this.simsList = aux;
+    }
+  }
+
   /**
    * Importar SIMS por ICCID
    */
@@ -91,47 +134,27 @@ export class SimCardsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(res => {
-        this.ngOnInit();
+      this.ngOnInit();
 
     }).catch();
 
     return await modal.present();
   }
-  /**
-   * Cerrar sesión
-   */
-  logOut() {
-    this.presentAlertConfirm();
-  }
-  async presentAlertConfirm() {
-    const alert = await this.alertController.create({
-      header: 'Cerrar sesión',
-      message: '¿Estás seguro?',
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            this.localStorageService.removeToken();
-            this.navController.navigateBack("");
-          }
-        }, {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
   async settingsPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      mode:'ios',
+      mode: 'ios',
     });
     return await popover.present();
+  }
+
+  async presentToastError(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 3000,
+      color: 'danger'
+    });
+    toast.present();
   }
 }

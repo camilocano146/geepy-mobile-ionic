@@ -5,19 +5,19 @@
                 <strong>SMS {{sms.id}}</strong>
             </ion-col>
             <ion-col size="12" style="text-align: left;">
-                <ion-label color="primary">Destinatary: </ion-label>
+                <ion-label color="primary">{{'simcard.data.settings.sms.destinatary' | translate}}: </ion-label>
                 <ion-label style="color:black">{{sms.sim_card_top_connect_destinatary}}</ion-label>
             </ion-col>
             <ion-col size="12" style="text-align: justify;">
-                <ion-label color="primary">Message: </ion-label>
+                <ion-label color="primary">{{'simcard.data.settings.sms.message' | translate}}: </ion-label>
                 <ion-label style="color:black">{{sms.sms_text}}</ion-label>
             </ion-col>
             <ion-col size="12" style="text-align: left;">
-                <ion-label color="primary">Date: </ion-label>
+                <ion-label color="primary">{{'simcard.data.settings.sms.date' | translate}}: </ion-label>
                 <ion-label style="color:black">{{sms.date_sms | date:'medium'}}</ion-label>
             </ion-col>
             <ion-col size="12" style="text-align: left;">
-                <ion-label color="success">Currency: </ion-label>
+                <ion-label color="success">{{'simcard.data.settings.sms.currency' | translate}}: </ion-label>
                 <ion-label style="color:black">{{sms.currencie}}</ion-label>
             </ion-col>
         </ion-row>

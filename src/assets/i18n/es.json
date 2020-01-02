@@ -1,4 +1,7 @@
 {
+    "loader": {
+        "loading": "Cargando"
+    },
     "login": {
         "data": {
             "email": "Correo electronico",
@@ -14,7 +17,8 @@
             "server_error": "Error en el servidor",
             "account-disabled": "Cuenta desactivada.",
             "required_value": "Debes ingresar un valor.",
-            "error_email": "Correo electronico invalido."
+            "error_email": "Correo electronico invalido.",
+            "notification_token": "No podemos iniciar la aplicación. Por favor contacte al administrador del sitio."
         }
     },
     "activate_account": {
@@ -86,6 +90,30 @@
             "error_mail_service": "Error servicio de correo. Por favor contacte con el adminstrador del sitio.",
             "server_error": "Error en el servidor.",
             "not_created": "No se pudo crear la cuenta."
+        }
+    },
+    "profile": {
+        "title": "Perfil",
+        "name": "Nombres",
+        "lastname": "Apellidos",
+        "email": "Correo electronico",
+        "save_changes": "Guardar cambios",
+        "current_password": "Contraseña actual",
+        "new_password": "Nueva contraseña",
+        "confirm_password": "Confirma tu nueva contraseña",
+        "change_password": "Cambiar contraseña",
+        "info_ok": "Perfil actualizado exitosamente.",
+        "pass_ok": "Contraseña actualizada exitosament.",
+        "error": {
+            "profile": "No pudimos obtener la información de tu perfil.",
+            "password_not_match": "Contraseñas no coinciden.",
+            "required_value": "Debes escribir un valor.",
+            "name_min_max": "Nombres debe tener entre 3 y 45 caracteres.",
+            "lastname_min_max": "Apellidos debe tener entre 3 y 45 caracteres.",
+            "email_min_max": "Correo electronico debe tener entre 3 y 45 caracteres.",
+            "password_min_max": "Contraseña debe tener entre 6 y 16 caracteres.",
+            "pass_not_match": "Contraseñas no coinciden.",
+            "error_email": "Correo electronico no valido."
         }
     }
 }

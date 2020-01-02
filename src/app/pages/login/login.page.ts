@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Credential } from '../../models/credential/credential';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Token } from 'src/app/models/token/token';
 import sha1 from 'js-sha1'
 import { TranslateService } from '@ngx-translate/core';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController, NavController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { NotificationToken } from 'src/app/models/token/notification-token';
 
 @Component({
   selector: 'app-login',
@@ -54,6 +55,8 @@ export class LoginPage implements OnInit {
     public toastController: ToastController,
     public navCotroller: NavController,
     private userService: UserService,
+    private fcm: FCM,
+    public plt: Platform
   ) {
     this.hide = true;
     this.preloadSignIn = false;
@@ -62,7 +65,7 @@ export class LoginPage implements OnInit {
     this.password = new FormControl("", [Validators.required]);
   }
   ngOnInit(): void {
-
+    console.log(this.translate.currentLang);
   }
   /**
    * Método de inicio de sesión
@@ -80,6 +83,22 @@ export class LoginPage implements OnInit {
           if (res.status == 200) {
             let token: Token = (res.body);
             this.localStorageService.storageToken(token);
+            //--------------Tokenn de Firebase
+            this.fcm.getToken().then(token => {
+              let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+              if (this.plt.is('ios')) {
+                notificationToken.platform = "ios";
+              } else if (this.plt.is('android')) {
+                notificationToken.platform = "android";
+              }
+              console.log(notificationToken);
+              this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+              }, err => {
+                this.presentToastError(this.translate.instant('notification_token'));
+                this.navCotroller.navigateRoot('');
+              });
+            });
+            //-----------------------------------------
             this.userService.obtainUserByToken().subscribe(res => {
               let u = res.body;
               let user: User = new User(u.email, u.first_name, u.last_name);
@@ -94,7 +113,6 @@ export class LoginPage implements OnInit {
             });
           }
         }, err => {
-          console.log(err);
           if (err.status == 403) {
             this.presentToastError(this.translate.instant('login.error.is-blocked'))
           } else if (err.status == 400) {
@@ -110,7 +128,6 @@ export class LoginPage implements OnInit {
         });
     }
   }
-
 
   /**
    * Devuelve el mensaje de email incorrecto
@@ -156,5 +173,4 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
-
 }

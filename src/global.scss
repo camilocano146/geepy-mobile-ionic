@@ -94,6 +94,10 @@ ion-title {
     border-radius: 5px;
 }
 
+.mat-expansion-panel-body {
+    padding: 0 10px 16px !important;
+}
+
 .contenido {
     overflow: hidden;
     white-space: nowrap;

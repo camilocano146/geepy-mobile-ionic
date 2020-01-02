@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="color: white !important;"> Pay with PayPal</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="display: flex; justify-content: center;">
+                <ion-card class="card-payment" style="text-align: center; background-color: white;">
+                    <img src="../../../../assets/img/paypal.jpg" style="margin-bottom: 10px;" alt="">
+                    <div class="full-width" style="padding: 10px;">
+                        <ion-item style="border-radius: 5px;">
+                            <ion-label position="floating">Tariff</ion-label>
+                            <ion-select placeholder="Select one" [formControl]="tariffSelected" interface="action-sheet">
+                                <ion-select-option *ngFor="let item of tarifsList" [value]="item">{{item.value}} {{item.currency.acronym}}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-button style="margin-top: 10px;" type="submit" color="success" expand="full" (click)="payWithPaypal()" [disabled]="!(tariffSelected.valid)">
+                            <ion-icon name="card"></ion-icon>
+                            Make Payment
+                        </ion-button>
+                        <div class="full-width" style="text-align: left; margin-top: 20px;">
+                            <ion-label color="warning"><strong>Note: </strong></ion-label>
+                            <ion-label>Cost per transacition is 5.4% + 0.30 USD. For example, if pay USD 100 with a credit card, the rate would be USD 5.40 + 0.30 USD.</ion-label>
+                        </div>
+                    </div>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

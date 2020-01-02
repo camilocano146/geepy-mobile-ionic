@@ -31,9 +31,10 @@ export class SimModalImportICCID implements OnInit{
     this.serviceAccountService.getServicesAccounts().subscribe(res => {
       if (res.status == 200) {
         this.serviceAccountsList = res.body;
+        console.log(this.serviceAccountsList);
       }
     }, err => {
-      this.presentToastError("We couldn't get service accounts.");
+      this.presentToastError(this.translate.instant('simcard.error.services_account'));
     });
   }
 
@@ -45,20 +46,19 @@ export class SimModalImportICCID implements OnInit{
       }
       this.simCardService.registerSimCardByICCID(iccid).subscribe(res => {
         if (res.status == 201) {
-          this.presentToastOk("Sim card imported successfully");
+          this.presentToastOk(this.translate.instant('simcard.data.import_iccid.import_ok'));
           this.modalController.dismiss("imported");
         }
       }, err => {
         console.log(err);
         if(err.status == 400 && err.error.Details == "Can't create sim, this was registred previosly"){
-          this.presentToastWarning("Can't import Sim card, this was imported previosly.");
+          this.presentToastError(this.translate.instant('simcard.error.previus_imported'));
         } else {
-          this.presentToastError(this.translate.instant('platform-one.sim-card.import-iccid.error'));
+          this.presentToastError(this.translate.instant('simcard.error.error_register'));
         }
       });
     }
   }
-
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
@@ -80,7 +80,6 @@ export class SimModalImportICCID implements OnInit{
     });
     toast.present();
   }
-
   async presentToastWarning(text: string) {
     const toast = await this.toastController.create({
       message: text,
@@ -89,26 +88,22 @@ export class SimModalImportICCID implements OnInit{
     });
     toast.present();
   }
-
  /**
    * Devuelve el mensaje de email incorrecto
    */
   getErrorMessageCode() {
     return this.iccid.hasError("required")
-      ? this.translate.instant('login.error.required_value')
+      ? this.translate.instant('simcard.error.required_value')
       : this.iccid.hasError("minlength") || this.iccid.hasError('maxlength')
-      ? this.translate.instant('login.error.code-axx')
+      ? this.translate.instant('simcard.error.iccid_min_max')
         : "";
   }
-
    /**
    * Devuelve el mensaje de email incorrecto
    */
   getErrorMessageAccount() {
     return this.accountSelected.hasError("required")
-      ? this.translate.instant('login.error.required_value')
+      ? this.translate.instant('simcard.error.required_account')
         : "";
   }
-
-
 }

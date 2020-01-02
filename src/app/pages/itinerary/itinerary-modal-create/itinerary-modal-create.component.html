@@ -1,0 +1,130 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="color: white !important;"> New itinerary</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../assets/img/travel.svg" height="120px" alt="">
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>Destiny</ion-label>
+
+                    <ion-select *ngIf="currentLang == 'es'" placeholder="Select one" [formControl]="country" interface="action-sheet" id="country">
+                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.nombre}}</ion-select-option>
+                    </ion-select>
+                    <ion-select *ngIf="currentLang != 'es'" placeholder="Select one" [formControl]="country" interface="action-sheet" id="country">
+                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.name}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>Start date</ion-label>
+                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="startDate" placeholder="Select Date" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>Sim Card</ion-label>
+                    <ion-select placeholder="Select one" [formControl]="simcard" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of simsList " [value]="item">{{item.iccid}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-button color="warning" (click)="searchPackages()" [disabled]="!(country.valid && startDate.valid && simcard.valid)">
+                    <mat-icon>search</mat-icon>Search packages</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="existsPackages == 1">
+
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../assets/img/ghost.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-label color="primary">No packages available</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="existsPackages == 2">
+            <ion-col size="12">
+                <mat-accordion>
+                    <mat-expansion-panel [expanded]="expanded" (opened)="openPanelPackages()">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Available Packages
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="container-cards">
+                            <ion-card *ngFor="let item of avaiablePackages" style="margin-top: 10px;" class="card-package">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>Package code: {{item.id}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content style="margin-top: -20px;">
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{item.package_name}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                                <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'USD'">{{item.activation_fee_usd}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                                <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'EUR'">{{item.activation_fee_eur}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-item>
+                                                    <ion-label>Select this!</ion-label>
+                                                    <ion-toggle slot="start" color="success" mode="ios" [checked]="item.selected" (ionFocus)="selectPackage(item.package_code)" [disabled]="item.selected == true"></ion-toggle>
+                                                </ion-item>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ion-col>
+            <ion-col *ngIf="packageselected != null" size="12" style="text-align: center; display: flex; justify-content: center;">
+                <ion-card style="margin-top: 10px;" class="card-package-selected">
+                    <ion-card-header>
+                        <ion-card-title class="center title-card-sim-details"><strong>Package selected!</strong></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content style="margin-top: -20px;">
+                        <ion-grid>
+                            <ion-row class="ion-justify-content-center">
+                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                    <ion-label color="primary"><strong>{{packageselected.package_name}}</strong></ion-label>
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                    <ion-label color="success"><strong>Cost: </strong></ion-label>
+                                    <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'USD'">{{packageselected.activation_fee_usd}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                    <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'EUR'">{{packageselected.activation_fee_eur}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col *ngIf="packageselected != null" size="12" style="text-align: center;">
+                <ion-button (click)="create()">
+                    <mat-icon>
+                        note_add
+                    </mat-icon>
+                    Create
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

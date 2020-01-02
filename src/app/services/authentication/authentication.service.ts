@@ -46,5 +46,11 @@ export class AuthenticationService {
   createUserWithOutToken(user: User):Observable<any>{
     return this.http.post<any>('user/register/', user, { observe: 'response'});
   }
+  /**
+   * Enviar firebae token
+   */
+  sendNotificationsToken(token: any):Observable<any>{
+    return this.http.post<any>("devices_token/update_token/" ,token ,{ observe: 'response' });
+  }
 
 }

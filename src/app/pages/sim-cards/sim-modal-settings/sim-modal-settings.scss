@@ -33,9 +33,14 @@
 }
 
 .card-package {
-    width: 330px;
-    max-width: 330px;
+    width: 280px;
+    max-width: 280px;
     background-color: white !important;
+}
+
+.hover-item-sms:hover {
+    background-color: #67b7cf;
+    color: #67b7cf;
 }
 
 #cdk-accordion-child-2 {
@@ -83,8 +88,9 @@
 
 .popover-wrapper {
     .popover-content {
-        width: 200px;
-        max-width: 200px;
+        min-width: 300px !important;
+        width: 300px !important;
+        max-width: 300px !important;
     }
 }
 

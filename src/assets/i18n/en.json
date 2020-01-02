@@ -1,4 +1,7 @@
 {
+    "loader": {
+        "loading": "Loading"
+    },
     "login": {
         "data": {
             "email": "Email",
@@ -14,7 +17,8 @@
             "server_error": "Server error",
             "account-disabled": "Account deactivated.",
             "required_value": "You must write a value.",
-            "error_email": "Invalid email."
+            "error_email": "Invalid email.",
+            "notification_token": "We can't start the app. Please contact with administrador site."
         }
     },
     "activate_account": {
@@ -86,6 +90,210 @@
             "error_mail_service": "Error in Mail service. Please contact with administrator site.",
             "server_error": "Server error.",
             "not_created": "We couldn't create new user."
+        }
+    },
+    "profile": {
+        "title": "Profile",
+        "name": "First name",
+        "lastname": "Last name",
+        "email": "Email",
+        "save_changes": "Save changes",
+        "current_password": "Current password",
+        "new_password": "New password",
+        "confirm_password": "Confirm new password",
+        "change_password": "Change password",
+        "info_ok": "User updated successfully.",
+        "pass_ok": "Password updated successfully.",
+        "error": {
+            "profile": "We couldn't obtain your profile information.",
+            "password_not_match": "Passwords don't match.",
+            "required_value": "You must write a value.",
+            "name_min_max": "Name must have between 3 and 45 characters.",
+            "lastname_min_max": "Lastname must have between 3 and 45 characters.",
+            "email_min_max": "Email must have between 3 and 45 characters.",
+            "password_min_max": "Password must have between 6 and 16 characters.",
+            "pass_not_match": "Passwords not match",
+            "error_email": "Invalid email."
+        }
+    },
+    "home": {
+        "sims": "Sims",
+        "itinerary": "Itinerary",
+        "profile": "Profile",
+        "payment": "Payment",
+        "zones": "Zones"
+    },
+    "simcard": {
+        "data": {
+            "title": "Sim Cards",
+            "register_by": "Register by:",
+            "example_iccid": "Ex: 89372040160XXXXXX",
+            "example_onum": "Ex: 372810XXXXX",
+            "my_sims": "MY SIM CARDS",
+            "ph_search": "Search by ICCID",
+            "activated": "ACTIVATED",
+            "suspended": "SUSPENDED",
+            "deleted": "DELETED",
+            "currency": "CURRENCY",
+            "package_purchased_ok": "Package purchased successfully.",
+            "package_canceled_ok": "Package canceled successfully.",
+            "activated_ok": "Sim Card activated successfully.",
+            "suspended_ok": "Sim Card suspended successfully.",
+            "extra_number_added": "New number added successfully.",
+            "extra_number_deleted": "Extra number has been deleted successfully.",
+            "endpoint_ok": "Name Sim card updated successfully.",
+            "location_service_activated_ok": "Location service activated successfully.",
+            "no_current_coordinates": "This Simcard has no current coordinates. The service will be charged.",
+            "reconnection_ok": "Connectivity restarted successfully.",
+            "delete_sim_modal": "Delete Sim: ",
+            "are_u_sure": "¿Are you sure?",
+            "yes_delete": "Yes, delete it!",
+            "cancel_modal": "Cancel",
+            "delete_sim_ok": "Sim card has been deleted!",
+
+            "import_iccid": {
+                "title": "Register by ICCID",
+                "p1": "Please enter the",
+                "iccid": "ICCID ",
+                "p2": "code of the Sim card.",
+                "iccid_code": "ICCID Code",
+                "p3": "Choose a ",
+                "service_account": "Service account",
+                "p4": " to register the Simcard.",
+                "btn_register": "Register",
+                "import_ok": "Sim Card registered successfully."
+            },
+            "import_onum": {
+                "data": {
+                    "title": "Register by ONUM",
+                    "p1": "Please enter the",
+                    "onum": "ONUM ",
+                    "p2": "code of the Sim card.",
+                    "onum_code": "ONUM Code",
+                    "p3": "Choose a ",
+                    "service_account": "Service account",
+                    "p4": " to register the Simcard.",
+                    "btn_register": "Register",
+                    "import_ok": "Sim Card registered successfully."
+                },
+                "error": {}
+            },
+            "settings": {
+                "data": {
+                    "title": "Information",
+                    "details": "Details",
+                    "data_used": "Data used",
+                    "no_data_currently": "No data currently",
+                    "data": "Data",
+                    "avaiable": "Avaiable",
+                    "spended": "Spended",
+                    "title_card_information": "Information",
+                    "activated": "ACTIVATED",
+                    "suspended": "SUSPENDED",
+                    "deleted": "DELETED",
+                    "title_card_plan": "Plan",
+                    "plan_data": "Data",
+                    "plan_cost": "Cost",
+                    "title_card_connectivity": "Connectivity",
+                    "title_card_end_point": "End Point",
+                    "with_out_end_point": "With out end point",
+                    "name_end_point": "Name"
+                },
+                "package": {
+                    "cupon": "Do you have a coupon?",
+                    "error_cupon": "Invalid coupon. This must have 5 characters.",
+                    "title": "Packages",
+                    "title_data": "Data packages",
+                    "package_code": "Package code",
+                    "cost": "Cost",
+                    "btn_buy": "Buy",
+                    "btn_cancel": "Cancel",
+                    "title_location": "Location packages",
+                    "queries": "Queries"
+                },
+                "sms": {
+                    "title": "SMS",
+                    "new_sms": "New",
+                    "total_sms": "Total SMS: ",
+                    "destinatary": "Destinatary",
+                    "message": "Message",
+                    "date": "Date",
+                    "currency": "Currency",
+                    "type_contact_here": "Type your contact number here.",
+                    "type_sms_here": "Type your SMS here.",
+                    "tariff_sms": "0.25 EUR or 0.30 USD per SMS.",
+                    "max_160": "Max 160 characters"
+                },
+                "location": {
+                    "title": "Location",
+                    "package": "Package",
+                    "queries": "Queries!",
+                    "cost": "Cost",
+                    "buy": "Buy",
+                    "note": "Note: ",
+                    "p1": "Validity of 30 calendar days. The activation and ending time of the package is defined by the time of Estonia (GMT + 2).",
+                    "btn_search": "Search",
+                    "total_queries": "Queries"
+                },
+                "settings": {
+                    "title": "Settings",
+                    "suspend": "Suspend the SIM Card connectivity service.",
+                    "btn_suspend": "suspend",
+                    "activate": "Activate the SIM Card connectivity service.",
+                    "btn_activate": "Activate",
+                    "reset": "Reset Sim Card connectivity service.",
+                    "btn_reset": "Reset connectivity",
+                    "buy_extra": "Buy extra number",
+                    "buy_extra_usd": "1 Year per 12 USD.",
+                    "buy_extra_eur": "1 Year per 10 EUR.",
+                    "numbers_avaiable": "Numbers availables",
+                    "btn_buy_extra": "Buy extra number",
+                    "remove_extra": "Remove extra number",
+                    "non_refundable": "Non refundable!",
+                    "extra_number": "Extra number",
+                    "remove_number": "Remove number",
+                    "customatize_sim": "Customize Sim Card name",
+                    "update_name": "Update",
+                    "delete_sim": "Delete Sim card",
+                    "delete_p1": "This action is irreversible.",
+                    "btn_delete": "Delete"
+                },
+                "error": {}
+            }
+        },
+        "error": {
+            "services_account": "We couldn't get service accounts.",
+            "previus_imported": "Can't register, this was imported previosly.",
+            "error_register": "We coudldn't import Sim card.",
+            "required_value": "You must write a value.",
+            "required_account": "You must select one service account.",
+            "iccid_min_max": "ICCID must have between 5 and 21 characters.",
+            "onum_min_max": "ONUM must have between 5 and 21 characters.",
+            "no_details_sim": "We couldn't obtain details of Sim card.",
+            "no_packages_sim": "We couldn't obtain packages of Sim card.",
+            "no_events_sim": "We couldn't get events Sim card.",
+            "no_connectivity_sim": "We couldn't get connectivity of Sim card.",
+            "no_endpoint_sim": "We couldn't obtain endpoint of Sim card.",
+            "no_avaiable_package": "We couldn't obtain avaiable packages.",
+            "sim_block": "The simcard is blocked. Please unlock it first.",
+            "not_enough_money": "Hasn't enough money. Please recharge your account.",
+            "cannot_buy_package": "We couldn't process your request.",
+            "package_not_activated": "The package has not been activated yet. Please try again later.",
+            "activation_error": "We couldn't activate Sim card.",
+            "suspend_error": "We couldn't suspend Sim card.",
+            "extra_number_already_in_use": "Provided Extra Number already set for another Sim card.",
+            "extra_number_added_error": "We couldn't add number to Sim card.",
+            "extra_number_removed_error": "We couldn't remove number to Sim card.",
+            "endpoint_error": "We couldn't update endpoint of Sim card.",
+            "no_sms_sim": "We couldn't get SMS of Sim card.",
+            "no_location_service_sim": "We couldn't obtain status location service.",
+            "location_service_blocked": "Location service is blocked. Please contact with the administrator site.",
+            "location_service_activated_error": "We couldn't activate location service.",
+            "no_location_sim": "We couldn't obtain location of Sim card.",
+            "reconnection_error": "We couldn't restart the connectivity.",
+            "no_extra_number": "We couldn't obtain extra numbers avaiables.",
+            "delete_error": "We couldn't delete this Sim card.",
+            "end_point_min_max": "Must have between 5 and 30 characters."
         }
     }
 }

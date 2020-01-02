@@ -14,6 +14,7 @@ import { LoadingController, NavController } from '@ionic/angular';
 import { Global } from '../../models/global/global';
 import { Token } from 'src/app/models/token/token';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable({
@@ -27,7 +28,8 @@ export class InterceptorService implements HttpInterceptor  {
     public loadingCtrl: LoadingController,
     //public storage: Storage,
     private navControler: NavController,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private transalte: TranslateService
   ) { }
 
 
@@ -128,7 +130,7 @@ export class InterceptorService implements HttpInterceptor  {
     }
     this.isLoading = true;
     return await this.loadingCtrl.create({
-     
+     message: this.transalte.instant('loader.loading')
     }).then(a => {
       a.present().then(() => {
         if (!this.isLoading) {

@@ -1,10 +1,15 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
 /**Tradcutor */
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -21,6 +26,14 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 /** Material */
 import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+/**
+ * Stripe
+ */
+import { Stripe } from '@ionic-native/stripe/ngx';
+/**
+ * Paypal
+ */
+import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal/ngx';
 
 /** Pagina */
 import { AppComponent } from './app.component';
@@ -28,7 +41,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { Globalization } from '@ionic-native/globalization/ngx';
 import { ServiceAccountService } from './services/service-account/service-account.service';
 import { ExtraNumbersService } from './services/extra-numbers/extra-numbers.service';
-import { AgmCoreModule } from '@agm/core';
+import { ItineraryService } from './services/itinerary/itinerary.service';
+import { TariffRechargeService } from './services/tariff-recharge/tariff-recharge.service';
+import { BillingService } from './services/billing/billing.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,7 +83,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     LocalStorageService,
     ServiceAccountService,
     ExtraNumbersService,
+    TariffRechargeService,
+    BillingService,
     Globalization,
+    Stripe,
+    PayPal,
+    CallNumber,
+    Camera,
+    InAppBrowser,
+    FCM,
+    AndroidPermissions,
+    ItineraryService,
+    { provide: LOCALE_ID, useValue: "en-US" },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

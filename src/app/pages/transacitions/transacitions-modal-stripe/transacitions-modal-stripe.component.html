@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="secondary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="color: white !important;"> Pay with Stripe</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="display: flex; justify-content: center;">
+                <ion-card class="card-payment" style="text-align: center;">
+                    <img src="../../../../assets/img/stripe.png" style="margin-bottom: 10px;" alt="">
+                    <ion-item style="border-radius: 5px;">
+                        <ion-label position="floating">Tariff</ion-label>
+                        <ion-select placeholder="Select one" [formControl]="tariffSelected" interface="action-sheet">
+                            <ion-select-option *ngFor="let item of tarifsList" [value]="item">{{item.value}} {{item.currency.acronym}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <div class="full-width" style="padding: 10px;">
+
+
+                        <form action="/" method="post" id="payment-form" style="margin-top: 10px;">
+                            <div class="form-row" style="margin-bottom: 10px;">
+                                <div id="card-element" style="margin-bottom: 10px;">
+                                    <!-- a Stripe Element will be inserted here. -->
+                                </div>
+                                <!-- Used to display Element errors -->
+                                <div id="card-errors" role="alert" style="color: #f04141 !important"></div>
+                            </div>
+                            <ion-button style="margin-top: 10px;" type="submit" color="success" expand="full" [disabled]="!(tariffSelected.valid)">
+                                <ion-icon name="card"></ion-icon>
+                                Make Payment
+                            </ion-button>
+                        </form>
+                        <div class="full-width" style="text-align: left; margin-top: 20px;">
+                            <ion-label color="warning"><strong>Note: </strong></ion-label>
+                            <ion-label>Cost per transacition is 3% + 0.30 USD. For example, if pay USD 100 with a credit card, the rate would be USD 3.00 + 0.30 USD .</ion-label>
+                        </div>
+                    </div>
+
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

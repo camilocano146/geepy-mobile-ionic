@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-toolbar color="secondary">
+    <ion-toolbar color="dark">
         <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
             <ion-icon name="arrow-round-back"></ion-icon>
         </ion-buttons>
-        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">Import by ONUM</ion-title>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.import_onum.data.title' | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -14,24 +14,24 @@
                 <img src="../../../../assets/img/import (1).svg" height="100px" alt="">
             </ion-col>
             <ion-col size="11" style="text-align: justify;">
-                Please enter the <strong style="color: #3880ff !important">ONUM</strong> code of the Sim card.
+                {{'simcard.data.import_onum.data.p1' | translate}} <strong style="color: #3880ff !important">ONUM </strong>{{'simcard.data.import_onum.data.p2' | translate}}
             </ion-col>
             <ion-col size="11" style="text-align: center !important;">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>ONUM code</mat-label>
+                    <mat-label>{{'simcard.data.import_onum.data.onum_code' | translate}}</mat-label>
                     <input matInput [formControl]="onum" type="text" required>
                     <mat-error *ngIf="onum.invalid">{{getErrorMessageCode()}}</mat-error>
                 </mat-form-field>
             </ion-col>
             <ion-col size="11" style="text-align: justify;">
-                Choose a <strong style="color: #3880ff !important">service account</strong> to import the Simcard.
+                {{'simcard.data.import_onum.data.p3' | translate}} <strong style="color: #3880ff !important"> {{'simcard.data.import_onum.data.service_account' | translate}}</strong> {{'simcard.data.import_onum.data.p4' | translate}}
             </ion-col>
             <ion-col size="11" style="text-align: justify;">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Service account</mat-label>
                     <mat-select [formControl]="accountSelected">
                         <mat-option *ngFor="let item of serviceAccountsList" [value]="item">
-                            {{item.uname}}
+                            {{item.alias}}
                         </mat-option>
                     </mat-select>
                     <mat-error *ngIf="accountSelected.invalid">{{getErrorMessageAccount()}}</mat-error>
@@ -39,7 +39,7 @@
             </ion-col>
             <ion-col size="12" style="text-align: center;">
                 <ion-button style="text-transform: none;" (click)="import()">
-                    Importar
+                    {{'simcard.data.import_onum.data.btn_register' | translate}}
                 </ion-button>
             </ion-col>
         </ion-row>

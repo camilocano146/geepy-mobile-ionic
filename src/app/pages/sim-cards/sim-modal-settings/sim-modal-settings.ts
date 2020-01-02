@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
-import { ModalController, ToastController, PopoverController } from '@ionic/angular';
+import { ModalController, ToastController, PopoverController, AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
 import { FormControl, Validators } from '@angular/forms';
@@ -36,6 +36,7 @@ export class SimModalSettings implements OnInit {
   public preload_location_point: boolean;
   //---------Paquetes disponibles
   public avaibalePackages: any;
+  public cupon: FormControl;
   //---------Simcard
   public leftData: number;
   //---------Endpoint
@@ -51,6 +52,10 @@ export class SimModalSettings implements OnInit {
   public listSMS: any[];
   public cost_usd: number;
   public cost_eur: number;
+  public total_usd: number;
+  public total_eur: number;
+  public total_cost_usd: number;
+  public total_cost_eur: number;
   //---------Location
   public lat = 4.8475;
   public lng = -74.76718;
@@ -66,6 +71,7 @@ export class SimModalSettings implements OnInit {
   constructor(
     public modalController: ModalController,
     private translate: TranslateService,
+    private alertController: AlertController,
     public toastController: ToastController,
     private simCardService: SimCardService,
     public popoverController: PopoverController,
@@ -77,14 +83,18 @@ export class SimModalSettings implements OnInit {
     this.extraNumbersList = [];
     this.cost_eur = 0.25;
     this.cost_usd = 0.30;
+    this.total_eur = 0;
+    this.total_usd = 0;
+    this.total_cost_usd = 0;
+    this.total_cost_eur = 0;
     this.location_service_on = 0;
     this.showHeat = false;
+    this.cupon = new FormControl('', [Validators.minLength(5), Validators.maxLength(5)]);
+    this.simCurrent = null;
   }
 
   ngOnInit(): void {
-
     this.getSimCardDetails();
-
   }
   /**
    * Obtiene información de la sim
@@ -104,7 +114,7 @@ export class SimModalSettings implements OnInit {
         this.obtainPackage();
       }
     }, err => {
-      this.presentToastError("We couldn't obtain details of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_details_sim"));
     });
   }
   /**
@@ -124,7 +134,7 @@ export class SimModalSettings implements OnInit {
         }
       }
     }, err => {
-      this.presentToastError("We couldn't obtain details of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_details_sim"));
     });
   }
   /**
@@ -138,7 +148,7 @@ export class SimModalSettings implements OnInit {
         this.getLastEvents();
       }
     }, err => {
-      this.presentToastError("We couldn't obtain packages of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_packages_sim"));
     });
   }
   /**
@@ -149,7 +159,7 @@ export class SimModalSettings implements OnInit {
       this.lastEvents = res.body;
       this.getConnectivity();
     }, err => {
-      this.presentToastError("We couldn't get events simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_events_sim"));
     });
   }
   /**
@@ -159,13 +169,10 @@ export class SimModalSettings implements OnInit {
     this.simCardService.getConectivity(this.sim_current.id).subscribe(res => {
       if (res.status == 200) {
         this.conectivity = res.body;
-
         this.obtainEndPoint();
-
-
       }
     }, err => {
-      this.presentToastError("We couldn't get events simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_connectivity_sim"));
     });
   }
   /**
@@ -180,7 +187,7 @@ export class SimModalSettings implements OnInit {
         this.obtainAvaiablesPackages();
       }
     }, err => {
-      this.presentToastError("We couldn't obtain endpoint of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_endpoint_sim"));
     });
   }
   /**
@@ -193,7 +200,7 @@ export class SimModalSettings implements OnInit {
         this.value_endpoint.setValue(this.endpoint.endpoint);
       }
     }, err => {
-      this.presentToastError("We couldn't obtain endpoint of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_endpoint_sim"));
     });
   }
 
@@ -208,10 +215,12 @@ export class SimModalSettings implements OnInit {
           if (this.avaibalePackages.getserviceoptions.gprs.activation_fee) {
             let l = this.avaibalePackages.getserviceoptions.gprs.activation_fee.length - 6;
             this.avaibalePackages.getserviceoptions.gprs.activation_fee = this.avaibalePackages.getserviceoptions.gprs.activation_fee.substring(0, l);
+            this.avaibalePackages.getserviceoptions.gprs.activation_fee = +this.avaibalePackages.getserviceoptions.gprs.activation_fee + 1;
           } else {
             for (let index = 0; index < this.avaibalePackages.getserviceoptions.gprs.length; index++) {
               let l = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.length - 6;
               this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.substring(0, l);
+              this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = +this.avaibalePackages.getserviceoptions.gprs[index].activation_fee + 1;
             }
           }
         }
@@ -249,11 +258,10 @@ export class SimModalSettings implements OnInit {
             }
           }
         }
-
         this.getSMSSimCard();
       }
     }, err => {
-      this.presentToastError("We couldn't obtain avaiable packages.");
+      this.presentToastError(this.translate.instant("simcard.error.no_avaiable_package"));
     });
   }
 
@@ -264,16 +272,16 @@ export class SimModalSettings implements OnInit {
     let pb = new BuyPackageTop(packageToBuy, type, 'yes');
     this.simCardService.addPackageToSim(this.sim_current.id, pb).subscribe(res => {
       if (res.status == 200) {
-        this.presentToastOk("Package purchased successfully!");
+        this.presentToastOk(this.translate.instant("simcard.data.package_purchased_ok"));
         this.ngOnInit();
       }
     }, err => {
       if (err.status == 400 && err.error.discount.text == "Card is blocked") {
-        this.presentToastError("The simcard is blocked. Please unlock it first.");
+        this.presentToastError(this.translate.instant("simcard.error.sim_block"));
       } else if (err.status == 400 && err.error.discount.text == "Not enough money") {
-        this.presentToastError("Not enough money.");
+        this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
       } else {
-        this.presentToastError("We couldn't process your request.");
+        this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
       }
     });
   }
@@ -286,14 +294,14 @@ export class SimModalSettings implements OnInit {
     let pb = new BuyPackageTop(packageToBuy, type, 'close');
     this.simCardService.addPackageToSim(this.sim_current.id, pb).subscribe(res => {
       if (res.status == 200) {
-        this.presentToastOk("Package canceled successfully!");
+        this.presentToastOk(this.translate.instant("simcard.data.package_canceled_ok"));
         this.ngOnInit();
       }
     }, err => {
       if (err.status == 400 && err.error.discount.text == "Packet change terms were not met") {
-        this.presentToastError("The package has not been activated yet. Please try again later.");
+        this.presentToastError(this.translate.instant("simcard.error.package_not_activated"));
       } else {
-        this.presentToastError("We couldn't process your request.");
+        this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
       }
     });
   }
@@ -303,10 +311,9 @@ export class SimModalSettings implements OnInit {
   unblockSimcard() {
     this.simCardService.unblockSimcard(this.sim_current.id).subscribe(res => {
       this.getSimCardDetailsWithOutOtherServices();
-      this.presentToastOk('Sim Card activated succesfully.');
+      this.presentToastOk(this.translate.instant("simcard.data.activated_ok"));
     }, err => {
-      console.log(err);
-      this.presentToastError("We couldn't activate sim card.");
+      this.presentToastError(this.translate.instant("simcard.error.activation_error"));
     });
   }
   /**
@@ -316,11 +323,10 @@ export class SimModalSettings implements OnInit {
     this.simCardService.blockSimcard(this.sim_current.id).subscribe(res => {
       if (res.status == 200) {
         this.getSimCardDetailsWithOutOtherServices();
-        this.presentToastOk('Sim Card blocked successfully.');
+        this.presentToastOk(this.translate.instant("simcard.data.suspended_ok"));
       }
     }, err => {
-      console.log(err);
-      this.presentToastError("We couldn't suspend sim card.");
+      this.presentToastError(this.translate.instant("simcard.error.suspend_error"));
     });
   }
   /**
@@ -333,15 +339,17 @@ export class SimModalSettings implements OnInit {
       }
       this.simCardService.addNumber(this.sim_current.id, enumNew).subscribe(res => {
         if (res.status == 200) {
-          this.presentToastOk("New number added successfully.");
+          this.presentToastOk(this.translate.instant("simcard.data.extra_number_added"));
           this.ngOnInit();
           this.newNumber.reset();
         }
       }, err => {
-        if (err.status == 422 && err.error.enum.text == "Provided Extra Number already set for another card") {
-          this.presentToastError("Provided Extra Number already set for another card.");
+        if (err.status == 402 && err.error.detail == "Hasn't enough money") {
+          this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
+        } else if (err.status == 422 && err.error.enum.text == "Provided Extra Number already set for another card.") {
+          this.presentToastError(this.translate.instant("simcard.error.extra_number_already_in_use"));
         } else {
-          this.presentToastError("We couldn't add number to simcard.");
+          this.presentToastError(this.translate.instant("simcard.error.extra_number_added_error"));
         }
 
       });
@@ -353,11 +361,11 @@ export class SimModalSettings implements OnInit {
       enum: this.number_to_delete.value
     }
     this.simCardService.deleteNumber(this.sim_current.id, enumNew).subscribe(res => {
-      this.presentToastOk('Extra number has been deleted.');
+      this.presentToastOk(this.translate.instant("simcard.data.extra_number_deleted"));
       this.ngOnInit();
       this.number_to_delete.reset();
     }, err => {
-      this.presentToastError("We couldn't remove number to simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.extra_number_removed_error"));
     });
   }
   /**
@@ -370,12 +378,12 @@ export class SimModalSettings implements OnInit {
     }
     this.simCardService.updateEndpoint(this.sim_current.id, endpont).subscribe(res => {
       if (res.status == 200) {
-        this.presentToastOk("Endpoint updated successfully.");
+        this.presentToastOk(this.translate.instant("simcard.data.endpoint_ok"));
         this.preload_endpoint = true;
         this.obtainEndPointWithOutOtherServices();
       }
     }, err => {
-      this.presentToastError("We couldn't update endpoint of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.endpoint_error"));
     });
   }
   /**
@@ -385,10 +393,19 @@ export class SimModalSettings implements OnInit {
     this.simCardService.getSMSofSim(this.sim_current.id).subscribe(res => {
       if (res.status == 200) {
         this.listSMS = res.body;
+        this.listSMS.forEach(element => {
+          if (element.currencie == "EUR") {
+            this.total_eur = this.total_eur + 1;
+          } else if (element.currencie == "USD" || element.currencie == "usd") {
+            this.total_usd = this.total_usd + 1;
+          }
+        });
+        this.total_cost_usd = this.total_usd * this.cost_usd;
+        this.total_cost_eur = this.total_eur * this.cost_eur;
         this.getExtraNumbers();
       }
     }, err => {
-      this.presentToastError("We couldn't get SMS of Sim card.");
+      this.presentToastError(this.translate.instant("simcard.error.no_sms_sim"));
     });
   }
 
@@ -408,7 +425,6 @@ export class SimModalSettings implements OnInit {
   }
 
   async openModalSeeSMS(sms: any) {
-    console.log(sms);
     const popover = await this.popoverController.create({
       component: SimModalSeeSmsComponent,
       componentProps: {
@@ -425,7 +441,6 @@ export class SimModalSettings implements OnInit {
   obtainStatusLocation() {
     this.simCardService.getLocationStatus(this.sim_current.id).subscribe(res => {
       this.location_data = res;
-      console.log(this.location_data);
       if (res.status == 200) {
         if (res.body.record) {
           if (res.body.record.status == "disabled") {
@@ -436,12 +451,9 @@ export class SimModalSettings implements OnInit {
           this.total_location_queries = +this.location_status.records.record.queries_left + +this.location_status.records.record.queries_used;
           this.location_service_on = 2;
         }
-        console.log(this.location_data);
-        console.log(this.location_status);
       }
     }, err => {
-      console.log(err);
-      this.presentToastError("We couldn't obtain status location service.");
+      this.presentToastError(this.translate.instant("simcard.error.no_location_service_sim"));
     });
   }
   /**
@@ -451,33 +463,30 @@ export class SimModalSettings implements OnInit {
     const idpPackage = {
       packetid: "" + idPackage
     }
-    console.log(idpPackage);
-      this.simCardService.activateLocationService(this.sim_current.id, idpPackage).subscribe(res => {
+    this.simCardService.activateLocationService(this.sim_current.id, idpPackage).subscribe(res => {
       if (res.status == 200) {
         this.obtainStatusLocation();
-        this.presentToastOk("Location service activated successfuly!");
+        this.presentToastOk(this.translate.instant("simcard.data.location_service_activated_ok"));
       }
     }, err => {
-     console.log(err);
       if (err.status == 400 && err.error.record.text == "Service is blocked") {
-        this.presentToastError("Location service is blocked. Please contact with the administrator site.");
+        this.presentToastError(this.translate.instant("simcard.error.location_service_blocked"));
       } else {
-        this.presentToastError("We couldn't activate location service.");
+        this.presentToastError(this.translate.instant("simcard.error.location_service_activated_error"));
       }
-    }); 
+    });
   }
   /**
    * Obtiene locación
    */
   obtainLocation() {
     this.simCardService.getLocation(this.sim_current.id).subscribe(res => {
-      console.log(res);
       if (res.status == 200) {
         if (res.body.record.text) {
-          this.presentToastError("We couldn't obtain status location service.");
+          this.presentToastError(this.translate.instant("simcard.error.no_location_service_sim"));
         } else if (res.body.record.latitude == null || res.body.record.longitude == null) {
           this.preload_location_point = true;
-          this.presentToastWarning("This Simcard has no current coordinates. The service will be charged.");
+          this.presentToastWarning(this.translate.instant("simcard.data.no_current_coordinates"));
           this.obtainStatusLocation();
         } else {
           this.showHeat = true;
@@ -487,7 +496,7 @@ export class SimModalSettings implements OnInit {
         }
       }
     }, err => {
-     this.presentToastError("We couldn't obtain location of simcard.");
+      this.presentToastError(this.translate.instant("simcard.error.no_location_sim"));
     });
   }
   zoomChange(e) {
@@ -500,7 +509,7 @@ export class SimModalSettings implements OnInit {
       radio = 80;
     } else if (e <= 7) {
       radio = 10;
-    } else if(e > 7 && e < 13){
+    } else if (e > 7 && e < 13) {
       radio = 40;
     }
     this.heatmap = new google.maps.visualization.HeatmapLayer({
@@ -531,15 +540,13 @@ export class SimModalSettings implements OnInit {
   /**
    * Reconecta la SIM
    */
-  reconect(){
+  reconect() {
     this.simCardService.reconnectSim(this.sim_current.id).subscribe(res => {
-      console.log(res);
-      if(res.status == 200){
-        this.presentToastOk("Conecctivity restarted.");
+      if (res.status == 200) {
+        this.presentToastOk(this.translate.instant("simcard.data.reconnection_ok"));
       }
     }, err => {
-      console.log(err);
-      this.presentToastError("We couldn't restart the connectivity.");
+      this.presentToastError(this.translate.instant("simcard.error.reconnection_error"));
     });
   }
   /**
@@ -565,23 +572,41 @@ export class SimModalSettings implements OnInit {
         this.obtainStatusLocation();
       }
     }, err => {
-      this.presentToastError("We couldn't obtain extra numbers.");
-
+      this.presentToastError(this.translate.instant("simcard.error.no_extra_number"));
     });
   }
 
   /**
    * Método para eliminar una sim
    */
-  deleteSim() {
-    this.simCardService.deleteSimCard(this.sim_current.id).subscribe(res => {
-      if (res.status == 200) {
-        this.presentToastOk('Extra number has been deleted.');
-        this.dismiss();
-      }
-    }, err => {
-      this.presentToastError("We couldn't delete this Simcard.");
+  async deleteSim() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant("simcard.data.delete_sim_modal")+ this.sim_current.iccid,
+      message: this.translate.instant("simcard.data.are_u_sure"),
+      buttons: [
+        {
+          text: this.translate.instant("simcard.data.yes_delete"),
+          cssClass: "color: red",
+          handler: () => {
+            this.simCardService.deleteSimCard(this.sim_current.id).subscribe(res => {
+              if (res.status == 200) {
+                this.presentToastOk(this.translate.instant("simcard.data.delete_sim_ok"));
+                this.dismiss();
+              }
+            }, err => {
+              this.presentToastError(this.translate.instant("simcard.error.delete_error"));
+            });
+          }
+        }, {
+          text: this.translate.instant("simcard.data.cancel_modal"),
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }
+      ]
     });
+    await alert.present();
   }
 
   dismiss() {
@@ -627,9 +652,9 @@ export class SimModalSettings implements OnInit {
  * Mensaje de error de valor de numero nuevo
  */
   getErrorMessage() {
-    return this.value_endpoint.hasError('maxlength') ? "Max 30 characters" :
-      this.value_endpoint.hasError('required') ? "Must have a value" :
-        this.value_endpoint.hasError('minlength') ? "Min 5 characters" :
+    return this.value_endpoint.hasError('maxlength') ? this.translate.instant("simcard.error.end_point_min_max"):
+      this.value_endpoint.hasError('required') ? this.translate.instant("simcard.error.required_value") :
+        this.value_endpoint.hasError('minlength') ? this.translate.instant("simcard.error.end_point_min_max") :
           '';
   }
 }

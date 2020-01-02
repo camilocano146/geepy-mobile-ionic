@@ -1,9 +1,88 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="dark">
+        <ion-title style="color: white !important;">{{'profile.title' | translate }}</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center; margin-top: 10px;">
+                <img src="../../../assets/img/user.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.name' | translate }}</mat-label>
+                    <input matInput [formControl]="name">
+                    <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.lastname' | translate }}</mat-label>
+                    <input matInput [formControl]="lastname">
+                    <mat-error *ngIf="lastname.invalid">{{getErrorMessageLastname()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.email' | translate }}</mat-label>
+                    <input matInput [formControl]="email">
+                    <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12" style="text-align: center">
+                <ion-button (click)="changeInfo()">
+                    <ion-icon style="margin-right: 15px;" name="save"></ion-icon>
+                    {{'profile.save_changes' | translate }}
+                </ion-button>
+            </ion-col>
+        </ion-row>
 
+        <ion-row>
+            <ion-col size="12" style="text-align: center; margin-top: 10px;">
+                <img src="../../../assets/img/password.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.current_password' | translate }}</mat-label>
+                    <input matInput [formControl]="password" [type]="!hideP ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hideP = !hideP" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideP">
+                    <mat-icon  class="color-blue-aqua">{{hideP ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password.invalid">{{getErrorMessagePassword()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.new_password' | translate }}</mat-label>
+                    <input matInput [formControl]="newPassword" [type]="!hideNP ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hideNP = !hideNP">
+                    <mat-icon  class="color-blue-aqua">{{hideNP ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="newPassword.invalid">{{getErrorMessageNewPassword()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'profile.confirm_password' | translate }}</mat-label>
+                    <input matInput [formControl]="confPasword" [type]="!hideCP ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hideCP = !hideCP">
+                    <mat-icon  class="color-blue-aqua">{{hideCP ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+                <label *ngIf="(confPasword.value != newPassword.value)" style="color: #f44336; font-size: 12px !important; margin-left: 10px; margin-top: -100px;">{{'profile.error.pass_not_match' | translate }}</label>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-button color="warning" (click)="changePassword()">
+                    <ion-icon style="margin-right: 15px;" name="key"></ion-icon>
+                    {{'profile.change_password' | translate }}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

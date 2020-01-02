@@ -20,39 +20,33 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     this.translate.setDefaultLang('en');
-    //let language = this.translate.getBrowserLang();
+    this.translate.use('en');
+
     this.globalization.getPreferredLanguage().then(res => {
       console.log(res.value);
       let language = res.value.split('-')[0];
       console.log(language);
       if (language == 'es' || language == 'en') {
         this.translate.setDefaultLang(language)
+        this.translate.use(language);
       } else {
         this.translate.setDefaultLang('en');
+        this.translate.use('en');
+
       }
     }).catch(err => {
       console.log(err);
     });
-    /**
-if (language == 'es' || language == 'en') {
-      this.translate.setDefaultLang(language)
-    } else {
-      this.translate.setDefaultLang('en');
-    }
-     */
-
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-
-
-
-
+      this.translate.setDefaultLang('en');
+      this.translate.use('en');
+      //let language = this.translate.getBrowserLang();
+     
     });
   }
 }

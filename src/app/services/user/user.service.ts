@@ -33,4 +33,12 @@ export class UserService {
     let token: Token = this.localStorageService.getStorageToken();
     return this.http.patch<any>("profile/" + token.access_token + "/", info, { observe: 'response' });
   }
+    /**
+   * Actualizar usuario
+   * @param idUser 
+   * @param user 
+   */
+  updateUser(idUser: number, user: any) {
+    return this.http.patch<any>("users/" + idUser + "/", user, { observe: 'response' });
+  }
 }
