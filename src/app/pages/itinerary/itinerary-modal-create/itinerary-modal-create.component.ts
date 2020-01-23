@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
 import { FormControl, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-itinerary-modal-create',
   templateUrl: './itinerary-modal-create.component.html',
   styleUrls: ['./itinerary-modal-create.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ItineraryModalCreateComponent implements OnInit {
   public currentLang: any;
@@ -40,16 +41,15 @@ export class ItineraryModalCreateComponent implements OnInit {
     private toastController: ToastController,
     private localStorageService: LocalStorageService,
     private itineraryService: ItineraryService,
-    private alertController: AlertController,
     private simCardService: SimCardService,
-    private translateService: TranslateService) {
-    this.currentLang = this.translateService.currentLang;
+    private translate: TranslateService) {
+    this.currentLang = this.translate.currentLang;
     this.user = this.localStorageService.getStorageUser();
     this.country = new FormControl('', Validators.required);
     this.simcard = new FormControl('', Validators.required);
     this.startDate = new FormControl('', Validators.required);
     const datePipe = new DatePipe('en-US');
-    this.minDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 2)), 'yyyy-MM-dd');
+    this.minDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 3)), 'yyyy-MM-dd');
     this.maxDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 365)), 'yyyy-MM-dd');
     this.existsPackages = 0;
     this.packageselected = null;
@@ -64,13 +64,12 @@ export class ItineraryModalCreateComponent implements OnInit {
             this.simsList = res.body[1];
           }
         }, err => {
-          this.presentToastError("We couldn't load sim cards.");
+          this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
         });
       }
-
     }, err => {
       console.log(err);
-      this.presentToastError("We couldn't obtain countries.");
+      this.presentToastError(this.translate.instant('simcard.error.no_countries'));
     });
   }
 
@@ -81,8 +80,6 @@ export class ItineraryModalCreateComponent implements OnInit {
     this.itineraryService.getPackageRecommended(data).subscribe(res => {
       if (res.status == 200) {
         this.avaiablePackages = res.body;
-        console.log(this.avaiablePackages);
-
         if (this.avaiablePackages.length == 0) {
           this.existsPackages = 1;
         } else if (this.avaiablePackages.length > 0) {
@@ -91,7 +88,6 @@ export class ItineraryModalCreateComponent implements OnInit {
             this.avaiablePackages[index].activation_fee_usd = +this.avaiablePackages[index].activation_fee_usd + 1;
             this.avaiablePackages[index].selected = false;
           }
-          console.log(this.avaiablePackages);
           this.existsPackages = 2;
           this.expanded = true;
         }
@@ -99,9 +95,10 @@ export class ItineraryModalCreateComponent implements OnInit {
     }, err => {
       console.log(err);
       if (err.status == 400 && err.error.countrie) {
-        this.presentToastError('Campo country is mandatory.');
+        this.presentToastError(this.translate.instant('itinerary.error.country_mandatory'));
+      }else {
+        this.presentToastError(this.translate.instant('itinerary.error.no_search_packages'));
       }
-
     });
   }
 
@@ -110,7 +107,6 @@ export class ItineraryModalCreateComponent implements OnInit {
       this.expanded = true;
     }
   }
-
 
   selectPackage(id) {
     for (let index = 0; index < this.avaiablePackages.length; index++) {
@@ -133,23 +129,21 @@ export class ItineraryModalCreateComponent implements OnInit {
       itinerary.sim_card_id = this.simcard.value.id;
       itinerary.user = this.user.id;
       itinerary.package_id = this.packageselected.id;
-      console.log(itinerary);
       this.itineraryService.createItinerary(itinerary).subscribe(res => {
         if (res.status == 201) {
-          console.log(res);
-          this.presentToastOk('Itinerary has been updated successfully.');
+          this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));
           this.modalController.dismiss('created');
         }
       }, err => {
         console.log(err);
         if (err.status == 416 && err.error.detail == "Minimum time to program a itinerary need be 2 days before.") {
-          this.presentToastError('Minimum time to program a itinerary need be 2 days before.');
+          this.presentToastError(this.translate.instant('itinerary.error.min_time_48'));
         } else if (err.status == 402 && err.error.detail == "Hasn't enough money") {
-          this.presentToastError("Hasn't enough money.");
+          this.presentToastError(this.translate.instant('itinerary.error.not_enough_money'));
         } else if (err.status == 500) {
-          this.presentToastError('Server error.');
+          this.presentToastError(this.translate.instant('itinerary.error.server_error'));
         } else {
-          this.presentToastError('We cannot create this itam.');
+          this.presentToastError(this.translate.instant('itinerary.error.created_error'));
         }
       });
     }

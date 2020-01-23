@@ -1,6 +1,6 @@
 <ion-header>
-    <ion-toolbar color="dark">
-        <ion-title style="color: white !important;">Payments</ion-title>
+    <ion-toolbar color="tertiary">
+        <ion-title style="color: white !important;">{{'payments.principal.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
         </ion-button>
@@ -15,9 +15,9 @@
                 <ion-card *ngIf="user != null" class="card-money">
 
                     <ion-card-header>
-                        <div class="title-card-sim-details"><strong>My account</strong></div>
+                        <div class="title-card-sim-details"><strong>{{'payments.principal.my_account' | translate}}</strong></div>
                         <ion-card-title>{{user.first_name}} {{user.last_name}}</ion-card-title>
-                        <ion-card-subtitle>{{user.email}}</ion-card-subtitle>
+                        <ion-card-subtitle style="margin-bottom: 10px;">{{user.email}}</ion-card-subtitle>
                     </ion-card-header>
 
                     <ion-card-content>
@@ -36,16 +36,16 @@
                         <ion-row>
                             <ion-col size="12" style="text-align: center;">
                                 <ion-label color="primary">
-                                    <div class="title-card-sim-details"><strong>Recharge!</strong></div>
+                                    <div class="title-card-sim-details"><strong>{{'payments.principal.recharge' | translate}}</strong></div>
                                 </ion-label>
                             </ion-col>
                             <ion-col size="6" style="text-align: center;">
                                 <img src="../../../assets/img/paypal.jpg" class="img-option-pay" alt="">
-                                <ion-button class="break-word but-option-pay" color="primary" (click)="goToPayPal()">Pay</ion-button>
+                                <ion-button class="break-word but-option-pay" color="primary" (click)="goToPayPal()">{{'payments.principal.btn_pay' | translate}}</ion-button>
                             </ion-col>
                             <ion-col size="6" style="text-align: center;">
                                 <img src="../../../assets/img/stripe.png" class="img-option-pay" alt="">
-                                <ion-button class="break-word but-option-pay" color="success" (click)="goToStripe()">Pay</ion-button>
+                                <ion-button class="break-word but-option-pay" color="success" (click)="goToStripe()">{{'payments.principal.btn_pay' | translate}}</ion-button>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
@@ -59,14 +59,14 @@
                         <ion-row>
                             <ion-col size="12" style="text-align: center;">
                                 <ion-label color="primary">
-                                    <div class="title-card-sim-details"><strong>My Payments</strong></div>
+                                    <div class="title-card-sim-details"><strong>{{'payments.principal.my_payments' | translate}}</strong></div>
                                 </ion-label>
                             </ion-col>
                             <ion-col size="12" *ngIf="existPayments == 1" style="text-align: center;">
                                 <img src="../../../assets/img/ghost.svg" height="80px" alt="">
                             </ion-col>
                             <ion-col size="12" *ngIf="existPayments == 1" style="text-align: center;">
-                                <ion-label>There is nothing here.</ion-label>
+                                <ion-label>{{'payments.principal.no_payments' | translate}}</ion-label>
                             </ion-col>
                             <ion-col size="12" *ngIf="existPayments == 2" style="padding-top: 0px;">
                                 <ion-list style="border-radius: 5px; padding-top: 0px;">
@@ -74,12 +74,15 @@
                                         <ion-avatar slot="start" style="height: 30px !important; width: 30px !important;">
                                             <img *ngIf="item.id_stripe_transaction != null" src="../../../assets/img/stripe.svg" height="20px" style="height: 30px !important; width: 30px !important;">
                                             <img *ngIf="item.id_pay_pal_transaction != null" src="../../../assets/img/paypal.svg" height="20px" style="height: 30px !important; width: 30px !important;">
+                                            <img *ngIf="item.transaction.name == 'Order Sim Sets'" src="../../../assets/img/shipping-and-delivery.svg" height="20px" style="height: 30px !important; width: 30px !important;" alt="">
                                         </ion-avatar>
                                         <ion-label>
-                                            <h2><strong>{{item.value}} {{item.currency}}</strong></h2>
+                                            <h2 *ngIf="item.id_stripe_transaction != null || item.id_pay_pal_transaction != null"><strong><ion-label color="success">+{{item.value}} {{item.currency}}</ion-label></strong></h2>
+                                            <h2 *ngIf="item.transaction.name == 'Order Sim Sets'"><strong><ion-label color="danger">-{{item.value}} {{item.currency}}</ion-label></strong></h2>
                                             <h3>{{item.date_generated | date}}</h3>
                                             <p *ngIf="item.id_stripe_transaction != null">{{item.id_stripe_transaction}}</p>
                                             <p *ngIf="item.id_pay_pal_transaction != null">{{item.id_pay_pal_transaction}}</p>
+                                            <p *ngIf="item.transaction.name == 'Order Sim Sets'">{{item.id}}{{item.transaction.id}}{{item.transaction.transaction_type}}</p>
                                         </ion-label>
                                     </ion-item>
                                 </ion-list>

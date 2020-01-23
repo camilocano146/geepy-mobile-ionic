@@ -37,16 +37,12 @@ export class TransacitionsModalPaypalComponent implements OnInit {
        // console.log(this.tarifsList);
       }
     }, err => {
-      this.presentToastError("We couldn't get tariffs.");
+      this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
     });
   }
 
 
   payWithPaypal() {
-    console.log("Pay ????");
-
-    console.log(this.tariffSelected.value);
-
     this.payPal.init({
       PayPalEnvironmentProduction: 'YOUR_PRODUCTION_CLIENT_ID',
       PayPalEnvironmentSandbox: 'AeKo_AMJsBwc-vHrp49WFP0m7WevJT_vBzJtWDiLpj4YAselYK8sFUHBqISAhRlIQiv98cneMu1Dktej'
@@ -56,54 +52,34 @@ export class TransacitionsModalPaypalComponent implements OnInit {
         // Only needed if you get an "Internal Service Error" after PayPal login!
         //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
       })).then(() => {
-        let payment = new PayPalPayment(this.tariffSelected.value.value, "USD", 'Description', 'sale');
-        console.log(payment);
+        let tarifWithTax = +this.tariffSelected.value.value + (+this.tariffSelected.value.value * 0.06) + 0.30;
+        let payment = new PayPalPayment(""+tarifWithTax, this.tariffSelected.value.currency.acronym, 'Recharge in MS One Mobile', 'sale');
         this.payPal.renderSinglePaymentUI(payment).then((res) => {
-          console.log(res);
           // Successfully paid
           let payment: PaymentPaypal = new PaymentPaypal(this.tariffSelected.value.id,res.response.id, this.tariffSelected.value.currency.id);
-          console.log(payment);
           this.billingService.loadBalancePaypal(payment).subscribe(res => {
-            console.log(res);
             if(res.status == 200){
-              this.presentToastOk("Successfull payment.");
+              this.presentToastOk(this.transalte.instant('payments.paypal.payment_ok'));
               this.modalController.dismiss("created");
             }
           }, err => {
             console.log(err);
-            this.presentToastError("No se pudo guardar el pago en la app pero este se realizo correctamente. Por favor pongase en contacto con el administrador del sitio.");
+            this.presentToastError(this.transalte.instant('pay_not_saved'));
           });
-          // Example sandbox response
-          //
-          // {
-          //   "client": {
-          //     "environment": "sandbox",
-          //     "product_name": "PayPal iOS SDK",
-          //     "paypal_sdk_version": "2.16.0",
-          //     "platform": "iOS"
-          //   },
-          //   "response_type": "payment",
-          //   "response": {
-          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-          //     "state": "approved",
-          //     "create_time": "2016-10-03T13:33:33Z",
-          //     "intent": "sale"
-          //   }
-          // }
-
-          
-
 
         }, (err) => {
           // Error or render dialog closed without being successful
+          this.presentToastError(this.transalte.instant('payments.error.ep1'));
           console.log(err);
         });
       }, (err) => {
         // Error or render dialog closed without being successful
+        this.presentToastError(this.transalte.instant('payments.error.ep1'));
         console.log(err);
       });
     }, (err) => {
       // Error or render dialog closed without being successful
+      this.presentToastError(this.transalte.instant('payments.error.ep1'));
       console.log(err)
     });
   }

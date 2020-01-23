@@ -44,6 +44,7 @@ export class SimModalSettings implements OnInit {
   public endpoint: any;
   //---------Paquetes sim
   public package: any;
+  public historyPackage: any[];
   //---------Conectividad
   public conectivity: any;
   //---------Last events
@@ -80,6 +81,7 @@ export class SimModalSettings implements OnInit {
     this.value_endpoint = new FormControl("", [Validators.minLength(5), Validators.maxLength(30)]);
     this.newNumber = new FormControl("", [Validators.required]);
     this.listSMS = [];
+    this.historyPackage = [];
     this.extraNumbersList = [];
     this.cost_eur = 0.25;
     this.cost_usd = 0.30;
@@ -89,12 +91,28 @@ export class SimModalSettings implements OnInit {
     this.total_cost_eur = 0;
     this.location_service_on = 0;
     this.showHeat = false;
-    this.cupon = new FormControl('', [Validators.minLength(5), Validators.maxLength(5)]);
+    this.cupon = new FormControl('', [Validators.minLength(8), Validators.maxLength(8)]);
     this.simCurrent = null;
   }
 
   ngOnInit(): void {
-    this.getSimCardDetails();
+    this.getPackageHistory();
+  }
+  /**
+   * Obtiene el historico de paquetes
+   */
+  getPackageHistory() {
+    const simcard = {
+      simcard_tc: this.sim_current.id
+    }
+    this.simCardService.getPacakgeHistoryApp(simcard).subscribe(res => {
+      console.log(res);
+      this.historyPackage = res.body;
+      console.log(this.historyPackage);
+      this.getSimCardDetails();
+    }, err => {
+      this.presentToastError(this.translate.instant("simcard.error.history_package"));
+    });
   }
   /**
    * Obtiene información de la sim
@@ -268,22 +286,52 @@ export class SimModalSettings implements OnInit {
   /**
    * Activar paquete datos
    */
-  activatePackage(packageToBuy, type) {
-    let pb = new BuyPackageTop(packageToBuy, type, 'yes');
-    this.simCardService.addPackageToSim(this.sim_current.id, pb).subscribe(res => {
-      if (res.status == 200) {
-        this.presentToastOk(this.translate.instant("simcard.data.package_purchased_ok"));
-        this.ngOnInit();
-      }
-    }, err => {
-      if (err.status == 400 && err.error.discount.text == "Card is blocked") {
-        this.presentToastError(this.translate.instant("simcard.error.sim_block"));
-      } else if (err.status == 400 && err.error.discount.text == "Not enough money") {
-        this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
-      } else {
-        this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
-      }
+  async activatePackage(item, packageToBuy, type) {
+    let message = `${item.package_name} per ${item.activation_fee} ${item.currency}.`
+    if (this.cupon.valid && this.cupon.value.length == 8) {
+      message = `${item.package_name} per ${item.activation_fee} ${item.currency} with Coupon ${this.cupon.value}.`
+    }
+    const alert = await this.alertController.create({
+      header: this.translate.instant("simcard.data.settings.package.confirm_buy"),
+      message: message,
+      buttons: [
+        {
+          text: this.translate.instant("simcard.data.settings.package.btn_buy"),
+          cssClass: "color: red",
+          handler: () => {
+            let pb = new BuyPackageTop(packageToBuy, type, 'yes');
+            if (this.cupon.valid && this.cupon.value.length == 8) {
+              pb.coupon = this.cupon.value;
+            }
+            this.simCardService.addPackageToSim(this.sim_current.id, pb).subscribe(res => {
+              if (res.status == 200) {
+                this.presentToastOk(this.translate.instant("simcard.data.package_purchased_ok"));
+                this.cupon.reset();
+                this.ngOnInit();
+              }
+            }, err => {
+              console.log(err);
+              if (err.status == 406 && err.error.detail == "Coupon not found or not match") {
+                this.presentToastError(this.translate.instant("simcard.error.wrong_coupon"));
+              } else if (err.status == 400 && err.error.discount.text == "Card is blocked") {
+                this.presentToastError(this.translate.instant("simcard.error.sim_block"));
+              } else if (err.status == 400 && err.error.discount.text == "Not enough money") {
+                this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
+              } else {
+                this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
+              }
+            });
+          }
+        }, {
+          text: this.translate.instant("simcard.data.settings.package.btn_cancel"),
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }
+      ]
     });
+    await alert.present();
   }
   /**
    * Cancelar paquete
@@ -460,15 +508,16 @@ export class SimModalSettings implements OnInit {
    * Activate location
    */
   activateLocationService(idPackage: number) {
-    const idpPackage = {
-      packetid: "" + idPackage
+    const idpPackages = {
+      packetid: +idPackage
     }
-    this.simCardService.activateLocationService(this.sim_current.id, idpPackage).subscribe(res => {
+    this.simCardService.activateLocationService(this.sim_current.id, idpPackages).subscribe(res => {
       if (res.status == 200) {
         this.obtainStatusLocation();
         this.presentToastOk(this.translate.instant("simcard.data.location_service_activated_ok"));
       }
     }, err => {
+      console.log(err);
       if (err.status == 400 && err.error.record.text == "Service is blocked") {
         this.presentToastError(this.translate.instant("simcard.error.location_service_blocked"));
       } else {
@@ -558,10 +607,12 @@ export class SimModalSettings implements OnInit {
         let list = [];
         res.body.forEach(element => {
           if (element.available == true) {
-            list.push(element.enum);
+            list.push(element);
           }
         });
+       
         this.extraNumbersList = list;
+        console.log(this.extraNumbersList);
         this.preload_get_extra_numbers_list = false;
         this.preload_endpoint = true;
         this.preload_conectivity = true;
@@ -581,7 +632,7 @@ export class SimModalSettings implements OnInit {
    */
   async deleteSim() {
     const alert = await this.alertController.create({
-      header: this.translate.instant("simcard.data.delete_sim_modal")+ this.sim_current.iccid,
+      header: this.translate.instant("simcard.data.delete_sim_modal") + this.sim_current.iccid,
       message: this.translate.instant("simcard.data.are_u_sure"),
       buttons: [
         {
@@ -652,7 +703,7 @@ export class SimModalSettings implements OnInit {
  * Mensaje de error de valor de numero nuevo
  */
   getErrorMessage() {
-    return this.value_endpoint.hasError('maxlength') ? this.translate.instant("simcard.error.end_point_min_max"):
+    return this.value_endpoint.hasError('maxlength') ? this.translate.instant("simcard.error.end_point_min_max") :
       this.value_endpoint.hasError('required') ? this.translate.instant("simcard.error.required_value") :
         this.value_endpoint.hasError('minlength') ? this.translate.instant("simcard.error.end_point_min_max") :
           '';

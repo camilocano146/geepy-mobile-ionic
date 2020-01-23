@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SMS } from 'src/app/models/sms/sms';
 import { BuyPackageTop } from 'src/app/models/package/BuyPackageTop';
+import { OrderSims } from 'src/app/models/order/order';
+import { RepurchasePackage } from 'src/app/models/package/RepurchasePackage';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +61,7 @@ export class SimCardService {
    * @param idPackage
    */
   activateLocationService(idSim: number, idPackage: any) {
-    return this.http.post<any>("sim_cards_tc/" + idSim + "/activate_location/", idPackage, { observe: 'response' });
+    return this.http.post<any>("sim_cards_tc/" + idSim + "/activate_location_app/", idPackage, { observe: 'response' });
   }
   /**
    * Obtener ultima actividad
@@ -97,7 +99,7 @@ export class SimCardService {
     return this.http.post<any>("sim_cards_tc/" + idSim + "/unblockcard/", null, { observe: 'response' });
   }
   sendSMS1(idSim: number, sms: SMS): Observable<any> {
-    return this.http.post<any>("sim_cards_tc/" + idSim + "/send_sms/", sms, { observe: 'response' });
+    return this.http.post<any>("sim_cards_tc/" + idSim + "/send_sms_app/", sms, { observe: 'response' });
   }
 
   getAvaiablePackages(idSim: number): Observable<any> {
@@ -105,7 +107,7 @@ export class SimCardService {
   }
 
   addPackageToSim(idSim: number, packageToBuy: BuyPackageTop) {
-    return this.http.post<any>("sim_cards_tc/" + idSim + "/manage_services_avalaibles/", packageToBuy, { observe: 'response' });
+    return this.http.post<any>("sim_cards_tc/" + idSim + "/manage_services_avalaibles_app/", packageToBuy, { observe: 'response' });
   }
   /**
    * Historico de paquetes
@@ -165,6 +167,35 @@ export class SimCardService {
   reconnectSim(idSim: number): Observable<any> {
     return this.http.post<any>("sim_cards_tc/" + idSim + "/reconnect_SIMcard_Mobile_Network/", null, { observe: 'response' });
   }
-  
+  /**
+   * Obtiene historico de paquetes
+   */
+  getPacakgeHistoryApp(idSim: any): Observable<any> {
+    return this.http.post<any>("sim_cards_tc_has_package/list_history_packages/", idSim, { observe: 'response' });
+  }
+  /**
+   * Obtiene lista de paquetes de sims para comprar
+   */
+  getSimsPackages(){
+    return this.http.get<any>(`sets_sim_card_voyager/`, { observe: 'response' });
+  }
 
+  /**
+   * Comprar sims
+   */
+  orderSims(order: OrderSims): Observable<any> {
+    return this.http.post<any>("sets_sim_card_voyager/order_sim/", order, { observe: 'response' });
+  }
+  /**
+   * Reactivar un paquete
+   */
+  repurchasePackage(data: RepurchasePackage): Observable<any> {
+    return this.http.post<any>('sim_cards_tc/reactivate_services_avalaibles_app/',data,{ observe: 'response' });
+  }
+  /**
+   * Obtiene los paquetes de mayor valor
+   */
+  searchBestPackages(data: RepurchasePackage): Observable<any> {
+    return this.http.post<any>('sim_cards_tc/upgrade_services_avalaibles_app/',data,{ observe: 'response' });
+  }
 }

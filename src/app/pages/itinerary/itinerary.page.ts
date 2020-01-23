@@ -27,20 +27,15 @@ export class ItineraryPage implements OnInit {
 
   constructor(
     private popoverController: PopoverController,
-    private navController: NavController,
-    private localStorageService: LocalStorageService,
     private itineraryService: ItineraryService,
-    private alertController: AlertController,
-    private simCardService: SimCardService,
     private toastController: ToastController,
     private translateService: TranslateService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translate: TranslateService
   ) {
     this.existsItineraries = 0;
     this.currentLang = this.translateService.currentLang;
-    console.log(this.currentLang);
     this.copyFull = [];
-    
   }
 
   ngOnInit() {
@@ -49,7 +44,6 @@ export class ItineraryPage implements OnInit {
 
   ionViewDidEnter(){
     this.itineraryService.getItineraries().subscribe(res => {
-      console.log(res);
       if (res.status == 200) {
         this.itinerariesList = res.body;
         for (let index = 0; index < this.itinerariesList.length; index++) {
@@ -68,10 +62,9 @@ export class ItineraryPage implements OnInit {
           this.existsItineraries = 2;
         }
       }
-      console.log(this.existsItineraries);
     }, err => {
       console.log(err);
-      this.presentToastError("We couldn't load your itineraries.");
+      this.presentToastError(this.translate.instant('itinerary.error.no_itineraries'));
     });
   }
     /**
@@ -81,7 +74,6 @@ export class ItineraryPage implements OnInit {
     if(filterValue != this.auxText){
       this.auxText = filterValue;
       this.itinerariesList.splice(0, this.itinerariesList.length);
-      console.log(this.itinerariesList);
       this.copyFull.forEach(element => {
         this.itinerariesList.push(element);
       });
@@ -93,14 +85,12 @@ export class ItineraryPage implements OnInit {
         }
       }
       this.itinerariesList = aux;
-      console.log(this.itinerariesList);
     }
   }
   /**
    * Abrir modal de ver y editar
    */
   async goToSeeEdit(data){
-    console.log(data);
     const modal = await this.modalController.create({
       component: ItineraryModalEditComponent,
       componentProps: {

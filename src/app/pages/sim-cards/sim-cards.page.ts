@@ -9,6 +9,8 @@ import { SimModalImportICCID } from './sim-modal-import-iccid/sim-modal-import-i
 import { SimModalSettings } from './sim-modal-settings/sim-modal-settings';
 import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onum';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
+import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sim-cards',
@@ -32,14 +34,13 @@ export class SimCardsPage implements OnInit {
   public preloadSims: boolean;
 
   constructor(
-    private userService: UserService,
     private localStorageService: LocalStorageService,
     private simCardService: SimCardService,
-    private alertController: AlertController,
-    private navController: NavController,
     public popoverController: PopoverController,
     public modalController: ModalController,
-    private toastController: ToastController) {
+    private toastController: ToastController,
+    private navController: NavController,
+    private translate: TranslateService) {
     this.preloadSims = false;
     this.simsList = [];
     this.copyFull = [];
@@ -48,6 +49,10 @@ export class SimCardsPage implements OnInit {
 
   ngOnInit() {
     
+  }
+
+  test(){
+    this.navController.navigateRoot('repurchase-package');
   }
   /**
    * Carga el contenido cuando entra
@@ -69,7 +74,7 @@ export class SimCardsPage implements OnInit {
         this.preloadSims = true;
       }
     }, err => {
-      this.presentToastError("We couldn't load sim cards.");
+      this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
     });
   }
   /**
@@ -140,6 +145,20 @@ export class SimCardsPage implements OnInit {
 
     return await modal.present();
   }
+  /**
+   * Comprar sims
+   */
+  async openModalBuySims(){
+    const modal = await this.modalController.create({
+      component: SimModalBuy
+    });
+    modal.onDidDismiss().then(res => {
+    }).catch();
+    return await modal.present();
+  }
+  /**
+   * Menu
+   */
   async settingsPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
@@ -148,7 +167,6 @@ export class SimCardsPage implements OnInit {
     });
     return await popover.present();
   }
-
   async presentToastError(text: string) {
     const toast = await this.toastController.create({
       message: text,

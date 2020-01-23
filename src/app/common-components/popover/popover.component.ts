@@ -40,6 +40,7 @@ export class PopoverComponent implements OnInit {
           handler: () => {
             this.localStorageService.removeToken();
             this.navController.navigateBack("");
+            this.eventFromPopover();
           }
         }, {
           text: 'Cancelar',
@@ -52,5 +53,21 @@ export class PopoverComponent implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  /**
+   * Ir a USSD
+   */
+  goToUSSD(){
+    console.log('asdasdasd');
+    this.navController.navigateRoot("ussd-codes");
+    this.eventFromPopover();
+  }
+  /**
+   * Ir a recomendar app
+   */
+  goToRecommend(){
+    this.navController.navigateRoot("recommend-app");
+    this.eventFromPopover();
   }
 }

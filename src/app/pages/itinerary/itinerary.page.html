@@ -1,6 +1,6 @@
 <ion-header>
-    <ion-toolbar color="dark">
-        <ion-title style="color: white !important;">Itinerary</ion-title>
+    <ion-toolbar color="tertiary">
+        <ion-title style="color: white !important;">{{'itinerary.principal.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
         </ion-button>
@@ -15,7 +15,7 @@
             </ion-col>
             <ion-col size="6" style="text-align: right;">
                 <ion-button color="primary" (click)="openModalCreate()">
-                    <mat-icon>add</mat-icon>Create</ion-button>
+                    <mat-icon>add</mat-icon>{{'itinerary.principal.btn_create' | translate}}</ion-button>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="existsItineraries == 1">
@@ -24,13 +24,13 @@
                     <ion-grid>
                         <ion-row>
                             <ion-col size="12">
-                                <div class="title-card-sim-details"><strong>My Itineraries</strong></div>
+                                <div class="title-card-sim-details"><strong>{{'itinerary.principal.my_itineraries' | translate}}</strong></div>
                             </ion-col>
                             <ion-col size="12">
                                 <img src="../../../assets/img/ghost.svg" height="80px" alt="">
                             </ion-col>
                             <ion-col size="12">
-                                <ion-label>There is nothing here.</ion-label>
+                                <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>
                             </ion-col>
                         </ion-row>
                     </ion-grid>
@@ -57,10 +57,10 @@
                     <ion-grid>
                         <ion-row>
                             <ion-col size="12" style="text-align: center;">
-                                <div class="title-card-sim-details"><strong>My Itineraries</strong></div>
+                                <div class="title-card-sim-details"><strong>{{'itinerary.principal.my_itineraries' | translate}}</strong></div>
                             </ion-col>
                             <ion-col size="12" style="padding: 0px;">
-                                <ion-list style="border-radius: 5px; padding: 0px;">
+                                <ion-list mode="ios" style="border-radius: 5px; padding: 0px;">
                                     <ion-item *ngFor="let item of itinerariesList" detail (click)="goToSeeEdit(item)">
                                         <ion-avatar slot="start">
                                             <img src="../../../assets/img/suitcase.svg">
@@ -68,10 +68,11 @@
                                         <ion-label>
                                             <h2 *ngIf="currentLang == 'es'">{{item.destination.nombre}}</h2>
                                             <h2 *ngIf="currentLang != 'es'">{{item.destination.name}}</h2>
-                                            <h3>
-                                                <ion-label color="primary">ICCID: </ion-label>{{item.sim_card.iccid}}</h3>
+                                            <h3>{{item.sim_card.iccid}}</h3>
                                             <p>{{item.package.package_name}}</p>
-                                            <ion-label color="success">{{item.activation_date | date}}</ion-label>
+                                            <ion-label>{{item.activation_date | date}}</ion-label>
+                                            <ion-label *ngIf="item.status == '1'" color="primary">{{'itinerary.principal.programmed' | translate}}</ion-label>
+                                            <ion-label *ngIf="item.status == '3'" color="success">{{'itinerary.principal.activated' | translate}}</ion-label>
                                         </ion-label>
                                     </ion-item>
                                 </ion-list>

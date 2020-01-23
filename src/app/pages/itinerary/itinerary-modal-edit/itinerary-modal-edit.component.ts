@@ -47,17 +47,15 @@ export class ItineraryModalEditComponent implements OnInit {
     private itineraryService: ItineraryService,
     private alertController: AlertController,
     private simCardService: SimCardService,
-    private translateService: TranslateService) {
-    this.currentLang = this.translateService.currentLang;
+    private translate: TranslateService) {
+    this.currentLang = this.translate.currentLang;
     this.user = this.localStorageService.getStorageUser();
     const datePipe = new DatePipe('en-US');
     this.minDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 2  )), 'yyyy-MM-dd');
     this.maxDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 365)), 'yyyy-MM-dd');
-    
     this.newDate = new FormControl('', Validators.required);
     this.existsPackages = 0;
     this.preload_data = true;
-
   }
 
   ngOnInit() {
@@ -78,13 +76,13 @@ export class ItineraryModalEditComponent implements OnInit {
             this.preload_data = false;
           }
         }, err => {
-          this.presentToastError("We couldn't load sim cards.");
+          this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
         });
       }
 
     }, err => {
       console.log(err);
-      this.presentToastError("We couldn't obtain countries.");
+      this.presentToastError(this.translate.instant('simcard.error.no_countries'));
     });
   }
 
@@ -97,13 +95,15 @@ export class ItineraryModalEditComponent implements OnInit {
       this.itineraryService.updateItinerary(this.data.id, itinerary).subscribe(res => {
         console.log(res);
         if(res.status == 202){
-          this.presentToastOk("Itinerary has been updated.");
+          this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
           this.modalController.dismiss('created');
         }
       }, err => {
         console.log(err);
         if(err.status == 404 && err.error.detail == "Maximum refund date has expired"){
-          this.presentToastError("Maximum refund date has expired.");
+          this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
+        } else {
+          this.presentToastError(this.translate.instant('simcard.error.edit_error'));
         }
       });
     }

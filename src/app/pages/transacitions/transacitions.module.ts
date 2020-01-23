@@ -15,6 +15,7 @@ import { TransacitionsModalStripeComponent } from './transacitions-modal-stripe/
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
 import { TransacitionsModalPaypalComponent } from './transacitions-modal-paypal/transacitions-modal-paypal.component';
 import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transacitions-modal-see.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -27,6 +28,8 @@ import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transa
     MatInputModule,
     MatSelectModule,
     IonicModule,
+    //Traductor
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     PopoverModule,
     TransacitionsPageRoutingModule
@@ -43,4 +46,4 @@ import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transa
     TransacitionsModalSeeComponent
   ]
 })
-export class TransacitionsPageModule {}
+export class TransacitionsPageModule { }

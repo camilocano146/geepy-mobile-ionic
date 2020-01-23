@@ -1,0 +1,90 @@
+<ion-header translucent>
+
+</ion-header>
+
+<ion-content>
+    <ion-slides *ngIf="show" class="full-height full-width" [options]="slideOpts">
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center;">
+                        <img src="../../../assets/Logo/BANNER.png" class="image-logo" alt="">
+
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12" style="text-align: center;">
+                                    <h2>
+                                        <ion-label color="danger"><b>{{'slides.p3' | translate}}</b></ion-label>
+                                    </h2>
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; margin-bottom: 20px;">
+                                    <ion-col size="12" style="text-align: center;color: white;">{{'slides.p4' | translate}}</ion-col>
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; margin-bottom: 20px;">
+                                    <img src="../../../assets/img/dual.svg" class="image-2" alt="">
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; color: white !important;">
+                                    {{'slides.p5' | translate}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/travel.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="color: white !important">
+                            {{'slides.p6' | translate}}
+                        </div>
+                        <h3>
+                            <ion-label color="success"><u>{{'slides.p7' | translate}}</u></ion-label>
+                        </h3>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/global.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="color: white !important">
+                            {{'slides.p8' | translate}}
+                        </div>
+                        <h3>
+                            <ion-label color="danger">{{'slides.p9' | translate}}</ion-label>
+                        </h3>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/rocket.svg" style="margin-bottom: 20px;" class="image-1" alt="">
+                        <div class="full-width" style="margin-bottom: 20px; color: white !important">
+                            {{'slides.p10' | translate}}
+                        </div>
+                        <ion-button color="danger" expand="block" (click)="goToHome()" style="margin-top: 10px;">
+                            {{'slides.btn_go' | translate}}
+                            <ion-icon slot="end" name="arrow-forward"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

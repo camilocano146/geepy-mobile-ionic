@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { Credential } from '../../models/credential/credential';
@@ -9,8 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
-import { FCM } from '@ionic-native/fcm/ngx';
+import { FCM, NotificationData } from '@ionic-native/fcm/ngx';
 import { NotificationToken } from 'src/app/models/token/notification-token';
+import { NotificationFCM } from 'src/app/models/notification-fcm/notification-fcm';
 
 @Component({
   selector: 'app-login',
@@ -56,7 +57,8 @@ export class LoginPage implements OnInit {
     public navCotroller: NavController,
     private userService: UserService,
     private fcm: FCM,
-    public plt: Platform
+    public plt: Platform,
+    private ngZone: NgZone,
   ) {
     this.hide = true;
     this.preloadSignIn = false;
@@ -65,7 +67,7 @@ export class LoginPage implements OnInit {
     this.password = new FormControl("", [Validators.required]);
   }
   ngOnInit(): void {
-    console.log(this.translate.currentLang);
+
   }
   /**
    * Método de inicio de sesión
@@ -85,6 +87,22 @@ export class LoginPage implements OnInit {
             this.localStorageService.storageToken(token);
             //--------------Tokenn de Firebase
             this.fcm.getToken().then(token => {
+              this.fcm.onNotification().subscribe(data => {
+                if (data.wasTapped) {
+                  console.log(data);
+                  let today = data.today;
+                  console.log(today);
+                  if (today == "true") {
+
+                    let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id,data.package, data.onum);
+                    console.log(notification);
+                    localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+                    this.ngZone.run(() =>
+                      this.navCotroller.navigateRoot('repurchase-package')
+                    ).then();
+                  }
+                }
+              });
               let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
               if (this.plt.is('ios')) {
                 notificationToken.platform = "ios";

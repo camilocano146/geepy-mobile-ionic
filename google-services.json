@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "184822089138",
-    "firebase_url": "https://iot-alacena-999b5.firebaseio.com",
-    "project_id": "iot-alacena-999b5",
-    "storage_bucket": "iot-alacena-999b5.appspot.com"
+    "project_number": "156004272403",
+    "firebase_url": "https://geepy-mobile.firebaseio.com",
+    "project_id": "geepy-mobile",
+    "storage_bucket": "geepy-mobile.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:184822089138:android:d92a0129907427fff4d0ab",
+        "mobilesdk_app_id": "1:156004272403:android:8c2d152e77138c3f4672e6",
         "android_client_info": {
-          "package_name": "com.ms.mobile"
+          "package_name": "com.geepy.mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "184822089138-4frqt23n1hcs6s986taej7guog1o2nmc.apps.googleusercontent.com",
+          "client_id": "156004272403-5co44oj6m9j0epifubulhei8kuf998ct.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCfhZOIqXdXTNsyahf0xQW11xxk1zNGMNo"
+          "current_key": "AIzaSyA6abnoL61meeVcmjZO1zC2CJbZhNYZg2M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "184822089138-4frqt23n1hcs6s986taej7guog1o2nmc.apps.googleusercontent.com",
+              "client_id": "156004272403-5co44oj6m9j0epifubulhei8kuf998ct.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.ms.mobile"
-              }
             }
           ]
         }

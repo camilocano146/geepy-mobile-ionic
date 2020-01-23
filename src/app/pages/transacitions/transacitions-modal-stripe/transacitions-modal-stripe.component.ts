@@ -40,34 +40,29 @@ export class TransacitionsModalStripeComponent implements OnInit {
       if (res.status == 200) {
         this.tarifsList = res.body;
         console.log(this.tarifsList);
-
       }
-
     }, err => {
-      this.presentToastError("We couldn't get tariffs.");
+      this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
     });
   }
 
   payWithStripe(result) {
-    console.log(result);
-    
     let payment: Payment = new Payment(result, this.tariffSelected.value.id, this.tariffSelected.value.currency.id);
-    console.log(payment);
     this.billingService.loadBalance(payment).subscribe(res => {
-      console.log(res);
       if(res.status == 200){
-        this.presentToastOk("Successfull payment.");
+        this.presentToastOk(this.transalte.instant('payments.stripe.payment_ok'));
         this.modalController.dismiss("created");
       }
     }, err => {
       console.log(err);
       if (err.status == 402 && err.error.message == "Your card was declined. Your request was in test mode, but used a non test (live) card. For a list of valid test cards, visit: https://stripe.com/docs/testing.") {
-        this.presentToastError("Credit card of test is invalid.");
+        this.presentToastError(this.transalte.instant('payments.error.credit_card_test'));
       } else if (err.status == 500 && err.error.detail == "the payment failed") {
-        this.presentToastError("The payment failed, please try again later.");
+        this.presentToastError(this.transalte.instant('payments.error.payment_bad'));
+      } else {
+        this.presentToastError(this.transalte.instant('payments.error.cannot_buy'));
       }
     });
-
   }
 
 
@@ -121,9 +116,7 @@ export class TransacitionsModalStripeComponent implements OnInit {
     };
 
     this.card = elements.create('card', { style: style });
-    console.log(this.card);
     this.card.mount('#card-element');
-
     this.card.addEventListener('change', event => {
       var displayError = document.getElementById('card-errors');
       if (event.error) {
@@ -137,7 +130,6 @@ export class TransacitionsModalStripeComponent implements OnInit {
     var form = document.getElementById('payment-form');
     form.addEventListener('submit', event => {
       event.preventDefault();
-      console.log(event)
       this.presentLoading();
       this.stripe.createSource(this.card).then(result => {
         if (result.error) {

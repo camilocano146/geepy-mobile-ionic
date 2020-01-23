@@ -2,6 +2,18 @@
     "loader": {
         "loading": "Loading"
     },
+    "slides": {
+        "p1": "Welcome to",
+        "p3": "What is Geepy Mobile?",
+        "p4": "We are a virtual operator that connects you to the world.",
+        "p5": "You can manage your physical and virtual sim cards, easily and safely!",
+        "p6": "Anticipate your trips and select the right and cheapest data packages, with our",
+        "p7": "Itineraries Features!",
+        "p8": "Smart assistant that helps you select the best plan with",
+        "p9": "Worldwide Coverage!",
+        "p10": "Are you ready to start?",
+        "btn_go": "Go!"
+    },
     "login": {
         "data": {
             "email": "Email",
@@ -127,6 +139,8 @@
         "data": {
             "title": "Sim Cards",
             "register_by": "Register by:",
+            "order": "Buy Sim cards",
+            "btn_order": "Order NOW",
             "example_iccid": "Ex: 89372040160XXXXXX",
             "example_onum": "Ex: 372810XXXXX",
             "my_sims": "MY SIM CARDS",
@@ -150,7 +164,21 @@
             "yes_delete": "Yes, delete it!",
             "cancel_modal": "Cancel",
             "delete_sim_ok": "Sim card has been deleted!",
-
+            "buy_sims": {
+                "title": "Buy Sim Cards",
+                "account": "Account",
+                "select_one": "Select one",
+                "package": "Sims Package",
+                "country": "Country",
+                "city": "City",
+                "address": "Address",
+                "zip": "ZIP Code",
+                "shipping": "Shipping cost",
+                "phone": "Telephone",
+                "purchase": "Finish purchase",
+                "free": "Free!",
+                "purcahse_ok": "Successful purchase! We have sent your invoice to your email."
+            },
             "import_iccid": {
                 "title": "Register by ICCID",
                 "p1": "Please enter the",
@@ -201,15 +229,24 @@
                 },
                 "package": {
                     "cupon": "Do you have a coupon?",
-                    "error_cupon": "Invalid coupon. This must have 5 characters.",
-                    "title": "Packages",
+                    "error_cupon": "Invalid coupon. This must have 8 characters.",
+                    "title": "Buy Packages",
                     "title_data": "Data packages",
                     "package_code": "Package code",
                     "cost": "Cost",
                     "btn_buy": "Buy",
                     "btn_cancel": "Cancel",
                     "title_location": "Location packages",
-                    "queries": "Queries"
+                    "queries": "Queries",
+                    "confirm_buy": "Confirm your purchase"
+                },
+                "history_package": {
+                    "title": "History Packages",
+                    "title_data": "Data packages",
+                    "package_code": "Package code",
+                    "cost": "Cost",
+                    "date": "Activation date",
+                    "no_data": "There is nothing here."
                 },
                 "sms": {
                     "title": "SMS",
@@ -222,7 +259,9 @@
                     "type_contact_here": "Type your contact number here.",
                     "type_sms_here": "Type your SMS here.",
                     "tariff_sms": "0.25 EUR or 0.30 USD per SMS.",
-                    "max_160": "Max 160 characters"
+                    "max_160": "Max 160 characters",
+                    "btn_send": "Send",
+                    "sms_sent_ok": "SMS sent successfully."
                 },
                 "location": {
                     "title": "Location",
@@ -263,8 +302,8 @@
         },
         "error": {
             "services_account": "We couldn't get service accounts.",
-            "previus_imported": "Can't register, this was imported previosly.",
-            "error_register": "We coudldn't import Sim card.",
+            "previus_imported": "Can't register, this was imported previously.",
+            "error_register": "We couldn't import Sim card.",
             "required_value": "You must write a value.",
             "required_account": "You must select one service account.",
             "iccid_min_max": "ICCID must have between 5 and 21 characters.",
@@ -293,7 +332,175 @@
             "reconnection_error": "We couldn't restart the connectivity.",
             "no_extra_number": "We couldn't obtain extra numbers avaiables.",
             "delete_error": "We couldn't delete this Sim card.",
-            "end_point_min_max": "Must have between 5 and 30 characters."
+            "end_point_min_max": "Must have between 5 and 30 characters.",
+            "history_package": "We couldn't get package history.",
+            "wrong_coupon": "Coupon not found or invalid",
+            "destinatary_not_found": "Destinatary card not found.",
+            "server_error": "Server error",
+            "no_send_sms": "We couldn't send SMS.",
+            "no_sim_packages": "We couldn't get sims packages.",
+            "no_countries": "We couldn't get countries.",
+            "no_load_sim": "We couldn't load sim cards."
         }
+    },
+    "recommend": {
+        "data": {
+            "title": "Recommend",
+            "p1": "Did you like this application? Recommend it to a friend!",
+            "email": "Email",
+            "email_ph": "my-friend@email.com",
+            "btn_send": " Send invitation",
+            "refered_ok": "User has been refered!"
+        },
+        "error": {
+            "email_unique": "This email is already registered and cannot be recommended.",
+            "already_refered": "User already referred"
+        }
+    },
+    "popover": {
+        "ussd": "USSD Codes",
+        "recommend": "Recommend this App",
+        "rate": "Rate this app",
+        "help": "Help",
+        "sign_out": "Sign Out"
+    },
+    "itinerary": {
+        "principal": {
+            "title": "Itinerary",
+            "btn_create": "Create",
+            "no_itineraries": "There is nothing here.",
+            "my_itineraries": "My Itineraries",
+            "programmed": "Programmed",
+            "activated": "Activated"
+        },
+        "create": {
+            "title": "New itinerary",
+            "destiny": "Destiny",
+            "destiny_ph": "Select one",
+            "start_date": "Start date",
+            "start_date_ph": "Select Date",
+            "sim": "Sim Card",
+            "sim_ph": "Select one",
+            "btn_search_package": "Search packages",
+            "available_packages": "Available packages",
+            "package_code": "Package code: ",
+            "recommended_package": "Recommended package: ",
+            "cost": "Cost: ",
+            "select_this": "Select this!",
+            "package_selected": "Package selected!",
+            "btn_create": "Create",
+            "created_ok": "Itinerary has been updated successfully."
+        },
+        "edit": {
+            "title": "Itinerary ",
+            "destiny": "Destiny",
+            "start_date": "Start date",
+            "sim": "Sim Card",
+            "package": "Package",
+            "status": "Status",
+            "programmed": "Programmed",
+            "activated": "Activated",
+            "cost": "Cost",
+            "p1": "Do you need change date of start? Please entry the new date:",
+            "new_start_date": "New start date",
+            "new_start_date_ph": "Select date",
+            "save": "Save",
+            "cancel": "Cancel",
+            "p2": "You can only change the date or cancel this plan with 48 hours in advance.",
+            "edit_ok": "Itinerary has been updated successfully."
+        },
+        "error": {
+            "no_itineraries": "We couldn't load your itineraries.",
+            "country_mandatory": "Field country is mandatory.",
+            "no_search_packages": "We couldn't found packages for this country.",
+            "min_time_48": "Minimum time to program a itinerary need be 2 days before.",
+            "not_enough_money": "Hasn't enough money. Please recharge your account.",
+            "server_error": "Server error",
+            "created_error": "We couldn't create this item.",
+            "maximum_date": "Maximum refund date has expired.",
+            "edit_error": "We couldn't update this item."
+        }
+    },
+    "payments": {
+        "principal": {
+            "title": "Payments",
+            "my_account": "My account",
+            "recharge": "Recharge!",
+            "btn_pay": "Pay",
+            "my_payments": "My Payments",
+            "no_payments": "There is nothing here."
+        },
+        "paypal": {
+            "title": "Pay with PayPal",
+            "tariff": "Tariff",
+            "tariff_ph": "Select one",
+            "btn_make_payment": "Make Payment",
+            "note": "Note: ",
+            "p1": "Cost per transacition is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
+            "payment_ok": "Successfull payment!"
+        },
+        "stripe": {
+            "title": "Pay with Stripe",
+            "tariff": "Tariff",
+            "tariff_ph": "Select one",
+            "btn_make_payment": "Make Payment",
+            "note": "Note: ",
+            "p1": "Cost per transacition is 3% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 3.00 + 0.30 USD.",
+            "payment_ok": "Successfull payment!."
+        },
+        "see": {
+            "title": "Details payment",
+            "pay_id": "Payment ID",
+            "date": "Date: ",
+            "cost": "Value: ",
+            "currency": "Currency: ",
+            "see_invoice": "See invoice",
+            "go_paypal": "Go to PayPal",
+            "note": "Note: ",
+            "p1": "To see your PayPal invoice please log in and go to the 'invoice section'.",
+            "sim_package": "Sims package"
+        },
+        "error": {
+            "no_load_payments": "We couldn't load your payments.",
+            "no_load_tariffs": "We couldn't get tariffs.",
+            "ep1": "Error or render dialog closed without being successful",
+            "pay_not_saved": "The payment could not be saved but it was successful. Please contact the site administrator.",
+            "credit_card_test": "Credit card of test is invalid.",
+            "payment_bad": "The payment failed, please try again later.",
+            "cannot_buy": "We couldn't process your request."
+        }
+    },
+    "zones": {
+        "title": "Coverage areas",
+        "zones": "Zones",
+        "zones_ph": "Select one",
+        "filter": "Search",
+        "countries": "Countries",
+        "no_load_countries": "We couldn't load the coverage zones."
+    },
+    "ussd_codes": {
+        "principal": {
+            "title": "USSD Codes"
+        },
+        "call": {
+            "title": "USSD Code: ",
+            "description": "Description",
+            "call": "Call to "
+        },
+        "error": {
+            "no_load_ussd_codes": "We couldn't load ussd codes."
+        }
+    },
+    "repurchase": {
+        "title": "Buy other package!",
+        "p1": "The  ",
+        "p2": " Package of Sim Card with ONUM ",
+        "p3": "will expire today.",
+        "p4": "Do you want buy a better package?",
+        "btn_repurchase": "Buy",
+        "btn_cancel": "Cancel",
+        "sim_no_exist": "Sim card or package not found.",
+        "terms_bad": "Packet change terms were not met",
+        "no_repurchase": "We couldn't repurchase this package."
     }
 }

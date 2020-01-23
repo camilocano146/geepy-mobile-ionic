@@ -1,0 +1,38 @@
+@import '../../../global.scss';
+.swiper-slide {
+    display: block;
+}
+
+.full-height {
+    height: 100vh !important;
+}
+
+.container-slide {
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #08014C;
+}
+
+.horizontal-vertical-align {
+    height: 100%;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.image-1 {
+    height: 180px !important;
+}
+
+.image-logo {
+    height: 100px !important;
+}
+
+.image-2 {
+    height: 130px !important;
+}
+
+.image-3 {
+    height: 70px !important;
+}

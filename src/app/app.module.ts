@@ -10,6 +10,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { AppRate } from '@ionic-native/app-rate';
 /**Tradcutor */
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -44,6 +45,9 @@ import { ExtraNumbersService } from './services/extra-numbers/extra-numbers.serv
 import { ItineraryService } from './services/itinerary/itinerary.service';
 import { TariffRechargeService } from './services/tariff-recharge/tariff-recharge.service';
 import { BillingService } from './services/billing/billing.service';
+import { RecommendService } from './services/recommend/recommend.service';
+import { ZonesService } from './services/zones/zones.service';
+import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -85,6 +89,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ExtraNumbersService,
     TariffRechargeService,
     BillingService,
+    RecommendService,
+    ZonesService,
+    UssdCodesService,
     Globalization,
     Stripe,
     PayPal,

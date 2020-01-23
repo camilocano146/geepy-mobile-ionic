@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Globalization } from '@ionic-native/globalization/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -17,11 +18,11 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private fcm: FCM
   ) {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-
     this.globalization.getPreferredLanguage().then(res => {
       console.log(res.value);
       let language = res.value.split('-')[0];
@@ -37,14 +38,26 @@ export class AppComponent {
     }).catch(err => {
       console.log(err);
     });
+ 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.translate.setDefaultLang('en');
-      this.translate.use('en');
+      
+      /**
+       * this.fcm.onNotification().subscribe(data => {
+        console.log(data, 'estoy en app');
+        console.log(data.wasTapped);
+        if(data.wasTapped){
+          console.log("Received in background");
+        } else {
+          console.log("Received in foreground");
+        };
+      });
+       */
+      
       //let language = this.translate.getBrowserLang();
      
     });

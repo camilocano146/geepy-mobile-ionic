@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAA_LMVTiWoksXLk2xhKesoxouSrrSkZP0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>184822089138</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ms.mobile</string>
+	<key>PROJECT_ID</key>
+	<string>iot-alacena-999b5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>iot-alacena-999b5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:184822089138:ios:ffd93fcdf9055b41f4d0ab</string>
+	<key>DATABASE_URL</key>
+	<string>https://iot-alacena-999b5.firebaseio.com</string>
+</dict>
+</plist>

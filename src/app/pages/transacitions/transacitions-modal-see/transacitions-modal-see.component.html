@@ -1,9 +1,9 @@
 <ion-header>
-    <ion-toolbar color="dark">
+    <ion-toolbar color="tertiary">
         <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
             <ion-icon name="arrow-round-back"></ion-icon>
         </ion-buttons>
-        <ion-title style="color: white !important;">Details payment</ion-title>
+        <ion-title style="color: white !important;">{{'payments.see.title' | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -14,29 +14,30 @@
                 <ion-card class="card-payment" style="text-align: center; background-color: white;">
                     <img *ngIf="data.id_stripe_transaction != null" src="../../../../assets/img/stripe.png" style="margin-bottom: 10px;" alt="">
                     <img *ngIf="data.id_pay_pal_transaction != null" src="../../../../assets/img/paypal.jpg" style="margin-bottom: 10px;" alt="">
+                    <img *ngIf="data.transaction.name == 'Order Sim Sets'" src="../../../../assets/img/shipping-and-delivery.svg" style="margin-top: 10px;margin-bottom: 10px; height: 113px !important;" alt="">
                     <ion-grid>
                         <ion-row>
                             <ion-col size="12" style="text-align: left !important; color: black;">
-                                <strong>Payment ID</strong>
+                                <strong>{{'payments.see.pay_id' | translate}}</strong>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;" class="contenido">
                                 <ion-label *ngIf="data.id_stripe_transaction != null" color="dark" class="contenido">{{data.id_stripe_transaction}}</ion-label>
                                 <ion-label *ngIf="data.id_pay_pal_transaction != null" color="dark" class="contenido">{{data.id_pay_pal_transaction}}</ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
-                                <ion-label color="primary"><strong>Date: </strong></ion-label>
+                                <ion-label color="primary"><strong>{{'payments.see.date' | translate}}</strong></ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
                                 <ion-label>{{data.date_generated | date:'long'}}</ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
-                                <ion-label color="primary"><strong>Value: </strong></ion-label>
+                                <ion-label color="primary"><strong>{{'payments.see.cost' | translate}}</strong></ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
                                 <ion-label>{{data.value}}.00</ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
-                                <ion-label color="primary"><strong>Currency: </strong></ion-label>
+                                <ion-label color="primary"><strong>{{'payments.see.currency' | translate}}</strong></ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
                                 <ion-label>{{data.currency}}</ion-label>
@@ -44,19 +45,25 @@
                             <ion-col *ngIf="data.id_stripe_transaction != null" size="12" style="text-align: left !important;">
                                 <ion-button expand="block" color="success" (click)="downloadStripe()">
                                     <ion-icon style="margin-right: 10px;" name="document"></ion-icon>
-                                    See invoice
+                                    {{'payments.see.see_invoice' | translate}}
                                 </ion-button>
                             </ion-col>
 
                             <ion-col *ngIf="data.id_pay_pal_transaction != null" size="12" style="text-align: left !important;">
                                 <ion-button expand="full" color="success" (click)="downloadPaypal()">
-                                    Go to PayPal
+                                    {{'payments.see.go_paypal' | translate}}
                                     <ion-icon style="margin-left: 10px;" name="arrow-round-forward"></ion-icon>
                                 </ion-button>
                             </ion-col>
                             <ion-col *ngIf="data.id_pay_pal_transaction != null" size="12" style="text-align: left !important;">
-                                <ion-label color="warning"><strong>Note: </strong></ion-label>
-                                <ion-label>To see your PayPal invoice please log in and go to the "invoice" section.</ion-label>
+                                <ion-label color="warning"><strong>{{'payments.see.note' | translate}}</strong></ion-label>
+                                <ion-label>{{'payments.see.p1' | translate}}</ion-label>
+                            </ion-col>
+                            <ion-col *ngIf="data.simcardset.name" size="12" style="text-align: left !important;">
+                                <ion-label color="primary"><strong>{{'payments.see.sim_package' | translate}}</strong></ion-label>
+                            </ion-col>
+                            <ion-col *ngIf="data.simcardset.name" size="12" style="text-align: left !important;">
+                                <ion-label>{{data.simcardset.name}}</ion-label>
                             </ion-col>
                         </ion-row>
                     </ion-grid>

@@ -1,14 +1,24 @@
 <div style="padding:10px">
     <ion-list>
-        <ion-item button>
+        <ion-item button (click)="goToUSSD()">
             <ion-icon name="call"></ion-icon>
-            <ion-label style="margin-left: 10px;">USSD Code</ion-label>
+            <ion-label style="margin-left: 10px;">{{'popover.ussd' | translate}}</ion-label>
         </ion-item>
-
+        <ion-item button (click)="goToRecommend()">
+            <ion-icon name="gift"></ion-icon>
+            <ion-label style="margin-left: 10px;">{{'popover.recommend' | translate}}</ion-label>
+        </ion-item>
         <ion-item button>
-            <ion-icon name="help-circle-outline"></ion-icon>
-            <ion-label style="margin-left: 10px;">Help</ion-label>
+            <ion-icon name="star-half"></ion-icon>
+            <ion-label style="margin-left: 10px;">{{'popover.rate' | translate}}</ion-label>
         </ion-item>
+        <!--
+<ion-item button>
+            <ion-icon name="help-circle-outline"></ion-icon>
+            <ion-label style="margin-left: 10px;">{{'popover.help' | translate}}</ion-label>
+        </ion-item>
+        -->
+
     </ion-list>
-    <ion-button expand="block" color="danger" (click)="logOut()">Sign Out</ion-button>
+    <ion-button expand="block" color="danger" (click)="logOut()">{{'popover.sign_out' | translate}}</ion-button>
 </div>

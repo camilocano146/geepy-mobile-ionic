@@ -33,7 +33,6 @@ export class TransacitionsPage implements OnInit {
     }
 
   ngOnInit() {
-    
   }
 
   ionViewDidEnter(){
@@ -43,7 +42,6 @@ export class TransacitionsPage implements OnInit {
         this.billingService.getTransactions().subscribe(res => {
           if(res.status == 200){
             this.paymentsList = res.body;
-            console.log(this.paymentsList);
             if(this.paymentsList.length == 0){
               this.existPayments = 1;
             } else if(this.paymentsList.length > 0){
@@ -53,7 +51,7 @@ export class TransacitionsPage implements OnInit {
           }
         }, err => {
           console.log(err);
-          this.presentToastError("No se pudieron obtener los pagos");
+          this.presentToastError(this.translate.instant('payments.error.no_load_payments'));
         });
       }
     }, error => {
@@ -71,7 +69,7 @@ export class TransacitionsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "created") {
-        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     }).catch();
     return await modal.present();
@@ -87,7 +85,7 @@ export class TransacitionsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "created") {
-        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     }).catch();
     return await modal.present();
@@ -104,7 +102,7 @@ export class TransacitionsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "created") {
-        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     }).catch();
     return await modal.present();

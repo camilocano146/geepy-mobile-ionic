@@ -1,0 +1,86 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.buy_sims.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="center">
+                <img src="../../../../assets/img/shipping-and-delivery.svg" height="100px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.account' | translate}}</ion-label>
+                    <ion-select placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="accountSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of serviceAccountsList" [value]="item">{{item.alias}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="accountSelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.package' | translate}}</ion-label>
+                    <ion-select *ngIf="accountSelected.value.alias == 'USD'" placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="packageSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of simsPackages" [value]="item">{{item.name}} - {{item.usd_cost}} USD</ion-select-option>
+                    </ion-select>
+                    <ion-select *ngIf="accountSelected.value.alias == 'EUR'" placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="packageSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of simsPackages" [value]="item">{{item.name}} - {{item.eur_cost}} EUR</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="packageSelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.shipping' | translate}}</ion-label>
+                    <ion-input *ngIf="accountSelected.value.alias == 'USD' && packageSelected.value.shipping_cost_usd != '0.00'" value="{{packageSelected.value.shipping_cost_usd}} USD" readonly></ion-input>
+                    <ion-input *ngIf="accountSelected.value.alias == 'USD' && packageSelected.value.shipping_cost_usd == '0.00'" value="{{'simcard.data.buy_sims.free' | translate}}" readonly></ion-input>
+                    <ion-input *ngIf="accountSelected.value.alias == 'EUR'" value="{{packageSelected.value.shipping_cost_eur}} EUR" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="packageSelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.country' | translate}}</ion-label>
+                    <ion-select *ngIf="language == 'es'" placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="countrySelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.nombre}} </ion-select-option>
+                    </ion-select>
+                    <ion-select *ngIf="language == 'en'" placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="countrySelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.name}} </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="countrySelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.city' | translate}}</ion-label>
+                    <ion-input [formControl]="city"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="countrySelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.address' | translate}}</ion-label>
+                    <ion-input [formControl]="address"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="countrySelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.zip' | translate}}</ion-label>
+                    <ion-input type="number" [formControl]="zip"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="countrySelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.phone' | translate}}</ion-label>
+                    <ion-input [formControl]="phone"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="zip.value != null" size="12" style="text-align: center;">
+                <ion-button (click)="order()">
+                    <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
+                    {{'simcard.data.buy_sims.purchase' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

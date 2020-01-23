@@ -83,7 +83,7 @@ export class ProfilePage implements OnInit {
       }
       this.userService.updateUser(this.user.id, newPass).subscribe(res => {
         if (res.status == 200) {
-          this.presentToastOk("Password updated successfully.");
+          this.presentToastOk(this.translate.instant('profile.pass_ok'));
           this.password.reset();
           this.newPassword.reset();
           this.confPasword.reset();

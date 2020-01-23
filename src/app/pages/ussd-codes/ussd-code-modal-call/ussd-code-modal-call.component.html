@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'ussd_codes.call.title'| translate}} {{data.id}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <ion-card style="background-color: white !important;">
+                    <ion-card-header>
+                        <ion-card-title class="title-card"></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row>
+                            <ion-col size="12">
+                                <ion-label *ngIf="language == 'es'">{{data.description_esp}}</ion-label>
+                                <ion-label *ngIf="language == 'en'">{{data.description_eng}}</ion-label>
+                            </ion-col>
+                            <ion-col size="12">
+                                <ion-button expand="block" color="success" (click)="callToCode()">
+                                    <ion-icon name="call" style="margin-right: 10px;"></ion-icon>
+                                    {{'ussd_codes.call.title'| translate}}{{data.code}}
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

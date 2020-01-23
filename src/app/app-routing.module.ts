@@ -2,26 +2,30 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'slides', pathMatch: 'full' },
+  {
+    path: 'slides',
+    loadChildren: () => import('./pages/slides/slides.module').then(m => m.SlidesPageModule)
+  },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'activate-account',
-    loadChildren: () => import('./pages/activate-account/activate-account.module').then( m => m.ActivateAccountPageModule)
+    loadChildren: () => import('./pages/activate-account/activate-account.module').then(m => m.ActivateAccountPageModule)
   },
   {
     path: 'send-code',
-    loadChildren: () => import('./pages/send-code/send-code.module').then( m => m.SendCodePageModule)
+    loadChildren: () => import('./pages/send-code/send-code.module').then(m => m.SendCodePageModule)
   },
   {
     path: 'reset-password',
-    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'home',
@@ -29,8 +33,18 @@ const routes: Routes = [
   },
   {
     path: 'ussd-codes',
-    loadChildren: () => import('./pages/ussd-codes/ussd-codes.module').then( m => m.UssdCodesPageModule)
+    loadChildren: () => import('./pages/ussd-codes/ussd-codes.module').then(m => m.UssdCodesPageModule)
   },
+  {
+    path: 'recommend-app',
+    loadChildren: () => import('./pages/recommend-app/recommend-app.module').then(m => m.RecommendAppPageModule)
+  },  {
+    path: 'repurchase-package',
+    loadChildren: () => import('./pages/repurchase-package/repurchase-package.module').then( m => m.RepurchasePackagePageModule)
+  },
+
+
+
 ];
 
 @NgModule({

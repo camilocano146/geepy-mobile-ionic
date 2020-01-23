@@ -34,7 +34,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html,
 body {
-    background-color: #E6F1F7 !important;
+    background-color: #08014C !important;
 }
 
 .full-width {
@@ -57,6 +57,15 @@ body {
     top: 0px;
     left: 0px;
     background-color: #E6F1F7 !important;
+    height: 100vh !important;
+    width: 100% !important;
+}
+
+.background-all-2 {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: #08014C !important;
     height: 100vh !important;
     width: 100% !important;
 }
@@ -95,11 +104,31 @@ ion-title {
 }
 
 .mat-expansion-panel-body {
-    padding: 0 10px 16px !important;
+    padding: 0 10px 10px !important;
 }
 
 .contenido {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+ion-card-header {
+    padding-top: 10px !important;
+    padding-bottom: 0px !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+ion-card-content {
+    padding-bottom: 5px !important;
+    padding-top: 0px !important;
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+ion-card {
+    margin: 0px !important;
+    margin-bottom: 10px !important;
+    margin-top: 5px !important;
 }

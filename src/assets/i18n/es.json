@@ -2,6 +2,19 @@
     "loader": {
         "loading": "Cargando"
     },
+    "slides": {
+        "p1": "Bienvenido a",
+        "p2": "MS One Mobile",
+        "p3": "¿Qué es MS One Mobile?",
+        "p4": "Somos un operador virtual que te conecta con el mundo.",
+        "p5": "¡Puedes administrar tus Sim cards físicas y virtuales de forma fácil y segura!",
+        "p6": "Anticipe sus viajes y seleccione los paquetes de datos correctos y más baratos, con nuestro",
+        "p7": "Sistema de Itinerarios!",
+        "p8": "Asistente inteligente que te ayuda a seleccionar el mejor plan con",
+        "p9": "Cobertura mundial!",
+        "p10": "¿Estás listo para empezar?",
+        "btn_go": "Empecemos!"
+    },
     "login": {
         "data": {
             "email": "Correo electronico",
@@ -115,5 +128,380 @@
             "pass_not_match": "Contraseñas no coinciden.",
             "error_email": "Correo electronico no valido."
         }
+    },
+    "home": {
+        "sims": "Sims",
+        "itinerary": "Itinerario",
+        "profile": "Perfil",
+        "payment": "Pagos",
+        "zones": "Zonas"
+    },
+    "simcard": {
+        "data": {
+            "title": "Sim Cards",
+            "register_by": "Registrar por:",
+            "order": "Comprar Sim cards",
+            "btn_order": "COMPRAR",
+            "example_iccid": "Ej: 89372040160XXXXXX",
+            "example_onum": "Ej: 372810XXXXX",
+            "my_sims": "Mis Sim Cards",
+            "ph_search": "Buscar por ICCID",
+            "activated": "ACTIVADA",
+            "suspended": "SUSPENDIDA",
+            "deleted": "ELIMINADA",
+            "currency": "MONEDA",
+            "package_purchased_ok": "Paquete comprado exitosamente.",
+            "package_canceled_ok": "Paquete cancelado exitosamente.",
+            "activated_ok": "Sim Card activada exitosamente.",
+            "suspended_ok": "Sim Card suspendida exitosamente.",
+            "extra_number_added": "Número extra agregado exitosamente.",
+            "extra_number_deleted": "Número extra eliminado exitosamente.",
+            "endpoint_ok": "Nombre de la Sim card actualizado exitosamente.",
+            "location_service_activated_ok": "Servicio de localización activado exitosamente.",
+            "no_current_coordinates": "Esta Sim card no reporta coordenadas actualmente. El servicio será cobrado.",
+            "reconnection_ok": "Conectividad actualizada exitosamente.",
+            "delete_sim_modal": "Eliminar Sim: ",
+            "are_u_sure": "¿Estás seguro? Esta acción es irreversible.",
+            "yes_delete": "Si, eliminarla!",
+            "cancel_modal": "Cancelar",
+            "delete_sim_ok": "Sim card elimianda exitosamente",
+            "buy_sims": {
+                "title": "Comprar Sim cards",
+                "account": "Cuenta",
+                "select_one": "Seleccione una",
+                "package": "Paquetes de Sim cards",
+                "country": "Pais",
+                "city": "Ciudad",
+                "address": "Dirección",
+                "zip": "Código ZIP",
+                "shipping": "Costo de envio",
+                "phone": "Teléfono",
+                "purchase": "Finalizar compra",
+                "free": "Gratis!",
+                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico."
+            },
+            "import_iccid": {
+                "title": "Registrar por ICCID",
+                "p1": "Por favor ingrese el código ",
+                "iccid": "ICCID ",
+                "p2": "de la Sim card.",
+                "iccid_code": "Código ICCID",
+                "p3": "Selecione una ",
+                "service_account": "Cuenta de servicio",
+                "p4": " para registrar su Sim card.",
+                "btn_register": "Registrar",
+                "import_ok": "Sim Card registrada exitosamente."
+            },
+            "import_onum": {
+                "data": {
+                    "title": "Registrar por ONUM",
+                    "p1": "Por favor ingrese el código ",
+                    "onum": "ONUM ",
+                    "p2": "de la Sim card.",
+                    "onum_code": "Código ONUM",
+                    "p3": "Selecione una ",
+                    "service_account": "Cuenta de servicio",
+                    "p4": " para registrar su Sim card.",
+                    "btn_register": "Registrar",
+                    "import_ok": "Sim Card registrada exitosamente."
+                },
+                "error": {}
+            },
+            "settings": {
+                "data": {
+                    "title": "Información",
+                    "details": "Detalles",
+                    "data_used": "Datos",
+                    "no_data_currently": "Sin datos actualmente",
+                    "data": "Datos",
+                    "avaiable": "Disponibles",
+                    "spended": "Gastados",
+                    "title_card_information": "Información",
+                    "activated": "ACTIVADA",
+                    "suspended": "SUSPENDIDA",
+                    "deleted": "ELIMINADA",
+                    "title_card_plan": "Plan",
+                    "plan_data": "Datos",
+                    "plan_cost": "Costo",
+                    "title_card_connectivity": "Conectividad",
+                    "title_card_end_point": "End point",
+                    "with_out_end_point": "Sin nombre",
+                    "name_end_point": "Nombre "
+                },
+                "package": {
+                    "cupon": "¿Tienes un cupón?",
+                    "error_cupon": "Cupón no valido. Debe tener 8 caracteres.",
+                    "title": "Comprar paquetes",
+                    "title_data": "Paquetes de datos",
+                    "package_code": "Código del paquete",
+                    "cost": "Costo",
+                    "btn_buy": "Comprar",
+                    "btn_cancel": "Cancelar",
+                    "title_location": "Paquete de localización",
+                    "queries": "Peticiones",
+                    "confirm_buy": "Confirma tu compra"
+                },
+                "history_package": {
+                    "title": "Historial de paquetes",
+                    "title_data": "Paquetes de datos",
+                    "package_code": "Código del paquete",
+                    "cost": "Costo",
+                    "date": "Fecha de activación",
+                    "no_data": "No hay nada aquí."
+                },
+                "sms": {
+                    "title": "SMS",
+                    "new_sms": "Nuevo",
+                    "total_sms": "Total de SMS: ",
+                    "destinatary": "Destinatario",
+                    "message": "Mensaje",
+                    "date": "Fecha",
+                    "currency": "Moneda",
+                    "type_contact_here": "Escribe el número de contacto aquí.",
+                    "type_sms_here": "Escribe tu SMS aquí.",
+                    "tariff_sms": "0.25 EUR o 0.30 USD por SMS.",
+                    "max_160": "Max 160 caracteres",
+                    "btn_send": "Enviar",
+                    "sms_sent_ok": "SMS enviado exitosamente."
+                },
+                "location": {
+                    "title": "Localización",
+                    "package": "Paquete",
+                    "queries": "Peticiones!",
+                    "cost": "Costo",
+                    "buy": "Comprar",
+                    "note": "Nota: ",
+                    "p1": "Validez de 30 días calendario. La hora de activación y finalización del paquete está definida por la hora de Estonia (GMT + 2).",
+                    "btn_search": "Buscar",
+                    "total_queries": "Peticiones"
+                },
+                "settings": {
+                    "title": "Configuraciones",
+                    "suspend": "Suspender el servicio de conectividad de la Sim card.",
+                    "btn_suspend": "Suspender",
+                    "activate": "Activar el servicio de conectividad de la Sim card.",
+                    "btn_activate": "Activar",
+                    "reset": "Restablecer el servicio de conectividad de la Sim card.",
+                    "btn_reset": "Restablecer conectividad",
+                    "buy_extra": "Comprar número extra",
+                    "buy_extra_usd": "1 Año por 12 USD.",
+                    "buy_extra_eur": "1 Año por 10 EUR.",
+                    "numbers_avaiable": "Números disponibles",
+                    "btn_buy_extra": "Comprar número extra",
+                    "remove_extra": "Remover número extra",
+                    "non_refundable": "No reembolsable",
+                    "extra_number": "Número extra",
+                    "remove_number": "Remover número",
+                    "customatize_sim": "Personalizar el nombre de la Sim card.",
+                    "update_name": "Actualizar",
+                    "delete_sim": "Eliminar Sim card",
+                    "delete_p1": "Esta acción es irreversible.",
+                    "btn_delete": "Eliminar"
+                },
+                "error": {}
+            }
+        },
+        "error": {
+            "services_account": "No pudimos obtener las cuentas de servicio.",
+            "previus_imported": "No se puede registrar, esta se importó anteriormente o ya fue eliminada.",
+            "error_register": "No pudimos importar la Sim card.",
+            "required_value": "Debes escribir un valor.",
+            "required_account": "Debes seleccionar una cuenta.",
+            "iccid_min_max": "ICCID debe tener entre 5 y 21 caracteres.",
+            "onum_min_max": "ONUM ebe tener entre 5 y 21 caracteres.",
+            "no_details_sim": "No pudimos obtener los detalles de la Sim card",
+            "no_packages_sim": "No pudimos obtener los paquetes de la Sim card.",
+            "no_events_sim": "No pudimos obtener los eventos de la Sim card.",
+            "no_connectivity_sim": "No pudimos obtener la conectividad de la Sim card.",
+            "no_endpoint_sim": "No pudimos obtener el end point de la Sim card.",
+            "no_avaiable_package": "No pudimos obtener los paquetes disponibles.",
+            "sim_block": "La Sim card se encuentra suspendida. Por favor activala primero.",
+            "not_enough_money": "No tiene suficiente dinero. Por favor recargue su cuenta.",
+            "cannot_buy_package": "No pudimos procesar tu solicitud.",
+            "package_not_activated": "El paquete aún no se ha activado. Por favor, inténtelo de nuevo más tarde.",
+            "activation_error": "No pudimos activar la Sim card.",
+            "suspend_error": "No pudimos suspender la Sim card.",
+            "extra_number_already_in_use": "Número extra ya esta configurado para otra Sim card.",
+            "extra_number_added_error": "No pudimos agregar número extra a la Sim card.",
+            "extra_number_removed_error": "No pudimos remover el número extra de la Sim card.",
+            "endpoint_error": "No pudimos actualizar el nombre de la Sim card.",
+            "no_sms_sim": "No pudimos obtener los SMS de la Sim card.",
+            "no_location_service_sim": "No pudimos obtener el estado del servicio de localización de la Sim card.",
+            "location_service_blocked": "El servicio de localización esta bloqueado. Por favor contacte con el administrador del sitio.",
+            "location_service_activated_error": "No pudimos activar el servicio de localización.",
+            "no_location_sim": "No pudimos obtener la localización de la Sim card.",
+            "reconnection_error": "No pudimos restablecer la conectividad de la Sim card.",
+            "no_extra_number": "No pudimos obtener los números extra disponibles.",
+            "delete_error": "No pudimos eliminar la Sim card.",
+            "end_point_min_max": "Debe tener entre 5 y 30 caracteres.",
+            "history_package": "No pudimos obtener el historial de paquetes de la Sim card.",
+            "wrong_coupon": "Cupón ingresado no es valido.",
+            "destinatary_not_found": "Destinatario no encontrado.",
+            "server_error": "Error en el servidor",
+            "no_send_sms": "No pudimos enviar el SMS.",
+            "no_sim_packages": "No pudimos obtener los paquetes de la Sim card.",
+            "no_countries": "No pudimos obtener los paises.",
+            "no_load_sim": "No pudimos cargar tus Sim cards."
+        }
+    },
+    "recommend": {
+        "data": {
+            "title": "Recomendar",
+            "p1": "¿Te ha gustado esta aplicación? ¡Recomiéndala a un amigo!",
+            "email": "Correo electrónico",
+            "email_ph": "my-amigo@correo.com",
+            "btn_send": " Enviar invitación!",
+            "refered_ok": "El usuario ha sido referido!"
+        },
+        "error": {
+            "email_unique": "Este correo electrónico ya está registrado y no se puede recomendar.",
+            "already_refered": "Usuario ya referido."
+        }
+    },
+    "popover": {
+        "ussd": "Códigos USSD",
+        "recommend": "Recomendar esta App",
+        "rate": "Calificanos",
+        "help": "Ayuda",
+        "sign_out": "Cerrar sesión"
+    },
+    "itinerary": {
+        "principal": {
+            "title": "Itinerario",
+            "btn_create": "Crear",
+            "no_itineraries": "No hay nada aquí.",
+            "my_itineraries": "Mis Itinerarios",
+            "programmed": "Programado",
+            "activated": "Activado"
+        },
+        "create": {
+            "title": "Nuevo itinerario",
+            "destiny": "Destino",
+            "destiny_ph": "Seleccione uno",
+            "start_date": "Fecha de inicio",
+            "start_date_ph": "Selecciona una fecha",
+            "sim": "Sim Card",
+            "sim_ph": "Selecciona una",
+            "btn_search_package": "Buscar paquetes",
+            "available_packages": "Paquetes disponibles",
+            "package_code": "Código del paquete: ",
+            "recommended_package": "Paquete recomendado: ",
+            "cost": "Costo: ",
+            "select_this": "Seleccionar este!",
+            "package_selected": "¡Paquete selecionado!",
+            "btn_create": "Crear",
+            "created_ok": "Tu Itinerario ha sido actualizado exitosamente."
+        },
+        "edit": {
+            "title": "Itinerario ",
+            "destiny": "Destino",
+            "start_date": "Fecha de inicio",
+            "sim": "Sim Card",
+            "package": "Paquete",
+            "status": "Estado",
+            "programmed": "Programado",
+            "activated": "Activado",
+            "cost": "Costo",
+            "p1": "¿Necesita cambiar la fecha de inicio? Por favor ingrese la nueva fecha:",
+            "new_start_date": "Nueva fecha de inicio",
+            "new_start_date_ph": "Selecciona una fecha",
+            "save": "Guardar",
+            "cancel": "Cancelar",
+            "p2": "Solo puede cambiar la fecha o cancelar este plan con 48 horas de anticipación.",
+            "edit_ok": "Tu Itinerario ha sido actualizado exitosamente."
+        },
+        "error": {
+            "no_itineraries": "No pudimos cargar tus itinerarios.",
+            "country_mandatory": "El campo del país es obligatorio.",
+            "no_search_packages": "No pudimos encontrar paquetes para este país.",
+            "min_time_48": "El tiempo mínimo para programar un itinerario debe ser 2 días antes.",
+            "not_enough_money": "No tiene suficiente dinero. Por favor recargue su cuenta.",
+            "server_error": "Error en el servidor",
+            "created_error": "No pudimos crear este item.",
+            "maximum_date": "La fecha máxima de edición ha expirado.",
+            "edit_error": "No pudimos actualizar este item."
+        }
+    },
+    "payments": {
+        "principal": {
+            "title": "Pagos",
+            "my_account": "Mi cuenta",
+            "recharge": "¡Recargar!",
+            "btn_pay": "Pagar",
+            "my_payments": "Mis pagos",
+            "no_payments": "No hay nada aquí."
+        },
+        "paypal": {
+            "title": "Pagar con PayPal",
+            "tariff": "Tarifa",
+            "tariff_ph": "Selecciona una",
+            "btn_make_payment": "Realizar el pago",
+            "note": "Nota: ",
+            "p1": "El costo por transacción es del 6% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 6.00 + 0.30 USD.",
+            "payment_ok": "¡Pago exitoso!"
+        },
+        "stripe": {
+            "title": "Pagar con Stripe",
+            "tariff": "Tarifa",
+            "tariff_ph": "Selecciona una",
+            "btn_make_payment": "Realizar el pago",
+            "note": "Nota: ",
+            "p1": "El costo por transacción es del 3% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 3.00 + 0.30 USD.",
+            "payment_ok": "¡Pago exitoso!."
+        },
+        "see": {
+            "title": "Detalles de pago",
+            "pay_id": "ID del pago",
+            "date": "Fecha: ",
+            "cost": "Valor: ",
+            "currency": "Moneda: ",
+            "see_invoice": "Ver factura",
+            "go_paypal": "Ir a PayPal",
+            "note": "Nota: ",
+            "p1": "Para ver su factura de PayPal, inicie sesión y vaya a la 'sección de la factura'",
+            "sim_package": "Paquete Sims"
+        },
+        "error": {
+            "no_load_payments": "No pudimos cargar tus pagos.",
+            "no_load_tariffs": "No pudimos obtener las tarifas.",
+            "ep1": "Error o renderizar el diálogo cerrado sin tener éxito.",
+            "pay_not_saved": "El pago no se pudo guardar pero fue exitoso. Por favor contacte al administrador del sitio.",
+            "credit_card_test": "La tarjeta de crédito de prueba no es válida.",
+            "payment_bad": "El pago falló, intente nuevamente más tarde.",
+            "cannot_buy": "No pudimos procesar su solicitud."
+        }
+    },
+    "zones": {
+        "title": "Zonas de cobertura",
+        "zones": "Zonas disponibles",
+        "zones_ph": "Selecciona una",
+        "filter": "Buscar",
+        "countries": "Paises",
+        "no_load_countries": "No pudimos cargar las zonas de cobertura."
+    },
+    "ussd_codes": {
+        "principal": {
+            "title": "Códigos USSD"
+        },
+        "call": {
+            "title": "Código USSD: ",
+            "description": "Descripción",
+            "call": "Llamar a "
+        },
+        "error": {
+            "no_load_ussd_codes": "No pudimos cargar los códigos USSD."
+        }
+    },
+    "repurchase": {
+        "title": "Actualiza tu paquete",
+        "p1": "El paquete ",
+        "p2": " de la Sim card con ONUM ",
+        "p3": "expirará hoy.",
+        "p4": "¿Quieres comprar un paquete mejor?",
+        "btn_repurchase": "Comprar",
+        "btn_cancel": "Cancelar",
+        "sim_no_exist": "Sim card o paquete no encontrado.",
+        "terms_bad": "No se cumplieron los términos de cambio de paquete",
+        "no_repurchase": "No pudimos recomprar este paquete."
     }
 }
