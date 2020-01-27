@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f.apps.googleusercontent.com</string>
+	<string>156004272403-dmtpc06p7v400sio3praa34n8gd4ba0m.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.184822089138-d3rg6hs176mecvimo6vqpasoev5j2f5f</string>
+	<string>com.googleusercontent.apps.156004272403-dmtpc06p7v400sio3praa34n8gd4ba0m</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAA_LMVTiWoksXLk2xhKesoxouSrrSkZP0</string>
+	<string>AIzaSyAw76M4m-D0vyzxX1YnPvjGnd8SSBCl9_o</string>
 	<key>GCM_SENDER_ID</key>
-	<string>184822089138</string>
+	<string>156004272403</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ms.mobile</string>
+	<string>com.geepy.mobile</string>
 	<key>PROJECT_ID</key>
-	<string>iot-alacena-999b5</string>
+	<string>geepy-mobile</string>
 	<key>STORAGE_BUCKET</key>
-	<string>iot-alacena-999b5.appspot.com</string>
+	<string>geepy-mobile.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:184822089138:ios:ffd93fcdf9055b41f4d0ab</string>
+	<string>1:156004272403:ios:dc0bab8ac374cb8b4672e6</string>
 	<key>DATABASE_URL</key>
-	<string>https://iot-alacena-999b5.firebaseio.com</string>
+	<string>https://geepy-mobile.firebaseio.com</string>
 </dict>
 </plist>

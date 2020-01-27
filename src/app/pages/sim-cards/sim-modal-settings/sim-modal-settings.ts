@@ -106,9 +106,7 @@ export class SimModalSettings implements OnInit {
       simcard_tc: this.sim_current.id
     }
     this.simCardService.getPacakgeHistoryApp(simcard).subscribe(res => {
-      console.log(res);
       this.historyPackage = res.body;
-      console.log(this.historyPackage);
       this.getSimCardDetails();
     }, err => {
       this.presentToastError(this.translate.instant("simcard.error.history_package"));
@@ -609,10 +607,8 @@ export class SimModalSettings implements OnInit {
           if (element.available == true) {
             list.push(element);
           }
-        });
-       
+        });       
         this.extraNumbersList = list;
-        console.log(this.extraNumbersList);
         this.preload_get_extra_numbers_list = false;
         this.preload_endpoint = true;
         this.preload_conectivity = true;

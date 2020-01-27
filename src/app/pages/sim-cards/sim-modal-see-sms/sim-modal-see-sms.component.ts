@@ -17,7 +17,6 @@ export class SimModalSeeSmsComponent implements OnInit {
   constructor(private popoverController: PopoverController) { }
 
   ngOnInit() {
-    console.log(this.sms);
   }
 
   dismiss() {

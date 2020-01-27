@@ -36,9 +36,7 @@ export class RecommendAppPage implements OnInit {
       const data = {
         email: this.email.value.toLowerCase()
       }
-      console.log(data);
       this.recommendService.sendRecomendation(data).subscribe(res => {
-        console.log(res);
         if(res.status == 201){
           this.presentToastOk(this.translateService.instant('recommend.data.refered_ok'));
         }

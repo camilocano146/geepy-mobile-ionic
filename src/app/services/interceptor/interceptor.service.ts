@@ -76,53 +76,6 @@ export class InterceptorService implements HttpInterceptor  {
     ); 
   }
 
-
-
-
-
-
-
-
-
-    
-    /** ESTE ES EL INTERCEPTOR PAA MOVIL
-     *  return from(this.storage.get(TOKEN_KEY))
-      .pipe(
-        switchMap(token => {
-          if (token) {
-            request = request.clone(
-              { 
-              headers: request.headers.set('token', token) 
-            });
-          }
-
-          if (request.url != "/assets/i18n/en.json" && request.url != "/assets/i18n/es.json") {
-            request = request.clone({
-              url: Global.apiGeepyConnect + request.url
-            });
-          }
-          console.log(request);
-          // Presentamos el Loading al inicio de la llamada
-          this.presentLoading();
-          return next.handle(request).pipe(
-            map((event: HttpEvent<any>) => {
-              if (event instanceof HttpResponse) {
-                this.dismissLoading();
-              }
-              return event;
-            }),
-            catchError((error: HttpErrorResponse) => {
-              console.error(error);
-              this.dismissLoading();
-              return throwError(error);
-            })
-          );
-        })
-      );
-     */
-   
-  
-
   // Creación del loading
   async presentLoading() {
     if(this.isLoading == true){

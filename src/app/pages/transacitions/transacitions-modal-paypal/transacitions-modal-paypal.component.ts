@@ -34,7 +34,6 @@ export class TransacitionsModalPaypalComponent implements OnInit {
     this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
       if (res.status == 200) {
         this.tarifsList = res.body;
-       // console.log(this.tarifsList);
       }
     }, err => {
       this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));

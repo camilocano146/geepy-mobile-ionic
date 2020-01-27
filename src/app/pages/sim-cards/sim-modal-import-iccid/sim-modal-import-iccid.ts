@@ -31,7 +31,6 @@ export class SimModalImportICCID implements OnInit{
     this.serviceAccountService.getServicesAccounts().subscribe(res => {
       if (res.status == 200) {
         this.serviceAccountsList = res.body;
-        console.log(this.serviceAccountsList);
       }
     }, err => {
       this.presentToastError(this.translate.instant('simcard.error.services_account'));

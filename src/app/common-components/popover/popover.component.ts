@@ -59,7 +59,6 @@ export class PopoverComponent implements OnInit {
    * Ir a USSD
    */
   goToUSSD(){
-    console.log('asdasdasd');
     this.navController.navigateRoot("ussd-codes");
     this.eventFromPopover();
   }

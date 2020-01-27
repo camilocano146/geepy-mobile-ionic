@@ -30,7 +30,6 @@ export class UssdCodesPage implements OnInit {
     private translate: TranslateService) {
     this.ussdList = null;
     this.language = this.translate.currentLang;
-    console.log(this.language);
   }
 
   ngOnInit() {
@@ -40,7 +39,6 @@ export class UssdCodesPage implements OnInit {
     this.ussdCodesService.getUSSDCOdes().subscribe(res => {
       if (res.status == 200) {
         this.ussdList = res.body;
-        console.log(this.ussdList);
       }
     }, err => {
       this.presentToastError(this.translate.instant('ussd_codes.error.no_load_ussd_codes'));
@@ -48,7 +46,7 @@ export class UssdCodesPage implements OnInit {
   }
 
   goToDetails(item){
-    console.log(item);
+
   }
   async presentToastError(text: string) {
     const toast = await this.toastController.create({

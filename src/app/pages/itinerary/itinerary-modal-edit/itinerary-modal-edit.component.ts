@@ -91,9 +91,7 @@ export class ItineraryModalEditComponent implements OnInit {
       let itinerary: Itinerary = new Itinerary;
       const datePipe = new DatePipe('en-US');
       itinerary.activation_date = datePipe.transform(this.newDate.value, 'yyyy-MM-dd');
-      console.log(itinerary);
       this.itineraryService.updateItinerary(this.data.id, itinerary).subscribe(res => {
-        console.log(res);
         if(res.status == 202){
           this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
           this.modalController.dismiss('created');
@@ -153,7 +151,6 @@ export class ItineraryModalEditComponent implements OnInit {
           text: 'Ok',
           handler: () => {
             this.itineraryService.cancelItinerary(this.data.id).subscribe( res => {
-              console.log(res);
               if(res.status == 204){
                 this.presentToastOk("Itinerary has been updated.");
                 this.modalController.dismiss('created');

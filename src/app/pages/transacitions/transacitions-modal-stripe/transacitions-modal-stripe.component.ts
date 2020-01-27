@@ -39,7 +39,6 @@ export class TransacitionsModalStripeComponent implements OnInit {
     this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
       if (res.status == 200) {
         this.tarifsList = res.body;
-        console.log(this.tarifsList);
       }
     }, err => {
       this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
@@ -154,7 +153,7 @@ export class TransacitionsModalStripeComponent implements OnInit {
     }).then(a => {
       a.present().then(() => {
         if (!this.isLoading) {
-          a.dismiss().then(() => console.log('enter'));
+          a.dismiss().then(() => console.log(''));
         }
       });
     });
@@ -162,6 +161,6 @@ export class TransacitionsModalStripeComponent implements OnInit {
   // Cierre del loading
   async dismissLoading() {
     this.isLoading = false;
-    return await this.loadingCtrl.dismiss().then(() => console.log('dimiss'));
+    return await this.loadingCtrl.dismiss().then(() => console.log(''));
   }
 }

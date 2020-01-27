@@ -30,6 +30,13 @@
             {
               "client_id": "156004272403-5co44oj6m9j0epifubulhei8kuf998ct.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "156004272403-dmtpc06p7v400sio3praa34n8gd4ba0m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.geepy.mobile"
+              }
             }
           ]
         }

@@ -28,14 +28,12 @@ export class UssdCodeModalCallComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
   }
 
   callToCode(){
       this.callNumber.callNumber(this.data.code, true)
         .then(res => console.log('Launched dialer!', res))
         .catch(err => console.log('Error launching dialer', err));
-    
   }
 
   dismiss() {

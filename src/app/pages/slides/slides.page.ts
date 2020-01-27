@@ -104,7 +104,6 @@ export class SlidesPage implements OnInit {
 
   ngOnInit() {
     let l = localStorage.getItem('first-time-app');
-    console.log(l);
     if(l == null){
       this.show = true;
     } else {

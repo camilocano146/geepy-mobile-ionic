@@ -24,9 +24,7 @@ export class AppComponent {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.globalization.getPreferredLanguage().then(res => {
-      console.log(res.value);
       let language = res.value.split('-')[0];
-      console.log(language);
       if (language == 'es' || language == 'en') {
         this.translate.setDefaultLang(language)
         this.translate.use(language);
@@ -45,21 +43,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      
-      /**
-       * this.fcm.onNotification().subscribe(data => {
-        console.log(data, 'estoy en app');
-        console.log(data.wasTapped);
-        if(data.wasTapped){
-          console.log("Received in background");
-        } else {
-          console.log("Received in foreground");
-        };
-      });
-       */
-      
-      //let language = this.translate.getBrowserLang();
-     
     });
   }
 }

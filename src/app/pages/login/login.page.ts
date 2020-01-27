@@ -89,13 +89,9 @@ export class LoginPage implements OnInit {
             this.fcm.getToken().then(token => {
               this.fcm.onNotification().subscribe(data => {
                 if (data.wasTapped) {
-                  console.log(data);
                   let today = data.today;
-                  console.log(today);
                   if (today == "true") {
-
                     let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id,data.package, data.onum);
-                    console.log(notification);
                     localStorage.setItem('pc_to_expire', JSON.stringify(notification));
                     this.ngZone.run(() =>
                       this.navCotroller.navigateRoot('repurchase-package')
@@ -109,7 +105,6 @@ export class LoginPage implements OnInit {
               } else if (this.plt.is('android')) {
                 notificationToken.platform = "android";
               }
-              console.log(notificationToken);
               this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
               }, err => {
                 this.presentToastError(this.translate.instant('notification_token'));
