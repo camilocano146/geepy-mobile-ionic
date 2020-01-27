@@ -14,35 +14,26 @@ import { FCM } from '@ionic-native/fcm/ngx';
 export class AppComponent {
 
   constructor(
-    private globalization: Globalization,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private translate: TranslateService,
-    private fcm: FCM
+    private translate: TranslateService
   ) {
-    this.globalization.getPreferredLanguage().then(res => {
-      let language = res.value.split('-')[0];
-      console.log(language);
-      if (language == 'es' || language == 'en') {
-        this.translate.setDefaultLang(language)
-        this.translate.use(language);
-      } else {
-        this.translate.setDefaultLang('en');
-        this.translate.use('en');
-      }
-      console.log(res);
-      console.log(this.translate.currentLang);
-    }).catch(err => {
-      console.log(err);
-    });
+    let language = window.navigator.language.split('-')[0];
+    console.log(language);
+    if (language == 'es' || language == 'en') {
+      this.translate.setDefaultLang(language)
+      this.translate.use(language);
+    } else {
+      this.translate.setDefaultLang('en');
+      this.translate.use('en');
+    }
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      });
-    }
+    });
+  }
 }

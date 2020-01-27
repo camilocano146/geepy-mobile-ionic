@@ -39,7 +39,6 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
 /** Pagina */
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { Globalization } from '@ionic-native/globalization/ngx';
 import { ServiceAccountService } from './services/service-account/service-account.service';
 import { ExtraNumbersService } from './services/extra-numbers/extra-numbers.service';
 import { ItineraryService } from './services/itinerary/itinerary.service';
@@ -92,7 +91,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     RecommendService,
     ZonesService,
     UssdCodesService,
-    Globalization,
     Stripe,
     PayPal,
     CallNumber,

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Globalization } from '@ionic-native/globalization/ngx';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -101,9 +100,7 @@ export class SlidesPage implements OnInit {
   public show: boolean;
 
   constructor(
-    private navController: NavController,
-    private globalization: Globalization,
-    private translate: TranslateService) {
+    private navController: NavController) {
     this.show = false;
   }
 
