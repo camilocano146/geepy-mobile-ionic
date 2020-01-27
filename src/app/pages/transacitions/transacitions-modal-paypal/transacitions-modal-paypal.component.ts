@@ -43,11 +43,11 @@ export class TransacitionsModalPaypalComponent implements OnInit {
 
   payWithPaypal() {
     this.payPal.init({
-      PayPalEnvironmentProduction: 'YOUR_PRODUCTION_CLIENT_ID',
+      PayPalEnvironmentProduction: 'ASHXh5pGCIZMsH5FZcFhTl5FSoWbJ0WprkDCfj_nTO4rm7d-l1T0sJZWO3-1SfL_Xztd9QcIusGL7iwP',
       PayPalEnvironmentSandbox: 'AeKo_AMJsBwc-vHrp49WFP0m7WevJT_vBzJtWDiLpj4YAselYK8sFUHBqISAhRlIQiv98cneMu1Dktej'
     }).then(() => {
       // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-      this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+      this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
         // Only needed if you get an "Internal Service Error" after PayPal login!
         //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
       })).then(() => {

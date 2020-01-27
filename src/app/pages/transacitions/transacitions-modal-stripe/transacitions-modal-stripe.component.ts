@@ -20,7 +20,8 @@ export class TransacitionsModalStripeComponent implements OnInit {
   public tarifsList: any[];
   public tariffSelected: FormControl;
   //-----Stripe
-  stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
+  //stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
+  stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
   card: any;
 
   constructor(
