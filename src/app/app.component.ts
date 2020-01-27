@@ -21,28 +21,28 @@ export class AppComponent {
     private translate: TranslateService,
     private fcm: FCM
   ) {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
     this.globalization.getPreferredLanguage().then(res => {
       let language = res.value.split('-')[0];
+      console.log(language);
       if (language == 'es' || language == 'en') {
         this.translate.setDefaultLang(language)
         this.translate.use(language);
       } else {
         this.translate.setDefaultLang('en');
         this.translate.use('en');
-
       }
+      console.log(res);
+      console.log(this.translate.currentLang);
     }).catch(err => {
       console.log(err);
     });
- 
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
-  }
+      });
+    }
 }

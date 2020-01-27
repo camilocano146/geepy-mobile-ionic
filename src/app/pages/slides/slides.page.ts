@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Globalization } from '@ionic-native/globalization/ngx';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-slides',
@@ -48,10 +50,10 @@ export class SlidesPage implements OnInit {
           } else if (rtl) {
             rotateY = -rotateY;
           }
-  
-           $slideEl[0].style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
-  
-           if (swiper.params.flipEffect.slideShadows) {
+
+          $slideEl[0].style.zIndex = -Math.abs(Math.round(progress)) + slides.length;
+
+          if (swiper.params.flipEffect.slideShadows) {
             // Set shadows
             let shadowBefore = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
             let shadowAfter = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
@@ -83,7 +85,7 @@ export class SlidesPage implements OnInit {
           slides.eq(activeIndex).transitionEnd(function onTransitionEnd() {
             if (eventTriggered) return;
             if (!swiper || swiper.destroyed) return;
-  
+
             eventTriggered = true;
             swiper.animating = false;
             const triggerEvents = ['webkitTransitionEnd', 'transitionend'];
@@ -98,13 +100,16 @@ export class SlidesPage implements OnInit {
 
   public show: boolean;
 
-  constructor(private navController: NavController) {
+  constructor(
+    private navController: NavController,
+    private globalization: Globalization,
+    private translate: TranslateService) {
     this.show = false;
   }
 
   ngOnInit() {
     let l = localStorage.getItem('first-time-app');
-    if(l == null){
+    if (l == null) {
       this.show = true;
     } else {
       this.show = false;
@@ -112,7 +117,7 @@ export class SlidesPage implements OnInit {
     }
   }
 
-  goToHome(){
+  goToHome() {
     localStorage.setItem('first-time-app', 'false');
     this.navController.navigateRoot('login');
   }

@@ -1,7 +1,7 @@
 {
-  "name": "myApp",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
+    "name": "Geepy Mobile",
+    "integrations": {
+        "cordova": {}
+    },
+    "type": "angular"
 }
