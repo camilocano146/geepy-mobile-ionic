@@ -4,8 +4,6 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import { Globalization } from '@ionic-native/globalization/ngx';
-import { FCM } from '@ionic-native/fcm/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',

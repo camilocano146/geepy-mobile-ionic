@@ -1,0 +1,6 @@
+ionic cordova build --release android
+nombre: geepy
+alias: mobile
+pass: GeepyMobilev1
+
+keytool -genkey -v -keystore geepy.keystore -alias mobile -keyalg RSA -keysize 2048 -validity 10000

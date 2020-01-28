@@ -5,7 +5,6 @@ import { IonicStorageModule } from '@ionic/storage';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Camera } from '@ionic-native/camera/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -94,7 +93,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     Stripe,
     PayPal,
     CallNumber,
-    Camera,
     InAppBrowser,
     FCM,
     AndroidPermissions,
