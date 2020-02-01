@@ -40,6 +40,7 @@ export class TransacitionsPage implements OnInit {
       if (res.status == 200) {
         this.user = res.body;
         this.billingService.getTransactions().subscribe(res => {
+          console.log(res.body);
           if(res.status == 200){
             this.paymentsList = res.body;
             if(this.paymentsList.length == 0){
@@ -47,6 +48,13 @@ export class TransacitionsPage implements OnInit {
             } else if(this.paymentsList.length > 0){
               this.existPayments = 2;
               this.paymentsList.sort((a,b) => b.id - a.id);
+              let aux: any[] = [];
+              this.paymentsList.forEach(element => {
+                if(element.id_stripe_transaction != null || element.id_pay_pal_transaction != null || element.transaction.name == 'Order Sim Sets'){
+                  aux.push(element);
+                }
+              });
+              this.paymentsList = aux;
             }
           }
         }, err => {
