@@ -40,7 +40,6 @@ export class TransacitionsPage implements OnInit {
       if (res.status == 200) {
         this.user = res.body;
         this.billingService.getTransactions().subscribe(res => {
-          console.log(res.body);
           if(res.status == 200){
             this.paymentsList = res.body;
             if(this.paymentsList.length == 0){

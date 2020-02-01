@@ -41,13 +41,13 @@ export class PopoverComponent implements OnInit {
       },
       callbacks: {
         handleNegativeFeedback: function () {
-          window.open('mailto:feedback@example.com', '_system');
+
         },
         onRateDialogShow: function (callback) {
           callback(1) // cause immediate click on 'Rate Now' button
         },
         onButtonClicked: function (buttonIndex) {
-          console.log("onButtonClicked -> " + buttonIndex);
+
         }
       },
       openUrl: (this.appRate.preferences as AppRatePreferencesEnhanced).openUrl
@@ -109,7 +109,6 @@ export class PopoverComponent implements OnInit {
   }
 
   rateThisApp() {
-console.log("entre");
     this.appRate.promptForRating(true);
   }
 }

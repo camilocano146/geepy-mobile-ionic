@@ -17,7 +17,6 @@ export class TransacitionsModalSeeComponent implements OnInit {
     private iab: InAppBrowser) { }
 
   ngOnInit() {
-    console.log(this.data);
   }
 
   downloadStripe(){
