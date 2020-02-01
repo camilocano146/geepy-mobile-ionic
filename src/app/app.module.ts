@@ -9,7 +9,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
-import { AppRate } from '@ionic-native/app-rate';
+import { AppRate } from '@ionic-native/app-rate/ngx';
 /**Tradcutor */
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
@@ -92,6 +92,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UssdCodesService,
     Stripe,
     PayPal,
+    AppRate,
     CallNumber,
     InAppBrowser,
     FCM,
@@ -103,7 +104,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })

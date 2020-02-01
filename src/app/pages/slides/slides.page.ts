@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-slides',
   templateUrl: './slides.page.html',
   styleUrls: ['./slides.page.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SlidesPage implements OnInit {
 
