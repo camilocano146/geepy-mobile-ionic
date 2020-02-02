@@ -505,7 +505,7 @@
         "no_repurchase": "No pudimos recomprar este paquete."
     },
     "rate": {
-        "title": "¿Te importaría calificanos?",
+        "title": "¿Te importaría calificarnos?",
         "message": "Valoramos tus comentarios! Tómate un momento para contarnos que piensas.",
         "cancelButtonLabel": "No, gracias",
         "rateButtonLabel": "Calificar",
