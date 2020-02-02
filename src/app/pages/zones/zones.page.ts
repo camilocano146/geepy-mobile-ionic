@@ -93,6 +93,8 @@ export class ZonesPage implements OnInit {
 
 
   changeZone() {
+    this.paises = [];
+    this.countries = [];
     this.zoneSelected.value.paises.forEach(element => {
       this.paises.push(element);
     });
