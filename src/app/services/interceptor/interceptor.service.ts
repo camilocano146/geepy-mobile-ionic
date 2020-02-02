@@ -87,7 +87,7 @@ export class InterceptorService implements HttpInterceptor  {
     }).then(a => {
       a.present().then(() => {
         if (!this.isLoading) {
-          a.dismiss().then(() => console.log());
+          a.dismiss().then(() => console.log(""));
         }
       });
     });
@@ -95,6 +95,6 @@ export class InterceptorService implements HttpInterceptor  {
   // Cierre del loading
   async dismissLoading() {
     this.isLoading = false;
-    return await this.loadingCtrl.dismiss().then(() => console.log());
+    return await this.loadingCtrl.dismiss().then(() => console.log(""));
   }
 }
