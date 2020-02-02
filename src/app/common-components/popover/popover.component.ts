@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavParams, PopoverController, Events, AlertController, NavController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { AppRate } from '@ionic-native/app-rate/ngx';
+import { TranslateService } from '@ngx-translate/core';
 
 interface AppRatePreferencesEnhanced {
   openUrl: (url: string) => void;
@@ -21,7 +22,8 @@ export class PopoverComponent implements OnInit {
     private popoverController: PopoverController,
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
-    private navController: NavController) {
+    private navController: NavController,
+    private translate: TranslateService) {
     const preferences = {
       displayAppName: 'Geepy Mobile',
       usesUntilPrompt: 5,
@@ -30,24 +32,25 @@ export class PopoverComponent implements OnInit {
         android: 'market://details?id=com.geepy.mobile'
       },
       customLocale: {
-        title: "¿Te importaría calificanos?",
-        message: "Valoramos tus comentarios! Tómate un momento para contarnos que piensas.",
-        cancelButtonLabel: 'No gracias',
-        rateButtonLabel: 'Calificar',
-        laterButtonLabel: 'Preguntar luego',
-        appRatePromptTitle: '¿Te gusta %@?',
-        yesButtonLabel: "Si",
-        noButtonLabel: "No realmente",
+        title: this.translate.instant('rate.title'),
+        message: this.translate.instant('rate.message'),
+        cancelButtonLabel: this.translate.instant('rate.cancelButtonLabel'),
+        rateButtonLabel: this.translate.instant('rate.rateButtonLabel'),
+        laterButtonLabel: this.translate.instant('rate.laterButtonLabel'),
+        appRatePromptTitle: this.translate.instant('rate.appRatePromptTitle') + '%@' + "?",
+        yesButtonLabel: this.translate.instant('rate.yesButtonLabel'),
+        noButtonLabel: this.translate.instant('rate.noButtonLabel'),
+        feedbackPromptTitle: this.translate.instant('rate.feedbackPromptTitle')
       },
       callbacks: {
         handleNegativeFeedback: function () {
-
+          window.open('mailto:geepybike1@gmail.com','_system');
         },
         onRateDialogShow: function (callback) {
           callback(1) // cause immediate click on 'Rate Now' button
         },
         onButtonClicked: function (buttonIndex) {
-
+          console.log(buttonIndex);
         }
       },
       openUrl: (this.appRate.preferences as AppRatePreferencesEnhanced).openUrl

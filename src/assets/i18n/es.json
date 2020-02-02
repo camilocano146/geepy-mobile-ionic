@@ -503,5 +503,16 @@
         "sim_no_exist": "Sim card o paquete no encontrado.",
         "terms_bad": "No se cumplieron los términos de cambio de paquete",
         "no_repurchase": "No pudimos recomprar este paquete."
+    },
+    "rate": {
+        "title": "¿Te importaría calificanos?",
+        "message": "Valoramos tus comentarios! Tómate un momento para contarnos que piensas.",
+        "cancelButtonLabel": "No, gracias",
+        "rateButtonLabel": "Calificar",
+        "laterButtonLabel": "Preguntarme luego",
+        "appRatePromptTitle": "¿Te gusta ",
+        "yesButtonLabel": "Si",
+        "noButtonLabel": "No",
+        "feedbackPromptTitle": "¿Te importaría darnos algún comentario?"
     }
 }
