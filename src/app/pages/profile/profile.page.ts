@@ -63,7 +63,7 @@ export class ProfilePage implements OnInit {
 
   changeInfo() {
     if (this.name.valid && this.lastname.valid && this.email.valid && (this.name.value != this.user.first_name || this.lastname.value != this.user.last_name || this.email.value != this.user.email)) {
-      this.user.email = this.email.value;
+      this.user.email = this.email.value.toLowerCase();
       this.user.first_name = this.name.value;
       this.user.last_name = this.lastname.value;
       this.userService.updateUser(this.user.id, this.user).subscribe(res => {

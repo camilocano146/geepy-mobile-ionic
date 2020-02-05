@@ -65,7 +65,7 @@ export class RegisterPage implements OnInit {
       this.confirmPassword.valid &&
       this.password.value == this.confirmPassword.value
     ) {
-      let user: User = new User(this.email.value,this.name.value,this.lastname.value);
+      let user: User = new User(this.email.value.toLowerCase(),this.name.value,this.lastname.value);
       user.password = sha1(this.password.value);
       user.role = 5;
       this.authenticationService.createUserWithOutToken(user).subscribe(res => {
