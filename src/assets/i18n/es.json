@@ -21,7 +21,8 @@
             "password": "Contraseña",
             "sign-in": "Iniciar sesión",
             "new-account": "Eres nuevo? Crea una cuenta!",
-            "forgot-password": "Olvidaste tu contraseña?"
+            "forgot-password": "Olvidaste tu contraseña?",
+            "activate": "Activa tu cuenta"
         },
         "error": {
             "is-blocked": "Cuenta bloqueada. Por favor contacta al administrador del sitio.",

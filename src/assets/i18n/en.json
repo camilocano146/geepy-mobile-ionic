@@ -20,7 +20,8 @@
             "password": "Password",
             "sign-in": "Sign In",
             "new-account": "Are u new? Create an account!",
-            "forgot-password": "Forgot your password?"
+            "forgot-password": "Forgot your password?",
+            "activate": "Activate your account"
         },
         "error": {
             "is-blocked": "Account blocked. Please contact with administrator site.",
