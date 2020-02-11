@@ -4,14 +4,23 @@
     },
     "slides": {
         "p1": "Welcome to",
+        "p1-1": "Geepy Mobile is smart, low cost and useful!",
         "p3": "What is Geepy Mobile?",
         "p4": "We are a virtual operator that connects you to the world.",
         "p5": "You can manage your physical and virtual sim cards, easily and safely!",
         "p6": "Anticipate your trips and select the right and cheapest data packages, with our",
-        "p7": "Itineraries Features!",
+        "p7": "Trip Features!",
         "p8": "Smart assistant that helps you select the best plan with",
         "p9": "Worldwide Coverage!",
         "p10": "Are you ready to start?",
+        "p11": "Five steps to make your trips pleasant and always connected with your loved ones!",
+        "p11-1": "Recharge your account",
+        "p11-2": "Register your SIM CARD",
+        "p11-3": "Define your travel destiny",
+        "p11-4": "Verify Coverage Areas",
+        "p11-5": "Buy the most convenient plan",
+        "p11-6": "Geepy Mobile always helps you choose the cheapest and most appropriate plan for each destination!",
+        "p11-7": "IT'S OUR VALUE PROPOSAL!",
         "btn_go": "Go!"
     },
     "login": {
@@ -20,7 +29,8 @@
             "password": "Password",
             "sign-in": "Sign In",
             "new-account": "Are u new? Create an account!",
-            "forgot-password": "Forgot your password?"
+            "forgot-password": "Forgot your password?",
+            "activate": "Activate your account"
         },
         "error": {
             "is-blocked": "Account blocked. Please contact with administrator site.",
@@ -130,7 +140,7 @@
     },
     "home": {
         "sims": "Sims",
-        "itinerary": "Itinerary",
+        "itinerary": "Trips",
         "profile": "Profile",
         "payment": "Payment",
         "zones": "Zones"
@@ -143,6 +153,8 @@
             "btn_order": "Order NOW",
             "example_iccid": "Ex: 89372040160XXXXXX",
             "example_onum": "Ex: 372810XXXXX",
+            "btn_onum": "PHONE",
+            "onum_card": "PHONE",
             "my_sims": "MY SIM CARDS",
             "ph_search": "Search by ICCID",
             "activated": "ACTIVATED",
@@ -193,11 +205,11 @@
             },
             "import_onum": {
                 "data": {
-                    "title": "Register by ONUM",
+                    "title": "Register by Phone number",
                     "p1": "Please enter the",
-                    "onum": "ONUM ",
-                    "p2": "code of the Sim card.",
-                    "onum_code": "ONUM Code",
+                    "onum": "Phone number ",
+                    "p2": " of the Sim card.",
+                    "onum_code": "Phone number",
                     "p3": "Choose a ",
                     "service_account": "Service account",
                     "p4": " to register the Simcard.",
@@ -307,7 +319,7 @@
             "required_value": "You must write a value.",
             "required_account": "You must select one service account.",
             "iccid_min_max": "ICCID must have between 5 and 21 characters.",
-            "onum_min_max": "ONUM must have between 5 and 21 characters.",
+            "onum_min_max": "Phone number must have between 5 and 21 characters.",
             "no_details_sim": "We couldn't obtain details of Sim card.",
             "no_packages_sim": "We couldn't obtain packages of Sim card.",
             "no_events_sim": "We couldn't get events Sim card.",
@@ -358,7 +370,7 @@
         }
     },
     "popover": {
-        "ussd": "USSD Codes",
+        "ussd": "Assistance Codes",
         "recommend": "Recommend this App",
         "rate": "Rate this app",
         "help": "Help",
@@ -366,15 +378,15 @@
     },
     "itinerary": {
         "principal": {
-            "title": "Itinerary",
+            "title": "Trip",
             "btn_create": "Create",
             "no_itineraries": "There is nothing here.",
-            "my_itineraries": "My Itineraries",
+            "my_itineraries": "My Trips",
             "programmed": "Programmed",
             "activated": "Activated"
         },
         "create": {
-            "title": "New itinerary",
+            "title": "New trip",
             "destiny": "Destiny",
             "destiny_ph": "Select one",
             "start_date": "Start date",
@@ -389,10 +401,10 @@
             "select_this": "Select this!",
             "package_selected": "Package selected!",
             "btn_create": "Create",
-            "created_ok": "Itinerary has been updated successfully."
+            "created_ok": "Trips has been updated successfully."
         },
         "edit": {
-            "title": "Itinerary ",
+            "title": "Trip ",
             "destiny": "Destiny",
             "start_date": "Start date",
             "sim": "Sim Card",
@@ -407,13 +419,13 @@
             "save": "Save",
             "cancel": "Cancel",
             "p2": "You can only change the date or cancel this plan with 48 hours in advance.",
-            "edit_ok": "Itinerary has been updated successfully."
+            "edit_ok": "Trip has been updated successfully."
         },
         "error": {
-            "no_itineraries": "We couldn't load your itineraries.",
+            "no_itineraries": "We couldn't load your trips.",
             "country_mandatory": "Field country is mandatory.",
             "no_search_packages": "We couldn't found packages for this country.",
-            "min_time_48": "Minimum time to program a itinerary need be 2 days before.",
+            "min_time_48": "Minimum time to program a trip need be 2 days before.",
             "not_enough_money": "Hasn't enough money. Please recharge your account.",
             "server_error": "Server error",
             "created_error": "We couldn't create this item.",
@@ -428,7 +440,8 @@
             "recharge": "Recharge!",
             "btn_pay": "Pay",
             "my_payments": "My Payments",
-            "no_payments": "There is nothing here."
+            "no_payments": "There is nothing here.",
+            "currency": "Currency"
         },
         "paypal": {
             "title": "Pay with PayPal",
@@ -480,21 +493,21 @@
     },
     "ussd_codes": {
         "principal": {
-            "title": "USSD Codes"
+            "title": "assistance Codes"
         },
         "call": {
-            "title": "USSD Code: ",
+            "title": "Assistance Code: ",
             "description": "Description",
             "call": "Call to "
         },
         "error": {
-            "no_load_ussd_codes": "We couldn't load ussd codes."
+            "no_load_ussd_codes": "We couldn't load assistance codes."
         }
     },
     "repurchase": {
         "title": "Buy other package!",
         "p1": "The  ",
-        "p2": " Package of Sim Card with ONUM ",
+        "p2": " Package of Sim Card with Phone number ",
         "p3": "will expire today.",
         "p4": "Do you want buy a better package?",
         "btn_repurchase": "Buy",
@@ -502,5 +515,17 @@
         "sim_no_exist": "Sim card or package not found.",
         "terms_bad": "Packet change terms were not met",
         "no_repurchase": "We couldn't repurchase this package."
+    },
+    "rate": {
+        "title": "Would you mind rating %@?",
+        "message": "It won’t take more than a minute and helps to promote our app. Thanks for your support!",
+        "cancelButtonLabel": "No, thanks",
+        "rateButtonLabel": "Rate it now",
+        "laterButtonLabel": "Ask me later",
+        "appRatePromptTitle": "Do you like using ",
+        "yesButtonLabel": "Yes",
+        "noButtonLabel": "Not really",
+        "feedbackPromptTitle": "Mind giving us some feedback?"
+
     }
 }

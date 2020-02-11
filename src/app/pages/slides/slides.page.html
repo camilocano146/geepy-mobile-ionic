@@ -13,10 +13,26 @@
                             <ion-col size="12" style="text-align: center;">
                                 <img src="../../../assets/Logo/BANNER.png" class="image-logo" alt="">
                             </ion-col>
+                            <ion-col size="12" style="text-align: center !important;">
+                                <ion-label style="text-align: center !important; color: white">{{'slides.p1-1' | translate}}</ion-label>
+                            </ion-col>
+                            <ion-col size="12" style="text-align: center !important;" class="">
+                                <img src="../../../assets/img/swipe.png" style="height: 80px !important;" alt="">
+                            </ion-col>
+
                         </ion-row>
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div class="container-points">
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
         </ion-slide>
         <ion-slide>
             <ion-grid class="container-slide">
@@ -43,6 +59,15 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
         </ion-slide>
         <ion-slide>
             <ion-grid class="container-slide">
@@ -58,6 +83,15 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
         </ion-slide>
         <ion-slide>
             <ion-grid class="container-slide">
@@ -73,16 +107,82 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
         </ion-slide>
         <ion-slide>
             <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/start.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="text-align: justify !important;">
+                            <h4>
+                                <ion-label color="warning">{{'slides.p11' | translate}}
+                                </ion-label>
+                            </h4>
+                        </div>
+                        <ol style="text-align: left !important; color: white !important; margin-bottom: 10px !important;">
+                            <li>{{'slides.p11-1' | translate}}</li>
+                            <li>{{'slides.p11-2' | translate}}</li>
+                            <li>{{'slides.p11-3' | translate}}</li>
+                            <li>{{'slides.p11-4' | translate}}</li>
+                            <li>{{'slides.p11-5' | translate}}</li>
+                        </ol>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <h5 style="margin-bottom: 20px !important;">
+                            <ion-label style="color: white !important;">{{'slides.p11-6' | translate}}</ion-label>
+                        </h5>
+                        <img src="../../../assets/img/gold-medal.svg" class="image-1" style="margin-bottom: 10px;" alt="">
+                        <h4>
+                            <ion-label color="danger">
+                                {{'slides.p11-7' | translate}}
+                            </ion-label>
+                        </h4>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide" style="z-index: 19999999999 !important;">
                 <ion-row class="horizontal-vertical-align">
                     <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
                         <img src="../../../assets/img/rocket.svg" style="margin-bottom: 20px;" class="image-1" alt="">
                         <div class="full-width" style="margin-bottom: 20px; color: white !important">
                             {{'slides.p10' | translate}}
                         </div>
-                        <ion-button color="danger" expand="block" (click)="goToHome()" style="margin-top: 10px;">
+                        <ion-button color="danger" expand="block" (click)="goToHome()" style="margin-top: 10px; z-index: 1999999999999999999 !important;">
                             {{'slides.btn_go' | translate}}
                             <ion-icon slot="end" name="arrow-forward"></ion-icon>
                         </ion-button>

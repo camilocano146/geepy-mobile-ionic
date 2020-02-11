@@ -21,8 +21,8 @@
                                 <strong>{{'payments.see.pay_id' | translate}}</strong>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;" class="contenido">
-                                <ion-label *ngIf="data.id_stripe_transaction != null" color="dark" class="contenido">{{data.id_stripe_transaction}}</ion-label>
-                                <ion-label *ngIf="data.id_pay_pal_transaction != null" color="dark" class="contenido">{{data.id_pay_pal_transaction}}</ion-label>
+                                <ion-label *ngIf="data.id_stripe_transaction != null" class="contenido">{{this.data.id_stripe_transaction}}</ion-label>
+                                <ion-label *ngIf="data.id_pay_pal_transaction != null" class="contenido">{{data.id_pay_pal_transaction}}</ion-label>
                             </ion-col>
                             <ion-col size="12" style="text-align: left !important;">
                                 <ion-label color="primary"><strong>{{'payments.see.date' | translate}}</strong></ion-label>
@@ -59,11 +59,11 @@
                                 <ion-label color="warning"><strong>{{'payments.see.note' | translate}}</strong></ion-label>
                                 <ion-label>{{'payments.see.p1' | translate}}</ion-label>
                             </ion-col>
-                            <ion-col *ngIf="data.simcardset.name" size="12" style="text-align: left !important;">
-                                <ion-label color="primary"><strong>{{'payments.see.sim_package' | translate}}</strong></ion-label>
+                            <ion-col *ngIf="data.simcardset ! null" size="12" style="text-align: left !important;">
+                                <ion-label *ngIf="data.simcardset.name" color="primary"><strong>{{'payments.see.sim_package' | translate}}</strong></ion-label>
                             </ion-col>
-                            <ion-col *ngIf="data.simcardset.name" size="12" style="text-align: left !important;">
-                                <ion-label>{{data.simcardset.name}}</ion-label>
+                            <ion-col *ngIf="data.simcardset ! null" size="12" style="text-align: left !important;">
+                                <ion-label *ngIf="data.simcardset.name">{{data.simcardset.name}}</ion-label>
                             </ion-col>
                         </ion-row>
                     </ion-grid>

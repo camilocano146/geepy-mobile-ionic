@@ -3,6 +3,7 @@ export class TariffRecharge{
         public discount: string;
         public status: string;
         public currency_id: string;
+        public id: number;
     constructor(
         
     ){}

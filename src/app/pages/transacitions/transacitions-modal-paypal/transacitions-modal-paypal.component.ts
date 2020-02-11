@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BillingService } from 'src/app/services/billing/billing.service';
 import { FormControl, Validators } from '@angular/forms';
 import { PaymentPaypal } from 'src/app/models/payment/payment-paypal';
+import { TariffRecharge } from 'src/app/models/tarif-recharge/tariff-recharge';
 
 @Component({
   selector: 'app-transacitions-modal-paypal',
@@ -17,6 +18,9 @@ export class TransacitionsModalPaypalComponent implements OnInit {
   //-----Lista de tarifas
   public tarifsList: any[];
   public tariffSelected: FormControl;
+  public currency: FormControl;
+  public usd_tariffs: TariffRecharge[];
+  public eur_tariffs: TariffRecharge[];
 
   constructor(
     private tariffRechargeService: TariffRechargeService,
@@ -26,14 +30,26 @@ export class TransacitionsModalPaypalComponent implements OnInit {
     private transalte: TranslateService,
     private billingService: BillingService,
     private payPal: PayPal) {
-      this.tarifsList = [];
+    this.tarifsList = [];
     this.tariffSelected = new FormControl('', Validators.required);
-    }
+    this.currency = new FormControl('USD', Validators.required);
+    this.usd_tariffs = [];
+    this.eur_tariffs = [];
+  }
 
   ngOnInit() {
     this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
       if (res.status == 200) {
         this.tarifsList = res.body;
+        this.tarifsList.forEach(element => {
+          if(element.currency.acronym == 'USD'){
+            this.usd_tariffs.push(element);
+          } else if(element.currency.acronym == 'EUR'){
+            this.eur_tariffs.push(element);
+          }
+        });
+        this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
+        this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
       }
     }, err => {
       this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
@@ -43,7 +59,7 @@ export class TransacitionsModalPaypalComponent implements OnInit {
 
   payWithPaypal() {
     this.payPal.init({
-      PayPalEnvironmentProduction: 'ASHXh5pGCIZMsH5FZcFhTl5FSoWbJ0WprkDCfj_nTO4rm7d-l1T0sJZWO3-1SfL_Xztd9QcIusGL7iwP',
+      PayPalEnvironmentProduction: 'AbLBe4TU77EfIp7LFNZTdbFnjKw_h_IfB-MAT9nNpyDxLfal1GLBwJ87dZpGIg-krvLJgMYQlZSlB0My',
       PayPalEnvironmentSandbox: 'AeKo_AMJsBwc-vHrp49WFP0m7WevJT_vBzJtWDiLpj4YAselYK8sFUHBqISAhRlIQiv98cneMu1Dktej'
     }).then(() => {
       // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
@@ -52,12 +68,12 @@ export class TransacitionsModalPaypalComponent implements OnInit {
         //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
       })).then(() => {
         let tarifWithTax = +this.tariffSelected.value.value + (+this.tariffSelected.value.value * 0.06) + 0.30;
-        let payment = new PayPalPayment(""+tarifWithTax, this.tariffSelected.value.currency.acronym, 'Recharge in MS One Mobile', 'sale');
+        let payment = new PayPalPayment("" + tarifWithTax, this.tariffSelected.value.currency.acronym, 'Recharge in MS One Mobile', 'sale');
         this.payPal.renderSinglePaymentUI(payment).then((res) => {
           // Successfully paid
-          let payment: PaymentPaypal = new PaymentPaypal(this.tariffSelected.value.id,res.response.id, this.tariffSelected.value.currency.id);
+          let payment: PaymentPaypal = new PaymentPaypal(this.tariffSelected.value.id, res.response.id, this.tariffSelected.value.currency.id);
           this.billingService.loadBalancePaypal(payment).subscribe(res => {
-            if(res.status == 200){
+            if (res.status == 200) {
               this.presentToastOk(this.transalte.instant('payments.paypal.payment_ok'));
               this.modalController.dismiss("created");
             }

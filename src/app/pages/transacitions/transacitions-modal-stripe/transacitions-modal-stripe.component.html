@@ -14,9 +14,19 @@
                 <ion-card class="card-payment" style="text-align: center;">
                     <img src="../../../../assets/img/stripe.png" style="margin-bottom: 10px;" alt="">
                     <ion-item style="border-radius: 5px;">
-                        <ion-label position="floating">{{'payments.stripe.tariff' | translate}}</ion-label>
-                        <ion-select placeholder="{{'payments.stripe.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
-                            <ion-select-option *ngFor="let item of tarifsList" [value]="item">{{item.value}} {{item.currency.acronym}}</ion-select-option>
+                        <ion-label position="floating">{{'payments.principal.currency' | translate}}</ion-label>
+                        <ion-select placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="currency" interface="action-sheet">
+                            <ion-select-option value="USD">USD</ion-select-option>
+                            <ion-select-option value="EUR">EUR</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item style="border-radius: 5px;">
+                        <ion-label position="floating">{{'payments.paypal.tariff' | translate}}</ion-label>
+                        <ion-select *ngIf="currency.value == 'USD'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
+                            <ion-select-option *ngFor="let item of usd_tariffs" [value]="item">{{item.value}}</ion-select-option>
+                        </ion-select>
+                        <ion-select *ngIf="currency.value == 'EUR'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
+                            <ion-select-option *ngFor="let item of eur_tariffs" [value]="item">{{item.value}}</ion-select-option>
                         </ion-select>
                     </ion-item>
                     <div class="full-width" style="padding: 10px;">

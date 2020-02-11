@@ -4,6 +4,7 @@
     },
     "slides": {
         "p1": "Bienvenido a",
+        "p1-1": "¡Geepy Mobile es inteligente, económico y útil!",
         "p2": "MS One Mobile",
         "p3": "¿Qué es MS One Mobile?",
         "p4": "Somos un operador virtual que te conecta con el mundo.",
@@ -13,6 +14,14 @@
         "p8": "Asistente inteligente que te ayuda a seleccionar el mejor plan con",
         "p9": "Cobertura mundial!",
         "p10": "¿Estás listo para empezar?",
+        "p11": "!Cinco pasos para que tus viajes sean placenteros y siempre estés conectado con tus seres queridos!",
+        "p11-1": "Recarga tu cuenta",
+        "p11-2": "Activa tu SIM CARD",
+        "p11-3": "Define el destino de viaje",
+        "p11-4": "Verifica las Zonas de cobertura ",
+        "p11-5": "Compra el plan más conveniente",
+        "p11-6": "¡Geepy Mobile siempre te ayuda a escoger el plan más barato y apropiado para cada destino!",
+        "p11-7": "¡ESTÁ ES NUESTRA PROPUESTA DE VALOR!",
         "btn_go": "Empecemos!"
     },
     "login": {
@@ -21,7 +30,8 @@
             "password": "Contraseña",
             "sign-in": "Iniciar sesión",
             "new-account": "Eres nuevo? Crea una cuenta!",
-            "forgot-password": "Olvidaste tu contraseña?"
+            "forgot-password": "Olvidaste tu contraseña?",
+            "activate": "Activa tu cuenta"
         },
         "error": {
             "is-blocked": "Cuenta bloqueada. Por favor contacta al administrador del sitio.",
@@ -144,6 +154,8 @@
             "btn_order": "COMPRAR",
             "example_iccid": "Ej: 89372040160XXXXXX",
             "example_onum": "Ej: 372810XXXXX",
+            "btn_onum": "TEL",
+            "onum_card": "TEL",
             "my_sims": "Mis Sim Cards",
             "ph_search": "Buscar por ICCID",
             "activated": "ACTIVADA",
@@ -194,11 +206,11 @@
             },
             "import_onum": {
                 "data": {
-                    "title": "Registrar por ONUM",
-                    "p1": "Por favor ingrese el código ",
-                    "onum": "ONUM ",
+                    "title": "Registrar por Teléfono",
+                    "p1": "Por favor ingrese el ",
+                    "onum": "Teléfono ",
                     "p2": "de la Sim card.",
-                    "onum_code": "Código ONUM",
+                    "onum_code": "Teléfono",
                     "p3": "Selecione una ",
                     "service_account": "Cuenta de servicio",
                     "p4": " para registrar su Sim card.",
@@ -308,7 +320,7 @@
             "required_value": "Debes escribir un valor.",
             "required_account": "Debes seleccionar una cuenta.",
             "iccid_min_max": "ICCID debe tener entre 5 y 21 caracteres.",
-            "onum_min_max": "ONUM ebe tener entre 5 y 21 caracteres.",
+            "onum_min_max": "Tel debe tener entre 5 y 21 caracteres.",
             "no_details_sim": "No pudimos obtener los detalles de la Sim card",
             "no_packages_sim": "No pudimos obtener los paquetes de la Sim card.",
             "no_events_sim": "No pudimos obtener los eventos de la Sim card.",
@@ -359,7 +371,7 @@
         }
     },
     "popover": {
-        "ussd": "Códigos USSD",
+        "ussd": "Códigos de asistencia",
         "recommend": "Recomendar esta App",
         "rate": "Calificanos",
         "help": "Ayuda",
@@ -429,7 +441,8 @@
             "recharge": "¡Recargar!",
             "btn_pay": "Pagar",
             "my_payments": "Mis pagos",
-            "no_payments": "No hay nada aquí."
+            "no_payments": "No hay nada aquí.",
+            "currency": "Moneda"
         },
         "paypal": {
             "title": "Pagar con PayPal",
@@ -481,21 +494,21 @@
     },
     "ussd_codes": {
         "principal": {
-            "title": "Códigos USSD"
+            "title": "Códigos de asistencia"
         },
         "call": {
-            "title": "Código USSD: ",
+            "title": "Código: ",
             "description": "Descripción",
             "call": "Llamar a "
         },
         "error": {
-            "no_load_ussd_codes": "No pudimos cargar los códigos USSD."
+            "no_load_ussd_codes": "No pudimos cargar los códigos de asistencia."
         }
     },
     "repurchase": {
         "title": "Actualiza tu paquete",
         "p1": "El paquete ",
-        "p2": " de la Sim card con ONUM ",
+        "p2": " de la Sim card con Tel ",
         "p3": "expirará hoy.",
         "p4": "¿Quieres comprar un paquete mejor?",
         "btn_repurchase": "Comprar",
@@ -503,5 +516,16 @@
         "sim_no_exist": "Sim card o paquete no encontrado.",
         "terms_bad": "No se cumplieron los términos de cambio de paquete",
         "no_repurchase": "No pudimos recomprar este paquete."
+    },
+    "rate": {
+        "title": "¿Te importaría calificarnos?",
+        "message": "Valoramos tus comentarios! Tómate un momento para contarnos que piensas.",
+        "cancelButtonLabel": "No, gracias",
+        "rateButtonLabel": "Calificar",
+        "laterButtonLabel": "Preguntarme luego",
+        "appRatePromptTitle": "¿Te gusta ",
+        "yesButtonLabel": "Si",
+        "noButtonLabel": "No",
+        "feedbackPromptTitle": "¿Te importaría darnos algún comentario?"
     }
 }

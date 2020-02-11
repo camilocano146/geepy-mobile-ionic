@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NavParams, PopoverController, Events, AlertController, NavController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { AppRate } from '@ionic-native/app-rate/ngx';
+import { TranslateService } from '@ngx-translate/core';
+
+interface AppRatePreferencesEnhanced {
+  openUrl: (url: string) => void;
+}
 
 @Component({
   selector: 'app-popover',
@@ -8,13 +14,48 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
   styleUrls: ['./popover.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class PopoverComponent implements OnInit {
 
   constructor(
+    private appRate: AppRate,
     private popoverController: PopoverController,
     private alertController: AlertController,
     private localStorageService: LocalStorageService,
-    private navController: NavController) {
+    private navController: NavController,
+    private translate: TranslateService) {
+    const preferences = {
+      displayAppName: 'Geepy Mobile',
+      usesUntilPrompt: 5,
+      storeAppURL: {
+        //ios: '<my_app_id>',
+        android: 'market://details?id=com.geepy.mobile'
+      },
+      customLocale: {
+        title: this.translate.instant('rate.title'),
+        message: this.translate.instant('rate.message'),
+        cancelButtonLabel: this.translate.instant('rate.cancelButtonLabel'),
+        rateButtonLabel: this.translate.instant('rate.rateButtonLabel'),
+        laterButtonLabel: this.translate.instant('rate.laterButtonLabel'),
+        appRatePromptTitle: this.translate.instant('rate.appRatePromptTitle') + '%@' + "?",
+        yesButtonLabel: this.translate.instant('rate.yesButtonLabel'),
+        noButtonLabel: this.translate.instant('rate.noButtonLabel'),
+        feedbackPromptTitle: this.translate.instant('rate.feedbackPromptTitle')
+      },
+      callbacks: {
+        handleNegativeFeedback: function () {
+          window.open('mailto:geepybike1@gmail.com','_system');
+        },
+        onRateDialogShow: function (callback) {
+          callback(1) // cause immediate click on 'Rate Now' button
+        },
+        onButtonClicked: function (buttonIndex) {
+          console.log(buttonIndex);
+        }
+      },
+      openUrl: (this.appRate.preferences as AppRatePreferencesEnhanced).openUrl
+    };
+    this.appRate.preferences = preferences;
   }
 
   ngOnInit() { }
@@ -24,13 +65,13 @@ export class PopoverComponent implements OnInit {
     this.popoverController.dismiss();
   }
 
-    /**
-   * Cerrar sesión
-   */
+  /**
+ * Cerrar sesión
+ */
   logOut() {
     this.presentAlertConfirm();
   }
-   async presentAlertConfirm() {
+  async presentAlertConfirm() {
     const alert = await this.alertController.create({
       header: 'Cerrar sesión',
       message: '¿Estás seguro?',
@@ -58,15 +99,19 @@ export class PopoverComponent implements OnInit {
   /**
    * Ir a USSD
    */
-  goToUSSD(){
+  goToUSSD() {
     this.navController.navigateRoot("ussd-codes");
     this.eventFromPopover();
   }
   /**
    * Ir a recomendar app
    */
-  goToRecommend(){
+  goToRecommend() {
     this.navController.navigateRoot("recommend-app");
     this.eventFromPopover();
+  }
+
+  rateThisApp() {
+    this.appRate.promptForRating(true);
   }
 }
