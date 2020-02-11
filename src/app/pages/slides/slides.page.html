@@ -13,13 +13,13 @@
                             <ion-col size="12" style="text-align: center;">
                                 <img src="../../../assets/Logo/BANNER.png" class="image-logo" alt="">
                             </ion-col>
+                            <ion-col size="12" style="text-align: center !important;">
+                                <ion-label style="text-align: center !important; color: white">{{'slides.p1-1' | translate}}</ion-label>
+                            </ion-col>
                             <ion-col size="12" style="text-align: center !important;" class="">
                                 <img src="../../../assets/img/swipe.png" style="height: 80px !important;" alt="">
                             </ion-col>
-                            <ion-col size="12" style="text-align: center !important;">
 
-
-                            </ion-col>
                         </ion-row>
                     </ion-col>
                 </ion-row>
@@ -175,29 +175,20 @@
             </div>
         </ion-slide>
         <ion-slide>
-            <ion-grid class="container-slide">
+            <ion-grid class="container-slide" style="z-index: 19999999999 !important;">
                 <ion-row class="horizontal-vertical-align">
                     <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
                         <img src="../../../assets/img/rocket.svg" style="margin-bottom: 20px;" class="image-1" alt="">
                         <div class="full-width" style="margin-bottom: 20px; color: white !important">
                             {{'slides.p10' | translate}}
                         </div>
-                        <ion-button color="danger" expand="block" (click)="goToHome()" style="margin-top: 10px;">
+                        <ion-button color="danger" expand="block" (click)="goToHome()" style="margin-top: 10px; z-index: 1999999999999999999 !important;">
                             {{'slides.btn_go' | translate}}
                             <ion-icon slot="end" name="arrow-forward"></ion-icon>
                         </ion-button>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div class="container-points">
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo-red"></div>
-            </div>
         </ion-slide>
     </ion-slides>
 </ion-content>

@@ -4,6 +4,7 @@
     },
     "slides": {
         "p1": "Bienvenido a",
+        "p1-1": "¡Geepy Mobile es inteligente, económico y útil!",
         "p2": "MS One Mobile",
         "p3": "¿Qué es MS One Mobile?",
         "p4": "Somos un operador virtual que te conecta con el mundo.",
@@ -370,7 +371,7 @@
         }
     },
     "popover": {
-        "ussd": "Códigos USSD",
+        "ussd": "Códigos de asistencia",
         "recommend": "Recomendar esta App",
         "rate": "Calificanos",
         "help": "Ayuda",
@@ -493,15 +494,15 @@
     },
     "ussd_codes": {
         "principal": {
-            "title": "Códigos USSD"
+            "title": "Códigos de asistencia"
         },
         "call": {
-            "title": "Código USSD: ",
+            "title": "Código: ",
             "description": "Descripción",
             "call": "Llamar a "
         },
         "error": {
-            "no_load_ussd_codes": "No pudimos cargar los códigos USSD."
+            "no_load_ussd_codes": "No pudimos cargar los códigos de asistencia."
         }
     },
     "repurchase": {

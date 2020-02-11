@@ -4,11 +4,12 @@
     },
     "slides": {
         "p1": "Welcome to",
+        "p1-1": "Geepy Mobile is smart, low cost and useful!",
         "p3": "What is Geepy Mobile?",
         "p4": "We are a virtual operator that connects you to the world.",
         "p5": "You can manage your physical and virtual sim cards, easily and safely!",
         "p6": "Anticipate your trips and select the right and cheapest data packages, with our",
-        "p7": "Itineraries Features!",
+        "p7": "Trip Features!",
         "p8": "Smart assistant that helps you select the best plan with",
         "p9": "Worldwide Coverage!",
         "p10": "Are you ready to start?",
@@ -139,7 +140,7 @@
     },
     "home": {
         "sims": "Sims",
-        "itinerary": "Itinerary",
+        "itinerary": "Trips",
         "profile": "Profile",
         "payment": "Payment",
         "zones": "Zones"
@@ -369,7 +370,7 @@
         }
     },
     "popover": {
-        "ussd": "USSD Codes",
+        "ussd": "Assistance Codes",
         "recommend": "Recommend this App",
         "rate": "Rate this app",
         "help": "Help",
@@ -377,15 +378,15 @@
     },
     "itinerary": {
         "principal": {
-            "title": "Itinerary",
+            "title": "Trip",
             "btn_create": "Create",
             "no_itineraries": "There is nothing here.",
-            "my_itineraries": "My Itineraries",
+            "my_itineraries": "My Trips",
             "programmed": "Programmed",
             "activated": "Activated"
         },
         "create": {
-            "title": "New itinerary",
+            "title": "New trip",
             "destiny": "Destiny",
             "destiny_ph": "Select one",
             "start_date": "Start date",
@@ -400,10 +401,10 @@
             "select_this": "Select this!",
             "package_selected": "Package selected!",
             "btn_create": "Create",
-            "created_ok": "Itinerary has been updated successfully."
+            "created_ok": "Trips has been updated successfully."
         },
         "edit": {
-            "title": "Itinerary ",
+            "title": "Trip ",
             "destiny": "Destiny",
             "start_date": "Start date",
             "sim": "Sim Card",
@@ -418,13 +419,13 @@
             "save": "Save",
             "cancel": "Cancel",
             "p2": "You can only change the date or cancel this plan with 48 hours in advance.",
-            "edit_ok": "Itinerary has been updated successfully."
+            "edit_ok": "Trip has been updated successfully."
         },
         "error": {
-            "no_itineraries": "We couldn't load your itineraries.",
+            "no_itineraries": "We couldn't load your trips.",
             "country_mandatory": "Field country is mandatory.",
             "no_search_packages": "We couldn't found packages for this country.",
-            "min_time_48": "Minimum time to program a itinerary need be 2 days before.",
+            "min_time_48": "Minimum time to program a trip need be 2 days before.",
             "not_enough_money": "Hasn't enough money. Please recharge your account.",
             "server_error": "Server error",
             "created_error": "We couldn't create this item.",
@@ -492,15 +493,15 @@
     },
     "ussd_codes": {
         "principal": {
-            "title": "USSD Codes"
+            "title": "assistance Codes"
         },
         "call": {
-            "title": "USSD Code: ",
+            "title": "Assistance Code: ",
             "description": "Description",
             "call": "Call to "
         },
         "error": {
-            "no_load_ussd_codes": "We couldn't load ussd codes."
+            "no_load_ussd_codes": "We couldn't load assistance codes."
         }
     },
     "repurchase": {
