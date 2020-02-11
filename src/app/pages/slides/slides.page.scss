@@ -41,3 +41,36 @@
     color: white !important;
     font-size: 25px !important;
 }
+
+.circulo {
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #ffffff;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
+
+.circulo-red {
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #f12345;
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
+
+.container-points {
+    position: fixed;
+    width: 100% !important;
+    bottom: 20px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    height: 100% !important;
+    align-items: flex-end !important;
+}

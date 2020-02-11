@@ -5,6 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BillingService } from 'src/app/services/billing/billing.service';
 import { Payment } from 'src/app/models/payment/payment';
+import { TariffRecharge } from 'src/app/models/tarif-recharge/tariff-recharge';
 declare var Stripe;
 
 @Component({
@@ -19,6 +20,9 @@ export class TransacitionsModalStripeComponent implements OnInit {
   //-----Lista de tarifas
   public tarifsList: any[];
   public tariffSelected: FormControl;
+  public currency: FormControl;
+  public usd_tariffs: TariffRecharge[];
+  public eur_tariffs: TariffRecharge[];
   //-----Stripe
   //stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
   stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
@@ -33,6 +37,9 @@ export class TransacitionsModalStripeComponent implements OnInit {
     private billingService: BillingService) {
     this.tarifsList = [];
     this.tariffSelected = new FormControl('', Validators.required);
+    this.currency = new FormControl('USD', Validators.required);
+    this.usd_tariffs = [];
+    this.eur_tariffs = [];
   }
 
   ngOnInit() {
@@ -40,6 +47,15 @@ export class TransacitionsModalStripeComponent implements OnInit {
     this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
       if (res.status == 200) {
         this.tarifsList = res.body;
+        this.tarifsList.forEach(element => {
+          if(element.currency.acronym == 'USD'){
+            this.usd_tariffs.push(element);
+          } else if(element.currency.acronym == 'EUR'){
+            this.eur_tariffs.push(element);
+          }
+        });
+        this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
+        this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
       }
     }, err => {
       this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
@@ -49,7 +65,7 @@ export class TransacitionsModalStripeComponent implements OnInit {
   payWithStripe(result) {
     let payment: Payment = new Payment(result, this.tariffSelected.value.id, this.tariffSelected.value.currency.id);
     this.billingService.loadBalance(payment).subscribe(res => {
-      if(res.status == 200){
+      if (res.status == 200) {
         this.presentToastOk(this.transalte.instant('payments.stripe.payment_ok'));
         this.modalController.dismiss("created");
       }

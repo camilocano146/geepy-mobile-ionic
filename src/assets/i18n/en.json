@@ -12,6 +12,14 @@
         "p8": "Smart assistant that helps you select the best plan with",
         "p9": "Worldwide Coverage!",
         "p10": "Are you ready to start?",
+        "p11": "Five steps to make your trips pleasant and always connected with your loved ones!",
+        "p11-1": "Recharge your account",
+        "p11-2": "Register your SIM CARD",
+        "p11-3": "Define your travel destiny",
+        "p11-4": "Verify Coverage Areas",
+        "p11-5": "Buy the most convenient plan",
+        "p11-6": "Geepy Mobile always helps you choose the cheapest and most appropriate plan for each destination!",
+        "p11-7": "IT'S OUR VALUE PROPOSAL!",
         "btn_go": "Go!"
     },
     "login": {
@@ -431,7 +439,8 @@
             "recharge": "Recharge!",
             "btn_pay": "Pay",
             "my_payments": "My Payments",
-            "no_payments": "There is nothing here."
+            "no_payments": "There is nothing here.",
+            "currency": "Currency"
         },
         "paypal": {
             "title": "Pay with PayPal",

@@ -13,6 +13,14 @@
         "p8": "Asistente inteligente que te ayuda a seleccionar el mejor plan con",
         "p9": "Cobertura mundial!",
         "p10": "¿Estás listo para empezar?",
+        "p11": "!Cinco pasos para que tus viajes sean placenteros y siempre estés conectado con tus seres queridos!",
+        "p11-1": "Recarga tu cuenta",
+        "p11-2": "Activa tu SIM CARD",
+        "p11-3": "Define el destino de viaje",
+        "p11-4": "Verifica las Zonas de cobertura ",
+        "p11-5": "Compra el plan más conveniente",
+        "p11-6": "¡Geepy Mobile siempre te ayuda a escoger el plan más barato y apropiado para cada destino!",
+        "p11-7": "¡ESTÁ ES NUESTRA PROPUESTA DE VALOR!",
         "btn_go": "Empecemos!"
     },
     "login": {
@@ -432,7 +440,8 @@
             "recharge": "¡Recargar!",
             "btn_pay": "Pagar",
             "my_payments": "Mis pagos",
-            "no_payments": "No hay nada aquí."
+            "no_payments": "No hay nada aquí.",
+            "currency": "Moneda"
         },
         "paypal": {
             "title": "Pagar con PayPal",
