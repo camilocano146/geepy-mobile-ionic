@@ -60,14 +60,14 @@
                     <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="newDate" placeholder="{{'itinerary.edit.new_start_date_ph' | translate}}" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
                 </ion-item>
             </ion-col>
-            <ion-col size="6" style="text-align: center;">
+            <ion-col size="12" style="text-align: center;">
                 <ion-button (click)="save()">
                     <ion-icon name="save"></ion-icon>
                     {{'itinerary.edit.save' | translate}}
                 </ion-button>
             </ion-col>
 
-            <ion-col size="6" style="text-align: right;">
+            <ion-col *ngIf="this.data.status == '1'" size="12" style="text-align: right;">
                 <ion-button color="danger" (click)="cancel()">
                     <ion-icon name="close"></ion-icon>
                     {{'itinerary.edit.cancel' | translate}}

@@ -385,7 +385,7 @@
     },
     "itinerary": {
         "principal": {
-            "title": "Trip",
+            "title": "Trips",
             "btn_create": "Create",
             "no_itineraries": "There is nothing here.",
             "my_itineraries": "My Trips",
@@ -423,10 +423,14 @@
             "p1": "Do you need change date of start? Please entry the new date:",
             "new_start_date": "New start date",
             "new_start_date_ph": "Select date",
-            "save": "Save",
-            "cancel": "Cancel",
+            "save": "Save new start date",
+            "cancel": "Cancel this trip",
             "p2": "You can only change the date or cancel this plan with 48 hours in advance.",
-            "edit_ok": "Trip has been updated successfully."
+            "edit_ok": "Trips has been updated successfully.",
+            "header": "Cancel trip",
+            "text": "Are you sure?",
+            "btn_yes": "Yes",
+            "btn_cancel": "No"
         },
         "error": {
             "no_itineraries": "We couldn't load your trips.",
@@ -456,7 +460,7 @@
             "tariff_ph": "Select one",
             "btn_make_payment": "Make Payment",
             "note": "Note: ",
-            "p1": "Cost per transacition is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
+            "p1": "Payments by credir card Cost per transacition is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
             "payment_ok": "Successfull payment!"
         },
         "stripe": {
@@ -465,7 +469,7 @@
             "tariff_ph": "Select one",
             "btn_make_payment": "Make Payment",
             "note": "Note: ",
-            "p1": "Cost per transacition is 3% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 3.00 + 0.30 USD.",
+            "p1": "Direct credit card payments only supported with Stripe option. Cost per transacition is 3% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 3.00 + 0.30 USD.",
             "payment_ok": "Successfull payment!."
         },
         "see": {

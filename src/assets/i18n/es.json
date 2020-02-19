@@ -408,7 +408,7 @@
             "select_this": "Seleccionar este!",
             "package_selected": "¡Paquete selecionado!",
             "btn_create": "Crear",
-            "created_ok": "Tu Itinerario ha sido actualizado exitosamente."
+            "created_ok": "Tu itinerario ha sido actualizado exitosamente."
         },
         "edit": {
             "title": "Itinerario ",
@@ -426,10 +426,14 @@
             "save": "Guardar",
             "cancel": "Cancelar",
             "p2": "Solo puede cambiar la fecha o cancelar este plan con 48 horas de anticipación.",
-            "edit_ok": "Tu Itinerario ha sido actualizado exitosamente."
+            "edit_ok": "Tu Itinerario ha sido actualizado exitosamente.",
+            "header": "Cancel vieje",
+            "text": "¿Estás seguro?",
+            "btn_yes": "Si",
+            "btn_cancel": "No"
         },
         "error": {
-            "no_itineraries": "No pudimos cargar tus itinerarios.",
+            "no_itineraries": "No pudimos cargar tu itinerario.",
             "country_mandatory": "El campo del país es obligatorio.",
             "no_search_packages": "No pudimos encontrar paquetes para este país.",
             "min_time_48": "El tiempo mínimo para programar un itinerario debe ser 2 días antes.",

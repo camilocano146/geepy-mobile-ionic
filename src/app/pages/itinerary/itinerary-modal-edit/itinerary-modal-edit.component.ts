@@ -59,6 +59,7 @@ export class ItineraryModalEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data);
     this.data.package.activation_fee_eur = +this.data.package.activation_fee_eur + 1;
     this.data.package.activation_fee_usd = +this.data.package.activation_fee_usd + 1;
     this.countriesList = [];
@@ -144,26 +145,26 @@ export class ItineraryModalEditComponent implements OnInit {
 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      header: 'Cancelar',
-      message: `¿Estás seguro de cancelar tu plan?`,
+      header: this.translate.instant('itinerary.edit.header'),
+      message: this.translate.instant('itinerary.edit.text'),
       buttons: [
         {
-          text: 'Ok',
+          text: this.translate.instant('itinerary.edit.btn_yes'),
           handler: () => {
             this.itineraryService.cancelItinerary(this.data.id).subscribe( res => {
               if(res.status == 204){
-                this.presentToastOk("Itinerary has been updated.");
+                this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
                 this.modalController.dismiss('created');
               }
             }, err => {
               console.log(err);
               if(err.status == 404 && err.error.detail == "Maximum refund date has expired"){
-                this.presentToastError("Maximum refund date has expired.");
+                this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
               }
             });
           }
         }, {
-          text: 'Cancelar',
+          text: this.translate.instant('itinerary.edit.btn_cancel'),
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
