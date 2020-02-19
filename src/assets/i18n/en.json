@@ -4,7 +4,7 @@
     },
     "slides": {
         "p1": "Welcome to",
-        "p1-1": "Geepy Mobile is smart, low cost and useful!",
+        "p1-1": "Smart, low cost and useful!",
         "p3": "What is Geepy Mobile?",
         "p4": "We are a virtual operator that connects you to the world.",
         "p5": "You can manage your physical and virtual sim cards, easily and safely!",
@@ -59,7 +59,7 @@
     },
     "send_code": {
         "data": {
-            "p1": "Entry your email amd we will send a restore code. Please check your inbox or SPAM.",
+            "p1": "Entry your email and we will send a restore code. Please check your inbox or SPAM.",
             "email": "Email",
             "btn_send_code": "Send code",
             "btn_back_home": "Back to home",
@@ -152,6 +152,7 @@
             "order": "Buy Sim cards",
             "btn_order": "Order NOW",
             "example_iccid": "Ex: 89372040160XXXXXX",
+            "or": "or",
             "example_onum": "Ex: 372810XXXXX",
             "btn_onum": "PHONE",
             "onum_card": "PHONE",
@@ -176,6 +177,10 @@
             "yes_delete": "Yes, delete it!",
             "cancel_modal": "Cancel",
             "delete_sim_ok": "Sim card has been deleted!",
+            "real_sim": {
+                "title": "Voyager SIM CARDs",
+                "text": "Know the information printed on our SIM cards"
+            },
             "buy_sims": {
                 "title": "Buy Sim Cards",
                 "account": "Account",
@@ -194,7 +199,7 @@
             "import_iccid": {
                 "title": "Register by ICCID",
                 "p1": "Please enter the",
-                "iccid": "ICCID ",
+                "iccid": " ICCID ",
                 "p2": "code of the Sim card.",
                 "iccid_code": "ICCID Code",
                 "p3": "Choose a ",
@@ -273,7 +278,9 @@
                     "tariff_sms": "0.25 EUR or 0.30 USD per SMS.",
                     "max_160": "Max 160 characters",
                     "btn_send": "Send",
-                    "sms_sent_ok": "SMS sent successfully."
+                    "sms_sent_ok": "SMS sent successfully.",
+                    "only_geepy": "Only Geepy Mobile users. We're working with other operators.",
+                    "new_sms_title": "New SMS"
                 },
                 "location": {
                     "title": "Location",
@@ -373,7 +380,7 @@
         "ussd": "Assistance Codes",
         "recommend": "Recommend this App",
         "rate": "Rate this app",
-        "help": "Help",
+        "help": "Support",
         "sign_out": "Sign Out"
     },
     "itinerary": {
@@ -526,6 +533,19 @@
         "yesButtonLabel": "Yes",
         "noButtonLabel": "Not really",
         "feedbackPromptTitle": "Mind giving us some feedback?"
-
+    },
+    "support": {
+        "title": "Support",
+        "text": "For any question, request, query, suggestion, etc. Please use one of the following available communication channels:",
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "go_mail": "Send Email",
+        "go_whats": "Write to our WhatsApp"
+    },
+    "sign_out": {
+        "header": "Sign out",
+        "text": "Are you sure?",
+        "btn_yes": "yes",
+        "btn_cancel": "Cancel"
     }
 }

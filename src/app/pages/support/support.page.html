@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
+        <ion-title style="color: white !important;">{{'support.title' | translate}}</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../assets/img/customer-service.svg" height="120px" alt="">
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" style="text-align: left;">
+                <ion-label>{{'support.text' | translate}}</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" class="container-cards-help">
+                <ion-card class="card-help-size">
+                    <ion-card-header style="text-align: center !important;">
+                        <ion-card-title class="title-card-sim-details">{{'support.email' | translate}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content style="text-align: center !important;">
+                        <img src="../../../assets/img/email.svg" height="100px" style="margin-bottom: 20px;" alt="">
+                        <ion-button href="mailto: Info@m2mtelecom.com@example.com">
+                            {{'support.go_mail' | translate}}
+                        </ion-button>
+                    </ion-card-content>
+                </ion-card>
+                <ion-card class="card-help-size">
+                    <ion-card-header style="text-align: center !important;">
+                        <ion-card-title class="title-card-sim-details">{{'support.whatsapp' | translate}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content style="text-align: center !important;">
+                        <img src="../../../assets/img/whatsapp.svg" height="100px" style="margin-bottom: 20px;" alt="">
+                        <ion-button color="success" href="whatsapp://send?phone=573204288616">
+                            {{'support.go_whats' | translate}}
+                        </ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

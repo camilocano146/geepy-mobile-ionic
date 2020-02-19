@@ -6,6 +6,11 @@
     margin-bottom: 5px !important;
 }
 
+.icon-option {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
 .container-sim-cards {
     display: flex;
     flex-wrap: wrap;
@@ -34,4 +39,14 @@
 
 .img-buy-sims {
     height: 70px !important;
+}
+
+.separator-horizontal {
+    text-align: center !important;
+    border-radius: 1px;
+    height: 1px !important;
+    width: 120px;
+    background-color: lightgray !important;
+    margin-right: 30px;
+    margin-left: 30px;
 }

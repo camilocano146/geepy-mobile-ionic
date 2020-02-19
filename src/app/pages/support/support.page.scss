@@ -1,0 +1,14 @@
+@import '../../../global.scss';
+.container-cards-help {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-help-size {
+    width: 290px;
+    max-width: 290px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    background-color: white !important;
+}
