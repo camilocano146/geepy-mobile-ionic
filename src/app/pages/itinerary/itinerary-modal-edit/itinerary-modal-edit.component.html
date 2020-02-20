@@ -13,26 +13,26 @@
         <ion-row *ngIf="!preload_data">
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label position="floating">{{'itinerary.edit.title' | translate}}</ion-label>
+                    <ion-label position="floating">{{'itinerary.edit.destiny' | translate}}</ion-label>
                     <ion-input *ngIf="currentLang == 'es'" value="{{data.destination.nombre}}" readonly></ion-input>
                     <ion-input *ngIf="currentLang != 'es'" value="{{data.destination.name}}" readonly></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label position="floating">{{'itinerary.edit.destiny' | translate}}</ion-label>
+                    <ion-label position="floating">{{'itinerary.edit.start_date' | translate}}</ion-label>
                     <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="startDate" placeholder="Select Date" [min]="minDayToPlanning" [max]="maxDayToPlanning" readonly></ion-datetime>
                 </ion-item>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label position="floating">{{'itinerary.edit.start_date' | translate}}</ion-label>
+                    <ion-label position="floating">{{'itinerary.edit.sim' | translate}}</ion-label>
                     <ion-input [formControl]="simcard" readonly></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label position="floating">{{'itinerary.edit.sim' | translate}}</ion-label>
+                    <ion-label position="floating">{{'itinerary.edit.package' | translate}}</ion-label>
                     <ion-input value="{{packageselected.package_name}}" readonly></ion-input>
                 </ion-item>
             </ion-col>
@@ -51,24 +51,24 @@
                 </ion-item>
             </ion-col>
 
-            <ion-col size="12">
+            <ion-col *ngIf="this.data.status == '1'" size="12">
                 {{'itinerary.edit.p1' | translate}}
             </ion-col>
-            <ion-col size="12">
+            <ion-col *ngIf="this.data.status == '1'" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'itinerary.edit.new_start_date' | translate}}</ion-label>
                     <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="newDate" placeholder="{{'itinerary.edit.new_start_date_ph' | translate}}" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
                 </ion-item>
             </ion-col>
-            <ion-col size="12" style="text-align: center;">
-                <ion-button (click)="save()">
+            <ion-col *ngIf="this.data.status == '1'" size="12" style="text-align: center;">
+                <ion-button class="full-width" (click)="save()">
                     <ion-icon name="save"></ion-icon>
                     {{'itinerary.edit.save' | translate}}
                 </ion-button>
             </ion-col>
 
-            <ion-col *ngIf="this.data.status == '1'" size="12" style="text-align: right;">
-                <ion-button color="danger" (click)="cancel()">
+            <ion-col *ngIf="this.data.status == '1'" size="12" style="text-align: center;">
+                <ion-button color="danger" class="full-width" (click)="cancel()">
                     <ion-icon name="close"></ion-icon>
                     {{'itinerary.edit.cancel' | translate}}
                 </ion-button>

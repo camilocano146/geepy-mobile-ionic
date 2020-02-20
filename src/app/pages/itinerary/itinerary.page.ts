@@ -46,6 +46,7 @@ export class ItineraryPage implements OnInit {
     this.itineraryService.getItineraries().subscribe(res => {
       if (res.status == 200) {
         this.itinerariesList = res.body;
+        console.log(this.itinerariesList);
         if (this.itinerariesList.length == 0) {
           this.existsItineraries = 1;
         } else if (this.itinerariesList.length > 0) {
