@@ -49,7 +49,7 @@ import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/','.json');
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -72,11 +72,17 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    
+
     IonicStorageModule.forRoot(),
-    IonicModule.forRoot(),
+    IonicModule.forRoot(
+      {
+        mode: 'ios',
+        scrollPadding: false,
+        scrollAssist: true
+      }
+    ),
     AppRoutingModule,
-   
+
   ],
   providers: [
     StatusBar,
@@ -108,5 +114,5 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
 

@@ -23,6 +23,7 @@ import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.c
 import { AgmCoreModule } from '@agm/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
 import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
+import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
     SimModalSettings,
     SimModalSendSmsComponent,
     SimModalSeeSmsComponent,
-    SimModalBuy
+    SimModalBuy,
+    SimModalSeeRealComponent
   ],
   entryComponents: [
     SimModalImportICCID,
@@ -60,7 +62,8 @@ import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
     SimModalSettings,
     SimModalSendSmsComponent,
     SimModalSeeSmsComponent,
-    SimModalBuy
+    SimModalBuy,
+    SimModalSeeRealComponent
   ]
 })
 export class SimCardsPageModule { }

@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'repurchase-package',
     loadChildren: () => import('./pages/repurchase-package/repurchase-package.module').then( m => m.RepurchasePackagePageModule)
   },
+  {
+    path: 'support',
+    loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
+  },
 
 
 

@@ -46,19 +46,11 @@ export class ItineraryPage implements OnInit {
     this.itineraryService.getItineraries().subscribe(res => {
       if (res.status == 200) {
         this.itinerariesList = res.body;
-        for (let index = 0; index < this.itinerariesList.length; index++) {
-          if(this.itinerariesList[index].status == '2'){
-            this.itinerariesList.splice(index,1);
-          }
-        }
+        console.log(this.itinerariesList);
+        this.itinerariesList.sort( (a,b) => b.id - a.id) ;
         if (this.itinerariesList.length == 0) {
           this.existsItineraries = 1;
         } else if (this.itinerariesList.length > 0) {
-          
-          this.itinerariesList.sort( (a,b) => b.id - a.id);
-          this.itinerariesList.forEach(element => {
-            this.copyFull.push(element);
-          });
           this.existsItineraries = 2;
         }
       }

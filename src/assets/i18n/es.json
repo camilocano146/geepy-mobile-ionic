@@ -5,8 +5,7 @@
     "slides": {
         "p1": "Bienvenido a",
         "p1-1": "¡Geepy Mobile es inteligente, económico y útil!",
-        "p2": "MS One Mobile",
-        "p3": "¿Qué es MS One Mobile?",
+        "p3": "¿Qué es Geepy Mobile?",
         "p4": "Somos un operador virtual que te conecta con el mundo.",
         "p5": "¡Puedes administrar tus Sim cards físicas y virtuales de forma fácil y segura!",
         "p6": "Anticipe sus viajes y seleccione los paquetes de datos correctos y más baratos, con nuestro",
@@ -153,6 +152,7 @@
             "order": "Comprar Sim cards",
             "btn_order": "COMPRAR",
             "example_iccid": "Ej: 89372040160XXXXXX",
+            "or": "or",
             "example_onum": "Ej: 372810XXXXX",
             "btn_onum": "TEL",
             "onum_card": "TEL",
@@ -177,6 +177,10 @@
             "yes_delete": "Si, eliminarla!",
             "cancel_modal": "Cancelar",
             "delete_sim_ok": "Sim card elimianda exitosamente",
+            "real_sim": {
+                "title": "Voyager SIM CARDs",
+                "text": "¡Conoce la información impresa en nuestras tarjetas SIM!"
+            },
             "buy_sims": {
                 "title": "Comprar Sim cards",
                 "account": "Cuenta",
@@ -274,7 +278,9 @@
                     "tariff_sms": "0.25 EUR o 0.30 USD por SMS.",
                     "max_160": "Max 160 caracteres",
                     "btn_send": "Enviar",
-                    "sms_sent_ok": "SMS enviado exitosamente."
+                    "sms_sent_ok": "SMS enviado exitosamente.",
+                    "only_geepy": "Solamente entre usuarios de Geepy Mobile. Estamos trabajando con otros operadores.",
+                    "new_sms_title": "Nuevo SMS"
                 },
                 "location": {
                     "title": "Localización",
@@ -374,7 +380,7 @@
         "ussd": "Códigos de asistencia",
         "recommend": "Recomendar esta App",
         "rate": "Calificanos",
-        "help": "Ayuda",
+        "help": "Soporte",
         "sign_out": "Cerrar sesión"
     },
     "itinerary": {
@@ -402,7 +408,7 @@
             "select_this": "Seleccionar este!",
             "package_selected": "¡Paquete selecionado!",
             "btn_create": "Crear",
-            "created_ok": "Tu Itinerario ha sido actualizado exitosamente."
+            "created_ok": "Tu itinerario ha sido actualizado exitosamente."
         },
         "edit": {
             "title": "Itinerario ",
@@ -420,10 +426,14 @@
             "save": "Guardar",
             "cancel": "Cancelar",
             "p2": "Solo puede cambiar la fecha o cancelar este plan con 48 horas de anticipación.",
-            "edit_ok": "Tu Itinerario ha sido actualizado exitosamente."
+            "edit_ok": "Tu Itinerario ha sido actualizado exitosamente.",
+            "header": "Cancel vieje",
+            "text": "¿Estás seguro?",
+            "btn_yes": "Si",
+            "btn_cancel": "No"
         },
         "error": {
-            "no_itineraries": "No pudimos cargar tus itinerarios.",
+            "no_itineraries": "No pudimos cargar tu itinerario.",
             "country_mandatory": "El campo del país es obligatorio.",
             "no_search_packages": "No pudimos encontrar paquetes para este país.",
             "min_time_48": "El tiempo mínimo para programar un itinerario debe ser 2 días antes.",
@@ -527,5 +537,19 @@
         "yesButtonLabel": "Si",
         "noButtonLabel": "No",
         "feedbackPromptTitle": "¿Te importaría darnos algún comentario?"
+    },
+    "support": {
+        "title": "Soporte",
+        "text": "Para preguntas, peticiones, quejas, sugerencias, etc. Por favor usa uno de los siguientes cancales de comunicación:",
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "go_mail": "Enviar correo",
+        "go_whats": "Escribir a WhatsApp"
+    },
+    "sign_out": {
+        "header": "Cerrar sesión",
+        "text": "¿Estás seguro?",
+        "btn_yes": "Si",
+        "btn_cancel": "Cancelar"
     }
 }

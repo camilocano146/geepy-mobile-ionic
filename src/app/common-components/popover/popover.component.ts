@@ -73,18 +73,18 @@ export class PopoverComponent implements OnInit {
   }
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      header: 'Cerrar sesión',
-      message: '¿Estás seguro?',
+      header: this.translate.instant('sign_out.header'),
+      message: this.translate.instant('sign_out.text'),
       buttons: [
         {
-          text: 'Ok',
+          text: this.translate.instant('sign_out.btn_yes'),
           handler: () => {
             this.localStorageService.removeToken();
             this.navController.navigateBack("");
             this.eventFromPopover();
           }
         }, {
-          text: 'Cancelar',
+          text: this.translate.instant('sign_out.btn_cancel'),
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
@@ -110,7 +110,16 @@ export class PopoverComponent implements OnInit {
     this.navController.navigateRoot("recommend-app");
     this.eventFromPopover();
   }
-
+  /**
+   * Ir support
+   */
+  goToSupport() {
+    this.navController.navigateRoot("support");
+    this.eventFromPopover();
+  }
+  /**
+   * Calificar
+   */
   rateThisApp() {
     this.appRate.promptForRating(true);
   }

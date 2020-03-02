@@ -61,8 +61,10 @@
                                     </ion-row>
                                 </ion-grid>
                             </ion-col>
-                            <ion-col size="12" class="center">
-                                or
+                            <ion-col size="12" class="center" style="display: flex; justify-content: center; text-align: center; align-items: center !important;">
+                                <div class="separator-horizontal"></div>
+                                {{'simcard.data.or' | translate}}
+                                <div class="separator-horizontal"></div>
                             </ion-col>
                             <ion-col size="12" class="center">
                                 <ion-grid>
@@ -85,22 +87,29 @@
             </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row class="justify-content: space-between">
             <ion-col size="12" style="text-align: center !important;margin-top: 5px;">
                 <ion-label color="primary" style="font-size: 18px; font-weight: bold; text-align: center ;">{{'simcard.data.my_sims' | translate}}</ion-label>
             </ion-col>
+        </ion-row>
+        <ion-row class="justify-content-between">
             <ion-col size="8" id="filter-input">
                 <!-- Inputs with labels -->
-                <ion-item style="margin-left: 10px;">
+                <ion-item style="margin-left: 10px; width: 80%;">
                     <ion-icon name="search"></ion-icon>
                     <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="number" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">
-                <ion-button color="success" (click)="ionViewDidEnter()" fill="clear" style="padding: 0px !important; text-align: right !important;">
-                    <ion-icon style=" font-size: 35px;" name="refresh"></ion-icon>
+                <ion-button color="primary" (click)="openModalSeeRealSim()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+                    <ion-icon style=" font-size: 30px;" name="information-circle-outline"></ion-icon>
+                </ion-button>
+                <ion-button color="success" class="icon-option" (click)="ionViewDidEnter()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+                    <ion-icon style=" font-size: 30px;" name="refresh"></ion-icon>
                 </ion-button>
             </ion-col>
+        </ion-row>
+        <ion-row>
             <ion-col size="12">
                 <div class="center container-sim-cards">
                     <ion-card *ngFor="let item of simsList " class="card-sim-size" [ngStyle]="{'background-color':item.status == 2 ? '#FFFFEC' : '#ffffff' }" (click)="openModalSettings(item)">

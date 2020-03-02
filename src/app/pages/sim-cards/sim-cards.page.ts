@@ -11,6 +11,7 @@ import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onu
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
 import { TranslateService } from '@ngx-translate/core';
+import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
 
 @Component({
   selector: 'app-sim-cards',
@@ -48,29 +49,29 @@ export class SimCardsPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
-  test(){
+  test() {
     this.navController.navigateRoot('repurchase-package');
   }
   /**
    * Carga el contenido cuando entra
    */
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
       if (res.status == 200) {
         this.simsList = res.body[1];
         for (let index = 0; index < this.simsList.length; index++) {
-          if(this.simsList[index].status == 3){
-            this.simsList.splice(index,1);
+          if (this.simsList[index].status == 3) {
+            this.simsList.splice(index, 1);
           }
         }
-        this.simsList.sort( (a,b) => b.id - a.id);
+        this.simsList.sort((a, b) => b.id - a.id);
         this.simsList.forEach(element => {
           this.copyFull.push(element);
         });
-        
+
         this.preloadSims = true;
       }
     }, err => {
@@ -148,9 +149,20 @@ export class SimCardsPage implements OnInit {
   /**
    * Comprar sims
    */
-  async openModalBuySims(){
+  async openModalBuySims() {
     const modal = await this.modalController.create({
       component: SimModalBuy
+    });
+    modal.onDidDismiss().then(res => {
+    }).catch();
+    return await modal.present();
+  }
+  /**
+   * Abre moda para ver sim real
+  */
+  async openModalSeeRealSim() {
+    const modal = await this.modalController.create({
+      component: SimModalSeeRealComponent
     });
     modal.onDidDismiss().then(res => {
     }).catch();
