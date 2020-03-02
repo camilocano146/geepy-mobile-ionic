@@ -47,6 +47,7 @@ export class ItineraryPage implements OnInit {
       if (res.status == 200) {
         this.itinerariesList = res.body;
         console.log(this.itinerariesList);
+        this.itinerariesList.sort( (a,b) => b.id - a.id) ;
         if (this.itinerariesList.length == 0) {
           this.existsItineraries = 1;
         } else if (this.itinerariesList.length > 0) {
