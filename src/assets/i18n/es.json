@@ -6,10 +6,10 @@
         "p1": "Bienvenido a",
         "p1-1": "¡Geepy Mobile es inteligente, económico y útil!",
         "p3": "¿Qué es Geepy Mobile?",
-        "p4": "Somos un operador virtual que te conecta con el mundo.",
+        "p4": "Somos un Operador Móvil Virtual que te conecta con el mundo.",
         "p5": "¡Puedes administrar tus Sim cards físicas y virtuales de forma fácil y segura!",
-        "p6": "Anticipe sus viajes y seleccione los paquetes de datos correctos y más baratos, con nuestro",
-        "p7": "Sistema de Itinerarios!",
+        "p6": "Anticipa tus viajes y selecciona los paquetes de datos correctos y más baratos con nuestro",
+        "p7": "Planeamiento de viajes!",
         "p8": "Asistente inteligente que te ayuda a seleccionar el mejor plan con",
         "p9": "Cobertura mundial!",
         "p10": "¿Estás listo para empezar?",
@@ -20,7 +20,7 @@
         "p11-4": "Verifica las Zonas de cobertura ",
         "p11-5": "Compra el plan más conveniente",
         "p11-6": "¡Geepy Mobile siempre te ayuda a escoger el plan más barato y apropiado para cada destino!",
-        "p11-7": "¡ESTÁ ES NUESTRA PROPUESTA DE VALOR!",
+        "p11-7": "¡SIEMPRE SERÁ NUESTRA PROPUESTA DE VALOR!",
         "btn_go": "Empecemos!"
     },
     "login": {
@@ -280,6 +280,7 @@
                     "btn_send": "Enviar",
                     "sms_sent_ok": "SMS enviado exitosamente.",
                     "only_geepy": "Solamente entre usuarios de Geepy Mobile. Estamos trabajando con otros operadores.",
+                    "only_geepy_2": "Todos los SMS´s que recibas son gratis",
                     "new_sms_title": "Nuevo SMS"
                 },
                 "location": {
@@ -291,7 +292,8 @@
                     "note": "Nota: ",
                     "p1": "Validez de 30 días calendario. La hora de activación y finalización del paquete está definida por la hora de Estonia (GMT + 2).",
                     "btn_search": "Buscar",
-                    "total_queries": "Peticiones"
+                    "total_queries": "Peticiones",
+                    "note_2": "La localización es aproximada u orientativa. Tu localización puede ser monitoreada."
                 },
                 "settings": {
                     "title": "Configuraciones",
@@ -543,8 +545,10 @@
         "text": "Para preguntas, peticiones, quejas, sugerencias, etc. Por favor usa uno de los siguientes cancales de comunicación:",
         "email": "Email",
         "whatsapp": "WhatsApp",
+        "web": "Web",
         "go_mail": "Enviar correo",
-        "go_whats": "Escribir a WhatsApp"
+        "go_whats": "Escribir a WhatsApp",
+        "go_web": "Visita nuestra página Web"
     },
     "sign_out": {
         "header": "Cerrar sesión",

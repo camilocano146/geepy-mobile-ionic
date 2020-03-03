@@ -71,17 +71,28 @@ body {
 }
 
 .container-all {
-    height: 100vh !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 100% !important;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.container-all-2 {
+    height: 404px !important;
+    max-height: 404px !important;
+    min-height: 404px !important;
+    display: flex;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 50px !important;
 }
 
 .container-form {
     background-color: white;
     padding: 10px !important;
     border-radius: 10px !important;
-    margin-bottom: 10px;
 }
 
 .color-blue-aqua {

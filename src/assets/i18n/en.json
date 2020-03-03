@@ -6,10 +6,10 @@
         "p1": "Welcome to",
         "p1-1": "Smart, low cost and useful!",
         "p3": "What is Geepy Mobile?",
-        "p4": "We are a virtual operator that connects you to the world.",
+        "p4": "We are a Virtual Mobile Operator that connects you to the world.",
         "p5": "You can manage your physical and virtual sim cards, easily and safely!",
-        "p6": "Anticipate your trips and select the right and cheapest data packages, with our",
-        "p7": "Trip Features!",
+        "p6": "Anticipate your trips and select the right and cheapest data packages with our",
+        "p7": "Travel planning!",
         "p8": "Smart assistant that helps you select the best plan with",
         "p9": "Worldwide Coverage!",
         "p10": "Are you ready to start?",
@@ -20,7 +20,7 @@
         "p11-4": "Verify Coverage Areas",
         "p11-5": "Buy the most convenient plan",
         "p11-6": "Geepy Mobile always helps you choose the cheapest and most appropriate plan for each destination!",
-        "p11-7": "IT'S OUR VALUE PROPOSAL!",
+        "p11-7": "IT WILL ALWAYS BE OUR VALUE PROPOSAL!",
         "btn_go": "Go!"
     },
     "login": {
@@ -280,6 +280,7 @@
                     "btn_send": "Send",
                     "sms_sent_ok": "SMS sent successfully.",
                     "only_geepy": "Only Geepy Mobile users. We're working with other operators.",
+                    "only_geepy_2": "All the SMS you receive are free.",
                     "new_sms_title": "New SMS"
                 },
                 "location": {
@@ -291,7 +292,8 @@
                     "note": "Note: ",
                     "p1": "Validity of 30 calendar days. The activation and ending time of the package is defined by the time of Estonia (GMT + 2).",
                     "btn_search": "Search",
-                    "total_queries": "Queries"
+                    "total_queries": "Queries",
+                    "note_2": "The location is approximate or orientative. Your location can be monitored."
                 },
                 "settings": {
                     "title": "Settings",
@@ -543,8 +545,10 @@
         "text": "For any question, request, query, suggestion, etc. Please use one of the following available communication channels:",
         "email": "Email",
         "whatsapp": "WhatsApp",
+        "web": "Web",
         "go_mail": "Send Email",
-        "go_whats": "Write to our WhatsApp"
+        "go_whats": "Write to our WhatsApp",
+        "go_web": "Visit our website"
     },
     "sign_out": {
         "header": "Sign out",

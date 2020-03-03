@@ -17,6 +17,8 @@ export class SendCodePage implements OnInit {
    * Email para enviar la contraseña
    */
   public emailRecovery: FormControl;
+  /** Focus del teclado*/
+  public isKeyboardOpen: boolean;
 
   constructor(
     public navCotroller: NavController,
@@ -24,7 +26,8 @@ export class SendCodePage implements OnInit {
     public toastController: ToastController,
     private translate: TranslateService
   ) {
-    this.emailRecovery = new FormControl("", [Validators.required,Validators.email]);
+    this.emailRecovery = new FormControl("", [Validators.required, Validators.email]);
+    this.isKeyboardOpen = false;
   }
 
   ngOnInit() {
@@ -37,16 +40,25 @@ export class SendCodePage implements OnInit {
       this.authenticationService
         .sendEmailrecoveryPassword(email)
         .subscribe(res => {
+          console.log(res);
           if (res.detail == "email sent") {
             this.presentToastOk(this.translate.instant('send_code.data.code_sent'));
           }
           this.navCotroller.navigateRoot("reset-password");
         }, err => {
+          console.log(err);
           if (err.error.detail == "email don't exist") {
             this.presentToastError(this.translate.instant('send_code.error.error-user-not-found'));
           }
         });
     }
+  }
+
+  focus() {
+    this.isKeyboardOpen = true;
+  }
+  focusout() {
+    this.isKeyboardOpen = false;
   }
 
   /**
