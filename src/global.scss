@@ -61,15 +61,6 @@ body {
     width: 100% !important;
 }
 
-.background-all-2 {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    background-color: #141558 !important;
-    height: 100vh !important;
-    width: 100% !important;
-}
-
 .container-all {
     height: 100% !important;
     max-height: 100% !important;
@@ -77,16 +68,7 @@ body {
     display: flex;
     align-items: center !important;
     justify-content: center !important;
-}
-
-.container-all-2 {
-    height: 404px !important;
-    max-height: 404px !important;
-    min-height: 404px !important;
-    display: flex;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-top: 50px !important;
+    background-color: #141558 !important;
 }
 
 .container-form {
