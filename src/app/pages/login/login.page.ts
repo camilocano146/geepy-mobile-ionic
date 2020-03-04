@@ -47,7 +47,8 @@ export class LoginPage implements OnInit {
    */
   public password: FormControl;
 
-  public login: any;
+  /** Focus del teclado*/
+  public isKeyboardOpen: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -65,6 +66,7 @@ export class LoginPage implements OnInit {
     this.existUser = true;
     this.email = new FormControl("", [Validators.required, Validators.email]);
     this.password = new FormControl("", [Validators.required]);
+    this.isKeyboardOpen = false;
   }
   ngOnInit(): void {
 
@@ -140,6 +142,13 @@ export class LoginPage implements OnInit {
           }
         });
     }
+  }
+
+  focus(){
+    this.isKeyboardOpen = true;
+  }
+  focusout(){
+    this.isKeyboardOpen = false;
   }
 
   /**

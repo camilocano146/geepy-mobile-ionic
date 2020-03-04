@@ -33,6 +33,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.keyboard.disableScroll(true);
+      this.keyboard.hideFormAccessoryBar(true);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 

@@ -20,12 +20,9 @@ export class SupportPage implements OnInit {
   ngOnInit() {
   }
 
-
   goToHome(){
     this.navController.navigateRoot("home");
   }
-
-  
   
   async presentToastError(text: string) {
     const toast = await this.toastController.create({

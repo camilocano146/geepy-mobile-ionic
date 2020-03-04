@@ -20,6 +20,8 @@ export class ActivateAccountPage implements OnInit {
    * Email para enviar la contraseña
    */
   public code: FormControl;
+  /** Focus del teclado*/
+  public isKeyboardOpen: boolean;
 
   constructor(
     public navCotroller: NavController,
@@ -28,6 +30,7 @@ export class ActivateAccountPage implements OnInit {
     private translate: TranslateService,
   ) {
     this.code = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+    this.isKeyboardOpen = false;
   }
 
   ngOnInit() {
@@ -49,6 +52,12 @@ export class ActivateAccountPage implements OnInit {
           }
         });
     }
+  }
+  focus(){
+    this.isKeyboardOpen = true;
+  }
+  focusout(){
+    this.isKeyboardOpen = false;
   }
 
   /**

@@ -418,6 +418,14 @@
                             <agm-map *ngIf="showHeat" [latitude]="lat" [longitude]="lng" [zoom]="4" (mapReady)="onMapLoad($event)" (zoomChange)="zoomChange($event)">
 
                             </agm-map>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="12" style="text-align: center; color: gray; font-size: 11.25px !important;">
+                                        {{'simcard.data.settings.location.note_2' | translate}}
+                                    </ion-col>
+
+                                </ion-row>
+                            </ion-grid>
                         </div>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
