@@ -68,6 +68,7 @@ export class RegisterPage implements OnInit {
       let user: User = new User(this.email.value.toLowerCase(),this.name.value,this.lastname.value);
       user.password = sha1(this.password.value);
       user.role = 5;
+      console.log(user);
       this.authenticationService.createUserWithOutToken(user).subscribe(res => {
         if(res.status == 201){
           this.presentToastOk(this.translate.instant('register_user.data.ok_created'));
