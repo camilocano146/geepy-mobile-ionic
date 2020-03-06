@@ -110,8 +110,7 @@ export class LoginPage implements OnInit {
               }
               this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
               }, err => {
-                this.presentToastError(this.translate.instant('notification_token'));
-                this.navCotroller.navigateRoot('');
+
               });
             });
             //-----------------------------------------

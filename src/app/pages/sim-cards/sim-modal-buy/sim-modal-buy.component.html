@@ -51,6 +51,7 @@
                     </ion-select>
                 </ion-item>
             </ion-col>
+
             <ion-col *ngIf="countrySelected.value != null" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'simcard.data.buy_sims.city' | translate}}</ion-label>
@@ -75,7 +76,21 @@
                     <ion-input [formControl]="phone"></ion-input>
                 </ion-item>
             </ion-col>
-            <ion-col *ngIf="zip.value != null" size="12" style="text-align: center;">
+            <ion-col *ngIf="countrySelected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.courier' | translate}}</ion-label>
+                    <ion-select placeholder="{{'simcard.data.buy_sims.select_one' | translate}}" [formControl]="courier_selected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of courier_list" [value]="item.courier">{{item.courier.name}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="courier_selected.value != null" size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="floating">{{'simcard.data.buy_sims.address_p' | translate}}</ion-label>
+                    <ion-input value="{{courier_selected.value.physical_address}}" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="zip.value != null && phone.value != null && address.value != null && countrySelected.value != null && courier_selected.value != null" size="12" style="text-align: center;">
                 <ion-button (click)="order()">
                     <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
                     {{'simcard.data.buy_sims.purchase' | translate}}

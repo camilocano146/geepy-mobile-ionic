@@ -194,7 +194,10 @@
                 "phone": "Teléfono",
                 "purchase": "Finalizar compra",
                 "free": "Gratis!",
-                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico."
+                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico.",
+                "courier_error": "No pudimos obtener los transportistas",
+                "courier": "Transportista",
+                "address_p": "Dirección fisica"
             },
             "import_iccid": {
                 "title": "Registrar por ICCID",

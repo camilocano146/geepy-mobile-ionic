@@ -50,6 +50,7 @@ import { BillingService } from './services/billing/billing.service';
 import { RecommendService } from './services/recommend/recommend.service';
 import { ZonesService } from './services/zones/zones.service';
 import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
+import { CourierService } from './services/courier/courier.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LocalStorageService,
     ServiceAccountService,
     ExtraNumbersService,
+    CourierService,
     TariffRechargeService,
     BillingService,
     RecommendService,

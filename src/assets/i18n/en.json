@@ -194,7 +194,10 @@
                 "phone": "Telephone",
                 "purchase": "Finish purchase",
                 "free": "Free!",
-                "purcahse_ok": "Successful purchase! We have sent your invoice to your email."
+                "purcahse_ok": "Successful purchase! We have sent your invoice to your email.",
+                "courier_error": "We couldn't get couriers.",
+                "courier": "Courier",
+                "address_p": "Physical address"
             },
             "import_iccid": {
                 "title": "Register by ICCID",
