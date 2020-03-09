@@ -110,7 +110,7 @@ export class SimModalSettings implements OnInit {
 
   ngOnInit(): void {
     this.getPermissions();
-    this.getPackageHistory();
+    
   }
   /**
    * Obtiene permisos de modulos
@@ -156,6 +156,7 @@ export class SimModalSettings implements OnInit {
                         if (aux.length > 0) {
                           this.show_settings = aux[0].is_active;
                         }
+                        this.getPackageHistory();
                       }
                     }, err => {
                       console.log(err);
