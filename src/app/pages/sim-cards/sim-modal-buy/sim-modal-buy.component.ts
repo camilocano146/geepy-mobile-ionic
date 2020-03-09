@@ -86,6 +86,7 @@ export class SimModalBuy implements OnInit {
     this.zonesService.getAvailableCountiresToPurchase().subscribe(res => {
       if(res.status == 200){
         this.countriesList = res.body;
+
         this.getServicesAccount();
       }
     }, err => {

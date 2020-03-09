@@ -87,7 +87,7 @@
             <ion-col *ngIf="courier_selected.value != null" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'simcard.data.buy_sims.address_p' | translate}}</ion-label>
-                    <ion-input value="{{courier_selected.value.physical_address}}" readonly></ion-input>
+                    <ion-input value="{{courier_selected.value.description}}" readonly></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col *ngIf="zip.value != null && phone.value != null && address.value != null && countrySelected.value != null && courier_selected.value != null" size="12" style="text-align: center;">
