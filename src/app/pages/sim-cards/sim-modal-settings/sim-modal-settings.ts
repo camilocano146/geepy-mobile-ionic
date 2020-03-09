@@ -67,7 +67,13 @@ export class SimModalSettings implements OnInit {
   private map: google.maps.Map = null;
   private heatmap: google.maps.visualization.HeatmapLayer = null;
   public showHeat: boolean;
-
+  //--------Permission
+  public show_details: boolean;
+  public show_history: boolean;
+  public show_packages: boolean;
+  public show_sms: boolean;
+  public show_location: boolean;
+  public show_settings: boolean;
 
   constructor(
     public modalController: ModalController,
@@ -93,10 +99,83 @@ export class SimModalSettings implements OnInit {
     this.showHeat = false;
     this.cupon = new FormControl('', [Validators.minLength(8), Validators.maxLength(8)]);
     this.simCurrent = null;
+    //----Permisos
+    this.show_details = true;
+    this.show_history = false;
+    this.show_packages = false;
+    this.show_sms = false;
+    this.show_location = false;
+    this.show_sms = false;
   }
 
   ngOnInit(): void {
+    this.getPermissions();
     this.getPackageHistory();
+  }
+  /**
+   * Obtiene permisos de modulos
+   */
+  getPermissions() {
+    //----Historico de paquetes
+    this.simCardService.getStatesModuleOrganizationPlatform(37).subscribe(res => {
+      console.log(res);
+      if (res.status == 200) {
+        let aux: any[] = res.body;
+        if (aux.length > 0) {
+          this.show_history = aux[0].is_active;
+        }
+        //----Paquetes
+        this.simCardService.getStatesModuleOrganizationPlatform(33).subscribe(res => {
+          console.log(res);
+          if (res.status == 200) {
+            let aux: any[] = res.body;
+            if (aux.length > 0) {
+              this.show_packages = aux[0].is_active;
+            }
+            //----SMS
+            this.simCardService.getStatesModuleOrganizationPlatform(34).subscribe(res => {
+              console.log(res);
+              if (res.status == 200) {
+                let aux: any[] = res.body;
+                if (aux.length > 0) {
+                  this.show_sms = aux[0].is_active;
+                }
+                //----Location
+                this.simCardService.getStatesModuleOrganizationPlatform(35).subscribe(res => {
+                  console.log(res);
+                  if (res.status == 200) {
+                    let aux: any[] = res.body;
+                    if (aux.length > 0) {
+                      this.show_location = aux[0].is_active;
+                    }
+                    //----Settings
+                    this.simCardService.getStatesModuleOrganizationPlatform(36).subscribe(res => {
+                      console.log(res);
+                      if (res.status == 200) {
+                        let aux: any[] = res.body;
+                        if (aux.length > 0) {
+                          this.show_settings = aux[0].is_active;
+                        }
+                      }
+                    }, err => {
+                      console.log(err);
+                    });
+                  }
+                }, err => {
+                  console.log(err);
+                });
+              }
+            }, err => {
+              console.log(err);
+            });
+          }
+        }, err => {
+          console.log(err);
+        });
+      }
+    }, err => {
+      console.log(err);
+    });
   }
   /**
    * Obtiene el historico de paquetes
@@ -607,7 +686,7 @@ export class SimModalSettings implements OnInit {
           if (element.available == true) {
             list.push(element);
           }
-        });       
+        });
         this.extraNumbersList = list;
         this.preload_get_extra_numbers_list = false;
         this.preload_endpoint = true;

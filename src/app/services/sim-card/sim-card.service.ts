@@ -198,4 +198,10 @@ export class SimCardService {
   searchBestPackages(data: RepurchasePackage): Observable<any> {
     return this.http.post<any>('sim_cards_tc/upgrade_services_avalaibles_app/',data,{ observe: 'response' });
   }
+  /**
+   * Trae permiso de detalles
+   */
+  getStatesModuleOrganizationPlatform(code): Observable<any>{
+    return this.http.get<any>(`modules/${code}/get_module_organization/`,{ observe: 'response' });
+  }
 }
