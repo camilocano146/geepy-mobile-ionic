@@ -67,7 +67,7 @@
             <ion-col *ngIf="countrySelected.value != null" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'simcard.data.buy_sims.zip' | translate}}</ion-label>
-                    <ion-input type="number" [formControl]="zip"></ion-input>
+                    <ion-input type="text" [formControl]="zip"></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col *ngIf="countrySelected.value != null" size="12">
@@ -87,7 +87,10 @@
             <ion-col *ngIf="courier_selected.value != null" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'simcard.data.buy_sims.address_p' | translate}}</ion-label>
-                    <ion-input value="{{courier_selected.value.description}}" readonly></ion-input>
+                    <ion-textarea *ngIf="language == 'en'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.countrie.name}}. Contact: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}. More info: {{courier_selected.value.web_address}}"
+                        readonly></ion-textarea>
+                    <ion-textarea *ngIf="language == 'es'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.countrie.name}}. Contacto: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}. Más información: {{courier_selected.value.web_address}}"
+                        readonly></ion-textarea>
                 </ion-item>
             </ion-col>
             <ion-col *ngIf="zip.value != null && phone.value != null && address.value != null && countrySelected.value != null && courier_selected.value != null" size="12" style="text-align: center;">

@@ -197,7 +197,7 @@
                 "purcahse_ok": "Successful purchase! We have sent your invoice to your email.",
                 "courier_error": "We couldn't get couriers.",
                 "courier": "Courier",
-                "address_p": "Physical address"
+                "address_p": "Courier details"
             },
             "import_iccid": {
                 "title": "Register by ICCID",

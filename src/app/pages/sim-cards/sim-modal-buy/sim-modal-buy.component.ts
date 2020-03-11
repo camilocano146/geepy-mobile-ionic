@@ -52,7 +52,7 @@ export class SimModalBuy implements OnInit {
     this.countrySelected = new FormControl(null, [Validators.required]);
     this.city = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(40)]);
     this.address = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
-    this.zip = new FormControl(null, [Validators.required, Validators.min(1), Validators.max(9999999999)]);
+    this.zip = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
     this.accountSelected = new FormControl(null, Validators.required);
     this.language = this.translate.currentLang;
     this.phone = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
