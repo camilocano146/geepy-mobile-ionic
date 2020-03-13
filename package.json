@@ -27,8 +27,8 @@
         "@ionic-native/app-rate": "^5.20.0",
         "@ionic-native/call-number": "^5.20.0",
         "@ionic-native/core": "^5.20.0",
-        "@ionic-native/fcm": "^5.20.0",
-        "@ionic-native/in-app-browser": "^5.20.0",
+        "@ionic-native/fcm": "^5.22.0",
+        "@ionic-native/in-app-browser": "^5.22.0",
         "@ionic-native/keyboard": "^5.22.0",
         "@ionic-native/paypal": "^5.20.0",
         "@ionic-native/splash-screen": "^5.20.0",
@@ -46,7 +46,7 @@
         "cordova-plugin-android-permissions": "^1.0.2",
         "cordova-plugin-apprate": "^1.5.0",
         "cordova-plugin-dialogs": "^2.0.2",
-        "cordova-plugin-fcm-with-dependecy-updated": "^4.1.1",
+        "cordova-plugin-fcm-with-dependecy-updated": "^4.2.0",
         "cordova-plugin-inappbrowser": "^3.2.0",
         "cordova-plugin-nativestorage": "^2.3.2",
         "cordova-plugin-stripe": "^1.5.3",
@@ -104,17 +104,18 @@
             "cordova-plugin-ionic-keyboard": {},
             "cordova-plugin-stripe": {},
             "com.paypal.cordova.mobilesdk": {},
-            "cordova-plugin-inappbrowser": {},
             "mx.ferreyra.callnumber": {},
             "cordova-plugin-android-permissions": {},
+            "call-number": {},
+            "cordova-plugin-apprate": {},
+            "cordova-plugin-inappbrowser": {},
             "cordova-plugin-fcm-with-dependecy-updated": {
                 "FCM_CORE_VERSION": "16.0.9",
                 "FCM_VERSION": "18.0.0",
                 "GRADLE_TOOLS_VERSION": "3.5.0",
-                "GOOGLE_SERVICES_VERSION": "4.2.0"
-            },
-            "call-number": {},
-            "cordova-plugin-apprate": {}
+                "GOOGLE_SERVICES_VERSION": "4.2.0",
+                "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher"
+            }
         },
         "platforms": [
             "android"

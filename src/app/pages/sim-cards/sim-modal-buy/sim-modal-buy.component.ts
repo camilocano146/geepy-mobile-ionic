@@ -9,6 +9,7 @@ import { OrderSims } from 'src/app/models/order/order';
 import { CourierService } from 'src/app/services/courier/courier.service';
 import { Global } from 'src/app/models/global/global';
 import { Courier } from 'src/app/models/courier/courier';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-sim-modal-buy',
@@ -46,7 +47,8 @@ export class SimModalBuy implements OnInit {
     private zonesService: ZonesService,
     private serviceAccountService: ServiceAccountService,
     private translate: TranslateService,
-    private courierService: CourierService
+    private courierService: CourierService,
+    private iab: InAppBrowser
   ) { 
     this.packageSelected = new FormControl(null, [Validators.required]);
     this.countrySelected = new FormControl(null, [Validators.required]);
@@ -147,6 +149,25 @@ export class SimModalBuy implements OnInit {
       });
     }
   }
+  /**
+   * Abrir página del courier
+   */
+  openWebCourier(){
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    let url = this.courier_selected.value.web_address;
+    console.log(url);
+    const browser = this.iab.create(url, '_system' );
+  }
+  /**
+   * Abrir mapa
+   */
+  openMap(){
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    let url = this.courier_selected.value.description;
+    console.log(url);
+    const browser = this.iab.create(url, '_system');
+  }
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data

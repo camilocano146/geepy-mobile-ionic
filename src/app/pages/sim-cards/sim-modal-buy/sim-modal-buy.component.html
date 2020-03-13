@@ -84,12 +84,21 @@
                     </ion-select>
                 </ion-item>
             </ion-col>
+            <ion-col *ngIf="courier_selected.value != null" size="6">
+                <ion-button color="warning" (click)="openWebCourier()" class="full-width">
+                    <ion-icon style="margin-right: 15px;" name="desktop"></ion-icon>See web page</ion-button>
+            </ion-col>
+            <ion-col *ngIf="courier_selected.value != null" size="6">
+                <ion-button color="success" (click)="openMap()" class="full-width">
+                    <ion-icon style="margin-right: 15px;" name="map"></ion-icon>See in map
+                </ion-button>
+            </ion-col>
             <ion-col *ngIf="courier_selected.value != null" size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label position="floating">{{'simcard.data.buy_sims.address_p' | translate}}</ion-label>
-                    <ion-textarea *ngIf="language == 'en'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.countrie.name}}. Contact: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}. More info: {{courier_selected.value.web_address}}"
+                    <ion-textarea *ngIf="language == 'en'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.state}} , {{courier_selected.value.countrie.name}}; Postal code: {{courier_selected.value.postal_code}}.  Contact: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}."
                         readonly></ion-textarea>
-                    <ion-textarea *ngIf="language == 'es'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.countrie.name}}. Contacto: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}. Más información: {{courier_selected.value.web_address}}"
+                    <ion-textarea *ngIf="language == 'es'" rows="4" value="{{courier_selected.value.physical_address}}, {{courier_selected.value.city}} - {{courier_selected.value.state}} , {{courier_selected.value.countrie.name}};  Código postal: {{courier_selected.value.postal_code}}.  Contacto: {{courier_selected.value.phone}} {{courier_selected.value.contact_person}}."
                         readonly></ion-textarea>
                 </ion-item>
             </ion-col>
