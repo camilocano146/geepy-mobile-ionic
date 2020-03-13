@@ -28,7 +28,7 @@ export class PopoverComponent implements OnInit {
       displayAppName: 'Geepy Mobile',
       usesUntilPrompt: 5,
       storeAppURL: {
-        //ios: '<my_app_id>',
+        ios: '1497412106',
         android: 'market://details?id=com.geepy.mobile'
       },
       customLocale: {
