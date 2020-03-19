@@ -204,4 +204,8 @@ export class SimCardService {
   getStatesModuleOrganizationPlatform(code): Observable<any>{
     return this.http.get<any>(`modules/${code}/get_module_organization/`,{ observe: 'response' });
   }
+
+  getStatesModuleOrganizationPlatformVector(data):Observable<any>{
+    return this.http.post<any>(`modules/get_modules_organization/`,data,{ observe: 'response' });
+  }
 }

@@ -18,7 +18,7 @@
         <ion-row *ngIf="zonesList.length > 0">
             <ion-col size="12" style="text-align: center;">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label position="floating">{{'zones.zones' | translate}}</ion-label>
+                    <ion-label>{{'zones.zones' | translate}}</ion-label>
                     <ion-select placeholder="{{'zones.zones_ph' | translate}}" [formControl]="zoneSelected" interface="action-sheet" (ionChange)="changeZone()">
                         <ion-select-option *ngFor="let item of zonesList " [value]="item">{{item.name}}</ion-select-option>
                     </ion-select>

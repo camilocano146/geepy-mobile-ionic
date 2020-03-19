@@ -325,6 +325,7 @@
             }
         },
         "error": {
+            "error_permission": "No pudimos obtener los permisos.",
             "services_account": "No pudimos obtener las cuentas de servicio.",
             "previus_imported": "No se puede registrar, esta se importó anteriormente o ya fue eliminada.",
             "error_register": "No pudimos importar la Sim card.",

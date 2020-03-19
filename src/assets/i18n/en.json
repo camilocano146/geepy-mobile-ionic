@@ -325,6 +325,7 @@
             }
         },
         "error": {
+            "error_permission": "We were unable to obtain permits.",
             "services_account": "We couldn't get service accounts.",
             "previus_imported": "Can't register, this was imported previously.",
             "error_register": "We couldn't import Sim card.",
