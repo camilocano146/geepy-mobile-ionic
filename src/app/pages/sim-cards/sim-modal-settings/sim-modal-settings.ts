@@ -110,73 +110,27 @@ export class SimModalSettings implements OnInit {
 
   ngOnInit(): void {
     this.getPermissions();
-    
   }
   /**
    * Obtiene permisos de modulos
    */
   getPermissions() {
-    //----Historico de paquetes
-    this.simCardService.getStatesModuleOrganizationPlatform(37).subscribe(res => {
+    const data = {
+      codes:  ['33','34','35','36','37']
+    } 
+    this.simCardService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
       console.log(res);
-      if (res.status == 200) {
-        let aux: any[] = res.body;
-        if (aux.length > 0) {
-          this.show_history = aux[0].is_active;
-        }
-        //----Paquetes
-        this.simCardService.getStatesModuleOrganizationPlatform(33).subscribe(res => {
-          console.log(res);
-          if (res.status == 200) {
-            let aux: any[] = res.body;
-            if (aux.length > 0) {
-              this.show_packages = aux[0].is_active;
-            }
-            //----SMS
-            this.simCardService.getStatesModuleOrganizationPlatform(34).subscribe(res => {
-              console.log(res);
-              if (res.status == 200) {
-                let aux: any[] = res.body;
-                if (aux.length > 0) {
-                  this.show_sms = aux[0].is_active;
-                }
-                //----Location
-                this.simCardService.getStatesModuleOrganizationPlatform(35).subscribe(res => {
-                  console.log(res);
-                  if (res.status == 200) {
-                    let aux: any[] = res.body;
-                    if (aux.length > 0) {
-                      this.show_location = aux[0].is_active;
-                    }
-                    //----Settings
-                    this.simCardService.getStatesModuleOrganizationPlatform(36).subscribe(res => {
-                      console.log(res);
-                      if (res.status == 200) {
-                        let aux: any[] = res.body;
-                        if (aux.length > 0) {
-                          this.show_settings = aux[0].is_active;
-                        }
-                        this.getPackageHistory();
-                      }
-                    }, err => {
-                      console.log(err);
-                    });
-                  }
-                }, err => {
-                  console.log(err);
-                });
-              }
-            }, err => {
-              console.log(err);
-            });
-          }
-        }, err => {
-          console.log(err);
-        });
-      }
+      this.show_packages = res.body[0].is_active;
+      this.show_sms = res.body[1].is_active;
+      this.show_location = res.body[2].is_active;
+      this.show_settings = res.body[3].is_active;
+      this.show_history = res.body[4].is_active;
+      this.getPackageHistory();
     }, err => {
       console.log(err);
-    });
+      this.presentToastError(this.translate.instant("simcard.error.error_permission"));
+    }
+    );
   }
   /**
    * Obtiene el historico de paquetes
@@ -189,6 +143,7 @@ export class SimModalSettings implements OnInit {
       this.historyPackage = res.body;
       this.getSimCardDetails();
     }, err => {
+      console.log(err);
       this.presentToastError(this.translate.instant("simcard.error.history_package"));
     });
   }
