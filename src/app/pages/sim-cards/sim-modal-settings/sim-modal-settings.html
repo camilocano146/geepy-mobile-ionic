@@ -8,7 +8,6 @@
 </ion-header>
 <ion-content>
     <div class="background-all"></div>
-
     <ion-grid>
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
@@ -19,7 +18,7 @@
             </ion-col>
             <ion-col size="12">
                 <mat-accordion>
-                    <mat-expansion-panel expanded>
+                    <mat-expansion-panel *ngIf="show_details" expanded>
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.data.details' | translate}}</label>
@@ -154,7 +153,7 @@
                         </div>
                     </mat-expansion-panel>
                     <!--Historicooo-->
-                    <mat-expansion-panel>
+                    <mat-expansion-panel *ngIf="show_history">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.history_package.title' | translate}}</label>
@@ -200,7 +199,7 @@
 
                     </mat-expansion-panel>
                     <!--Pauqtes-->
-                    <mat-expansion-panel>
+                    <mat-expansion-panel *ngIf="show_packages">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.package.title' | translate}}</label>
@@ -310,7 +309,8 @@
                             </div>
                         </div>
                     </mat-expansion-panel>
-                    <mat-expansion-panel style="padding: 0px !important;" id="panelsms">
+                    <!--SMS-->
+                    <mat-expansion-panel *ngIf="show_sms" style="padding: 0px !important;" id="panelsms">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.sms.title' | translate}}</label>
@@ -359,7 +359,8 @@
                             </ion-row>
                         </ion-grid>
                     </mat-expansion-panel>
-                    <mat-expansion-panel>
+                    <!--Location-->
+                    <mat-expansion-panel *ngIf="show_location">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.location.title' | translate}}</label>
@@ -428,7 +429,8 @@
                             </ion-grid>
                         </div>
                     </mat-expansion-panel>
-                    <mat-expansion-panel>
+                    <!--Settings-->
+                    <mat-expansion-panel *ngIf="show_settings">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.settings.title' | translate}}</label>

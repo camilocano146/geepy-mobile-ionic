@@ -67,7 +67,13 @@ export class SimModalSettings implements OnInit {
   private map: google.maps.Map = null;
   private heatmap: google.maps.visualization.HeatmapLayer = null;
   public showHeat: boolean;
-
+  //--------Permission
+  public show_details: boolean;
+  public show_history: boolean;
+  public show_packages: boolean;
+  public show_sms: boolean;
+  public show_location: boolean;
+  public show_settings: boolean;
 
   constructor(
     public modalController: ModalController,
@@ -93,10 +99,38 @@ export class SimModalSettings implements OnInit {
     this.showHeat = false;
     this.cupon = new FormControl('', [Validators.minLength(8), Validators.maxLength(8)]);
     this.simCurrent = null;
+    //----Permisos
+    this.show_details = true;
+    this.show_history = false;
+    this.show_packages = false;
+    this.show_sms = false;
+    this.show_location = false;
+    this.show_sms = false;
   }
 
   ngOnInit(): void {
-    this.getPackageHistory();
+    this.getPermissions();
+  }
+  /**
+   * Obtiene permisos de modulos
+   */
+  getPermissions() {
+    const data = {
+      codes:  ['33','34','35','36','37']
+    } 
+    this.simCardService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
+      console.log(res);
+      this.show_packages = res.body[0].is_active;
+      this.show_sms = res.body[1].is_active;
+      this.show_location = res.body[2].is_active;
+      this.show_settings = res.body[3].is_active;
+      this.show_history = res.body[4].is_active;
+      this.getPackageHistory();
+    }, err => {
+      console.log(err);
+      this.presentToastError(this.translate.instant("simcard.error.error_permission"));
+    }
+    );
   }
   /**
    * Obtiene el historico de paquetes
@@ -109,6 +143,7 @@ export class SimModalSettings implements OnInit {
       this.historyPackage = res.body;
       this.getSimCardDetails();
     }, err => {
+      console.log(err);
       this.presentToastError(this.translate.instant("simcard.error.history_package"));
     });
   }
@@ -607,7 +642,7 @@ export class SimModalSettings implements OnInit {
           if (element.available == true) {
             list.push(element);
           }
-        });       
+        });
         this.extraNumbersList = list;
         this.preload_get_extra_numbers_list = false;
         this.preload_endpoint = true;

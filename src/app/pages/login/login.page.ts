@@ -82,6 +82,7 @@ export class LoginPage implements OnInit {
         this.email.value.toLowerCase(),
         sha1(this.password.value)
       );
+      console.log(credential);
       this.authenticationService.login(credential).subscribe(
         res => {
           if (res.status == 200) {
@@ -109,8 +110,7 @@ export class LoginPage implements OnInit {
               }
               this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
               }, err => {
-                this.presentToastError(this.translate.instant('notification_token'));
-                this.navCotroller.navigateRoot('');
+
               });
             });
             //-----------------------------------------
@@ -128,6 +128,7 @@ export class LoginPage implements OnInit {
             });
           }
         }, err => {
+          console.log(err);
           if (err.status == 403) {
             this.presentToastError(this.translate.instant('login.error.is-blocked'))
           } else if (err.status == 400) {

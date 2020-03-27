@@ -6,6 +6,10 @@ import { ZonesService } from 'src/app/services/zones/zones.service';
 import { ServiceAccountService } from 'src/app/services/service-account/service-account.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OrderSims } from 'src/app/models/order/order';
+import { CourierService } from 'src/app/services/courier/courier.service';
+import { Global } from 'src/app/models/global/global';
+import { Courier } from 'src/app/models/courier/courier';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-sim-modal-buy',
@@ -25,6 +29,9 @@ export class SimModalBuy implements OnInit {
   public address: FormControl;
   //----Telefono
   public phone: FormControl;
+  //----Courier
+  public courier_list: Courier[];
+  public courier_selected: FormControl;
   //----Zip
   public zip: FormControl;
   //----Cuenta de servicio
@@ -39,22 +46,29 @@ export class SimModalBuy implements OnInit {
     private simService: SimCardService,
     private zonesService: ZonesService,
     private serviceAccountService: ServiceAccountService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private courierService: CourierService,
+    private iab: InAppBrowser
   ) { 
     this.packageSelected = new FormControl(null, [Validators.required]);
     this.countrySelected = new FormControl(null, [Validators.required]);
-    this.city = new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(40)]);
-    this.address = new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]);
-    this.zip = new FormControl(null, [Validators.required, Validators.min(100), Validators.max(9999999999)]);
+    this.city = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(40)]);
+    this.address = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
+    this.zip = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
     this.accountSelected = new FormControl(null, Validators.required);
     this.language = this.translate.currentLang;
-    this.phone = new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(50)]);
+    this.phone = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]);
+    this.courier_selected = new FormControl(null, Validators.required);
   }
 
   ngOnInit() {
     this.getSimsPackages();
   }
 
+
+  /**
+   * Trae pauetes de sims
+   */
   getSimsPackages() {
     this.simService.getSimsPackages().subscribe(res => {
       if(res.status == 200){
@@ -67,10 +81,14 @@ export class SimModalBuy implements OnInit {
     });
   }
 
+  /**
+   * Trae los paises
+   */
   getCountries(){
     this.zonesService.getAvailableCountiresToPurchase().subscribe(res => {
       if(res.status == 200){
         this.countriesList = res.body;
+
         this.getServicesAccount();
       }
     }, err => {
@@ -78,14 +96,28 @@ export class SimModalBuy implements OnInit {
       this.presentToastError(this.translate.instant('simcard.error.no_countries'))
     });
   }
-
+  /**
+   * Trae las cuentas de servicio
+   */
   getServicesAccount(){
     this.serviceAccountService.getServicesAccounts().subscribe(res => {
       if (res.status == 200) {
         this.serviceAccountsList = res.body;
+        this.getCouriers();
       }
     }, err => {
       this.presentToastError(this.translate.instant('simcard.error.services_account'));
+    });
+  }
+
+  getCouriers(){
+    this.courierService.getCouriersByOrg(Global.organization_id).subscribe(res => {
+      if(res.status == 200){
+        console.log(res.body);
+        this.courier_list = res.body;
+      }
+    }, err => {
+      this.presentToastError(this.translate.instant('simcard.data.buy_sims.courier_error'));
     });
   }
 
@@ -98,8 +130,10 @@ export class SimModalBuy implements OnInit {
       this.address.value,
       this.phone.value,
       this.packageSelected.value.id,
-      this.accountSelected.value.id
+      this.accountSelected.value.id,
+      this.courier_selected.value.id
       );
+      console.log(order);
       this.simService.orderSims(order).subscribe(res => {
         if(res.status == 201){
           this.presentToastOk(this.translate.instant('simcard.data.buy_sims.purcahse_ok'));
@@ -115,6 +149,25 @@ export class SimModalBuy implements OnInit {
       });
     }
   }
+  /**
+   * Abrir página del courier
+   */
+  openWebCourier(){
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    let url = this.courier_selected.value.web_address;
+    console.log(url);
+    const browser = this.iab.create(url, '_system' );
+  }
+  /**
+   * Abrir mapa
+   */
+  openMap(){
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    let url = this.courier_selected.value.description;
+    console.log(url);
+    const browser = this.iab.create(url, '_system');
+  }
+
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data

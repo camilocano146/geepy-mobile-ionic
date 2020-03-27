@@ -194,7 +194,10 @@
                 "phone": "Teléfono",
                 "purchase": "Finalizar compra",
                 "free": "Gratis!",
-                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico."
+                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico.",
+                "courier_error": "No pudimos obtener los transportistas",
+                "courier": "Transportista",
+                "address_p": "Información del transportista"
             },
             "import_iccid": {
                 "title": "Registrar por ICCID",
@@ -322,6 +325,7 @@
             }
         },
         "error": {
+            "error_permission": "No pudimos obtener los permisos.",
             "services_account": "No pudimos obtener las cuentas de servicio.",
             "previus_imported": "No se puede registrar, esta se importó anteriormente o ya fue eliminada.",
             "error_register": "No pudimos importar la Sim card.",

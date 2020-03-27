@@ -20,10 +20,12 @@ export class TransacitionsModalSeeComponent implements OnInit {
   }
 
   downloadStripe(){
-    const browser = this.iab.create(this.data.payment_receipt,'_system');
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    const browser = this.iab.create(this.data.payment_receipt,'_system', options);
   }
   downloadPaypal(){
-    const browser = this.iab.create('https://www.paypal.com/','_system');
+    var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
+    const browser = this.iab.create('https://www.paypal.com/','_system', options);
   }
 
   dismiss() {

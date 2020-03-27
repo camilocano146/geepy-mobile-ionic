@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.geepy.mobile" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.geepy.mobile" version="1.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Geepy Mobile</name>
     <description>Somos un Operador Móvil Virtual (OMV) basado en UK con cobertura global y bajo costo. Todas las llamadas y SMS entrantes son gratuitas en cualquier país del mundo. Lleva siempre tus comunicaciones móviles globales al alcance de tu mano. Programa tus viajes y Geepy Mobile hará todo por ti. Además, obtén grandes descuentos compartiendo la App con amigos y referidos.</description>
     <author email="geepybike1@gmail.com" href="http://geepy-mobile.com/">Luxity Lab</author>
