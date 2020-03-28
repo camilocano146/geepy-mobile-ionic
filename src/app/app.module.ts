@@ -82,8 +82,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     IonicModule.forRoot(
       {
         mode: 'ios',
-        scrollPadding: false,
-        scrollAssist: false
       }
     ),
     AppRoutingModule,
