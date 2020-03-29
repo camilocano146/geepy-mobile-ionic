@@ -57,5 +57,8 @@ export class SupportPage implements OnInit {
     });
     return await popover.present();
   }
+  toGeepyMobile(){
+    window.open("https://www.geepy-mobile.com/#/", '_system');
+  }
 
 }
