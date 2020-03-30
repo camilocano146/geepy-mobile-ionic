@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
 import { FormControl, Validators } from '@angular/forms';
@@ -37,6 +37,7 @@ export class ItineraryModalCreateComponent implements OnInit {
 
 
   constructor(
+    private cd: ChangeDetectorRef,
     public modalController: ModalController,
     private toastController: ToastController,
     private localStorageService: LocalStorageService,
@@ -118,6 +119,7 @@ export class ItineraryModalCreateComponent implements OnInit {
       }
     }
     this.expanded = false;
+    this.cd.detectChanges();
   }
 
   create() {
