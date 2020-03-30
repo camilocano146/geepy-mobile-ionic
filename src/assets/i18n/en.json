@@ -510,7 +510,7 @@
     },
     "ussd_codes": {
         "principal": {
-            "title": "assistance Codes"
+            "title": "Assistance Codes"
         },
         "call": {
             "title": "Assistance Code: ",
@@ -552,6 +552,8 @@
         "web": "Web",
         "go_mail": "Send Email",
         "go_whats": "Write to our WhatsApp",
+        "go_whats_1": "Option 1",
+        "go_whats_2": "Option 2",
         "go_web": "Visit our website"
     },
     "sign_out": {

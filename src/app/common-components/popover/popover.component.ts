@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NavParams, PopoverController, Events, AlertController, NavController } from '@ionic/angular';
+import { PopoverController, AlertController, NavController } from '@ionic/angular';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 import { TranslateService } from '@ngx-translate/core';

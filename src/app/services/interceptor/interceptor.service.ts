@@ -6,7 +6,6 @@ import {
   HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Storage } from '@ionic/storage'
 import { Observable, throwError, from} from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -67,6 +66,7 @@ export class InterceptorService implements HttpInterceptor  {
 
         if (error.status == 403 || error.status == 401) {
           this.localStorageService.removeToken();
+          localStorage.clear();
           this.navControler.navigateBack([""]);
         }
      

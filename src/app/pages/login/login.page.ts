@@ -82,7 +82,6 @@ export class LoginPage implements OnInit {
         this.email.value.toLowerCase(),
         sha1(this.password.value)
       );
-      console.log(credential);
       this.authenticationService.login(credential).subscribe(
         res => {
           if (res.status == 200) {

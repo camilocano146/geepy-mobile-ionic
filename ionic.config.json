@@ -1,7 +1,7 @@
 {
-    "name": "Geepy Mobile",
-    "integrations": {
-        "cordova": {}
-    },
-    "type": "angular"
+  "name": "geepy-connect-app-white-label",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
 }

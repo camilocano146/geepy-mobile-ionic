@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-import { NavController, NavParams, ToastController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { NavController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { VerifyEmail } from 'src/app/models/reset-password/verify-email';
 import { TranslateService } from '@ngx-translate/core';

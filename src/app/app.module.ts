@@ -27,10 +27,6 @@ import { LocalStorageService } from './services/local-storage/local-storage.serv
 import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /**
- * Keyboard
- */
-import { Keyboard } from '@ionic-native/keyboard/ngx';
-/**
  * Stripe
  */
 import { Stripe } from '@ionic-native/stripe/ngx';
@@ -105,7 +101,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     Stripe,
     PayPal,
     AppRate,
-    Keyboard,
     CallNumber,
     InAppBrowser,
     FCM,

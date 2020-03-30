@@ -11,17 +11,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { SimCardsPageRoutingModule } from './sim-cards-routing.module';
-
-import { SimCardsPage } from './sim-cards.page';
-import { SimModalImportICCID } from './sim-modal-import-iccid/sim-modal-import-iccid';
 import { TranslateModule } from '@ngx-translate/core';
-import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onum';
 import { AgmCoreModule } from '@agm/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
-import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
-import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
-
+import { SimCardsSettingsPageRoutingModule } from './sim-cards-settings-routing.module';
+import { SimCardsSettingsPage } from './sim-cards-settings.page';
+import { SimModalSendSmsComponent } from './sim-modal-send-sms/sim-modal-send-sms.component';
+import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.component';
 
 @NgModule({
   imports: [
@@ -41,20 +37,16 @@ import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-rea
       apiKey: "AIzaSyBMtHVqHc6m1dPc85aFmzg4uS8r6SlzosQ" + '&libraries=visualization'
     }),
     ReactiveFormsModule,
-    SimCardsPageRoutingModule,
+    SimCardsSettingsPageRoutingModule
   ],
   declarations: [
-    SimCardsPage,
-    SimModalImportICCID,
-    SimModalImportONUM,
-    SimModalBuy,
-    SimModalSeeRealComponent
+    SimCardsSettingsPage,
+    SimModalSendSmsComponent,
+    SimModalSeeSmsComponent
   ],
   entryComponents: [
-    SimModalImportICCID,
-    SimModalImportONUM,
-    SimModalBuy,
-    SimModalSeeRealComponent
+    SimModalSendSmsComponent,
+    SimModalSeeSmsComponent
   ]
 })
-export class SimCardsPageModule { }
+export class SimCardsSettingsPageModule {}

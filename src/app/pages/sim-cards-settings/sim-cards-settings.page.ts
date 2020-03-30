@@ -1,25 +1,27 @@
-import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
-import { ModalController, ToastController, PopoverController, AlertController } from '@ionic/angular';
+import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ModalController, ToastController, PopoverController, AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
 import { FormControl, Validators } from '@angular/forms';
 import { BuyPackageTop } from 'src/app/models/package/BuyPackageTop';
-import { SimModalSendSmsComponent } from '../sim-modal-send-sms/sim-modal-send-sms.component';
-import { SimModalSeeSmsComponent } from '../sim-modal-see-sms/sim-modal-see-sms.component';
+import { SimModalSendSmsComponent } from './sim-modal-send-sms/sim-modal-send-sms.component';
+import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.component';
+
 import { ExtraNumbersService } from 'src/app/services/extra-numbers/extra-numbers.service';
 import { } from 'googlemaps';
 
 @Component({
-  selector: 'sim-modal-settings',
-  templateUrl: './sim-modal-settings.html',
-  styleUrls: ['./sim-modal-settings.scss'],
+  selector: 'app-sim-cards-settings',
+  templateUrl: './sim-cards-settings.page.html',
+  styleUrls: ['./sim-cards-settings.page.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SimModalSettings implements OnInit {
+export class SimCardsSettingsPage implements OnInit {
+
   /**
-   * Info de la sim actual
-   */
-  @Input() sim_current: any;
+  * Info de la sim actual
+  */
+  public sim_current: any;
   public simCurrent: any;
   //---------Extra numbers
   public extraNumbersList: any[];
@@ -76,6 +78,8 @@ export class SimModalSettings implements OnInit {
   public show_settings: boolean;
 
   constructor(
+    private cd: ChangeDetectorRef,
+    private navController: NavController,
     public modalController: ModalController,
     private translate: TranslateService,
     private alertController: AlertController,
@@ -83,6 +87,10 @@ export class SimModalSettings implements OnInit {
     private simCardService: SimCardService,
     public popoverController: PopoverController,
     private extraNumberService: ExtraNumbersService) {
+    this.sim_current = JSON.parse(localStorage.getItem('sim_current'));
+    if(this.sim_current == null || this.sim_current == undefined){
+      this.navController.navigateBack('home/simcards');
+    }
     this.number_to_delete = new FormControl("", Validators.required);
     this.value_endpoint = new FormControl("", [Validators.minLength(5), Validators.maxLength(30)]);
     this.newNumber = new FormControl("", [Validators.required]);
@@ -116,16 +124,30 @@ export class SimModalSettings implements OnInit {
    */
   getPermissions() {
     const data = {
-      codes:  ['33','34','35','36','37']
-    } 
+      codes: ['33', '34', '35', '36', '37']
+    }
     this.simCardService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
       console.log(res);
       this.show_packages = res.body[0].is_active;
-      this.show_sms = res.body[1].is_active;
-      this.show_location = res.body[2].is_active;
-      this.show_settings = res.body[3].is_active;
-      this.show_history = res.body[4].is_active;
-      this.getPackageHistory();
+      if(res.body[0].is_active == true){
+        this.show_packages = true;
+      }
+      if(res.body[1].is_active == true){
+        this.show_sms = true;
+      }
+      if(res.body[2].is_active == true){
+        this.show_location = true;
+      }
+      if(res.body[3].is_active == true){
+        this.show_settings = true;
+      }
+      if(res.body[4].is_active == true){
+        this.show_history = true;
+      }
+      setTimeout(() => {
+        this.cd.detectChanges();
+        this.getPackageHistory();
+      }, 100);
     }, err => {
       console.log(err);
       this.presentToastError(this.translate.instant("simcard.error.error_permission"));
@@ -692,9 +714,7 @@ export class SimModalSettings implements OnInit {
   }
 
   dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss();
+    this.navController.navigateBack('home/simcards');
   }
   async presentToastError(text: string) {
     const toast = await this.toastController.create({

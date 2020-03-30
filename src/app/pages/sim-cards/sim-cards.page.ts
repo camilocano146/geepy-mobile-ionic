@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
-import { UserService } from 'src/app/services/user/user.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
-import { AlertController, NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { SimModalImportICCID } from './sim-modal-import-iccid/sim-modal-import-iccid';
-import { SimModalSettings } from './sim-modal-settings/sim-modal-settings';
 import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onum';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
@@ -133,18 +131,8 @@ export class SimCardsPage implements OnInit {
    * Settings SIMS
    */
   async openModalSettings(item) {
-    const modal = await this.modalController.create({
-      component: SimModalSettings,
-      componentProps: {
-        'sim_current': item
-      }
-    });
-    modal.onDidDismiss().then(res => {
-      this.ionViewDidEnter();
-
-    }).catch();
-
-    return await modal.present();
+    localStorage.setItem('sim_current', JSON.stringify(item));
+    this.navController.navigateRoot("home/simcards/settings");
   }
   /**
    * Comprar sims

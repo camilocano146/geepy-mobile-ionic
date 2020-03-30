@@ -15,9 +15,15 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../sim-cards/sim-cards.module').then(m => m.SimCardsPageModule)
+          },
+          {
+            path: 'settings',
+            loadChildren: () =>
+              import('../sim-cards-settings/sim-cards-settings.module').then(m => m.SimCardsSettingsPageModule)
           }
         ]
       },
+
       {
         path: 'itinerary',
         children: [
