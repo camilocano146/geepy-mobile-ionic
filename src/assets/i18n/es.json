@@ -183,7 +183,7 @@
             },
             "buy_sims": {
                 "title": "Comprar Sim cards",
-                "account": "Cuenta",
+                "account": "Moneda",
                 "select_one": "Seleccione una",
                 "package": "Paquetes de Sim cards",
                 "country": "Pais",
@@ -385,7 +385,7 @@
     "popover": {
         "ussd": "Códigos de asistencia",
         "recommend": "Recomendar esta App",
-        "rate": "Calificanos",
+        "rate": "Califícanos",
         "help": "Soporte",
         "sign_out": "Cerrar sesión"
     },
@@ -551,7 +551,9 @@
         "whatsapp": "WhatsApp",
         "web": "Web",
         "go_mail": "Enviar correo",
-        "go_whats": "Escribir a WhatsApp",
+        "go_whats": "Escribenos a nuestro WhatsApp",
+        "go_whats_1": "Opción 1",
+        "go_whats_2": "Opción 2",
         "go_web": "Visita nuestra página Web"
     },
     "sign_out": {

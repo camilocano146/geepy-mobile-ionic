@@ -20,8 +20,6 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor  {
-
-  public isLoading: boolean = false;
   
   constructor(
     public loadingCtrl: LoadingController,
@@ -55,22 +53,17 @@ export class InterceptorService implements HttpInterceptor  {
     this.presentLoading();
     }
     return next.handle(request).pipe(
-      
       map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          this.dismissLoading();
-        }
+        this.dismissLoading();
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
-
+        this.dismissLoading();
         if (error.status == 403 || error.status == 401) {
           this.localStorageService.removeToken();
           localStorage.clear();
           this.navControler.navigateBack([""]);
         }
-     
-        this.dismissLoading();
         return throwError(error);
       })
     ); 
@@ -78,23 +71,14 @@ export class InterceptorService implements HttpInterceptor  {
 
   // Creación del loading
   async presentLoading() {
-    if(this.isLoading == true){
-      this.dismissLoading();
-    }
-    this.isLoading = true;
     return await this.loadingCtrl.create({
      message: this.transalte.instant('loader.loading')
     }).then(a => {
-      a.present().then(() => {
-        if (!this.isLoading) {
-          a.dismiss().then(() => console.log(""));
-        }
-      });
+      a.present().then();
     });
   }
   // Cierre del loading
   async dismissLoading() {
-    this.isLoading = false;
     return await this.loadingCtrl.dismiss().then(() => console.log(""));
   }
 }

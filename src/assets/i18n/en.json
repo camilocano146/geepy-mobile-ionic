@@ -183,7 +183,7 @@
             },
             "buy_sims": {
                 "title": "Buy Sim Cards",
-                "account": "Account",
+                "account": "Currency",
                 "select_one": "Select one",
                 "package": "Sims Package",
                 "country": "Country",
