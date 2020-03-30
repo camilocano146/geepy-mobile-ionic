@@ -144,8 +144,8 @@ export class SimCardsSettingsPage implements OnInit {
       if(res.body[4].is_active == true){
         this.show_history = true;
       }
+      this.cd.detectChanges();
       setTimeout(() => {
-        this.cd.detectChanges();
         this.getPackageHistory();
       }, 100);
     }, err => {
