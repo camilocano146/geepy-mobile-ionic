@@ -20,7 +20,7 @@ export class ItineraryService {
    * Obtiene paquete recomendado por ciudad
    */
   getPackageRecommended(country: any):Observable<any>{
-    return this.http.post<any>('packages_tc/recommend_packages/',country, {observe: 'response'});
+    return this.http.post<any>('packages_landing/recommend_packages/',country, {observe: 'response'});
   }
   /**
    * ontine los itinerarios de un usuario
