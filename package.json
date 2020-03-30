@@ -113,8 +113,8 @@
             "call-number": {}
         },
         "platforms": [
-            "ios",
-            "android"
+            "android",
+            "ios"
         ]
     }
 }
