@@ -46,18 +46,27 @@ export class ItineraryPage implements OnInit {
     this.itineraryService.getItineraries().subscribe(res => {
       if (res.status == 200) {
         this.itinerariesList = res.body;
-        console.log(this.itinerariesList);
-        this.itinerariesList.sort( (a,b) => b.id - a.id) ;
-        if (this.itinerariesList.length == 0) {
-          this.existsItineraries = 1;
-        } else if (this.itinerariesList.length > 0) {
-          this.existsItineraries = 2;
-        }
+        //console.log(this.itinerariesList);
+        
+       this.structureItineriryList();
+        
       }
     }, err => {
       console.log(err);
       this.presentToastError(this.translate.instant('itinerary.error.no_itineraries'));
     });
+  }
+
+  structureItineriryList(){
+    if(this,this.itinerariesList.length>1){
+      this.itinerariesList.sort( (a,b) => b.id - a.id) ;
+    }
+    
+    if (this.itinerariesList.length == 0) {
+      this.existsItineraries = 1;
+    } else if (this.itinerariesList.length > 0) {
+      this.existsItineraries = 2;
+    }
   }
     /**
    * Filtro
@@ -118,12 +127,17 @@ export class ItineraryPage implements OnInit {
       component: ItineraryModalCreateComponent
     });
     modal.onDidDismiss().then(res => {
-      if (res.data == "created") {
-        this.ionViewDidEnter();
+      if (res.role == "created") {
+        this.addItemToItinerariesList(res.data);
       }
     }).catch();
 
     return await modal.present();
+  }
+
+  addItemToItinerariesList(package_itinerary){
+    this.itinerariesList.push(package_itinerary);
+    this.structureItineriryList();
   }
 
   async presentToastError(text: string) {

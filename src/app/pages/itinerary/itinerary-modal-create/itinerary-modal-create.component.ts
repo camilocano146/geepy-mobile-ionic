@@ -134,7 +134,7 @@ export class ItineraryModalCreateComponent implements OnInit {
       this.itineraryService.createItinerary(itinerary).subscribe(res => {
         if (res.status == 201) {
           this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));
-          this.modalController.dismiss('created');
+          this.modalController.dismiss(res.body,'created');
         }
       }, err => {
         console.log(err);
