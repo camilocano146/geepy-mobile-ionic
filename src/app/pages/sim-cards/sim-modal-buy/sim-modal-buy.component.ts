@@ -10,6 +10,7 @@ import { CourierService } from 'src/app/services/courier/courier.service';
 import { Global } from 'src/app/models/global/global';
 import { Courier } from 'src/app/models/courier/courier';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-sim-modal-buy',
@@ -41,6 +42,7 @@ export class SimModalBuy implements OnInit {
   public language: string;
 
   constructor(
+    private loadingService: LoadingService,
     private toastController: ToastController,
     private modalController: ModalController,
     private simService: SimCardService,
@@ -49,7 +51,7 @@ export class SimModalBuy implements OnInit {
     private translate: TranslateService,
     private courierService: CourierService,
     private iab: InAppBrowser
-  ) { 
+  ) {
     this.packageSelected = new FormControl(null, [Validators.required]);
     this.countrySelected = new FormControl(null, [Validators.required]);
     this.city = new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(40)]);
@@ -70,98 +72,109 @@ export class SimModalBuy implements OnInit {
    * Trae pauetes de sims
    */
   getSimsPackages() {
-    this.simService.getSimsPackages().subscribe(res => {
-      if(res.status == 200){
-        this.simsPackages = res.body;
-        this.getCountries();
-      }
-    }, err => {
-      console.log(err);
-      this.presentToastError(this.translate.instant('simcard.error.no_sim_packages'))
+    this.loadingService.presentLoading().then(() => {
+      this.simService.getSimsPackages().subscribe(res => {
+        if (res.status == 200) {
+          this.simsPackages = res.body;
+          this.getCountries();
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        console.log(err);
+        this.presentToastError(this.translate.instant('simcard.error.no_sim_packages'))
+      });
     });
   }
 
   /**
    * Trae los paises
    */
-  getCountries(){
+  getCountries() {
     this.zonesService.getAvailableCountiresToPurchase().subscribe(res => {
-      if(res.status == 200){
+      if (res.status == 200) {
         this.countriesList = res.body;
 
         this.getServicesAccount();
       }
     }, err => {
       console.log(err);
+      this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant('simcard.error.no_countries'))
     });
   }
   /**
    * Trae las cuentas de servicio
    */
-  getServicesAccount(){
+  getServicesAccount() {
     this.serviceAccountService.getServicesAccounts().subscribe(res => {
       if (res.status == 200) {
         this.serviceAccountsList = res.body;
         this.getCouriers();
       }
     }, err => {
+      this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant('simcard.error.services_account'));
     });
   }
 
-  getCouriers(){
+  getCouriers() {
     this.courierService.getCouriersByOrg(Global.organization_id).subscribe(res => {
-      if(res.status == 200){
+      if (res.status == 200) {
         console.log(res.body);
         this.courier_list = res.body;
+        this.loadingService.dismissLoading();
       }
     }, err => {
+      this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant('simcard.data.buy_sims.courier_error'));
     });
   }
 
-  order(){
-    if(this.packageSelected.valid && this.countrySelected.valid && this.city.valid && this.address.valid && this.zip.valid && this.phone.valid){
-      let order: OrderSims = new OrderSims(
-      this.zip.value,
-      this.countrySelected.value.id,
-      this.city.value,
-      this.address.value,
-      this.phone.value,
-      this.packageSelected.value.id,
-      this.accountSelected.value.id,
-      this.courier_selected.value.id
-      );
-      console.log(order);
-      this.simService.orderSims(order).subscribe(res => {
-        if(res.status == 201){
-          this.presentToastOk(this.translate.instant('simcard.data.buy_sims.purcahse_ok'));
-          this.dismiss();
-        }
-      }, err => {
-        console.log(err);
-        if (err.status == 402 && err.error.detail == "Hasn't enough money") {
-          this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
-        } else {
-          this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
-        }
+  order() {
+    if (this.packageSelected.valid && this.countrySelected.valid && this.city.valid && this.address.valid && this.zip.valid && this.phone.valid) {
+      this.loadingService.presentLoading().then(() => {
+        let order: OrderSims = new OrderSims(
+          this.zip.value,
+          this.countrySelected.value.id,
+          this.city.value,
+          this.address.value,
+          this.phone.value,
+          this.packageSelected.value.id,
+          this.accountSelected.value.id,
+          this.courier_selected.value.id
+        );
+        this.simService.orderSims(order).subscribe(res => {
+          if (res.status == 201) {
+            this.presentToastOk(this.translate.instant('simcard.data.buy_sims.purcahse_ok'));
+            this.loadingService.dismissLoading().then(()=> {
+              this.dismiss();
+            });
+          }
+        }, err => {
+          console.log(err);
+          this.loadingService.dismissLoading();
+          if (err.status == 402 && err.error.detail == "Hasn't enough money") {
+            this.presentToastError(this.translate.instant("simcard.error.not_enough_money"));
+          } else {
+            this.presentToastError(this.translate.instant("simcard.error.cannot_buy_package"));
+          }
+        });
       });
     }
   }
   /**
    * Abrir página del courier
    */
-  openWebCourier(){
+  openWebCourier() {
     var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
     let url = this.courier_selected.value.web_address;
     console.log(url);
-    const browser = this.iab.create(url, '_system' );
+    const browser = this.iab.create(url, '_system');
   }
   /**
    * Abrir mapa
    */
-  openMap(){
+  openMap() {
     var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
     let url = this.courier_selected.value.description;
     console.log(url);

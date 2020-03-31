@@ -47,6 +47,7 @@ import { RecommendService } from './services/recommend/recommend.service';
 import { ZonesService } from './services/zones/zones.service';
 import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
 import { CourierService } from './services/courier/courier.service';
+import { LoadingService } from './services/loading/loading.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -98,6 +99,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RecommendService,
     ZonesService,
     UssdCodesService,
+    LoadingService,
     Stripe,
     PayPal,
     AppRate,

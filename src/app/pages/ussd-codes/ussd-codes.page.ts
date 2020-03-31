@@ -5,6 +5,7 @@ import { PopoverComponent } from 'src/app/common-components/popover/popover.comp
 import { UssdCode } from 'src/app/models/ussd/ussd';
 import { TranslateService } from '@ngx-translate/core';
 import { UssdCodeModalCallComponent } from './ussd-code-modal-call/ussd-code-modal-call.component';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-ussd-codes',
@@ -22,6 +23,7 @@ export class UssdCodesPage implements OnInit {
   public language: string;
 
   constructor(
+    private loadingService: LoadingService,
     private ussdCodesService: UssdCodesService,
     private toastController: ToastController,
     private popoverController: PopoverController,
@@ -36,13 +38,18 @@ export class UssdCodesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.ussdCodesService.getUSSDCOdes().subscribe(res => {
-      if (res.status == 200) {
-        this.ussdList = res.body;
-      }
-    }, err => {
-      this.presentToastError(this.translate.instant('ussd_codes.error.no_load_ussd_codes'));
+    this.loadingService.presentLoading().then( ()=> {
+      this.ussdCodesService.getUSSDCOdes().subscribe(res => {
+        if (res.status == 200) {
+          this.ussdList = res.body;
+          this.loadingService.dismissLoading();
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('ussd_codes.error.no_load_ussd_codes'));
+      });
     });
+    
   }
 
   goToDetails(item){

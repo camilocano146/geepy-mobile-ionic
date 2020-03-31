@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { ItineraryModalCreateComponent } from './itinerary-modal-create/itinerary-modal-create.component';
 import { ItineraryModalEditComponent } from './itinerary-modal-edit/itinerary-modal-edit.component';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-itinerary',
@@ -26,6 +27,7 @@ export class ItineraryPage implements OnInit {
   public auxText: string;
 
   constructor(
+    private loadingService: LoadingService,
     private popoverController: PopoverController,
     private itineraryService: ItineraryService,
     private toastController: ToastController,
@@ -43,17 +45,17 @@ export class ItineraryPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.itineraryService.getItineraries().subscribe(res => {
-      if (res.status == 200) {
-        this.itinerariesList = res.body;
-        //console.log(this.itinerariesList);
-        
-       this.structureItineriryList();
-        
-      }
-    }, err => {
-      console.log(err);
-      this.presentToastError(this.translate.instant('itinerary.error.no_itineraries'));
+    this.loadingService.presentLoading().then( ()=>{
+      this.itineraryService.getItineraries().subscribe(res => {
+        if (res.status == 200) {
+          this.itinerariesList = res.body;
+         this.structureItineriryList();
+        }
+      }, err => {
+        console.log(err);
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('itinerary.error.no_itineraries'));
+      });
     });
   }
 
@@ -61,12 +63,12 @@ export class ItineraryPage implements OnInit {
     if(this,this.itinerariesList.length>1){
       this.itinerariesList.sort( (a,b) => b.id - a.id) ;
     }
-    
     if (this.itinerariesList.length == 0) {
       this.existsItineraries = 1;
     } else if (this.itinerariesList.length > 0) {
       this.existsItineraries = 2;
     }
+    this.loadingService.dismissLoading();
   }
     /**
    * Filtro

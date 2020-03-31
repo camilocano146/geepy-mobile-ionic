@@ -7,6 +7,7 @@ import { BillingService } from 'src/app/services/billing/billing.service';
 import { FormControl, Validators } from '@angular/forms';
 import { PaymentPaypal } from 'src/app/models/payment/payment-paypal';
 import { TariffRecharge } from 'src/app/models/tarif-recharge/tariff-recharge';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-transacitions-modal-paypal',
@@ -23,6 +24,7 @@ export class TransacitionsModalPaypalComponent implements OnInit {
   public eur_tariffs: TariffRecharge[];
 
   constructor(
+    private loadingService: LoadingService,
     private tariffRechargeService: TariffRechargeService,
     private toastController: ToastController,
     private modalController: ModalController,
@@ -38,21 +40,25 @@ export class TransacitionsModalPaypalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
-      if (res.status == 200) {
-        this.tarifsList = res.body;
-        this.tarifsList.forEach(element => {
-          if(element.currency.acronym == 'USD'){
-            this.usd_tariffs.push(element);
-          } else if(element.currency.acronym == 'EUR'){
-            this.eur_tariffs.push(element);
-          }
-        });
-        this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
-        this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
-      }
-    }, err => {
-      this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
+    this.loadingService.presentLoading().then(() => {
+      this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
+        if (res.status == 200) {
+          this.tarifsList = res.body;
+          this.tarifsList.forEach(element => {
+            if (element.currency.acronym == 'USD') {
+              this.usd_tariffs.push(element);
+            } else if (element.currency.acronym == 'EUR') {
+              this.eur_tariffs.push(element);
+            }
+          });
+          this.usd_tariffs.sort((a, b) => +a.value - +b.value);
+          this.eur_tariffs.sort((a, b) => +a.value - +b.value);
+          this.loadingService.dismissLoading();
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
+      });
     });
   }
 
@@ -69,18 +75,24 @@ export class TransacitionsModalPaypalComponent implements OnInit {
       })).then(() => {
         let tarifWithTax = +this.tariffSelected.value.value + (+this.tariffSelected.value.value * 0.06) + 0.30;
         let payment = new PayPalPayment("" + tarifWithTax, this.tariffSelected.value.currency.acronym, 'Recharge in MS One Mobile', 'sale');
+        // Successfully paid
         this.payPal.renderSinglePaymentUI(payment).then((res) => {
-          // Successfully paid
-          let payment: PaymentPaypal = new PaymentPaypal(this.tariffSelected.value.id, res.response.id, this.tariffSelected.value.currency.id);
-          this.billingService.loadBalancePaypal(payment).subscribe(res => {
-            if (res.status == 200) {
-              this.presentToastOk(this.transalte.instant('payments.paypal.payment_ok'));
-              this.modalController.dismiss("created");
-            }
-          }, err => {
-            console.log(err);
-            this.presentToastError(this.transalte.instant('pay_not_saved'));
+          this.loadingService.presentLoading().then(() => {
+            let payment: PaymentPaypal = new PaymentPaypal(this.tariffSelected.value.id, res.response.id, this.tariffSelected.value.currency.id);
+            this.billingService.loadBalancePaypal(payment).subscribe(res => {
+              if (res.status == 200) {
+                this.presentToastOk(this.transalte.instant('payments.paypal.payment_ok'));
+                this.loadingService.dismissLoading().then(() => {
+                  this.modalController.dismiss("created");
+                });
+              }
+            }, err => {
+              console.log(err);
+              this.loadingService.dismissLoading();
+              this.presentToastError(this.transalte.instant('pay_not_saved'));
+            });
           });
+
 
         }, (err) => {
           // Error or render dialog closed without being successful

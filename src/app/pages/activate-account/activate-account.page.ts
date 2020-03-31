@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { VerifyEmail } from 'src/app/models/reset-password/verify-email';
 import { ActivationCode } from 'src/app/models/user/code-activation/activation-code';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-activate-account',
@@ -24,6 +25,7 @@ export class ActivateAccountPage implements OnInit {
   public isKeyboardOpen: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     public navCotroller: NavController,
     private authenticationService: AuthenticationService,
     public toastController: ToastController,
@@ -39,18 +41,22 @@ export class ActivateAccountPage implements OnInit {
 
   sendCode() {
     if (this.code.valid) {
-      this.authenticationService
-        .sendActivationCode(new ActivationCode(this.code.value))
-        .subscribe(res => {
+      this.loadingService.presentLoading().then(()=> {
+        this.authenticationService.sendActivationCode(new ActivationCode(this.code.value)).subscribe(res => {
           if (res.detail == "verified account") {
             this.presentToastOk(this.translate.instant('activate_account.data.account_verificated'));
-            this.navCotroller.navigateBack([""]);
+            this.loadingService.dismissLoading().then(()=> {
+              this.navCotroller.navigateBack([""]);
+            }); 
           }
         }, err => {
+          this.loadingService.dismissLoading();
           if (err.error.detail == "code not found") {
             this.presentToastError(this.translate.instant('activate_account.error.wrong_code'));
           }
         });
+      });
+
     }
   }
   focus(){

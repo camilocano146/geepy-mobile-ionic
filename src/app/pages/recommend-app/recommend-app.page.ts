@@ -4,6 +4,7 @@ import { PopoverComponent } from 'src/app/common-components/popover/popover.comp
 import { FormControl, Validators } from '@angular/forms';
 import { RecommendService } from 'src/app/services/recommend/recommend.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-recommend-app',
@@ -15,6 +16,7 @@ export class RecommendAppPage implements OnInit {
   public email: FormControl;
 
   constructor(
+    private loadingService: LoadingService,
     private toastController: ToastController,
     private popoverController: PopoverController,
     private navController: NavController,
@@ -33,18 +35,23 @@ export class RecommendAppPage implements OnInit {
 
   sendEmail(){
     if(this.email.valid){
-      const data = {
-        email: this.email.value.toLowerCase()
-      }
-      this.recommendService.sendRecomendation(data).subscribe(res => {
-        if(res.status == 201){
-          this.presentToastOk(this.translateService.instant('recommend.data.refered_ok'));
+      this.loadingService.presentLoading().then(()=>{
+        const data = {
+          email: this.email.value.toLowerCase()
         }
-      }, err => {
-        console.log(err);
-        if(err.status == 400 && err.error.email[0] == "Este campo debe ser único."){
-          this.presentToastError(this.translateService.instant('recommend.error.email_unique'));
-        }
+        this.recommendService.sendRecomendation(data).subscribe(res => {
+          if(res.status == 201){
+            this.loadingService.dismissLoading().then(()=>{
+              this.presentToastOk(this.translateService.instant('recommend.data.refered_ok'));
+            });
+          }
+        }, err => {
+          console.log(err);
+          this.loadingService.dismissLoading();
+          if(err.status == 400 && err.error.email[0] == "Este campo debe ser único."){
+            this.presentToastError(this.translateService.instant('recommend.error.email_unique'));
+          }
+        });
       });
     }
   }

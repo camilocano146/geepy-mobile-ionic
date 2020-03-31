@@ -7,6 +7,7 @@ import { TransacitionsModalStripeComponent } from './transacitions-modal-stripe/
 import { TransacitionsModalPaypalComponent } from './transacitions-modal-paypal/transacitions-modal-paypal.component';
 import { BillingService } from 'src/app/services/billing/billing.service';
 import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transacitions-modal-see.component';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-transacitions',
@@ -21,6 +22,7 @@ export class TransacitionsPage implements OnInit {
   public paymentsList: any[];
 
   constructor(
+    private loadingService:LoadingService,
     private userService: UserService,
     public toastController: ToastController,
     public popoverController: PopoverController,
@@ -36,34 +38,40 @@ export class TransacitionsPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.userService.obtainUserByToken().subscribe(res => {
-      if (res.status == 200) {
-        this.user = res.body;
-        this.billingService.getTransactions().subscribe(res => {
-          if(res.status == 200){
-            this.paymentsList = res.body;
-            if(this.paymentsList.length == 0){
-              this.existPayments = 1;
-            } else if(this.paymentsList.length > 0){
-              this.existPayments = 2;
-              this.paymentsList.sort((a,b) => b.id - a.id);
-              let aux: any[] = [];
-              this.paymentsList.forEach(element => {
-                if(element.id_stripe_transaction != null || element.id_pay_pal_transaction != null || element.transaction.name == 'Order Sim Sets'){
-                  aux.push(element);
-                }
-              });
-              this.paymentsList = aux;
+    this.loadingService.presentLoading().then(()=> {
+      this.userService.obtainUserByToken().subscribe(res => {
+        if (res.status == 200) {
+          this.user = res.body;
+          this.billingService.getTransactions().subscribe(res => {
+            if(res.status == 200){
+              this.paymentsList = res.body;
+              if(this.paymentsList.length == 0){
+                this.existPayments = 1;
+              } else if(this.paymentsList.length > 0){
+                this.existPayments = 2;
+                this.paymentsList.sort((a,b) => b.id - a.id);
+                let aux: any[] = [];
+                this.paymentsList.forEach(element => {
+                  if(element.id_stripe_transaction != null || element.id_pay_pal_transaction != null || element.transaction.name == 'Order Sim Sets'){
+                    aux.push(element);
+                  }
+                });
+                this.paymentsList = aux;
+              }
+              this.loadingService.dismissLoading();
             }
-          }
-        }, err => {
-          console.log(err);
-          this.presentToastError(this.translate.instant('payments.error.no_load_payments'));
-        });
-      }
-    }, error => {
-      this.presentToastError(this.translate.instant('profile.error.profile'));
+          }, err => {
+            console.log(err);
+            this.loadingService.dismissLoading();
+            this.presentToastError(this.translate.instant('payments.error.no_load_payments'));
+          });
+        }
+      }, error => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('profile.error.profile'));
+      });
     });
+    
   }
   /**
    * Abre modal de stripe

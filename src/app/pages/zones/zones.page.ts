@@ -4,6 +4,7 @@ import { PopoverComponent } from 'src/app/common-components/popover/popover.comp
 import { ZonesService } from 'src/app/services/zones/zones.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl } from '@angular/forms';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-zones',
@@ -34,6 +35,7 @@ export class ZonesPage implements OnInit {
   public countries: any[];
 
   constructor(
+    private loadingService: LoadingService,
     private zonesService: ZonesService,
     private popoverController: PopoverController,
     private translate: TranslateService,
@@ -50,16 +52,20 @@ export class ZonesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.zonesList = [];
-    this.zoneSelected = new FormControl(null);
-    this.current_language = this.translate.currentLang;
-    this.zonesService.getZones().subscribe(res => {
-      if (res.status == 200) {
-        this.zonesList = res.body;
-      }
-    }, err => {
-      console.log(err);
-      this.presentToastError(this.translate.instant('zones.no_load_countries'));
+    this.loadingService.presentLoading().then( () => {
+      this.zonesList = [];
+      this.zoneSelected = new FormControl(null);
+      this.current_language = this.translate.currentLang;
+      this.zonesService.getZones().subscribe(res => {
+        if (res.status == 200) {
+          this.zonesList = res.body;
+          this.loadingService.dismissLoading();
+        }
+      }, err => {
+        console.log(err);
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('zones.no_load_countries'));
+      });
     });
   }
 

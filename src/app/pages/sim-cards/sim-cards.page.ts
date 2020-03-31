@@ -10,6 +10,7 @@ import { PopoverComponent } from 'src/app/common-components/popover/popover.comp
 import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
 import { TranslateService } from '@ngx-translate/core';
 import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-sim-cards',
@@ -33,6 +34,7 @@ export class SimCardsPage implements OnInit {
   public preloadSims: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     private localStorageService: LocalStorageService,
     private simCardService: SimCardService,
     public popoverController: PopoverController,
@@ -47,35 +49,33 @@ export class SimCardsPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.loadingService.presentLoading().then( () => {
+      this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+        if (res.status == 200) {
+          this.simsList = res.body[1];
+          for (let index = 0; index < this.simsList.length; index++) {
+            if (this.simsList[index].status == 3) {
+              this.simsList.splice(index, 1);
+            }
+          }
+          this.simsList.sort((a, b) => b.id - a.id);
+          this.simsList.forEach(element => {
+            this.copyFull.push(element);
+          });
+          this.loadingService.dismissLoading();
+          this.preloadSims = true;
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
+      });
+    });
   }
 
   test() {
     this.navController.navigateRoot('repurchase-package');
   }
-  /**
-   * Carga el contenido cuando entra
-   */
-  ionViewDidEnter() {
-    this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
-      if (res.status == 200) {
-        this.simsList = res.body[1];
-        for (let index = 0; index < this.simsList.length; index++) {
-          if (this.simsList[index].status == 3) {
-            this.simsList.splice(index, 1);
-          }
-        }
-        this.simsList.sort((a, b) => b.id - a.id);
-        this.simsList.forEach(element => {
-          this.copyFull.push(element);
-        });
 
-        this.preloadSims = true;
-      }
-    }, err => {
-      this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
-    });
-  }
   /**
    * Filtro
    */
@@ -106,7 +106,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ionViewDidEnter();
+        this.ngOnInit();
       }
     }).catch();
 
@@ -121,7 +121,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ionViewDidEnter();
+        this.ngOnInit();
       }
     }).catch();
 

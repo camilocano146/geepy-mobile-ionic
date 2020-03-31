@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Itinerary } from 'src/app/models/itinerary/itinerary';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-itinerary-modal-create',
@@ -37,6 +38,7 @@ export class ItineraryModalCreateComponent implements OnInit {
 
 
   constructor(
+    private loadingService: LoadingService,
     private cd: ChangeDetectorRef,
     public modalController: ModalController,
     private toastController: ToastController,
@@ -57,21 +59,26 @@ export class ItineraryModalCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.itineraryService.getCountries().subscribe(res => {
-      if (res.status == 200) {
-        this.countriesList = res.body;
-        this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
-          if (res.status == 200) {
-            this.simsList = res.body[1];
-          }
-        }, err => {
-          this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
-        });
-      }
-    }, err => {
-      console.log(err);
-      this.presentToastError(this.translate.instant('simcard.error.no_countries'));
+    this.loadingService.presentLoading().then(() => {
+      this.itineraryService.getCountries().subscribe(res => {
+        if (res.status == 200) {
+          this.countriesList = res.body;
+          this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+            if (res.status == 200) {
+              this.simsList = res.body[1];
+            }
+            this.loadingService.dismissLoading();
+          }, err => {
+            this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
+          });
+        }
+      }, err => {
+        console.log(err);
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('simcard.error.no_countries'));
+      });
     });
+
   }
 
   searchPackages() {
@@ -97,7 +104,7 @@ export class ItineraryModalCreateComponent implements OnInit {
       console.log(err);
       if (err.status == 400 && err.error.countrie) {
         this.presentToastError(this.translate.instant('itinerary.error.country_mandatory'));
-      }else {
+      } else {
         this.presentToastError(this.translate.instant('itinerary.error.no_search_packages'));
       }
     });
@@ -124,29 +131,34 @@ export class ItineraryModalCreateComponent implements OnInit {
 
   create() {
     if (this.simcard.valid && this.startDate.valid && this.packageselected != null && this.country.valid) {
-      let itinerary: Itinerary = new Itinerary;
-      const datePipe = new DatePipe('en-US');
-      itinerary.activation_date = datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
-      itinerary.destination_id = this.country.value.id;
-      itinerary.sim_card_id = this.simcard.value.id;
-      itinerary.user = this.user.id;
-      itinerary.package_id = this.packageselected.id;
-      this.itineraryService.createItinerary(itinerary).subscribe(res => {
-        if (res.status == 201) {
-          this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));
-          this.modalController.dismiss(res.body,'created');
-        }
-      }, err => {
-        console.log(err);
-        if (err.status == 416 && err.error.detail == "Minimum time to program a itinerary need be 2 days before.") {
-          this.presentToastError(this.translate.instant('itinerary.error.min_time_48'));
-        } else if (err.status == 402 && err.error.detail == "Hasn't enough money") {
-          this.presentToastError(this.translate.instant('itinerary.error.not_enough_money'));
-        } else if (err.status == 500) {
-          this.presentToastError(this.translate.instant('itinerary.error.server_error'));
-        } else {
-          this.presentToastError(this.translate.instant('itinerary.error.created_error'));
-        }
+      this.loadingService.presentLoading().then(() => {
+        let itinerary: Itinerary = new Itinerary;
+        const datePipe = new DatePipe('en-US');
+        itinerary.activation_date = datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
+        itinerary.destination_id = this.country.value.id;
+        itinerary.sim_card_id = this.simcard.value.id;
+        itinerary.user = this.user.id;
+        itinerary.package_id = this.packageselected.id;
+        this.itineraryService.createItinerary(itinerary).subscribe(res => {
+          if (res.status == 201) {
+            this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));
+            this.loadingService.dismissLoading().then(() => {
+              this.modalController.dismiss(res.body, 'created');
+            });
+          }
+        }, err => {
+          console.log(err);
+          this.loadingService.dismissLoading();
+          if (err.status == 416 && err.error.detail == "Minimum time to program a itinerary need be 2 days before.") {
+            this.presentToastError(this.translate.instant('itinerary.error.min_time_48'));
+          } else if (err.status == 402 && err.error.detail == "Hasn't enough money") {
+            this.presentToastError(this.translate.instant('itinerary.error.not_enough_money'));
+          } else if (err.status == 500) {
+            this.presentToastError(this.translate.instant('itinerary.error.server_error'));
+          } else {
+            this.presentToastError(this.translate.instant('itinerary.error.created_error'));
+          }
+        });
       });
     }
   }

@@ -135,7 +135,8 @@
             "email_min_max": "Email must have between 3 and 45 characters.",
             "password_min_max": "Password must have between 6 and 16 characters.",
             "pass_not_match": "Passwords not match",
-            "error_email": "Invalid email."
+            "error_email": "Invalid email.",
+            "no_update": "We couldn't update your profile"
         }
     },
     "home": {

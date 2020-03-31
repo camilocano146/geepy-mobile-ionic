@@ -50,15 +50,15 @@ export class InterceptorService implements HttpInterceptor  {
         url: Global.apiGeepyConnect + request.url
       });
       //LLamamos al preload
-    this.presentLoading();
+    //this.presentLoading();
     }
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
-        this.dismissLoading();
+        //this.dismissLoading();
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
-        this.dismissLoading();
+       // this.dismissLoading();
         if (error.status == 403 || error.status == 401) {
           this.localStorageService.removeToken();
           localStorage.clear();
@@ -67,18 +67,5 @@ export class InterceptorService implements HttpInterceptor  {
         return throwError(error);
       })
     ); 
-  }
-
-  // Creación del loading
-  async presentLoading() {
-    return await this.loadingCtrl.create({
-     message: this.transalte.instant('loader.loading')
-    }).then(a => {
-      a.present().then();
-    });
-  }
-  // Cierre del loading
-  async dismissLoading() {
-    return await this.loadingCtrl.dismiss().then(() => console.log(""));
   }
 }

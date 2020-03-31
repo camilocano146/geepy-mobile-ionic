@@ -8,6 +8,7 @@ import { ItineraryService } from 'src/app/services/itinerary/itinerary.service';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
 import { Itinerary } from 'src/app/models/itinerary/itinerary';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-itinerary-modal-edit',
@@ -41,6 +42,7 @@ export class ItineraryModalEditComponent implements OnInit {
   public preload_data: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     private modalController: ModalController,
     private toastController: ToastController,
     private localStorageService: LocalStorageService,
@@ -51,7 +53,7 @@ export class ItineraryModalEditComponent implements OnInit {
     this.currentLang = this.translate.currentLang;
     this.user = this.localStorageService.getStorageUser();
     const datePipe = new DatePipe('en-US');
-    this.minDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 2  )), 'yyyy-MM-dd');
+    this.minDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 2)), 'yyyy-MM-dd');
     this.maxDayToPlanning = datePipe.transform(new Date(Date.now() + (86400000 * 365)), 'yyyy-MM-dd');
     this.newDate = new FormControl('', Validators.required);
     this.existsPackages = 0;
@@ -59,56 +61,65 @@ export class ItineraryModalEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
-    this.data.package.activation_fee_eur = +this.data.package.activation_fee_eur + 1;
-    this.data.package.activation_fee_usd = +this.data.package.activation_fee_usd + 1;
-    this.countriesList = [];
-    this.simsList = [];
-    this.itineraryService.getCountries().subscribe(res => {
-      if (res.status == 200) {
-        this.countriesList = res.body;
-        this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
-          if (res.status == 200) {
-            this.simsList = res.body[1];
-            this.packageselected = this.data.package;
-            this.country = new FormControl(this.data.destination.id, Validators.required);
-            this.simcard = new FormControl(this.data.sim_card.iccid, Validators.required);
-            this.startDate = new FormControl(this.data.activation_date, Validators.required);
-            this.preload_data = false;
-          }
-        }, err => {
-          this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
-        });
-      }
+    this.loadingService.presentLoading().then(() => {
+      this.data.package.activation_fee_eur = +this.data.package.activation_fee_eur + 1;
+      this.data.package.activation_fee_usd = +this.data.package.activation_fee_usd + 1;
+      this.countriesList = [];
+      this.simsList = [];
+      this.itineraryService.getCountries().subscribe(res => {
+        if (res.status == 200) {
+          this.countriesList = res.body;
+          this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+            if (res.status == 200) {
+              this.simsList = res.body[1];
+              this.packageselected = this.data.package;
+              this.country = new FormControl(this.data.destination.id, Validators.required);
+              this.simcard = new FormControl(this.data.sim_card.iccid, Validators.required);
+              this.startDate = new FormControl(this.data.activation_date, Validators.required);
+              this.preload_data = false;
+              this.loadingService.dismissLoading();
+            }
+          }, err => {
+            this.loadingService.dismissLoading();
+            this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
+          });
+        }
 
-    }, err => {
-      console.log(err);
-      this.presentToastError(this.translate.instant('simcard.error.no_countries'));
+      }, err => {
+        console.log(err);
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('simcard.error.no_countries'));
+      });
     });
   }
 
   save() {
     if (this.newDate.valid) {
-      let itinerary: Itinerary = new Itinerary;
-      const datePipe = new DatePipe('en-US');
-      itinerary.activation_date = datePipe.transform(this.newDate.value, 'yyyy-MM-dd');
-      this.itineraryService.updateItinerary(this.data.id, itinerary).subscribe(res => {
-        if(res.status == 202){
-          this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
-          this.modalController.dismiss({action:"saved"});
-        }
-      }, err => {
-        console.log(err);
-        if(err.status == 404 && err.error.detail == "Maximum refund date has expired"){
-          this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
-        } else {
-          this.presentToastError(this.translate.instant('simcard.error.edit_error'));
-        }
+      this.loadingService.presentLoading().then( ()=>{
+        let itinerary: Itinerary = new Itinerary;
+        const datePipe = new DatePipe('en-US');
+        itinerary.activation_date = datePipe.transform(this.newDate.value, 'yyyy-MM-dd');
+        this.itineraryService.updateItinerary(this.data.id, itinerary).subscribe(res => {
+          if (res.status == 202) {
+            this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
+            this.loadingService.dismissLoading().then(() => {
+              this.modalController.dismiss({ action: "saved" });
+            });
+          }
+        }, err => {
+          console.log(err);
+          this.loadingService.dismissLoading();
+          if (err.status == 404 && err.error.detail == "Maximum refund date has expired") {
+            this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
+          } else {
+            this.presentToastError(this.translate.instant('simcard.error.edit_error'));
+          }
+        });
       });
     }
   }
 
-  cancel(){
+  cancel() {
     this.presentAlertConfirm();
   }
 
@@ -151,17 +162,23 @@ export class ItineraryModalEditComponent implements OnInit {
         {
           text: this.translate.instant('itinerary.edit.btn_yes'),
           handler: () => {
-            this.itineraryService.cancelItinerary(this.data.id).subscribe( res => {
-              if(res.status == 204){
-                this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
-                this.modalController.dismiss({action:"cancel", id:this.data.id});
-              }
-            }, err => {
-              console.log(err);
-              if(err.status == 404 && err.error.detail == "Maximum refund date has expired"){
-                this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
-              }
+            this.loadingService.presentLoading().then(() => {
+              this.itineraryService.cancelItinerary(this.data.id).subscribe(res => {
+                if (res.status == 204) {
+                  this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
+                  this.loadingService.dismissLoading().then(() => {
+                    this.modalController.dismiss({ action: "cancel", id: this.data.id });
+                  });
+                }
+              }, err => {
+                console.log(err);
+                this.loadingService.dismissLoading();
+                if (err.status == 404 && err.error.detail == "Maximum refund date has expired") {
+                  this.presentToastError(this.translate.instant('simcard.error.maximum_date'));
+                }
+              });
             });
+
           }
         }, {
           text: this.translate.instant('itinerary.edit.btn_cancel'),

@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
 import { SMS } from 'src/app/models/sms/sms';
 import { TranslateService } from '@ngx-translate/core';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-sim-modal-send-sms',
@@ -19,6 +20,7 @@ export class SimModalSendSmsComponent implements OnInit {
   public textSMS: FormControl;
   public number: FormControl;
   constructor(
+    private loadingService: LoadingService,
     public toastController: ToastController,
     public modalController: ModalController,
     private simCardService: SimCardService,
@@ -32,21 +34,27 @@ export class SimModalSendSmsComponent implements OnInit {
 
   sendSMS1() {
     if (this.number.valid && this.textSMS.valid) {
-      let sms: SMS = new SMS(this.number.value, this.textSMS.value);
-      this.simCardService.sendSMS1(this.sim_current, sms).subscribe(res => {
-        this.presentToastOk(this.translate.instant('simcard.data.settings.sms.sms_sent_ok'));
-        this.modalController.dismiss("sent");
-      }, err => {
-        if(err.status == 402){
-          this.presentToastError(this.translate.instant('simcard.error.not_enough_money'));
-        }else if (err.status == 400 && err.error.sms.text == "Requested card not found") {
-          this.presentToastError(this.translate.instant('simcard.error.destinatary_not_found'));
-        } else if (err.status == 500) {
-          this.presentToastError(this.translate.instant('simcard.error.server_error'));
-        } else {
-          this.presentToastError(this.translate.instant('simcard.error.no_send_sms'));
-        }
+      this.loadingService.presentLoading().then(()=> {
+        let sms: SMS = new SMS(this.number.value, this.textSMS.value);
+        this.simCardService.sendSMS1(this.sim_current, sms).subscribe(res => {
+          this.presentToastOk(this.translate.instant('simcard.data.settings.sms.sms_sent_ok'));
+          this.loadingService.dismissLoading().then(() => {
+            this.modalController.dismiss("sent");
+          });
+        }, err => {
+          this.loadingService.dismissLoading();
+          if(err.status == 402){
+            this.presentToastError(this.translate.instant('simcard.error.not_enough_money'));
+          }else if (err.status == 400 && err.error.sms.text == "Requested card not found") {
+            this.presentToastError(this.translate.instant('simcard.error.destinatary_not_found'));
+          } else if (err.status == 500) {
+            this.presentToastError(this.translate.instant('simcard.error.server_error'));
+          } else {
+            this.presentToastError(this.translate.instant('simcard.error.no_send_sms'));
+          }
+        });
       });
+
     }
   }
 

@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ResetPassword } from 'src/app/models/reset-password/reset-password';
 import sha1 from 'js-sha1'
 import { User } from 'src/app/models/user/user';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -38,6 +39,7 @@ export class RegisterPage implements OnInit {
   public Chide: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     public navCotroller: NavController,
     private authenticationService: AuthenticationService,
     public toastController: ToastController,
@@ -65,25 +67,29 @@ export class RegisterPage implements OnInit {
       this.confirmPassword.valid &&
       this.password.value == this.confirmPassword.value
     ) {
-      let user: User = new User(this.email.value.toLowerCase(),this.name.value,this.lastname.value);
-      user.password = sha1(this.password.value);
-      user.role = 5;
-      console.log(user);
-      this.authenticationService.createUserWithOutToken(user).subscribe(res => {
-        if(res.status == 201){
-          this.presentToastOk(this.translate.instant('register_user.data.ok_created'));
-          this.navCotroller.navigateRoot("");
-        }
-      },err => {
-        if (err.status == 400) {
-          this.presentToastError(this.translate.instant('register_user.error.email_in_use'));
-        } else if (err.status == 422 && err.error.detail == "Error to send email"){
-          this.presentToastError(this.translate.instant('register_user.error.error_mail_service'));
-        } else if (err.status == 500){
-          this.presentToastError(this.translate.instant('register_user.error.server_error'));
-        } else {
-          this.presentToastError(this.translate.instant('register_user.error.not_created'));
-        }
+      this.loadingService.presentLoading().then(()=>{
+        let user: User = new User(this.email.value.toLowerCase(),this.name.value,this.lastname.value);
+        user.password = sha1(this.password.value);
+        user.role = 5;
+        this.authenticationService.createUserWithOutToken(user).subscribe(res => {
+          if(res.status == 201){
+            this.presentToastOk(this.translate.instant('register_user.data.ok_created'));
+            this.loadingService.dismissLoading().then(()=>{
+              this.navCotroller.navigateRoot("");
+            });
+          }
+        },err => {
+          this.loadingService.dismissLoading();
+          if (err.status == 400) {
+            this.presentToastError(this.translate.instant('register_user.error.email_in_use'));
+          } else if (err.status == 422 && err.error.detail == "Error to send email"){
+            this.presentToastError(this.translate.instant('register_user.error.error_mail_service'));
+          } else if (err.status == 500){
+            this.presentToastError(this.translate.instant('register_user.error.server_error'));
+          } else {
+            this.presentToastError(this.translate.instant('register_user.error.not_created'));
+          }
+        });
       });
     }
   }

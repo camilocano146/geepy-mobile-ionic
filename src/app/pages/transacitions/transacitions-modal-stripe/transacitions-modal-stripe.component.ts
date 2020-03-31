@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BillingService } from 'src/app/services/billing/billing.service';
 import { Payment } from 'src/app/models/payment/payment';
 import { TariffRecharge } from 'src/app/models/tarif-recharge/tariff-recharge';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 declare var Stripe;
 
 @Component({
@@ -29,6 +30,7 @@ export class TransacitionsModalStripeComponent implements OnInit {
   card: any;
 
   constructor(
+    private loadingService: LoadingService,
     private tariffRechargeService: TariffRechargeService,
     private toastController: ToastController,
     private modalController: ModalController,
@@ -44,40 +46,50 @@ export class TransacitionsModalStripeComponent implements OnInit {
 
   ngOnInit() {
     this.setupStripe();
-    this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
-      if (res.status == 200) {
-        this.tarifsList = res.body;
-        this.tarifsList.forEach(element => {
-          if(element.currency.acronym == 'USD'){
-            this.usd_tariffs.push(element);
-          } else if(element.currency.acronym == 'EUR'){
-            this.eur_tariffs.push(element);
-          }
-        });
-        this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
-        this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
-      }
-    }, err => {
-      this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
+    this.loadingService.presentLoading().then( ()=> {
+      this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
+        if (res.status == 200) {
+          this.tarifsList = res.body;
+          this.tarifsList.forEach(element => {
+            if(element.currency.acronym == 'USD'){
+              this.usd_tariffs.push(element);
+            } else if(element.currency.acronym == 'EUR'){
+              this.eur_tariffs.push(element);
+            }
+          });
+          this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
+          this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
+          this.loadingService.dismissLoading();
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
+      });
     });
+
   }
 
   payWithStripe(result) {
-    let payment: Payment = new Payment(result, this.tariffSelected.value.id, this.tariffSelected.value.currency.id);
-    this.billingService.loadBalance(payment).subscribe(res => {
-      if (res.status == 200) {
-        this.presentToastOk(this.transalte.instant('payments.stripe.payment_ok'));
-        this.modalController.dismiss("created");
-      }
-    }, err => {
-      console.log(err);
-      if (err.status == 402 && err.error.message == "Your card was declined. Your request was in test mode, but used a non test (live) card. For a list of valid test cards, visit: https://stripe.com/docs/testing.") {
-        this.presentToastError(this.transalte.instant('payments.error.credit_card_test'));
-      } else if (err.status == 500 && err.error.detail == "the payment failed") {
-        this.presentToastError(this.transalte.instant('payments.error.payment_bad'));
-      } else {
-        this.presentToastError(this.transalte.instant('payments.error.cannot_buy'));
-      }
+    this.loadingService.presentLoading().then( ()=> {
+      let payment: Payment = new Payment(result, this.tariffSelected.value.id, this.tariffSelected.value.currency.id);
+      this.billingService.loadBalance(payment).subscribe(res => {
+        if (res.status == 200) {
+          this.presentToastOk(this.transalte.instant('payments.stripe.payment_ok'));
+          this.loadingService.dismissLoading().then( ()=> {
+            this.modalController.dismiss("created");
+          });
+        }
+      }, err => {
+        this.loadingService.dismissLoading();
+        console.log(err);
+        if (err.status == 402 && err.error.message == "Your card was declined. Your request was in test mode, but used a non test (live) card. For a list of valid test cards, visit: https://stripe.com/docs/testing.") {
+          this.presentToastError(this.transalte.instant('payments.error.credit_card_test'));
+        } else if (err.status == 500 && err.error.detail == "the payment failed") {
+          this.presentToastError(this.transalte.instant('payments.error.payment_bad'));
+        } else {
+          this.presentToastError(this.transalte.instant('payments.error.cannot_buy'));
+        }
+      });
     });
   }
 

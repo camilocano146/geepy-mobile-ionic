@@ -135,7 +135,8 @@
             "email_min_max": "Correo electronico debe tener entre 3 y 45 caracteres.",
             "password_min_max": "Contraseña debe tener entre 6 y 16 caracteres.",
             "pass_not_match": "Contraseñas no coinciden.",
-            "error_email": "Correo electronico no valido."
+            "error_email": "Correo electronico no valido.",
+            "no_update": "No pudimos actualizar su perfil"
         }
     },
     "home": {

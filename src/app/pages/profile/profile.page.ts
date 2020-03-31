@@ -7,6 +7,7 @@ import { ToastController, PopoverController, NavController, AlertController } fr
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfilePage implements OnInit {
   public hideCP: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     private userService: UserService,
     public toastController: ToastController,
     public popoverController: PopoverController,
@@ -45,50 +47,67 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
-  ionViewDidEnter(){
-    this.userService.obtainUserByToken().subscribe(res => {
-      if (res.status == 200) {
-        this.user = res.body;
-        this.name.setValue(this.user.first_name);
-        this.lastname.setValue(this.user.last_name);
-        this.email.setValue(this.user.email);
-      }
-    }, error => {
-      this.presentToastError(this.translate.instant('profile.error.profile'));
+  ionViewDidEnter() {
+    this.loadingService.presentLoading().then(() => {
+      this.userService.obtainUserByToken().subscribe(res => {
+        if (res.status == 200) {
+          this.user = res.body;
+          this.name.setValue(this.user.first_name);
+          this.lastname.setValue(this.user.last_name);
+          this.email.setValue(this.user.email);
+          this.loadingService.dismissLoading();
+        }
+      }, error => {
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('profile.error.profile'));
+      });
     });
+
   }
 
   changeInfo() {
     if (this.name.valid && this.lastname.valid && this.email.valid && (this.name.value != this.user.first_name || this.lastname.value != this.user.last_name || this.email.value != this.user.email)) {
-      this.user.email = this.email.value.toLowerCase();
-      this.user.first_name = this.name.value;
-      this.user.last_name = this.lastname.value;
-      this.userService.updateUser(this.user.id, this.user).subscribe(res => {
-        if(res.status == 200){
-          this.presentToastOk(this.translate.instant('profile.info_ok'));
-          this.ngOnInit();
-        }
+      this.loadingService.presentLoading().then(() => {
+        this.user.email = this.email.value.toLowerCase();
+        this.user.first_name = this.name.value;
+        this.user.last_name = this.lastname.value;
+        this.userService.updateUser(this.user.id, this.user).subscribe(res => {
+          if (res.status == 200) {
+            this.presentToastOk(this.translate.instant('profile.info_ok'));
+            this.loadingService.dismissLoading().then(() => {
+              this.ionViewDidEnter();
+            });
+          }
+        }, err => {
+          this.loadingService.dismissLoading();
+          this.presentToastError(this.translate.instant('profile.error.no_update'));
+        });
       });
     }
   }
 
   changePassword() {
     if (this.password.valid && this.newPassword.valid && this.confPasword.valid && (this.confPasword.value == this.newPassword.value) && this.newPassword.value.length > 5) {
-      const newPass = {
-        password_new: sha1(this.newPassword.value),
-        password_old: sha1(this.password.value)
-      }
-      this.userService.updateUser(this.user.id, newPass).subscribe(res => {
-        if (res.status == 200) {
-          this.presentToastOk(this.translate.instant('profile.pass_ok'));
-          this.password.reset();
-          this.newPassword.reset();
-          this.confPasword.reset();
-          this.ngOnInit();
+      this.loadingService.presentLoading().then(() => {
+        const newPass = {
+          password_new: sha1(this.newPassword.value),
+          password_old: sha1(this.password.value)
         }
+        this.userService.updateUser(this.user.id, newPass).subscribe(res => {
+          if (res.status == 200) {
+            this.presentToastOk(this.translate.instant('profile.pass_ok'));
+            this.password.reset();
+            this.newPassword.reset();
+            this.confPasword.reset();
+            this.loadingService.dismissLoading();
+          }
+        }, err => {
+          this.loadingService.dismissLoading();
+          this.presentToastError(this.translate.instant('profile.error.no_update'));
+        });
       });
     }
   }
@@ -120,10 +139,10 @@ export class ProfilePage implements OnInit {
     return this.email.hasError("required")
       ? this.translate.instant('profile.error.required_value')
       : this.email.hasError("email")
-      ? this.translate.instant('profile.error.error_email')
-      : this.email.hasError("minlength") || this.email.hasError("maxlength")
-        ? this.translate.instant('profile.error.email_min_max')
-        : "";
+        ? this.translate.instant('profile.error.error_email')
+        : this.email.hasError("minlength") || this.email.hasError("maxlength")
+          ? this.translate.instant('profile.error.email_min_max')
+          : "";
   }
 
   /**

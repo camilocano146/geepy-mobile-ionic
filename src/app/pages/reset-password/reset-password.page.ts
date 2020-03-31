@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { TranslateService } from '@ngx-translate/core';
 import { ResetPassword } from 'src/app/models/reset-password/reset-password';
 import sha1 from 'js-sha1'
+import { LoadingService } from 'src/app/services/loading/loading.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -30,6 +31,7 @@ export class ResetPasswordPage implements OnInit {
   public Chide: boolean;
 
   constructor(
+    private loadingService: LoadingService,
     public navCotroller: NavController,
     private authenticationService: AuthenticationService,
     public toastController: ToastController,
@@ -53,26 +55,30 @@ export class ResetPasswordPage implements OnInit {
       this.confirmPassword.valid &&
       this.password.value == this.confirmPassword.value
     ) {
-      let resetPassword: ResetPassword = new ResetPassword(
-        sha1(this.password.value),
-        sha1(this.confirmPassword.value),
-        this.code.value
-      );
-      this.authenticationService.resetPassword(resetPassword).subscribe(
-        res => {
-          if (res.detail == "Password changed, please login") {
-            this.presentToastOk(this.translate.instant('reset_password.data.password_update'));
-            this.navCotroller.navigateForward([""]);
-          }
-        },
-        err => {
-          if (err.status == 422 && err.error.detail == "unknown code") {
-            this.presentToastError(this.translate.instant('reset_password.error.wrong_code'));
-          } else if(err.status == 500){
-            this.presentToastError(this.translate.instant('reset_password.error.server_error'));
-          }
-        }
-      );
+      this.loadingService.presentLoading().then(() => {
+        let resetPassword: ResetPassword = new ResetPassword(
+          sha1(this.password.value),
+          sha1(this.confirmPassword.value),
+          this.code.value
+        );
+        this.authenticationService.resetPassword(resetPassword).subscribe(
+          res => {
+            if (res.detail == "Password changed, please login") {
+              this.presentToastOk(this.translate.instant('reset_password.data.password_update'));
+              this.loadingService.dismissLoading().then(() => {
+                this.navCotroller.navigateForward([""]);
+              });
+            }
+          },
+          err => {
+            this.loadingService.dismissLoading();
+            if (err.status == 422 && err.error.detail == "unknown code") {
+              this.presentToastError(this.translate.instant('reset_password.error.wrong_code'));
+            } else if (err.status == 500) {
+              this.presentToastError(this.translate.instant('reset_password.error.server_error'));
+            }
+          });
+      });
     }
   }
 
