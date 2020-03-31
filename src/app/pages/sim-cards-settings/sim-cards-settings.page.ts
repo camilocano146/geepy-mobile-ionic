@@ -803,7 +803,9 @@ export class SimCardsSettingsPage implements OnInit {
           this.preload_package = true;
           this.preload_simcard = true;
           this.preload_avaiable_packages = true;
-          this.loadingService.dismissLoading();
+          this.loadingService.dismissLoading().then(() => {
+            this.obtainStatusLocation();
+          });
         }
       }, err => {
         console.log(err);
