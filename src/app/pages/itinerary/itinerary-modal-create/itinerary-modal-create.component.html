@@ -82,7 +82,7 @@
                                             <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
                                                 <ion-item>
                                                     <ion-label>{{'itinerary.create.select_this' | translate}}</ion-label>
-                                                    <ion-toggle slot="start" color="success" mode="ios" [checked]="item.selected" (ionFocus)="selectPackage(item.package_code)" [disabled]="item.selected == true"></ion-toggle>
+                                                    <ion-toggle slot="start" color="success" mode="ios" [checked]="item.selected" (ionChange)="selectPackage(item.package_code)" [disabled]="item.selected == true"></ion-toggle>
                                                 </ion-item>
                                             </ion-col>
                                         </ion-row>

@@ -90,11 +90,24 @@ export class ItineraryPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(res => {
-      if (res.data == "created") {
+      if (res.data.action == "cancel") {
+        this.removeTrip(res.data.id);
+      }else if(res.data.action == "saved"){
         this.ionViewDidEnter();
       }
     }).catch();
     return await modal.present();
+  }
+
+  removeTrip(id_trip){
+    for(let i=0; i<this.itinerariesList.length; i++){
+      if(id_trip==this.itinerariesList[i].id){
+        this.itinerariesList.splice(i, 1);
+        if(this.itinerariesList.length==0){
+          this.existsItineraries = 1;
+        }
+      }
+    }
   }
 
   /**

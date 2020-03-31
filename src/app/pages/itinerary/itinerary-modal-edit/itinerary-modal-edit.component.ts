@@ -95,7 +95,7 @@ export class ItineraryModalEditComponent implements OnInit {
       this.itineraryService.updateItinerary(this.data.id, itinerary).subscribe(res => {
         if(res.status == 202){
           this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
-          this.modalController.dismiss('created');
+          this.modalController.dismiss({action:"saved"});
         }
       }, err => {
         console.log(err);
@@ -154,7 +154,7 @@ export class ItineraryModalEditComponent implements OnInit {
             this.itineraryService.cancelItinerary(this.data.id).subscribe( res => {
               if(res.status == 204){
                 this.presentToastOk(this.translate.instant('itinerary.edit.edit_ok'));
-                this.modalController.dismiss('created');
+                this.modalController.dismiss({action:"cancel", id:this.data.id});
               }
             }, err => {
               console.log(err);
