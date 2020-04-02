@@ -267,6 +267,8 @@
                     "package_code": "Código del paquete",
                     "cost": "Costo",
                     "date": "Fecha de activación",
+                    "expire": "Fecha de expiración",
+                    "vigency": "Días de vigencia: ",
                     "no_data": "No hay nada aquí."
                 },
                 "sms": {
@@ -434,7 +436,7 @@
             "cancel": "Cancelar",
             "p2": "Solo puede cambiar la fecha o cancelar este plan con 48 horas de anticipación.",
             "edit_ok": "Tu Itinerario ha sido actualizado exitosamente.",
-            "header": "Cancel vieje",
+            "header": "Cancel viaje?",
             "text": "¿Estás seguro?",
             "btn_yes": "Si",
             "btn_cancel": "No"

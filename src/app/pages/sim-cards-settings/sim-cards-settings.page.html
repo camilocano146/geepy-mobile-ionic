@@ -185,10 +185,20 @@
                                                 <ion-label color="primary"><strong>{{item.package.package_name}}</strong></ion-label>
                                             </ion-col>
                                             <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                <ion-label color="success"><strong>{{'simcard.data.settings.history_package.date' | translate}}: </strong></ion-label>
+                                                <ion-label color="success"><strong>{{'simcard.data.settings.history_package.date' | translate}}</strong></ion-label>
                                             </ion-col>
                                             <ion-col size="12" style="text-align: center !important; font-size: 18px;">
                                                 <ion-label>{{item.activation_date | date}} </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success"><strong>{{'simcard.data.settings.history_package.expire' | translate}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px;">
+                                                <ion-label>{{calculateDateExpire(item) | date}}</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px;">
+                                                <ion-label color="success"><strong>{{'simcard.data.settings.history_package.vigency' | translate}}</strong></ion-label>
+                                                <ion-label> {{item.package.validity_period_days}}</ion-label>
                                             </ion-col>
                                         </ion-row>
                                     </ion-grid>

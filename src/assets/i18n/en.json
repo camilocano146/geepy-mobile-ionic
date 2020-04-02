@@ -267,6 +267,8 @@
                     "package_code": "Package code",
                     "cost": "Cost",
                     "date": "Activation date",
+                    "expire": "Expiration date",
+                    "vigency": "Days of validity: ",
                     "no_data": "There is nothing here."
                 },
                 "sms": {

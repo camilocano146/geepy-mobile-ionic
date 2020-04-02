@@ -10,6 +10,7 @@ import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.c
 import { ExtraNumbersService } from 'src/app/services/extra-numbers/extra-numbers.service';
 import { } from 'googlemaps';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sim-cards-settings',
@@ -178,7 +179,14 @@ export class SimCardsSettingsPage implements OnInit {
         this.presentToastError(this.translate.instant("simcard.error.history_package"));
       });
     });
-
+  }
+  calculateDateExpire(item) {
+    let date: string = item.activation_date;
+    date.replace('-', '/');
+    var from = moment(date, 'YYYY-MM-DD');
+    let vigency = 0+item.package.validity_period_days;
+    from.add(vigency, 'days')
+    return from.toDate();
   }
   /**
    * Obtiene información de la sim
@@ -659,6 +667,7 @@ export class SimCardsSettingsPage implements OnInit {
             this.total_location_queries = +this.location_status.records.record.queries_left + +this.location_status.records.record.queries_used;
             this.location_service_on = 2;
           }
+          this.cd.detectChanges();
           this.loadingService.dismissLoading();
         }
       }, err => {

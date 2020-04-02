@@ -49,6 +49,9 @@ export class SimCardsPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter(){
     this.loadingService.presentLoading().then( () => {
       this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
         if (res.status == 200) {
