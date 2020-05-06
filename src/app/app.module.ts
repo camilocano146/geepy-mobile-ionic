@@ -48,6 +48,7 @@ import { ZonesService } from './services/zones/zones.service';
 import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
 import { CourierService } from './services/courier/courier.service';
 import { LoadingService } from './services/loading/loading.service';
+import { PermissionModuleService } from './services/module/module.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -107,6 +108,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InAppBrowser,
     FCM,
     AndroidPermissions,
+    PermissionModuleService,
     ItineraryService,
     { provide: LOCALE_ID, useValue: "en-US" },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

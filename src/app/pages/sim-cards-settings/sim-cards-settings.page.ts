@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ModalController, ToastController, PopoverController, AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
@@ -11,6 +11,7 @@ import { ExtraNumbersService } from 'src/app/services/extra-numbers/extra-number
 import { } from 'googlemaps';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import * as moment from 'moment';
+import { PermissionModuleService } from 'src/app/services/module/module.service';
 
 @Component({
   selector: 'app-sim-cards-settings',
@@ -19,7 +20,10 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class SimCardsSettingsPage implements OnInit {
-
+  /**
+   * Interval para cerrar el loading
+   */
+  public interval: any;
   /**
   * Info de la sim actual
   */
@@ -30,14 +34,17 @@ export class SimCardsSettingsPage implements OnInit {
   public number_to_delete: FormControl;
   public newNumber: FormControl;
   //---------Preloads
+  public preload_permissions: boolean;
   public preload_simcard: boolean;
   public preload_package: boolean;
+  public preload_history: boolean;
   public preload_conectivity: boolean;
   public preload_endpoint: boolean;
   public preload_events: boolean;
   public preload_avaiable_packages: boolean;
   public preload_get_extra_numbers_list: boolean;
   public preload_location_point: boolean;
+  public preload_sms: boolean;
   //---------Paquetes disponibles
   public avaibalePackages: any;
   public cupon: FormControl;
@@ -78,10 +85,13 @@ export class SimCardsSettingsPage implements OnInit {
   public show_sms: boolean;
   public show_location: boolean;
   public show_settings: boolean;
+  public codes_permission: string[];
+
+  public info: any;
 
   constructor(
+    private moduleService: PermissionModuleService,
     private loadingService: LoadingService,
-    private cd: ChangeDetectorRef,
     private navController: NavController,
     public modalController: ModalController,
     private translate: TranslateService,
@@ -117,74 +127,115 @@ export class SimCardsSettingsPage implements OnInit {
     this.show_sms = false;
     this.show_location = false;
     this.show_sms = false;
+    this.codes_permission = ['33', '34', '35', '36', '37'];
+    //----Preloads
+    this.preload_permissions = true;
+    this.preload_history = true;
+    this.preload_simcard = true;
+    this.preload_package = true;
+    this.preload_events = true;
+    this.preload_conectivity = true;
+    this.preload_avaiable_packages = true;
+    this.preload_endpoint = true;
+    this.preload_sms = true;
+    this.preload_get_extra_numbers_list = true;
+    this.preload_location_point = true;
   }
 
   ngOnInit(): void {
+    this.startLoading();
+  }
+
+  startLoading() {
     this.getPermissions();
+    this.loadingService.presentLoading().then(() => {
+      this.stopLoading();
+    });
+  }
+
+  stopLoading() {
+    //Pregunto
+    this.interval = setInterval(() => {
+      if (this.preload_permissions == false &&
+        this.preload_history == false &&
+        this.preload_simcard == false &&
+        this.preload_package == false &&
+        this.preload_events == false &&
+        this.preload_conectivity == false &&
+        this.preload_endpoint == false &&
+        this.preload_avaiable_packages == false &&
+        this.preload_sms == false &&
+        this.preload_get_extra_numbers_list == false) {
+        clearInterval(this.interval);
+        this.interval = null;
+        this.loadingService.dismissLoading();
+      }
+    }, 500);
   }
   /**
    * Obtiene permisos de modulos
    */
   getPermissions() {
-    this.loadingService.presentLoading().then(() => {
-      const data = {
-        codes: ['33', '34', '35', '36', '37']
+    const data = {
+      codes: this.codes_permission
+    }
+    this.moduleService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
+      this.info = "Me respondio el servicio";
+      console.log(res.body);
+      if (res.body[0].is_active == true) {
+        this.show_packages = true;
       }
-      this.simCardService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
-        console.log(res);
-        this.show_packages = res.body[0].is_active;
-        if (res.body[0].is_active == true) {
-          this.show_packages = true;
-        }
-        if (res.body[1].is_active == true) {
-          this.show_sms = true;
-        }
-        if (res.body[2].is_active == true) {
-          this.show_location = true;
-        }
-        if (res.body[3].is_active == true) {
-          this.show_settings = true;
-        }
-        if (res.body[4].is_active == true) {
-          this.show_history = true;
-        }
-        this.cd.detectChanges();
-        this.loadingService.dismissLoading().then(() => {
-          this.getPackageHistory();
-        });
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.error_permission"));
+      if (res.body[1].is_active == true) {
+        this.show_sms = true;
       }
-      );
+      if (res.body[2].is_active == true) {
+        this.show_location = true;
+      }
+      if (res.body[3].is_active == true) {
+        this.show_settings = true;
+      }
+      if (res.body[4].is_active == true) {
+        this.show_history = true;
+      }
+      this.preload_permissions = false;
+      this.getSimCardDetails();
+      this.getPackageHistory();
+      this.obtainPackage();
+      this.getLastEvents();
+      this.getConnectivity();
+      this.obtainEndPoint();
+      this.obtainAvaiablesPackages();
+      this.getSMSSimCard();
+      this.getExtraNumbers();
+      this.obtainStatusLocation();
+
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.error_permission"));
     });
   }
   /**
    * Obtiene el historico de paquetes
    */
   getPackageHistory() {
-    this.loadingService.presentLoading().then(() => {
-      const simcard = {
-        simcard_tc: this.sim_current.id
-      }
-      this.simCardService.getPacakgeHistoryApp(simcard).subscribe(res => {
-        this.historyPackage = res.body;
-        this.loadingService.dismissLoading().then(() => {
-          this.getSimCardDetails();
-        });
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.history_package"));
-      });
+    const simcard = {
+      simcard_tc: this.sim_current.id
+    }
+    this.simCardService.getPacakgeHistoryApp(simcard).subscribe(res => {
+      this.historyPackage = res.body;
+      this.preload_history = false;
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.history_package"));
     });
   }
   calculateDateExpire(item) {
     let date: string = item.activation_date;
     date.replace('-', '/');
     var from = moment(date, 'YYYY-MM-DD');
-    let vigency = 0+item.package.validity_period_days;
+    let vigency = 0 + item.package.validity_period_days;
     from.add(vigency, 'days')
     return from.toDate();
   }
@@ -192,29 +243,25 @@ export class SimCardsSettingsPage implements OnInit {
    * Obtiene información de la sim
    */
   getSimCardDetails() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getSimCardById(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.simCurrent = res.body;
-          this.number_to_delete.setValue(this.simCurrent.card_stat.card.enum);
-          if (this.simCurrent.card_stat.discount) {
-            if (this.simCurrent.card_stat.discount.gprs) {
-              this.simCurrent.card_stat.discount.gprs.init_volume = this.simCurrent.card_stat.discount.gprs.init_volume / 1048576;
-              this.simCurrent.card_stat.discount.gprs.left_volume = this.simCurrent.card_stat.discount.gprs.left_volume / 1048576;
-              this.leftData = this.simCurrent.card_stat.discount.gprs.init_volume - this.simCurrent.card_stat.discount.gprs.left_volume;
-            }
-          }
-          this.loadingService.dismissLoading().then(() => {
-            this.obtainPackage();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_details_sim"));
-      });
-    });
 
+    this.simCardService.getSimCardById(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.simCurrent = res.body;
+        this.number_to_delete.setValue(this.simCurrent.card_stat.card.enum);
+        if (this.simCurrent.card_stat.discount) {
+          if (this.simCurrent.card_stat.discount.gprs) {
+            this.simCurrent.card_stat.discount.gprs.init_volume = this.simCurrent.card_stat.discount.gprs.init_volume / 1048576;
+            this.simCurrent.card_stat.discount.gprs.left_volume = this.simCurrent.card_stat.discount.gprs.left_volume / 1048576;
+            this.leftData = this.simCurrent.card_stat.discount.gprs.init_volume - this.simCurrent.card_stat.discount.gprs.left_volume;
+          }
+        }
+        this.preload_simcard = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_details_sim"));
+    });
   }
   /**
      * Obtiene información de la sim
@@ -245,77 +292,60 @@ export class SimCardsSettingsPage implements OnInit {
    * Obtiene el paquete del la sim
    */
   obtainPackage() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getCurrentPackage(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.package = res.body.discountm.gprs;
-          this.package.amount = this.package.amount / 1048576;
-          this.loadingService.dismissLoading().then(() => {
-            this.getLastEvents();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_packages_sim"));
-      });
+    this.simCardService.getCurrentPackage(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.package = res.body.discountm.gprs;
+        this.package.amount = this.package.amount / 1048576;
+        this.preload_package = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_packages_sim"));
     });
   }
   /**
    * Ultimos eventos
    */
   getLastEvents() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getLastActivity(this.sim_current.id).subscribe(res => {
-        this.lastEvents = res.body;
-        this.loadingService.dismissLoading().then(() => {
-          this.getConnectivity();
-        });
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_events_sim"));
-      });
+    this.simCardService.getLastActivity(this.sim_current.id).subscribe(res => {
+      this.lastEvents = res.body;
+      this.preload_events = false;
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_events_sim"));
     });
   }
   /**
  * Obtiene la conectividad
  */
   getConnectivity() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getConectivity(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.conectivity = res.body;
-          this.loadingService.dismissLoading().then(() => {
-            this.obtainEndPoint();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_connectivity_sim"));
-      });
+    this.simCardService.getConectivity(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.conectivity = res.body;
+        this.preload_conectivity = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_connectivity_sim"));
     });
-
   }
   /**
    * Obtiene el endpoint de la sim
    */
   obtainEndPoint() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getSimCardEndpoint(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.endpoint = res.body;
-          this.value_endpoint.setValue(this.endpoint.endpoint);
-          this.loadingService.dismissLoading().then(() => {
-            this.obtainAvaiablesPackages();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_endpoint_sim"));
-      });
+    this.simCardService.getSimCardEndpoint(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.endpoint = res.body;
+        this.value_endpoint.setValue(this.endpoint.endpoint);
+        this.preload_endpoint = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_endpoint_sim"));
     });
   }
   /**
@@ -340,66 +370,62 @@ export class SimCardsSettingsPage implements OnInit {
  * Obtiene paquetes disponibles
  */
   obtainAvaiablesPackages() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getAvaiablePackages(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.avaibalePackages = res.body;
-          if (this.avaibalePackages.getserviceoptions.gprs) {
-            if (this.avaibalePackages.getserviceoptions.gprs.activation_fee) {
-              let l = this.avaibalePackages.getserviceoptions.gprs.activation_fee.length - 6;
-              this.avaibalePackages.getserviceoptions.gprs.activation_fee = this.avaibalePackages.getserviceoptions.gprs.activation_fee.substring(0, l);
-              this.avaibalePackages.getserviceoptions.gprs.activation_fee = +this.avaibalePackages.getserviceoptions.gprs.activation_fee + 1;
-            } else {
-              for (let index = 0; index < this.avaibalePackages.getserviceoptions.gprs.length; index++) {
-                let l = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.length - 6;
-                this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.substring(0, l);
-                this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = +this.avaibalePackages.getserviceoptions.gprs[index].activation_fee + 1;
-              }
+    this.simCardService.getAvaiablePackages(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.avaibalePackages = res.body;
+        if (this.avaibalePackages.getserviceoptions.gprs) {
+          if (this.avaibalePackages.getserviceoptions.gprs.activation_fee) {
+            let l = this.avaibalePackages.getserviceoptions.gprs.activation_fee.length - 6;
+            this.avaibalePackages.getserviceoptions.gprs.activation_fee = this.avaibalePackages.getserviceoptions.gprs.activation_fee.substring(0, l);
+            this.avaibalePackages.getserviceoptions.gprs.activation_fee = +this.avaibalePackages.getserviceoptions.gprs.activation_fee + 1;
+          } else {
+            for (let index = 0; index < this.avaibalePackages.getserviceoptions.gprs.length; index++) {
+              let l = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.length - 6;
+              this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = this.avaibalePackages.getserviceoptions.gprs[index].activation_fee.substring(0, l);
+              this.avaibalePackages.getserviceoptions.gprs[index].activation_fee = +this.avaibalePackages.getserviceoptions.gprs[index].activation_fee + 1;
             }
           }
-          if (this.avaibalePackages.getserviceoptions.lbs) {
-            if (this.avaibalePackages.getserviceoptions.lbs.activation_fee) {
-              let l = this.avaibalePackages.getserviceoptions.lbs.activation_fee.length - 8;
-              this.avaibalePackages.getserviceoptions.lbs.activation_fee = this.avaibalePackages.getserviceoptions.lbs.activation_fee.substring(0, l);
-            } else {
-              for (let index1 = 0; index1 < this.avaibalePackages.getserviceoptions.lbs.length; index1++) {
-                let l = this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee.length - 8;
-                this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee = this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee.substring(0, l);
-
-              }
-            }
-          }
-          if (this.avaibalePackages.getserviceoptions.sms) {
-            if (this.avaibalePackages.getserviceoptions.sms.activation_fee) {
-              let l = this.avaibalePackages.getserviceoptions.sms.activation_fee.length - 8;
-              this.avaibalePackages.getserviceoptions.sms.activation_fee = this.avaibalePackages.getserviceoptions.sms.activation_fee.substring(0, l);
-            } else {
-              for (let index2 = 0; index2 < this.avaibalePackages.getserviceoptions.sms.length; index2++) {
-                let l = this.avaibalePackages.getserviceoptions.sms[index2].activation_fee.length - 8;
-                this.avaibalePackages.getserviceoptions.sms[index2].activation_fee = this.avaibalePackages.getserviceoptions.sms[index2].activation_fee.substring(0, l);
-              }
-            }
-          }
-          if (this.avaibalePackages.getserviceoptions.voice) {
-            if (this.avaibalePackages.getserviceoptions.voice.activation_fee) {
-              let l = this.avaibalePackages.getserviceoptions.voice.activation_fee.length - 8;
-              this.avaibalePackages.getserviceoptions.voice.activation_fee = this.avaibalePackages.getserviceoptions.voice.activation_fee.substring(0, l);
-            } else {
-              for (let index2 = 0; index2 < this.avaibalePackages.getserviceoptions.voice.length; index2++) {
-                let l = this.avaibalePackages.getserviceoptions.voice[index2].activation_fee.length - 8;
-                this.avaibalePackages.getserviceoptions.voice[index2].activation_fee = this.avaibalePackages.getserviceoptions.voice[index2].activation_fee.substring(0, l);
-              }
-            }
-          }
-          this.loadingService.dismissLoading().then(() => {
-            this.getSMSSimCard();
-          });
         }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_avaiable_package"));
-      });
+        if (this.avaibalePackages.getserviceoptions.lbs) {
+          if (this.avaibalePackages.getserviceoptions.lbs.activation_fee) {
+            let l = this.avaibalePackages.getserviceoptions.lbs.activation_fee.length - 8;
+            this.avaibalePackages.getserviceoptions.lbs.activation_fee = this.avaibalePackages.getserviceoptions.lbs.activation_fee.substring(0, l);
+          } else {
+            for (let index1 = 0; index1 < this.avaibalePackages.getserviceoptions.lbs.length; index1++) {
+              let l = this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee.length - 8;
+              this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee = this.avaibalePackages.getserviceoptions.lbs[index1].activation_fee.substring(0, l);
+
+            }
+          }
+        }
+        if (this.avaibalePackages.getserviceoptions.sms) {
+          if (this.avaibalePackages.getserviceoptions.sms.activation_fee) {
+            let l = this.avaibalePackages.getserviceoptions.sms.activation_fee.length - 8;
+            this.avaibalePackages.getserviceoptions.sms.activation_fee = this.avaibalePackages.getserviceoptions.sms.activation_fee.substring(0, l);
+          } else {
+            for (let index2 = 0; index2 < this.avaibalePackages.getserviceoptions.sms.length; index2++) {
+              let l = this.avaibalePackages.getserviceoptions.sms[index2].activation_fee.length - 8;
+              this.avaibalePackages.getserviceoptions.sms[index2].activation_fee = this.avaibalePackages.getserviceoptions.sms[index2].activation_fee.substring(0, l);
+            }
+          }
+        }
+        if (this.avaibalePackages.getserviceoptions.voice) {
+          if (this.avaibalePackages.getserviceoptions.voice.activation_fee) {
+            let l = this.avaibalePackages.getserviceoptions.voice.activation_fee.length - 8;
+            this.avaibalePackages.getserviceoptions.voice.activation_fee = this.avaibalePackages.getserviceoptions.voice.activation_fee.substring(0, l);
+          } else {
+            for (let index2 = 0; index2 < this.avaibalePackages.getserviceoptions.voice.length; index2++) {
+              let l = this.avaibalePackages.getserviceoptions.voice[index2].activation_fee.length - 8;
+              this.avaibalePackages.getserviceoptions.voice[index2].activation_fee = this.avaibalePackages.getserviceoptions.voice[index2].activation_fee.substring(0, l);
+            }
+          }
+        }
+        this.preload_avaiable_packages = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_avaiable_package"));
     });
   }
 
@@ -599,28 +625,23 @@ export class SimCardsSettingsPage implements OnInit {
      * Método para obtener los SMS de una sim
      */
   getSMSSimCard() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getSMSofSim(this.sim_current.id).subscribe(res => {
-        if (res.status == 200) {
-          this.listSMS = res.body;
-          this.listSMS.forEach(element => {
-            if (element.currencie == "EUR") {
-              this.total_eur = this.total_eur + 1;
-            } else if (element.currencie == "USD" || element.currencie == "usd") {
-              this.total_usd = this.total_usd + 1;
-            }
-          });
-          this.total_cost_usd = this.total_usd * this.cost_usd;
-          this.total_cost_eur = this.total_eur * this.cost_eur;
-          this.loadingService.dismissLoading().then(() => {
-            this.getExtraNumbers();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_sms_sim"));
-      });
+    this.simCardService.getSMSofSim(this.sim_current.id).subscribe(res => {
+      if (res.status == 200) {
+        this.listSMS = res.body;
+        this.listSMS.forEach(element => {
+          if (element.currencie == "EUR") {
+            this.total_eur = this.total_eur + 1;
+          } else if (element.currencie == "USD" || element.currencie == "usd") {
+            this.total_usd = this.total_usd + 1;
+          }
+        });
+        this.total_cost_usd = this.total_usd * this.cost_usd;
+        this.total_cost_eur = this.total_eur * this.cost_eur;
+        this.preload_sms = false;
+      }
+    }, err => {
+      console.log(err);
+      this.presentToastError(this.translate.instant("simcard.error.no_sms_sim"));
     });
   }
 
@@ -654,29 +675,25 @@ export class SimCardsSettingsPage implements OnInit {
    * Obtiene status del servicio de locacion
    */
   obtainStatusLocation() {
-    this.loadingService.presentLoading().then(() => {
-      this.simCardService.getLocationStatus(this.sim_current.id).subscribe(res => {
-        this.location_data = res;
-        if (res.status == 200) {
-          if (res.body.record) {
-            if (res.body.record.status == "disabled") {
-              this.location_service_on = 1;
-            }
-          } else {
-            this.location_status = res.body;
-            this.total_location_queries = +this.location_status.records.record.queries_left + +this.location_status.records.record.queries_used;
-            this.location_service_on = 2;
+    this.simCardService.getLocationStatus(this.sim_current.id).subscribe(res => {
+      this.location_data = res;
+      if (res.status == 200) {
+        if (res.body.record) {
+          if (res.body.record.status == "disabled") {
+            this.location_service_on = 1;
           }
-          this.cd.detectChanges();
-          this.loadingService.dismissLoading();
+        } else {
+          this.location_status = res.body;
+          this.total_location_queries = +this.location_status.records.record.queries_left + +this.location_status.records.record.queries_used;
+          this.location_service_on = 2;
         }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_location_service_sim"));
-      });
+        this.preload_location_point = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_location_service_sim"));
     });
-
   }
   /**
    * Activate location
@@ -795,33 +812,23 @@ export class SimCardsSettingsPage implements OnInit {
   * Obtiene lista numero extra
   */
   getExtraNumbers() {
-    this.loadingService.presentLoading().then(() => {
-      this.extraNumberService.getEnums().subscribe(res => {
-        if (res.status == 200) {
-          let list = [];
-          res.body.forEach(element => {
-            if (element.available == true) {
-              list.push(element);
-            }
-          });
-          this.extraNumbersList = list;
-          this.preload_get_extra_numbers_list = false;
-          this.preload_endpoint = true;
-          this.preload_conectivity = true;
-          this.preload_events = true;
-          this.preload_package = true;
-          this.preload_simcard = true;
-          this.preload_avaiable_packages = true;
-          this.loadingService.dismissLoading().then(() => {
-            this.obtainStatusLocation();
-          });
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translate.instant("simcard.error.no_extra_number"));
-      });
+    this.extraNumberService.getEnums().subscribe(res => {
+      if (res.status == 200) {
+        let list = [];
+        res.body.forEach(element => {
+          if (element.available == true) {
+            list.push(element);
+          }
+        });
+        this.extraNumbersList = list;
+        this.preload_get_extra_numbers_list = false;
+      }
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant("simcard.error.no_extra_number"));
     });
+
   }
 
   /**

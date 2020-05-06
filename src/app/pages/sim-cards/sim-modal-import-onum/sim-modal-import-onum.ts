@@ -34,6 +34,7 @@ export class SimModalImportONUM implements OnInit{
       this.serviceAccountService.getServicesAccounts().subscribe(res => {
         if (res.status == 200) {
           this.serviceAccountsList = res.body;
+          this.loadingService.dismissLoading();
         }
       }, err => {
         this.loadingService.dismissLoading();

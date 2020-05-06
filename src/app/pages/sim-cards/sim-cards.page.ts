@@ -51,6 +51,7 @@ export class SimCardsPage implements OnInit {
   ngOnInit() {
   }
 
+
   ionViewDidEnter(){
     this.loadingService.presentLoading().then( () => {
       this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
@@ -109,7 +110,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     }).catch();
 
@@ -124,7 +125,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ngOnInit();
+        this.ionViewDidEnter();
       }
     }).catch();
 

@@ -38,18 +38,15 @@ const routes: Routes = [
   {
     path: 'recommend-app',
     loadChildren: () => import('./pages/recommend-app/recommend-app.module').then(m => m.RecommendAppPageModule)
-  },  {
+  },
+  {
     path: 'repurchase-package',
     loadChildren: () => import('./pages/repurchase-package/repurchase-package.module').then( m => m.RepurchasePackagePageModule)
   },
   {
     path: 'support',
     loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
-  },
-
-
-
-];
+  }];
 
 @NgModule({
   imports: [

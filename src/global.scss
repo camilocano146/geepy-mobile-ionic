@@ -145,11 +145,14 @@ ion-card {
     padding: 2px !important;
     border-radius: 5px !important;
 }
+
+
 /* soluciona problema de scroll en select */
 
 .action-sheet-group.sc-ion-action-sheet-ios {
     overflow: auto !important;
 }
+
 .action-sheet-wrapper.sc-ion-action-sheet-ios {
     top: 0 !important;
     height: auto !important;
