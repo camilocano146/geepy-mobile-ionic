@@ -179,9 +179,10 @@ export class SimCardsSettingsPage implements OnInit {
     const data = {
       codes: this.codes_permission
     }
+    console.log(data);
     this.moduleService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
       this.info = "Me respondio el servicio";
-      console.log(res.body);
+      console.log(res);
       if (res.body[0].is_active == true) {
         this.show_packages = true;
       }
