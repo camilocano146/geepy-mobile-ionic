@@ -40,7 +40,8 @@
             "account-disabled": "Account deactivated.",
             "required_value": "You must write a value.",
             "error_email": "Invalid email.",
-            "notification_token": "We can't start the app. Please contact with administrador site."
+            "notification_token": "We can't start the app. Please contact with administrador site.",
+            "permissions": "You do not have permission to access this application."
         }
     },
     "activate_account": {

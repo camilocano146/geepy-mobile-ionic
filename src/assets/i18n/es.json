@@ -40,7 +40,8 @@
             "account-disabled": "Cuenta desactivada.",
             "required_value": "Debes ingresar un valor.",
             "error_email": "Correo electronico invalido.",
-            "notification_token": "No podemos iniciar la aplicación. Por favor contacte al administrador del sitio."
+            "notification_token": "No podemos iniciar la aplicación. Por favor contacte al administrador del sitio.",
+            "permissions": "Tu no tienes permiso para acceder a esta aplicación."
         }
     },
     "activate_account": {

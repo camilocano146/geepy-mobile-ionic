@@ -41,4 +41,10 @@ export class UserService {
   updateUser(idUser: number, user: any) {
     return this.http.patch<any>("users/" + idUser + "/", user, { observe: 'response' });
   }
+    /**
+   * Método para traer los roles de un usuario
+   */
+  getRoles(idUser: number) {
+    return this.http.get<any>("users/" + idUser + "/list_roles/", { observe: 'response' });
+  }
 }

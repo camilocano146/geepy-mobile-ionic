@@ -13,6 +13,7 @@ import { FCM, NotificationData } from '@ionic-native/fcm/ngx';
 import { NotificationToken } from 'src/app/models/token/notification-token';
 import { NotificationFCM } from 'src/app/models/notification-fcm/notification-fcm';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import { Global } from 'src/app/models/global/global';
 
 @Component({
   selector: 'app-login',
@@ -120,8 +121,20 @@ export class LoginPage implements OnInit {
                   this.presentToastError("translate.instant('login.error.is-blocked')");
                   this.loadingService.dismissLoading();
                 } else {
-                  this.loadingService.dismissLoading().then(() => {
-                    this.navCotroller.navigateRoot('home');
+                  this.userService.getRoles(user.id).subscribe(res => {
+                    console.log(res);
+                    if (res.body.organization_id == Global.organization_id) {
+                      this.loadingService.dismissLoading().then(() => {
+                        this.navCotroller.navigateRoot('home');
+                      });
+                    } else {
+                      this.loadingService.dismissLoading();
+                      this.presentToastError(this.translate.instant('login.error.permissions'));
+                    }
+                  }, err => {
+                    console.log(err);
+                    this.presentToastError(this.translate.instant('login.error.permissions'));
+                    this.loadingService.dismissLoading();
                   });
                 }
               });
