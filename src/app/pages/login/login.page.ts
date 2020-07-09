@@ -80,8 +80,7 @@ export class LoginPage implements OnInit {
           this.email.value.toLowerCase(),
           sha1(this.password.value)
         );
-        this.authenticationService.login(credential).subscribe(
-          res => {
+        this.authenticationService.login(credential).subscribe(res => {
             if (res.status == 200) {
               let token: Token = (res.body);
               this.localStorageService.storageToken(token);
@@ -105,9 +104,11 @@ export class LoginPage implements OnInit {
                 } else if (this.plt.is('android')) {
                   notificationToken.platform = "android";
                 }
+                console.log(notificationToken);
                 this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+                  console.log(res);
                 }, err => {
-
+                  console.log(err);
                 });
               });
               //-----------------------------------------

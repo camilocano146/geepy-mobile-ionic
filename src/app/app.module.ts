@@ -49,6 +49,7 @@ import { UssdCodesService } from './services/ussd-codes/ussd-codes.service';
 import { CourierService } from './services/courier/courier.service';
 import { LoadingService } from './services/loading/loading.service';
 import { PermissionModuleService } from './services/module/module.service';
+import { CountriesService } from './services/countries/countries.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -88,6 +89,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
   ],
   providers: [
+    CountriesService,
     StatusBar,
     SplashScreen,
     AuthenticationService,

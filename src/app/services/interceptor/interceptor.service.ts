@@ -62,7 +62,7 @@ export class InterceptorService implements HttpInterceptor  {
         if (error.status == 403 || error.status == 401) {
           this.localStorageService.removeToken();
           localStorage.clear();
-          this.navControler.navigateBack([""]);
+          this.navControler.navigateBack(["login"]);
         }
         return throwError(error);
       })

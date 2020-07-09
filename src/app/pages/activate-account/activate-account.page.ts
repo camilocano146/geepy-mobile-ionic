@@ -46,7 +46,7 @@ export class ActivateAccountPage implements OnInit {
           if (res.detail == "verified account") {
             this.presentToastOk(this.translate.instant('activate_account.data.account_verificated'));
             this.loadingService.dismissLoading().then(()=> {
-              this.navCotroller.navigateBack([""]);
+              this.navCotroller.navigateBack(["login"]);
             }); 
           }
         }, err => {

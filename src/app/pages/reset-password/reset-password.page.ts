@@ -66,7 +66,7 @@ export class ResetPasswordPage implements OnInit {
             if (res.detail == "Password changed, please login") {
               this.presentToastOk(this.translate.instant('reset_password.data.password_update'));
               this.loadingService.dismissLoading().then(() => {
-                this.navCotroller.navigateForward([""]);
+                this.navCotroller.navigateForward(["login"]);
               });
             }
           },

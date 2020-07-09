@@ -13,6 +13,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { PopoverModule } from 'src/app/common-components/popover/popover.module'
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     IonicModule,
      //Traductor
      TranslateModule.forChild(),

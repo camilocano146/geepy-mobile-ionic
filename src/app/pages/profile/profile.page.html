@@ -14,25 +14,158 @@
             <ion-col size="12" style="text-align: center; margin-top: 10px;">
                 <img src="../../../assets/img/user.svg" height="80px" alt="">
             </ion-col>
-            <ion-col size="12">
+        </ion-row>
+
+        <ion-row *ngIf="this.user && type.value == '1'">
+            <ion-col *ngIf="user.reseller_code != null" size="12">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>{{'profile.name' | translate }}</mat-label>
-                    <input matInput [formControl]="name">
-                    <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+                    <mat-label>{{'register_user.data.reseller_code' | translate }}</mat-label>
+                    <input value="{{user.reseller_code}}" matInput required disabled readonly>
                 </mat-form-field>
             </ion-col>
             <ion-col size="12">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>{{'profile.lastname' | translate }}</mat-label>
-                    <input matInput [formControl]="lastname">
-                    <mat-error *ngIf="lastname.invalid">{{getErrorMessageLastname()}}</mat-error>
+                    <mat-label>{{'register_user.data.type' | translate }}</mat-label>
+                    <mat-select [formControl]="type">
+                        <mat-option value="1">{{'register_user.data.natural' | translate }}</mat-option>
+                        <mat-option value="2">{{'register_user.data.legal' | translate }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="firstName.invalid">{{getErrorMessageName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.f_name' | translate }}</mat-label>
+                    <input matInput [formControl]="firstName" required>
+                    <mat-error *ngIf="firstName.invalid">{{getErrorMessageName()}}</mat-error>
                 </mat-form-field>
             </ion-col>
             <ion-col size="12">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>{{'profile.email' | translate }}</mat-label>
-                    <input matInput [formControl]="email">
+                    <mat-label>{{'register_user.data.l_name' | translate }}</mat-label>
+                    <input matInput [formControl]="lastName" required>
+                    <mat-error *ngIf="lastName.invalid">{{getErrorMessageLastName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.email' | translate }}</mat-label>
+                    <input [formControl]="email" matInput required>
                     <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12" style="text-align: center">
+                <ion-button (click)="changeInfo()">
+                    <ion-icon style="margin-right: 15px;" name="save"></ion-icon>
+                    {{'profile.save_changes' | translate }}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="type.value == '2'">
+            <ion-col *ngIf="user.reseller_code != null" size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.reseller_code' | translate }}</mat-label>
+                    <input value="{{user.reseller_code}}" matInput required disabled readonly>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.type' | translate }}</mat-label>
+                    <mat-select [formControl]="type">
+                        <mat-option value="1">{{'register_user.data.natural' | translate }}</mat-option>
+                        <mat-option value="2">{{'register_user.data.legal' | translate }}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="firstName.invalid">{{getErrorMessageName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.f_name' | translate }}</mat-label>
+                    <input matInput [formControl]="firstName" required>
+                    <mat-error *ngIf="firstName.invalid">{{getErrorMessageName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.l_name' | translate }}</mat-label>
+                    <input matInput [formControl]="lastName" required>
+                    <mat-error *ngIf="lastName.invalid">{{getErrorMessageLastName()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.email' | translate }}</mat-label>
+                    <input [formControl]="email" matInput required>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessageEmail()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+
+
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.number' | translate}}</mat-label>
+                    <input matInput [formControl]="tributary_register" required>
+                    <mat-error *ngIf="tributary_register.invalid">{{getErrorMessageNumber()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.country' | translate}}</mat-label>
+                    <mat-select *ngIf="language == 'en'" [formControl]="country_selected" required>
+                        <mat-option *ngFor="let item of countries_list" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-select *ngIf="language == 'es'" [formControl]="country_selected" required>
+                        <mat-option *ngFor="let item of countries_list" [value]="item.id">
+                            {{item.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="country_selected.invalid">{{getErrorMessageCountry()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.state' | translate}}</mat-label>
+                    <input matInput [formControl]="state" required>
+                    <mat-error *ngIf="state.invalid">{{getErrorMessageState()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.city' | translate}}</mat-label>
+                    <input matInput [formControl]="city" required>
+                    <mat-error *ngIf="city.invalid">{{getErrorMessageCity()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.address_one' | translate}}</mat-label>
+                    <input matInput [formControl]="address_one" required>
+                    <mat-error *ngIf="address_one.invalid">{{getErrorMessageAddressOne()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.address_two' | translate}}</mat-label>
+                    <input matInput [formControl]="address_two" required>
+                    <mat-error *ngIf="address_two.invalid">{{getErrorMessageAddressTwo()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.code' | translate}}</mat-label>
+                    <input matInput [formControl]="postal_code" required>
+                    <mat-error *ngIf="postal_code.invalid">{{getErrorMessageCode()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>{{'register_user.data.phone' | translate}}</mat-label>
+                    <input matInput [formControl]="phone" required>
+                    <mat-error *ngIf="phone.invalid">{{getErrorMessagePhone()}}</mat-error>
                 </mat-form-field>
             </ion-col>
             <ion-col size="12" style="text-align: center">
