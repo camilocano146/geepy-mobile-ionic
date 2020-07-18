@@ -1,0 +1,34 @@
+@import '../../../global.scss';
+.container-platforms {
+    width: 100% !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+
+.card-platform {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    margin: 10px;
+    width: 250px;
+    transition: 0.5s;
+    padding-top: 10px;
+}
+
+.title-card-platform {
+    font-weight: bold;
+    font-size: 18px;
+    color: #2E2681;
+}
+
+.description-platform {
+    font-size: 12px;
+    padding: 10px;
+}
+
+.center-horizontal {
+    display: flex;
+    justify-content: center !important;
+}

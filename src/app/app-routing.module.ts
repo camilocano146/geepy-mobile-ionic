@@ -46,7 +46,12 @@ const routes: Routes = [
   {
     path: 'support',
     loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
-  }];
+  },
+  {
+    path: 'select-platform',
+    loadChildren: () => import('./pages/select-platform/select-platform.module').then( m => m.SelectPlatformPageModule)
+  }
+];
 
 @NgModule({
   imports: [

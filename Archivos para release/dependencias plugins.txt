@@ -1,0 +1,45 @@
+cordova plugin add cordova-plugin-androidx
+cordova plugin add cordova-plugin-androidx-adapter
+
+ng add @angular/material
+
+ionic cordova plugin add cordova-plugin-android-permissions
+npm install @ionic-native/android-permissions
+
+ionic cordova plugin add card.io.cordova.mobilesdk
+npm install @ionic-native/card-io
+
+ionic cordova plugin add call-number
+npm install @ionic-native/call-number
+
+ionic cordova plugin add cordova-plugin-apprate
+npm install @ionic-native/app-rate
+
+ionic cordova plugin add cordova-plugin-device
+npm install @ionic-native/device
+
+ionic cordova plugin add cordova-plugin-dialogs
+npm install @ionic-native/dialogs
+
+ionic cordova plugin add cordova-plugin-fcm-with-dependecy-updated
+npm install @ionic-native/fcm
+
+ionic cordova plugin add cordova-plugin-inappbrowser
+npm install @ionic-native/in-app-browser
+
+ionic cordova plugin add com.paypal.cordova.mobilesdk
+npm install @ionic-native/paypal
+
+ionic cordova plugin add cordova-plugin-stripe
+npm install @ionic-native/stripe
+
+npm install @agm/core --save
+npm install @types/googlemaps --save
+
+npm install @ngx-translate/core @ngx-translate/http-loader --save
+
+npm i js-sha1 --save
+
+npm install moment --save
+
+npm i hammerjs --save

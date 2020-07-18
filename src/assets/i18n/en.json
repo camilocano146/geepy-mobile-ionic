@@ -611,5 +611,9 @@
         "text": "Are you sure?",
         "btn_yes": "yes",
         "btn_cancel": "Cancel"
+    },
+    "select_platform": {
+        "title": "Select platform",
+        "error_get_platforms": "We couldn't get organization platforms."
     }
 }

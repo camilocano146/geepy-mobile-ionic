@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
-import { FCM, NotificationData } from '@ionic-native/fcm/ngx';
+import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
 import { NotificationToken } from 'src/app/models/token/notification-token';
 import { NotificationFCM } from 'src/app/models/notification-fcm/notification-fcm';
 import { LoadingService } from 'src/app/services/loading/loading.service';
@@ -56,7 +56,6 @@ export class LoginPage implements OnInit {
     public toastController: ToastController,
     public navCotroller: NavController,
     private userService: UserService,
-    private fcm: FCM,
     public plt: Platform,
     private ngZone: NgZone,
   ) {
@@ -84,9 +83,11 @@ export class LoginPage implements OnInit {
             if (res.status == 200) {
               let token: Token = (res.body);
               this.localStorageService.storageToken(token);
-              //--------------Tokenn de Firebase
-              this.fcm.getToken().then(token => {
-                this.fcm.onNotification().subscribe(data => {
+              //--------------Token de Firebase
+              /**
+               * FCM.getToken().then(token => {
+                console.log(token);
+                FCM.onNotification().subscribe(data => {
                   if (data.wasTapped) {
                     let today = data.today;
                     if (today == "true") {
@@ -106,11 +107,13 @@ export class LoginPage implements OnInit {
                 }
                 console.log(notificationToken);
                 this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
-                  console.log(res);
+                  console.log(res, 'Esta es la linea de envio');
                 }, err => {
                   console.log(err);
                 });
               });
+               */
+              
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {
                 let u = res.body;
@@ -123,10 +126,9 @@ export class LoginPage implements OnInit {
                   this.loadingService.dismissLoading();
                 } else {
                   this.userService.getRoles(user.id).subscribe(res => {
-                    console.log(res);
                     if (res.body.organization_id == Global.organization_id) {
                       this.loadingService.dismissLoading().then(() => {
-                        this.navCotroller.navigateRoot('home');
+                        this.navCotroller.navigateRoot('select-platform');
                       });
                     } else {
                       this.loadingService.dismissLoading();

@@ -16,7 +16,26 @@ export var Global = {
     /** Organizacion */
     //----Pruebas
     organization_name: "Geepy Mobile",
-    organization_id: 23
+    organization_id: 23,
     //----Producción
     //organization_id: 7,
+
+    
+    /**Plataforma IoT */
+    //----Pruebas
+    platform_iot_id: 3,
+    //----Producción
+    //platform_iot_id: 1,
+
+    /**Plataforma Voyager */
+    //----Pruebas
+    platform_voyager_id: 4,
+    //----Producción
+    //platform_voyager_id: 2,
+    
+    /** Iridium */
+    //----Pruebas
+    iridium_platform_id : 16,
+    //----Producción
+    //iridium_platform_id : 3
 }

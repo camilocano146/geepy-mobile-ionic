@@ -47,4 +47,17 @@ export class UserService {
   getRoles(idUser: number) {
     return this.http.get<any>("users/" + idUser + "/list_roles/", { observe: 'response' });
   }
+      /**
+   * Obtine eplataformas de un reseller
+   */
+  getResellerPlatforms(id){
+    return this.http.get<any>(`users/${id}/platforms/`, { observe: 'response' });
+  }
+
+  /**
+   * Obtener tipo de usuario
+   */
+  getUserType(id){
+    return this.http.get<any>(`users/${id}/client_type/`, { observe: 'response' });
+  }
 }

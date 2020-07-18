@@ -611,5 +611,9 @@
         "text": "¿Estás seguro?",
         "btn_yes": "Si",
         "btn_cancel": "Cancelar"
+    },
+    "select_platform": {
+        "title": "Seleccionar plataforma",
+        "error_get_platforms": "No pudimos obtener las plataformas de la organizacion"
     }
 }
