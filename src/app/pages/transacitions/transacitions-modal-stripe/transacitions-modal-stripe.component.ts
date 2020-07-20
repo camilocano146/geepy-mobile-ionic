@@ -25,9 +25,11 @@ export class TransacitionsModalStripeComponent implements OnInit {
   public usd_tariffs: TariffRecharge[];
   public eur_tariffs: TariffRecharge[];
   //-----Stripe
-  //stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
-  stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
+  stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
+  //stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
   card: any;
+
+  public coupon: FormControl;
 
   constructor(
     private loadingService: LoadingService,
@@ -42,40 +44,40 @@ export class TransacitionsModalStripeComponent implements OnInit {
     this.currency = new FormControl('USD', Validators.required);
     this.usd_tariffs = [];
     this.eur_tariffs = [];
+    this.coupon = new FormControl('');
   }
 
   ngOnInit() {
     this.setupStripe();
-    this.loadingService.presentLoading().then( ()=> {
-      this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
-        if (res.status == 200) {
-          this.tarifsList = res.body;
-          this.tarifsList.forEach(element => {
-            if(element.currency.acronym == 'USD'){
-              this.usd_tariffs.push(element);
-            } else if(element.currency.acronym == 'EUR'){
-              this.eur_tariffs.push(element);
-            }
-          });
-          this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
-          this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
-          this.loadingService.dismissLoading();
-        }
-      }, err => {
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
-      });
+    this.tariffRechargeService.getTariffsRecharge().subscribe(res => {
+      console.log(res);
+      if (res.status == 200) {
+        this.tarifsList = res.body;
+        this.tarifsList.forEach(element => {
+          if(element.currency.acronym == 'USD'){
+            this.usd_tariffs.push(element);
+          } else if(element.currency.acronym == 'EUR'){
+            this.eur_tariffs.push(element);
+          }
+        });
+        this.usd_tariffs.sort( (a,b) => +a.value - +b.value);
+        this.eur_tariffs.sort( (a,b) => +a.value - +b.value);
+      }
+    }, err => {
+      this.presentToastError(this.transalte.instant('payments.error.no_load_tariffs'));
     });
-
   }
 
   payWithStripe(result) {
-    this.loadingService.presentLoading().then( ()=> {
+    this.loadingService.presentLoading().then( () => {
       let payment: Payment = new Payment(result, this.tariffSelected.value.id, this.tariffSelected.value.currency.id);
+      if(this.coupon.value != ''){
+        payment.coupon = this.coupon.value;
+      }
       this.billingService.loadBalance(payment).subscribe(res => {
         if (res.status == 200) {
           this.presentToastOk(this.transalte.instant('payments.stripe.payment_ok'));
-          this.loadingService.dismissLoading().then( ()=> {
+          this.loadingService.dismissLoading().then( () => {
             this.modalController.dismiss("created");
           });
         }
@@ -159,16 +161,39 @@ export class TransacitionsModalStripeComponent implements OnInit {
     form.addEventListener('submit', event => {
       event.preventDefault();
       this.presentLoading();
-      this.stripe.createSource(this.card).then(result => {
-        if (result.error) {
-          var errorElement = document.getElementById('card-errors');
-          errorElement.textContent = result.error.message;
-          this.dismissLoading();
-        } else {
-          this.dismissLoading();
-          this.payWithStripe(result.source.id);
+      if(this.coupon.value != ''){
+        const data_coupon = {
+          coupon: this.coupon.value
         }
-      });
+       this.billingService.validateCoupon(data_coupon).subscribe(res => {
+        console.log(res);
+        this.stripe.createSource(this.card).then(result => {
+          if (result.error) {
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            this.dismissLoading();
+          } else {
+            this.dismissLoading();
+            this.payWithStripe(result.source.id);
+          }
+        });
+       }, err => {
+         console.log(err);
+         this.presentToastError(this.transalte.instant('payments.paypal.err_coupon'));
+         this.dismissLoading();
+       });
+      } else {
+        this.stripe.createSource(this.card).then(result => {
+          if (result.error) {
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            this.dismissLoading();
+          } else {
+            this.dismissLoading();
+            this.payWithStripe(result.source.id);
+          }
+        });
+      }
     });
   }
 

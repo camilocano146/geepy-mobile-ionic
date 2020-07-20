@@ -84,8 +84,8 @@ export class LoginPage implements OnInit {
               let token: Token = (res.body);
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
-              /**
-               * FCM.getToken().then(token => {
+
+                FCM.getToken().then(token => {
                 console.log(token);
                 FCM.onNotification().subscribe(data => {
                   if (data.wasTapped) {
@@ -112,7 +112,7 @@ export class LoginPage implements OnInit {
                   console.log(err);
                 });
               });
-               */
+
               
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {

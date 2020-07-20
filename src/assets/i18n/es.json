@@ -517,7 +517,9 @@
             "btn_make_payment": "Realizar el pago",
             "note": "Nota: ",
             "p1": "El costo por transacción es del 6% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 6.00 + 0.30 USD.",
-            "payment_ok": "¡Pago exitoso!"
+            "payment_ok": "¡Pago exitoso!",
+            "coupon": "Cúpon",
+            "err_coupon": "El cúpon no es valido"
         },
         "stripe": {
             "title": "Pagar con Stripe",
@@ -526,7 +528,9 @@
             "btn_make_payment": "Realizar el pago",
             "note": "Nota: ",
             "p1": "El costo por transacción es del 3% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 3.00 + 0.30 USD.",
-            "payment_ok": "¡Pago exitoso!."
+            "payment_ok": "¡Pago exitoso!.",
+            "coupon": "Cúpon",
+            "err_coupon": "El cúpon no es valido"
         },
         "see": {
             "title": "Detalles de pago",

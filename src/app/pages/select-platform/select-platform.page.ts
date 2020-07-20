@@ -55,7 +55,7 @@ export class SelectPlatformPage implements OnInit {
           if(res.body.user_type == "Basic"){
             this.isReseller = false;
             this.getOrganizationPlatforms();
-          } if(res.body.user_type == "Refered"){
+          } else if(res.body.user_type == "Refered"){
             this.isReseller = true;
             this.getResellerPlatforms(this.user.referrer);
           } else {
@@ -80,7 +80,6 @@ export class SelectPlatformPage implements OnInit {
    * Trae las plataformas de la org
    */
   getOrganizationPlatforms() {
-    this.loadingService.presentLoading().then(() => {
       this.organizationService.getOrganizationPlatforms(Global.organization_id).subscribe(res => {
         if (res.status == 200) {
           this.organization_platforms_list = [];
@@ -106,7 +105,6 @@ export class SelectPlatformPage implements OnInit {
         this.errorMessage = this.translate.instant('select_platform.error_get_platforms');
         this.preload = false;
       });
-    });
   }
 
  /**

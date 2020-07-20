@@ -517,7 +517,9 @@
             "btn_make_payment": "Make Payment",
             "note": "Note: ",
             "p1": "Payments by credir card Cost per transacition is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
-            "payment_ok": "Successfull payment!"
+            "payment_ok": "Successfull payment!",
+            "coupon": "Coupon",
+            "err_coupon": "Coupon is not valid"
         },
         "stripe": {
             "title": "Pay with Stripe",
@@ -526,7 +528,9 @@
             "btn_make_payment": "Make Payment",
             "note": "Note: ",
             "p1": "Direct credit card payments only supported with Stripe option. Cost per transacition is 3% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 3.00 + 0.30 USD.",
-            "payment_ok": "Successfull payment!."
+            "payment_ok": "Successfull payment!.",
+            "coupon": "Coupon",
+            "err_coupon": "Coupon is not valid"
         },
         "see": {
             "title": "Details payment",

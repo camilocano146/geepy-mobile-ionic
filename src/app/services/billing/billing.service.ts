@@ -17,7 +17,11 @@ export class BillingService {
         return this.http.post<any>("make_transactions/load_balance_app/", payment, { observe: 'response' });
     }
     //Cargar dinero por Paypal
-    loadBalancePaypal(paymentPaypal: PaymentPaypal):Observable<any>{
-        return this.http.post<any>('make_transactions/load_balance_app_pal/', paymentPaypal, {observe: 'response'});
+    loadBalancePaypal(paymentPaypal: PaymentPaypal): Observable<any> {
+        return this.http.post<any>('make_transactions/load_balance_app_pal/', paymentPaypal, { observe: 'response' });
+    }
+    //Valida cupon
+    validateCoupon(data) {
+        return this.http.post<any>('make_transactions/validate_coupon/', data, { observe: 'response' });
     }
 }

@@ -34,7 +34,7 @@ export class SlidesPage implements OnInit {
     if(token == null || token == undefined){
       this.navController.navigateRoot('login');
     } else {
-      this.navController.navigateRoot('home');
+      this.navController.navigateRoot('select-platform');
     }
     
   }
