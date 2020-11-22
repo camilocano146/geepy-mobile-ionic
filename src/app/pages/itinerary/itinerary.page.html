@@ -1,5 +1,8 @@
 <ion-header>
     <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
         <ion-title style="color: white !important;">{{'itinerary.principal.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
@@ -16,6 +19,11 @@
             <ion-col size="6" style="text-align: right;">
                 <ion-button color="primary" (click)="openModalCreate()">
                     <mat-icon>add</mat-icon>{{'itinerary.principal.btn_create' | translate}}</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <h5>{{'itinerary.principal.description' | translate}}</h5>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="existsItineraries == 1">

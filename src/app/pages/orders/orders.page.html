@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
+        <ion-title style="color: white !important;">{{'ecommerce.orders.title' | translate}}</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content #content [scrollEvents]="true">
+    <ion-grid>
+        <ion-row *ngIf="list.length == 0 && preload == false">
+            <ion-col size="12" style="display: flex; justify-content: center;">
+                <img src="../../../assets/img/ghost.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12" style="display: flex; justify-content: center;">
+                {{'ecommerce.orders.empty' | translate}}
+            </ion-col>
+        </ion-row>
+        <ion-row  *ngIf="list.length > 0 && preload == false">
+            <ion-col size="12">
+                <ion-list class="full-width"  mode="ios"
+                    style="border-radius: 5px; padding: 0px;">
+                    <ion-item *ngFor="let item of list" detail (click)="goDetails(item)">
+                        <ion-label>
+                            <p>ID: {{item.id}}</p>
+                            <h5 style="margin: 0px !important; color: #2E2681 !important;">{{item.order_date | date}}
+                            </h5>
+                            <h5 *ngIf="item.status == '1'" style="margin: 0px !important;">{{'ecommerce.orders.status' | translate}}{{'ecommerce.orders.pending' | translate}} </h5>
+                            <h5 *ngIf="item.status == '2'" style="margin: 0px !important;">{{'ecommerce.orders.status' | translate}}{{'ecommerce.orders.preparation' | translate}} </h5>
+                            <h5 *ngIf="item.status == '3'" style="margin: 0px !important;">{{'ecommerce.orders.status' | translate}}{{'ecommerce.orders.delivered' | translate}}</h5>
+                            <h5 *ngIf="item.status == '4'" style="margin: 0px !important;">{{'ecommerce.orders.status' | translate}}{{'ecommerce.orders.canceled' | translate}} </h5>
+                            <h6 *ngIf="item.currency == 'USD'" style="margin-top: 5px !important; margin-bottom: 5px !important; font-weight: normal !important;">
+                                Total USD: {{item.total_usd}}$</h6>
+                            <h6 *ngIf="item.currency == 'EUR'" style="margin-top: 5px !important; margin-bottom: 5px !important; font-weight: normal !important;">
+                              Total EUR:  {{item.total_eur}}€</h6>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+</ion-content>

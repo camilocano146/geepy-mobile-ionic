@@ -25,7 +25,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'itinerary',
+        path: 'itinerary-voyager',
         children: [
           {
             path: '',

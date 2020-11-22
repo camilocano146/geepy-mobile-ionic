@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="color: white !important;">{{'itinerary.create.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../assets/img/event.png" height="120px" alt="">
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.start_date' | translate}}</ion-label>
+                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="date_selected" placeholder="{{'itinerary.create.start_date_ph' | translate}}" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.sim' | translate}}</ion-label>
+                    <ion-select placeholder="{{'itinerary.create.sim_ph' | translate}}" (ionChange)="selectSimCard()" [formControl]="sim_selected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of sims_list " [value]="item">{{item.iccid}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.action' | translate}}</ion-label>
+                    <ion-select placeholder="{{'itinerary.create.sim_ph' | translate}}" [formControl]="action_selected" interface="action-sheet" id="country">
+                        <ion-select-option [value]="1">{{'itinerary.create.activate' | translate}}</ion-select-option>
+                        <ion-select-option [value]="2">{{'itinerary.create.suspend' | translate}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" *ngIf="action_selected.value == '1'">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.validity' | translate}}</ion-label>
+                    <ion-select [formControl]="validity" (ionChange)="calculateNewValueToPurchase()" interface="action-sheet">
+                        <ion-select-option value="1">1</ion-select-option>
+                        <ion-select-option value="2">2</ion-select-option>
+                        <ion-select-option value="3">3</ion-select-option>
+                        <ion-select-option value="4">4</ion-select-option>
+                        <ion-select-option value="5">5</ion-select-option>
+                        <ion-select-option value="6">6</ion-select-option>
+                        <ion-select-option value="7">7</ion-select-option>
+                        <ion-select-option value="8">8</ion-select-option>
+                        <ion-select-option value="9">9</ion-select-option>
+                        <ion-select-option value="10">10</ion-select-option>
+                        <ion-select-option value="11">11</ion-select-option>
+                        <ion-select-option value="12">12</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" *ngIf="action_selected.value == '1'">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.currency' | translate}}</ion-label>
+                    <ion-select [formControl]="currency" interface="action-sheet">
+                        <ion-select-option value="USD">USD</ion-select-option>
+                        <ion-select-option value="EUR">EUR</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="action_selected.value == '1'" size="12" style="text-align: center !important;">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.cost' | translate}}</ion-label>
+                    <ion-input *ngIf="currency.value == 'USD'" value="{{final_price_usd}} USD" type="text" placeholder="" readonly></ion-input>
+                    <ion-input *ngIf="currency.value == 'EUR'" value="{{final_price_eur}} EUR" type="text" placeholder="" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="action_selected.value != null" size="12" style="text-align: center;">
+                <ion-button style="text-transform: none; font-size: 16px !important;" (click)="createPlan()">
+                    {{'itinerary.create.btn_create' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

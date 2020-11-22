@@ -10,6 +10,12 @@ export class ZonesService {
   constructor(private http: HttpClient) { }
 
   /**
+   * Obtiene las zonas iot
+   */
+  getZonesIot(): Observable<any>{
+    return this.http.get<any>('iot_zones/', { observe: 'response'});
+  }
+  /**
    * Obtiene las zonas
    */
   getZones(): Observable<any>{

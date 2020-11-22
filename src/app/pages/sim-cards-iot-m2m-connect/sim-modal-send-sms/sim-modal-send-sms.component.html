@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.settings.sms.new_sms_title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" style="text-align: center;">
+                <img src="../../../../assets/img/email.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.currency' | translate}}</ion-label>
+                    <ion-textarea textarea [formControl]="textSMS" placeholder="{{'simcard.data.settings.sms.type_sms_here' | translate}}" maxlength="160" rows="4"></ion-textarea>
+                    <mat-hint align="end">{{textSMS.value.length || 0}}/160</mat-hint>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <label style="color: gray; font-size: 11.25px !important;">{{'simcard.data.settings.sms.tariff_sms' | translate}}</label>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'itinerary.create.currency' | translate}}</ion-label>
+                    <ion-select [formControl]="currency" interface="action-sheet">
+                        <ion-select-option value="USD">USD</ion-select-option>
+                        <ion-select-option value="EUR">EUR</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-button style="text-transform: none;" (click)="sendSMS1()">
+                    <ion-icon name="send" style="margin-right: 10px;"></ion-icon>
+                    {{'simcard.data.settings.sms.btn_send' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

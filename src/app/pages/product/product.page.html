@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
+        <ion-title style="color: white !important;">{{'ecommerce.products.title_2' | translate}}</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content #content [scrollEvents]="true">
+    <ion-grid>
+        <ion-row>
+            <ion-col *ngIf="category" size="12" style="text-align: center !important;">
+                <h4 style="color: #2E2681 !important; margin: 0px !important;">{{'ecommerce.products.title' | translate}}</h4>
+                <h5 style="margin: 0px !important; font-weight: normal !important;">{{category.name}}</h5>
+            </ion-col>
+            <ion-col size="12" style="text-align: center !important; margin-bottom: 5px;"
+                style="margin-top: 5px !important;">
+
+                <ion-card style="background-color: white;">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col size="12" style="text-align: center;">
+                                <ion-list *ngIf="products_list.length > 0" mode="ios"
+                                    style="border-radius: 5px; padding: 0px;">
+                                    <ion-item *ngFor="let item of products_list" detail (click)="goDetails(item)">
+                                        <ion-avatar slot="start" style="border: 1px solid lightblue !important;">
+                                            <img *ngIf="item.images.length > 0" src="{{item.images[0]}}">
+                                            <img *ngIf="item.images.length == 0" src="https://marketplace-omg.s3.amazonaws.com/img-blank-products/NoImageAvailable.png">
+                                        </ion-avatar>
+                                        <ion-label>
+                                            <h5 style="margin: 0px !important; color: #2E2681 !important;">{{item.name}}
+                                            </h5>
+                                            <h6
+                                                style="margin-top: 5px !important; margin-bottom: 5px !important; font-weight: normal !important;">
+                                                {{item.description}}</h6>
+                                            <p>ID: {{item.id}}</p>
+                                        </ion-label>
+                                    </ion-item>
+                                </ion-list>
+
+                                <ion-list *ngIf="products_list.length == 0" mode="ios"
+                                    style="border-radius: 5px; padding: 0px;">
+                                    <ion-item>
+                                        <ion-label>
+                                            <p>{{'ecommerce.products.products_no' | translate}}</p>
+                                        </ion-label>
+                                    </ion-item>
+                                </ion-list>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-infinite-scroll *ngIf="products_list.length < total_number " threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" >
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

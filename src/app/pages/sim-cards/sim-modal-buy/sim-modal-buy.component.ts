@@ -5,7 +5,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { ZonesService } from 'src/app/services/zones/zones.service';
 import { ServiceAccountService } from 'src/app/services/service-account/service-account.service';
 import { TranslateService } from '@ngx-translate/core';
-import { OrderSims } from 'src/app/models/order/order';
+import { OrderSimsVoyager } from 'src/app/models/order/order';
 import { CourierService } from 'src/app/services/courier/courier.service';
 import { Global } from 'src/app/models/global/global';
 import { Courier } from 'src/app/models/courier/courier';
@@ -73,7 +73,7 @@ export class SimModalBuy implements OnInit {
    */
   getSimsPackages() {
     this.loadingService.presentLoading().then(() => {
-      this.simService.getSimsPackages().subscribe(res => {
+      this.simService.getSimsPackagesVoyager().subscribe(res => {
         if (res.status == 200) {
           this.simsPackages = res.body;
           this.getCountries();
@@ -93,13 +93,12 @@ export class SimModalBuy implements OnInit {
     this.zonesService.getAvailableCountiresToPurchase().subscribe(res => {
       if (res.status == 200) {
         this.countriesList = res.body;
-
         this.getServicesAccount();
       }
     }, err => {
       console.log(err);
       this.loadingService.dismissLoading();
-      this.presentToastError(this.translate.instant('simcard.error.no_countries'))
+      this.presentToastError(this.translate.instant('simcard.error.no_countries'));
     });
   }
   /**
@@ -133,7 +132,7 @@ export class SimModalBuy implements OnInit {
   order() {
     if (this.packageSelected.valid && this.countrySelected.valid && this.city.valid && this.address.valid && this.zip.valid && this.phone.valid) {
       this.loadingService.presentLoading().then(() => {
-        let order: OrderSims = new OrderSims(
+        let order: OrderSimsVoyager = new OrderSimsVoyager (
           this.zip.value,
           this.countrySelected.value.id,
           this.city.value,

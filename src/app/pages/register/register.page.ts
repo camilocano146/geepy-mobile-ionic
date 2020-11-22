@@ -72,7 +72,7 @@ export class RegisterPage implements OnInit {
     this.referer = new FormControl("", [Validators.minLength(1), Validators.maxLength(16)]);
     this.type = new FormControl("1", Validators.required);
     this.email = new FormControl("", [Validators.required, Validators.email, Validators.minLength(8), Validators.maxLength(50)]);
-    this.password = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
+    // this.password = new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
     this.country_selected = new FormControl(null, Validators.required);
     this.tributary_register = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.country_selected = new FormControl(null, Validators.required);
@@ -136,7 +136,7 @@ export class RegisterPage implements OnInit {
           }, err => {
             console.log(err);
             this.loadingService.dismissLoading();
-            if (err.status == 400) {
+            if (err.status == 400 || err.status == 422) {
               if (err.error.email) {
                 if (err.status == 400 && err.error.email[0] == "Introduzca una dirección de correo electrónico válida.") {
                   this.presentToastError(this.translate.instant('register_user.data.error_mail_use'));
@@ -160,6 +160,12 @@ export class RegisterPage implements OnInit {
             }
           });
         });
+      } else {
+        this.firstName.markAsTouched();
+        this.lastName.markAsTouched();
+        this.email.markAsTouched();
+        this.password.markAsTouched();
+        this.confirmPassword.markAsTouched();
       }
     } else if (this.type.value == '2') {
       if (this.firstName.valid &&
@@ -207,7 +213,7 @@ export class RegisterPage implements OnInit {
           }, err => {
             console.log(err);
             this.loadingService.dismissLoading();
-            if (err.status == 400) {
+            if (err.status == 400 || err.status == 422) {
               if (err.error.email) {
                 if (err.status == 400 && err.error.email[0] == "Introduzca una dirección de correo electrónico válida.") {
                   this.presentToastError(this.translate.instant('register_user.data.error_mail_use'));
@@ -230,7 +236,20 @@ export class RegisterPage implements OnInit {
             }
           });
         });
-
+      } else {
+        this.firstName.markAsTouched();
+        this.lastName.markAsTouched();
+        this.email.markAsTouched();
+        this.password.markAsTouched();
+        this.tributary_register.markAsTouched();
+        this.country_selected.markAsTouched();
+        this.state.markAsTouched();
+        this.city.markAsTouched();
+        this.postal_code.markAsTouched();
+        this.address_one.markAsTouched();
+        this.address_two.markAsTouched();
+        this.phone.markAsTouched();
+        this.confirmPassword.markAsTouched();
       }
     }
   }
@@ -393,11 +412,11 @@ export class RegisterPage implements OnInit {
   }
   getErrorMessageCode() {
     return this.postal_code.hasError("required")
-      ? this.translate.instant('organizations.manage.create_edit_see.write_value')
+      ? this.translate.instant('register_user.data.write_value')
       : this.postal_code.hasError("min")
-        ? this.translate.instant('organizations.manage.create_edit_see.min_3')
+        ? this.translate.instant('register_user.data.min_3')
         : this.postal_code.hasError("max")
-          ? this.translate.instant('organizations.manage.create_edit_see.max_50')
+          ? this.translate.instant('register_user.data.max_50')
           : "";
   }
 }

@@ -33,6 +33,7 @@ export class ItineraryPage implements OnInit {
     private toastController: ToastController,
     private translateService: TranslateService,
     private modalController: ModalController,
+    private navController: NavController,
     private translate: TranslateService
   ) {
     this.existsItineraries = 0;
@@ -157,5 +158,9 @@ export class ItineraryPage implements OnInit {
       mode: 'ios',
     });
     return await popover.present();
+  }
+
+  goToHome() {
+    this.navController.navigateBack('select-platform');
   }
 }

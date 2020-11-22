@@ -1,5 +1,8 @@
 <ion-header>
     <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
         <ion-title style="color: white !important;">{{'payments.principal.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>

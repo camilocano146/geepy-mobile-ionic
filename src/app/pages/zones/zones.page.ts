@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ToastController } from '@ionic/angular';
+import {NavController, PopoverController, ToastController} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { ZonesService } from 'src/app/services/zones/zones.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,7 +39,8 @@ export class ZonesPage implements OnInit {
     private zonesService: ZonesService,
     private popoverController: PopoverController,
     private translate: TranslateService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private navController: NavController,
   ) {
     this.zonesList = [];
     this.paises = [];
@@ -125,5 +126,9 @@ export class ZonesPage implements OnInit {
       color: 'danger'
     });
     toast.present();
+  }
+
+  goToHome() {
+    this.navController.navigateBack('select-platform');
   }
 }

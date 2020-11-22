@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Itinerary } from 'src/app/models/itinerary/itinerary';
+import {Plan} from '../../models/plan/plan';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,33 @@ import { Itinerary } from 'src/app/models/itinerary/itinerary';
 export class ItineraryService {
 
   constructor(private http: HttpClient) { }
+
+  /**
+   * Trae planes por usuario
+   */
+  getItinerariesIot(): Observable<any>{
+    return this.http.get<any>('itineraries_iot/list_by_user/', { observe: 'response'});
+  }
+  /**
+   * Crear un plan
+   */
+  createPlan(plan: Plan): Observable<any>{
+    return this.http.post<any>('itineraries_iot/',plan, { observe: 'response'});
+  }
+  /**
+   * Eliminar plan
+   */
+  deletePlan(id): Observable<any>{
+    return this.http.delete<any>(`itineraries_iot/${id}/`, { observe: 'response'});
+  }
+  /**
+   * Actializar plan
+   */
+  updatePlan(id, data): Observable<any>{
+    return this.http.patch<any>(`itineraries_iot/${id}/`, data,{ observe: 'response'});
+  }
+
+  // ----------------- Voyager ------------------
 
   /**
    * Obtiene paises

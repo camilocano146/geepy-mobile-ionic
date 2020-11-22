@@ -1,0 +1,23 @@
+<ion-item>
+
+    <ion-avatar slot="start" style="border: 1px solid lightblue !important;">
+        <img *ngIf="item.product.images.length > 0" src="{{item.product.images[0]}}">
+        <img *ngIf="item.product.images.length == 0" src="https://marketplace-omg.s3.amazonaws.com/img-blank-products/NoImageAvailable.png">
+    </ion-avatar>
+    <ion-label>
+        <h5 style="margin: 0px !important; color: #2E2681 !important; font-size: 17px !important;">{{item.product.name}}
+        </h5>
+        <ion-item *ngIf="item.product.units_available > 0" style="border-radius: 5px; margin-left: -25px !important; padding-left: 5px !important;">
+            <ion-label position="stacked">Units</ion-label>
+            <ion-input type="number" [formControl]="quantity"   (focusout)="changeQuantity($event)"></ion-input>
+        </ion-item>
+       
+        <span *ngIf="quantity.invalid && quantity.touched" style="color: red; font-size: 12px !important; margin-left: 5px !important;">Min 1 - Max {{this.item.product.units_available}}</span>
+       <p> {{'ecommerce.shopping.price' | translate}} USD: $ {{item.total_usd}} </p>
+       <p> {{'ecommerce.shopping.price' | translate}} EUR: € {{item.total_eur}}</p>
+       <button  style="border:none; outline: none; background-color: white; color: red; text-decoration: underline; padding: 0px !important;" (click)="removeItem()">
+        {{'ecommerce.shopping.delete' | translate}}
+    </button>
+       
+    </ion-label>
+</ion-item>

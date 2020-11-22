@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+      <ion-icon style="color: white !important;" name="home"></ion-icon>
+    </ion-button>
+    <ion-title style="color: white !important;">{{'ecommerce.menu.category' | translate}}</ion-title>
+    <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+      <ion-icon style="color: white !important;" name="settings"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #content [scrollEvents]="true">
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col *ngFor="let item of categories_list" size="6" style="text-align: center !important; margin-bottom: 5px;">
+                <app-category-card [category]="item"></app-category-card>
+              </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+</ion-content>

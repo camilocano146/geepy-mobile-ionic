@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                 (click)="this.dialogRef.dismiss();">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title style="color: white !important;;">{{'geo.common.map.place' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="display: flex" class="mt-3">
+    <div *ngIf="!preloadFindPlace && findPlaceDetails">
+      <img style="width: 3em;" [src]="findPlaceDetails.icon" [alt]="findPlaceDetails.name">
+    </div>
+    <ion-row class="w-100">
+      <ion-col size="10">
+        <mat-form-field class="ml-2 w-100">
+          <mat-label>{{'geo.common.map.place_name' | translate}}</mat-label>
+          <input type="text"
+                 aria-label="Number"
+                 matInput
+                 #inputPlace
+                 (ngModelChange)="changeText()"
+                 [formControl]="formControlAutocompletePlace"
+                 [matAutocomplete]="auto">
+          <mat-error>{{getErrorMessageAutocomplete()}}</mat-error>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let place of listAutocompletePlaces" (onSelectionChange)="choosePlace(place)" [value]="place.description">
+              <span>{{place.description}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button style="--background: white; color: black" (click)="clearText(inputPlace)">
+          X
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="preloadFindPlace" class="full-width center">
+    <img src="./assets/gifs/loading.gif" alt="" height="200px">
+  </div>
+  <div *ngIf="!preloadFindPlace && findPlaceDetails">
+    <div class="mt-3 div-details container ion-text-center">
+      <div *ngIf="findPlaceDetails.website">
+        <h6 class="ml-1">
+          <strong>{{'geo.common.map.web_url' | translate}}: </strong>
+          <a [href]="findPlaceDetails.website" target="_blank">{{findPlaceDetails.website}}</a>
+        </h6>
+      </div>
+      <div class="full-width my-2"></div>
+      <div *ngIf="findPlaceDetails.vicinity">
+        <h6 class="ml-1">
+          <strong>{{'geo.common.map.direction' | translate}}: </strong>
+          {{findPlaceDetails.vicinity}}
+        </h6>
+      </div>
+      <div class="full-width my-2"></div>
+      <div class="mt-4">
+        <ion-button color="primary" (click)="showFindPlaceInMap()">{{'geo.common.map.show_in_map' | translate}}</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

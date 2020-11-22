@@ -1,0 +1,12 @@
+<div class="full-width" style="display: flex; justify-content: center;" >
+  <ion-card class="card-category" (click)="goProducts()">
+    <ion-card-header>
+      <ion-card-title style="font-size: 16px !important;">{{category.name}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="full-width">
+        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>

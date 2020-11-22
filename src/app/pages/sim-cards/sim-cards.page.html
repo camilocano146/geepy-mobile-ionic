@@ -5,6 +5,9 @@
             <ion-icon style="color: white !important;" name="menu"></ion-icon>
         </ion-button>
         -->
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
         <ion-title style="color: white !important;">{{'simcard.data.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
@@ -100,7 +103,7 @@
                 <!-- Inputs with labels -->
                 <ion-item style="margin-left: 10px; width: 80%;">
                     <ion-icon name="search"></ion-icon>
-                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="number" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
+                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="text" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">

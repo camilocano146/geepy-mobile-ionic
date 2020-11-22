@@ -1,0 +1,242 @@
+<div *ngIf="!preload && !preload_socket" class="full-width container-map-geotrack">
+
+  <!--    <agm-map #gm class="map-geotrack"  [latitude]="lat" [longitude]="lng" [zoom]="zoom">-->
+  <!--      <agm-marker [label]="{-->
+  <!--        color: 'blue',-->
+  <!--        fontWeight: 'bold',-->
+  <!--        text: device.name ? device.name : '-'-->
+  <!--      }" *ngFor="let device of listDevices" [latitude]="device.lastIncomingInformationDevice?.lat" [longitude]="device.lastIncomingInformationDevice?.lng" [iconUrl]="{-->
+  <!--        url: this.device.iot_device_label_details.icon,-->
+  <!--        scaledSize: {-->
+  <!--          height: heightIcon,-->
+  <!--          width: widthIcon-->
+  <!--        },-->
+  <!--        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}-->
+  <!--      }" (markerClick)="deviceSelected = device">-->
+  <!--        <agm-info-window class="map-dialog-info" #infoWindow>-->
+  <!--          <div class="mb-2">-->
+  <!--            <span class="font-weight -boldmap-title-info">imei: </span><span class="map-title-response-info">{{device.imei}}</span><br><br>-->
+  <!--            <ng-container>-->
+  <!--              <i [className]="getIconBattery(device.lastIncomingInformationDevice?.battery)"></i>-->
+  <!--              <span class="map-title-response-info ml-2">{{device.lastIncomingInformationDevice?.battery !== undefined ? device.lastIncomingInformationDevice?.battery + '%' : 'N/A'}}</span><br><br>-->
+  <!--            </ng-container>-->
+  <!--            <span class="font-weight-bold map-title-info">{{'geo.devices.longitude' | translate}}: </span><span class="map-title-response-info">{{device.lastIncomingInformationDevice?.lat}}</span><br><br>-->
+  <!--            <span class="font-weight-bold map-title-info">{{'geo.devices.latitude' | translate}}: </span><span class="map-title-response-info">{{device.lastIncomingInformationDevice?.lng}}</span><br><br>-->
+  <!--            <span class="font-weight-bold map-title-info">{{'geo.devices.status' | translate | titlecase}}: </span>-->
+  <!--            <span class="map-title-response-info">{{device.status === statusEnableDevice ? ('geo.devices.enabled' | translate) : ('geo.devices.disabled' | translate)}}</span><br><br>-->
+  <!--          </div>-->
+  <!--        </agm-info-window>-->
+  <!--      </agm-marker>-->
+
+  <agm-map #gm class="map-geotrack" [latitude]="lat" [longitude]="lng" [zoom]="zoom" (mapClick)="mapPointClick($event)">
+    <ng-container *ngFor="let device of listDevices">
+      <agm-direction
+        *ngFor="let routeDevice of device.realTimePints"
+        [origin]="routeDevice.originPoint"
+        [destination]="routeDevice.destinationPoint"
+        [waypoints]="routeDevice.wayPoints"
+        [markerOptions]="marketOptions"
+      >
+        <!--          [markerOptions]= "getMarketOptions(device, routeDevice)"-->
+        <!--          (sendInfoWindow)="getInfoWindow($event, device, routeDevice)"-->
+
+      </agm-direction>
+      <agm-marker
+        *ngFor="let infoPointDevice of device.listInfoDevice.slice(0, device.listInfoDevice.length); let i = index;"
+        [latitude]="infoPointDevice.lat" [longitude]="infoPointDevice.lng"
+        [label]="{
+        color: '#5e6cde',
+        fontWeight: 'bold',
+        text: device.name ? device.name : '-'
+        }"
+        [iconUrl]="{
+        url: (i === 0 && device.listInfoDevice.length > 1) ? '../../../assets/img/platfoms/location_map_green.svg' : (i !== device.listInfoDevice.length - 1) ? '../../../assets/img/platfoms/location_map_black.svg' : this.device.iot_device_label_details.icon,
+        scaledSize: {
+          height: heightIcon,
+          width: widthIcon
+        },
+        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}
+      }" (markerClick)="markSelectDevice(device)">
+        <agm-info-window class="map-dialog-info" #infoWindow>
+          <div class="mb-2">
+            <span class="font-weight-bold map-title-info">imei: </span><span
+            class="map-title-response-info">{{device.imei}}</span><br><br>
+            <ng-container>
+              <i [className]="getIconBattery(infoPointDevice.battery)"></i>
+              <span
+                class="map-title-response-info ml-2">{{infoPointDevice.battery !== undefined ? infoPointDevice.battery + '%' : 'N/A'}}</span><br><br>
+            </ng-container>
+            <span class="font-weight-bold map-title-info">{{'geo.devices.longitude' | translate}}: </span><span
+            class="map-title-response-info">{{infoPointDevice.lat}}</span><br><br>
+            <span class="font-weight-bold map-title-info">{{'geo.devices.latitude' | translate}}: </span><span
+            class="map-title-response-info">{{infoPointDevice.lng}}</span><br><br>
+            <span class="font-weight-bold map-title-info">{{'geo.devices.status' | translate | titlecase}}: </span>
+            <span
+              class="map-title-response-info">{{device.status === statusEnableDevice ? ('geo.devices.enabled' | translate) : ('geo.devices.disabled' | translate)}}</span><br><br>
+          </div>
+        </agm-info-window>
+      </agm-marker>
+    </ng-container>
+
+
+<!--    &lt;!&ndash;  Market de punto manual en geocerca  &ndash;&gt;-->
+<!--    <agm-marker-->
+<!--      *ngIf="radioGroupPosition === valueRadioManual"-->
+<!--      [latitude]="getGeocercaLatitude()" [longitude]="getGeocercaLongitude()"-->
+<!--                [iconUrl]="{url: '../../../assets/img/platfoms/marcador-de-posicion.svg',-->
+<!--        scaledSize: {-->
+<!--          height: heightIcon,-->
+<!--          width: widthIcon-->
+<!--        },-->
+<!--        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}-->
+<!--      }">-->
+<!--    </agm-marker>-->
+
+<!--    &lt;!&ndash;  Circunferencia para la Geocerca  &ndash;&gt;-->
+<!--    <agm-circle [latitude]="getGeocercaLatitude()" [longitude]="getGeocercaLongitude()"-->
+<!--                [radius]="currentValueSliderRadius"-->
+<!--                fillColor="grey"-->
+<!--                *ngIf="radioGroupPosition === valueRadioManual && this.longitudClick && this.latitudClick || radioGroupPosition === valueRadioCurrentPosition && deviceSelected?.geofence !== undefined && deviceSelected?.geofence?.length > 0"-->
+<!--                (circleClick)="mapPointClick($event)"-->
+<!--                [circleDraggable]="false"-->
+<!--                [editable]="false">-->
+<!--    </agm-circle>-->
+
+    <!--  Market Punto inicial de Ruta (para servicios de google maps)  -->
+    <agm-marker
+      *ngIf="googleServicePlaceInit"
+      [latitude]="googleServicePlaceInit.lat" [longitude]="googleServicePlaceInit.lng"
+      [iconUrl]="{url: './assets/img/platfoms/location_map_green.svg',
+        scaledSize: {
+          height: heightIcon,
+          width: widthIcon
+        },
+        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}
+      }">
+    </agm-marker>
+
+    <!--  Market Punto final de Ruta (para servicios de google maps)  -->
+    <agm-marker
+      *ngIf="googleServicePlaceFinish"
+      [latitude]="googleServicePlaceFinish.lat" [longitude]="googleServicePlaceFinish.lng"
+      [iconUrl]="{url: './assets/img/platfoms/location_map_red.svg',
+        scaledSize: {
+          height: heightIcon,
+          width: widthIcon
+        },
+        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}
+      }">
+    </agm-marker>
+
+<!--    &lt;!&ndash;  Markets para los puntos dentro de la geocerca  &ndash;&gt;-->
+<!--    <ng-container *ngIf="listNearPlaces">-->
+<!--      <agm-marker-->
+<!--        *ngFor="let place of listNearPlaces"-->
+<!--        [latitude]="place.geometry?.location?.lat" [longitude]="place.geometry?.location?.lng"-->
+<!--        [iconUrl]="{url: place.icon,-->
+<!--        scaledSize: {-->
+<!--          height: heightIconSmall,-->
+<!--          width: widthIconSmall-->
+<!--        },-->
+<!--        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}-->
+<!--      }">-->
+<!--        <agm-info-window class="map-dialog-info" #infoWindow>-->
+<!--          <div class="mb-2">-->
+<!--            <span class="map-title-response-info">{{place.name}}</span><br><br>-->
+<!--          </div>-->
+<!--        </agm-info-window>-->
+<!--      </agm-marker>-->
+<!--    </ng-container>-->
+
+    <!--  Markets para el punto del lugar buscado en la opción autocompletar lugares  -->
+    <ng-container *ngIf="showFindPLace">
+      <agm-marker
+        [latitude]="this.findPlaceDetails?.geometry?.location?.lat" [longitude]="this.findPlaceDetails?.geometry?.location?.lng"
+        [iconUrl]="{url: findPlaceDetails?.icon,
+        scaledSize: {
+          height: heightIcon,
+          width: widthIcon
+        },
+        labelOrigin: {x: widthIcon/2, y: heightIcon + 10}
+      }">
+        <agm-info-window class="map-dialog-info" #infoWindow>
+          <div class="mb-2">
+            <span class="map-title-response-info">{{findPlaceDetails?.name}}</span><br><br>
+          </div>
+        </agm-info-window>
+      </agm-marker>
+    </ng-container>
+
+    <!--  Ruta del servicio Distance Advance  -->
+    <ng-container *ngIf="routeDistanceAdvanced">
+      <agm-direction
+        *ngFor="let routeDevice of routeDistanceAdvanced"
+        [origin]="routeDevice.originPoint"
+        [destination]="routeDevice.destinationPoint"
+        [waypoints]="routeDevice.wayPoints"
+      >
+      </agm-direction>
+    </ng-container>
+  </agm-map>
+
+
+  <!--    <button mat-button class="sidebar-aasd"  >-->
+  <!--        <mat-icon>menu</mat-icon>-->
+  <!--      </button>-->
+
+  <mat-card class="card-options-place">
+    <button (click)="openDialogAutocomplatePlace()" class="m-0 p-0" color="primary">
+      <mat-icon>pin_drop</mat-icon>
+    </button>
+  </mat-card>
+
+<!--  [ngClass]="!showButtonsServicesRoutes && !showButtonsServicesPlaces ? 'card-options-services-small' : !showButtonsServicesRoutes && showButtonsServicesPlaces ? 'card-options-services-places' : 'card-options-services'"-->
+  <mat-card class="card-options-services" [ngClass]="minimize ? 'card-options-services-small' : 'card-options-services'">
+    <ion-row>
+      <button (click)="minimize = !minimize" class="m-0 p-0" color="primary" style="position: sticky; top: 0; left: 0;">
+        <mat-icon *ngIf="minimize">directions</mat-icon>
+        <mat-icon *ngIf="!minimize">indeterminate_check_box</mat-icon>
+      </button>
+      <ion-col *ngIf="!minimize" class="ion-text-center">
+        <span>{{'geo.common.map.calculateDistance' | translate}}</span>
+      </ion-col>
+    </ion-row>
+    <div *ngIf="!minimize">
+<!--      <button mat-raised-button color="primary" (click)="testChangeCoordinate()">-->
+<!--        Change-->
+<!--      </button>-->
+      <div>
+        <ion-row class="row ion-justify-content-around">
+          <ion-col>
+            <ion-button class="col-6 button-activate-distance-in-route" [style]="markInitPoint ? {'--background': '#f12345'} : {'--background': '#3f51b5'}"
+                        (click)="actionMarkInitPoint()">
+              <span>{{'geo.common.map.initPoint' | translate}}</span>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button class="col-6 button-activate-distance-in-route" [style]="markFinishPoint ? {'--background': '#f12345'} : {'--background': '#3f51b5'}"
+                        (click)="actionMarkFinsihPoint()">
+              <span>{{'geo.common.map.finishPoint' | translate}}</span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <div *ngIf="this.googleServicePlaceInit && this.googleServicePlaceFinish">
+          <h6 class="text-center" *ngIf="showButtonsServicesRoutes && this.nearestRoad && this.nearestRoad.lat && this.nearestRoad.lng">
+            {{'geo.common.map.nearestRoad' | translate}} {{'geo.devices.latitude' | translate}}: {{this.nearestRoad.lat}} - {{'geo.devices.longitude' | translate}}: {{this.nearestRoad.lng}}
+          </h6>
+          <div class="text-center">
+            <ion-button *ngFor="let service of listServiceRoutes" [ngStyle]="{'--background': service.color}" class="ml-2 mb-1 button-google-services"
+                        (click)="executeGoogleService(service)">
+              {{service.name}}
+            </ion-button>
+          </div>
+          <div class="full-width mt-3"></div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>
+
+<div *ngIf="preload || preload_socket" class="full-width" style="display: flex; justify-content: center;">
+  <img src="./assets/gifs/loading.gif" alt="" height="200px">
+</div>

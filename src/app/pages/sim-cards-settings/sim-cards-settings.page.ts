@@ -36,6 +36,9 @@ export class SimCardsSettingsPage implements OnInit {
   //---------Preloads
   public preload_permissions: boolean;
   public preload_simcard: boolean;
+  public preload_duration_calls: boolean;
+  public preload_history_calls: boolean;
+  public preload_history_pins: boolean;
   public preload_package: boolean;
   public preload_history: boolean;
   public preload_conectivity: boolean;
@@ -83,11 +86,18 @@ export class SimCardsSettingsPage implements OnInit {
   public show_history: boolean;
   public show_packages: boolean;
   public show_sms: boolean;
+  public show_pins: boolean;
   public show_location: boolean;
   public show_settings: boolean;
   public codes_permission: string[];
 
   public info: any;
+  // Llamadas
+  private duration_calls: any;
+  public historyCalls: any[];
+  // Pins
+  public historyPins: any[];
+  public formControlPinActivate: FormControl;
 
   constructor(
     private moduleService: PermissionModuleService,
@@ -107,9 +117,12 @@ export class SimCardsSettingsPage implements OnInit {
     this.number_to_delete = new FormControl("", Validators.required);
     this.value_endpoint = new FormControl("", [Validators.minLength(5), Validators.maxLength(30)]);
     this.newNumber = new FormControl("", [Validators.required]);
+    this.formControlPinActivate = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern('[0-9]+')]);
     this.listSMS = [];
     this.historyPackage = [];
     this.extraNumbersList = [];
+    this.historyCalls = [];
+    this.historyPins = [];
     this.cost_eur = 0.25;
     this.cost_usd = 0.30;
     this.total_eur = 0;
@@ -126,12 +139,15 @@ export class SimCardsSettingsPage implements OnInit {
     this.show_packages = false;
     this.show_sms = false;
     this.show_location = false;
-    this.show_sms = false;
-    this.codes_permission = ['33', '34', '35', '36', '37'];
+    this.show_pins = false;
+    this.codes_permission = ['33', '34', '35', '36', '37', '39'];
     //----Preloads
     this.preload_permissions = true;
     this.preload_history = true;
     this.preload_simcard = true;
+    this.preload_history_calls = true;
+    this.preload_duration_calls = true;
+    this.preload_history_pins = true;
     this.preload_package = true;
     this.preload_events = true;
     this.preload_conectivity = true;
@@ -159,6 +175,9 @@ export class SimCardsSettingsPage implements OnInit {
       if (this.preload_permissions == false &&
         this.preload_history == false &&
         this.preload_simcard == false &&
+        this.preload_duration_calls == false &&
+        this.preload_history_calls == false &&
+        this.preload_history_pins == false &&
         this.preload_package == false &&
         this.preload_events == false &&
         this.preload_conectivity == false &&
@@ -178,26 +197,51 @@ export class SimCardsSettingsPage implements OnInit {
   getPermissions() {
     const data = {
       codes: this.codes_permission
-    }
+    };
+
     console.log(data);
     this.moduleService.getStatesModuleOrganizationPlatformVector(data).subscribe(res => {
+      console.log(res.body.length);
+      console.log(res.body);
       this.info = "Me respondio el servicio";
-      console.log(res);
-      if (res.body[0].is_active == true) {
-        this.show_packages = true;
+      for (const permission of res.body) {
+        if (permission.is_active == true ){
+          if (permission.module == 52) {
+            this.show_sms = true;
+          } else if (permission.module == 65) {
+            this.show_history = true;
+          } else if (permission.module == 66) {
+            this.show_pins = true;
+          } else if (permission.module == 51) {
+            this.show_packages = true;
+          } else if (permission.module == 53) {
+            this.show_location = true;
+          } else if (permission.module == 54) {
+            this.show_settings = true;
+          }
+        }
       }
-      if (res.body[1].is_active == true) {
-        this.show_sms = true;
-      }
-      if (res.body[2].is_active == true) {
-        this.show_location = true;
-      }
-      if (res.body[3].is_active == true) {
-        this.show_settings = true;
-      }
-      if (res.body[4].is_active == true) {
-        this.show_history = true;
-      }
+      // if (res.body[0]?.is_active == true) {
+      //   this.show_packages = true;
+      // }
+      // if (res.body[1]?.is_active == true) {
+      //   this.show_sms = true;
+      // }
+      // if (res.body[2]?.is_active == true) {
+      //   this.show_location = true;
+      // }
+      // if (res.body[3]?.is_active == true) {
+      //   this.show_settings = true;
+      // }
+      // if (res.body[4]?.is_active == true) {
+      //   this.show_history = true;
+      //   console.log('entró');
+      // }
+      // if (res.body[5]?.is_active == true) {
+      //   this.show_pins = true;
+      // }
+
+      console.log(this.show_history);
       this.preload_permissions = false;
       this.getSimCardDetails();
       this.getPackageHistory();
@@ -210,19 +254,118 @@ export class SimCardsSettingsPage implements OnInit {
       this.getExtraNumbers();
       this.obtainStatusLocation();
 
+      this.obtainDurationCalls();
+      this.getCallsHistory();
+      this.getPinsHistory();
+
     }, err => {
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.error_permission"));
     });
   }
+
+  /**
+   * Obtiene el tiempo de llamadas en el último mes
+   */
+  obtainDurationCalls() {
+    this.simCardService.getDurationsCalls(this.sim_current.id).subscribe(res => {
+      const body = res.body;
+      if (body.total_calls) {
+        this.duration_calls = body.total_calls;
+      }
+      this.duration_calls = 100;
+      this.preload_duration_calls = false;
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant('simcard.error.history_calls'));
+    });
+  }
+
+  /**
+   * Obtiene el historico de llamadas
+   */
+  getCallsHistory() {
+    this.simCardService.getCallsHistoryApp(this.sim_current.id).subscribe(res => {
+      const body = res.body;
+      if (body?.records?.call?.billsec) {
+        this.historyCalls.push(body.records.call);
+      } else {
+        if (body?.records?.call?.length > 0) {
+          this.historyCalls = body.records.call;
+        }
+      }
+      this.historyCalls = [
+        {adest: "Colombia Mobile",
+          anum: "37259833000",
+          bdest: "Colombia",
+          billsec: "11",
+          bleg: "true",
+          bnum: "573212250010",
+          calldate: "2020-09-03 04:07:51",
+          ccost: "0.49",
+          cdir: "O",
+          conn_cost: "0.00",
+          curr: "USD",
+          duration: "26",
+          free_sec: "0",
+          imsi: null,
+          mcost: "0.49",
+          onum: "37259833000",
+          rdest: "Colombia",
+          rnum: "573144961925",
+          tsimid: "26511316",
+          uniqueid: "853258357.0b735ebdc0379c09"}
+      ];
+      this.preload_history_calls = false;
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant('simcard.error.history_calls'));
+    });
+  }
+
+  /**
+   * Obtiene el historico de pins
+   */
+  getPinsHistory() {
+    this.simCardService.getPinsHistory(this.sim_current.id).subscribe(res => {
+      const body = res.body;
+      console.log(body);
+      if (body?.records?.recharge?.pin) {
+        this.historyPins.push(body.records.recharge);
+      } else {
+        if (body?.records?.recharge?.length > 0) {
+          this.historyPins = body.records.recharge;
+        }
+      }
+      // this.historyPins = [
+      //   {
+      //     amount: "5.00",
+      //     currency: "USD",
+      //     onum: "37259833000",
+      //     pin: "2871590882974024",
+      //     pintype: "debit",
+      //     tsimid: "26511316",
+      //     used: "2020-08-28 01:18:30"
+      //   }
+      // ];
+      this.preload_history_pins = false;
+    }, err => {
+      console.log(err);
+      this.loadingService.dismissLoading();
+      this.presentToastError(this.translate.instant('simcard.error.history_calls'));
+    });
+  }
+
   /**
    * Obtiene el historico de paquetes
    */
   getPackageHistory() {
     const simcard = {
       simcard_tc: this.sim_current.id
-    }
+    };
     this.simCardService.getPacakgeHistoryApp(simcard).subscribe(res => {
       this.historyPackage = res.body;
       this.preload_history = false;
@@ -244,7 +387,6 @@ export class SimCardsSettingsPage implements OnInit {
    * Obtiene información de la sim
    */
   getSimCardDetails() {
-
     this.simCardService.getSimCardById(this.sim_current.id).subscribe(res => {
       if (res.status == 200) {
         this.simCurrent = res.body;
@@ -607,7 +749,7 @@ export class SimCardsSettingsPage implements OnInit {
       const endpont = {
         endpoint: this.value_endpoint.value
       }
-      this.simCardService.updateEndpoint(this.sim_current.id, endpont).subscribe(res => {
+      this.simCardService.updateEndpointVoyager(this.sim_current.id, endpont).subscribe(res => {
         if (res.status == 200) {
           this.presentToastOk(this.translate.instant("simcard.data.endpoint_ok"));
           this.preload_endpoint = true;
@@ -845,7 +987,7 @@ export class SimCardsSettingsPage implements OnInit {
           cssClass: "color: red",
           handler: () => {
             this.loadingService.presentLoading().then(() => {
-              this.simCardService.deleteSimCard(this.sim_current.id).subscribe(res => {
+              this.simCardService.deleteSimCardVoyager(this.sim_current.id).subscribe(res => {
                 if (res.status == 200) {
                   this.presentToastOk(this.translate.instant("simcard.data.delete_sim_ok"));
                   this.loadingService.dismissLoading().then(() => {
@@ -915,5 +1057,57 @@ export class SimCardsSettingsPage implements OnInit {
       this.value_endpoint.hasError('required') ? this.translate.instant("simcard.error.required_value") :
         this.value_endpoint.hasError('minlength') ? this.translate.instant("simcard.error.end_point_min_max") :
           '';
+  }
+
+  /**
+   * Devuelve el mensaje de número de pin incorrecto
+   */
+  getErrorMessagePinActivate() {
+    return this.formControlPinActivate.hasError("required")
+      ? this.translate.instant('simcard.data.settings.history_pins.required_code')
+      : this.formControlPinActivate.hasError("minlength")
+        ? this.translate.instant('simcard.data.settings.history_pins.min_length')
+        : this.formControlPinActivate.hasError("maxlength")
+          ? this.translate.instant('simcard.data.settings.history_pins.max_length')
+          : this.formControlPinActivate.hasError("pattern")
+            ? this.translate.instant('simcard.data.settings.history_pins.integer_number')
+            : "";
+  }
+
+  /**
+   * Activar pin a la simcard actual
+   * @param code
+   */
+  activatePin() {
+    if (this.formControlPinActivate.valid) {
+      // this.preload_pins = false;
+      const bodyPin = {
+        pin: +this.formControlPinActivate.value
+      };
+      console.log(this.sim_current.id, bodyPin);
+      this.loadingService.presentLoading().then(() => {
+        this.simCardService.activatePins(this.sim_current.id, bodyPin).subscribe(
+          res => {
+            this.loadingService.dismissLoading();
+            this.presentToastOk(this.translate.instant('simcard.data.settings.history_pins.pin_activate_ok'));
+          },
+          error => {
+            this.loadingService.dismissLoading();
+            console.log(error);
+            if (error.status == 400 && error.error?.recharge?.text == 'Please provide valid PIN to recharge') {
+              this.presentToastError(this.translate.instant('simcard.data.settings.history_pins.invalid_pin'));
+            } else {
+              this.presentToastError(this.translate.instant('simcard.data.settings.history_pins.no_activate_pin'));
+            }
+          }
+        );
+      });
+    } else {
+      this.formControlPinActivate.markAsTouched();
+    }
+  }
+
+  goToHome() {
+    this.navController.navigateBack('select-platform');
   }
 }

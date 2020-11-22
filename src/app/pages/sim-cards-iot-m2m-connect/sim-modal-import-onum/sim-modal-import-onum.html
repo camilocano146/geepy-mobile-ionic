@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.import_onum.data.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="center">
+                <img src="../../../../assets/img/import (1).svg" height="100px" alt="">
+            </ion-col>
+            <ion-col size="12" style="text-align: justify;">
+                {{'simcard.data.import_onum.data.p1' | translate}} <strong style="color: #2E2681 !important">{{'simcard.data.import_onum.data.onum' | translate}} </strong>{{'simcard.data.import_onum.data.p2' | translate}}
+            </ion-col>
+            <ion-col size="3" style="text-align: center !important;">
+                <mat-form-field class="full-width" appearance="outline">
+                    <input class="center" matInput maxlength="4" [formControl]="batchP1">
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="3" style="text-align: center !important;">
+                <mat-form-field class="full-width" appearance="outline">
+                    <input class="center" matInput maxlength="4" [formControl]="batchP2">
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="3" style="text-align: center !important;">
+                <mat-form-field class="full-width" appearance="outline">
+                    <input class="center" matInput maxlength="4" [formControl]="batchP3">
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="3" style="text-align: center !important;">
+                <mat-form-field class="full-width" appearance="outline">
+                    <input class="center" matInput maxlength="4" [formControl]="batchP4">
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12" style="text-align: justify;">
+                {{'simcard.data.import_onum.data.p3' | translate}} <strong style="color: #2E2681 !important"> {{'simcard.data.import_onum.data.service_account' | translate}}</strong> {{'simcard.data.import_onum.data.p4' | translate}}
+            </ion-col>
+            <ion-col size="12" style="text-align: justify;">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Service account</mat-label>
+                    <mat-select [formControl]="accountSelected">
+                        <mat-option *ngFor="let item of serviceAccountsList" [value]="item">
+                            {{item.description}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="accountSelected.invalid">{{getErrorMessageAccount()}}</mat-error>
+                </mat-form-field>
+            </ion-col>
+            <ion-col size="12" style="text-align: center;">
+                <ion-button style="text-transform: none;" (click)="import()">
+                    {{'simcard.data.import_onum.data.btn_register' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

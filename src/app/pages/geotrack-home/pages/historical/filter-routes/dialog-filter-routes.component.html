@@ -1,0 +1,148 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                 (click)="this.dialogRef.dismiss();">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title style="color: white !important;;">{{'geo.historical.filter_routes' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="!preload" class="col-12 col-sm-12">
+    <form class="mt-3 ion-text-center">
+      <mat-radio-group [(ngModel)]="radioGroupPosition" [ngModelOptions]="{standalone: true}">
+        <mat-radio-button class="mr-3" [value]="valueRadioGroup" (change)="changeGroupsOfOrganization()">{{'geo.groups.title' | translate}}</mat-radio-button>
+        <mat-radio-button [value]="valueRadioDevice" (change)="changeDevicesOfOrganization()">{{'geo.devices.title' | translate}}</mat-radio-button>
+      </mat-radio-group>
+      <!--   Grupos y Dispositivos     -->
+      <div *ngIf="radioGroupPosition === valueRadioGroup" class="mt-3">
+        <mat-form-field class="w-75">
+          <mat-label *ngIf="!loadingGroupsOnLoad && listGroups.length == 0">{{'geo.historical.groups.0_groups' | translate }}</mat-label>
+          <mat-label *ngIf="loadingGroupsOnLoad">{{'geo.historical.groups.loading' | translate }}</mat-label>
+          <mat-label *ngIf="listGroups.length !== 0">{{'geo.historical.groups.groups_available' | translate }}</mat-label>
+          <mat-select [formControl]="formControlCurrentGroup" (selectionChange)="changeGroup()">
+            <mat-option *ngFor="let item of listGroups" [value]="item">
+              {{item.name}}
+            </mat-option>
+            <div class="ion-text-center">
+              <ion-button (appDetectLazyLoad)="moreGroups()" *ngIf="lastResponseGroups?.next" style="--background: tranaparent;">
+                <img src="./assets/gifs/loading.gif" height="36px" alt="">
+              </ion-button>
+            </div>
+          </mat-select>
+          <mat-error *ngIf="formControlCurrentGroup.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-75">
+          <mat-label *ngIf="!loadingDevicesOnLoad && listDevices.length == 0">{{'geo.groups.devices.0_devices' | translate }}</mat-label>
+          <mat-label *ngIf="loadingDevicesOnLoad">{{'geo.groups.devices.loading' | translate }}</mat-label>
+          <mat-label *ngIf="!loadingDevicesOnLoad && listDevices.length !== 0">{{'geo.groups.devices.devices_available' | translate }}</mat-label>
+          <mat-select [formControl]="formControlCurrentDevice">
+            <mat-option *ngFor="let item of listDevices" [value]="item">
+              {{item.imei}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formControlCurrentDevice.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+        </mat-form-field>
+      </div>
+      <!--   Dispositivos     -->
+      <mat-form-field class="w-75 mt-3" *ngIf="radioGroupPosition === valueRadioDevice">
+        <mat-label *ngIf="listDevices.length == 0; else labelDevicesAvailable;">{{'geo.groups.devices.0_devices' | translate }}</mat-label>
+        <ng-template #labelDevicesAvailable>
+          <mat-label *ngIf="listDevices.length !== 0">{{'geo.groups.devices.devices_available' | translate }}</mat-label>
+        </ng-template>
+        <mat-select [formControl]="formControlCurrentDevice">
+          <mat-option *ngFor="let item of listDevices" [value]="item">
+            {{item.imei}}
+          </mat-option>
+          <div class="ion-text-center">
+            <ion-button (appDetectLazyLoad)="moreDevices()" *ngIf="lastResponseDevices?.next" style="--background: tranaparent;">
+              <img src="./assets/gifs/loading.gif" height="36px" alt="">
+            </ion-button>
+          </div>
+        </mat-select>
+        <mat-error *ngIf="formControlCurrentDevice.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+      </mat-form-field>
+      <!--        fecha 1-->
+      <mat-form-field appearance="fill">
+        <mat-label>{{'geo.historical.date_since' | translate}}</mat-label>
+        <input matInput [matDatepicker]="dateSince" [formControl]="formControlDateSince" (click)="dateSince.open()">
+        <mat-datepicker-toggle matSuffix [for]="dateSince"></mat-datepicker-toggle>
+        <mat-datepicker #dateSince disabled="false"></mat-datepicker>
+        <mat-error *ngIf="formControlDateSince.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+      </mat-form-field>
+      <!--        fecha 2-->
+      <mat-form-field appearance="fill">
+        <mat-label>{{'geo.historical.date_until' | translate}}</mat-label>
+        <input matInput [matDatepicker]="dateUntil" [formControl]="formControlDateUntil" (click)="dateUntil.open()">
+        <mat-datepicker-toggle matSuffix [for]="dateUntil"></mat-datepicker-toggle>
+        <mat-datepicker #dateUntil disabled="false"></mat-datepicker>
+        <mat-error *ngIf="formControlDateUntil.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+      </mat-form-field>
+      <mat-label class="color-red" *ngIf="formControlDateSince.valid && formControlDateUntil.valid && isWrongDates()">{{'geo.historical.wrong_dates' | translate}}</mat-label>
+      <div class="text-center mt-1">
+        <ion-button color="primary" (click)="showRoutes()">
+          {{'geo.historical.button_load' | translate}}
+        </ion-button>
+      </div>
+      <mat-label class="color-red" *ngIf="errorLoadDevice">{{errorLoadDevice}}</mat-label>
+      <div *ngIf="!loadingRoutes" class="mt-1">
+        <div class="ion-text-left ml-4 mt-3 mb-2">
+          <mat-label class="color-green" *ngIf="listDevicesDisplayed?.length > 0">{{'geo.historical.list_routes' | translate}}</mat-label>
+        </div>
+        <div id="div-list-routes" >
+          <div *ngFor="let device of listDevicesDisplayed" class="row justify-content-start align-items-center border m-0">
+            <ion-row style="border: 1px solid gray;">
+              <ion-col size="10" sizeSm="10" sizeMd="10" class="p-0">
+                <span class="color-blue">
+                  {{device.imei}}
+                </span>
+                <ion-row class="ion-justify-content-around ion-text-center m-0">
+                  <ion-col size="5">
+                    {{getMinDateRoute(device)}}
+                  </ion-col>
+                  <ion-col size="5">
+                    {{getMaxDateRoute(device)}}
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="2" sizeSm="2" sizeMd="2" class="p-0">
+                <ion-button (click)="removeDevice(device)" matTooltip="{{'geo.historical.delete_route' | translate }}  {{device.imei}}">
+                  <mat-icon class="color-red">delete</mat-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+<!--            <div class="col-10 col-sm-10 col-md-10 p-0">-->
+<!--              {{device.imei}}-->
+<!--              <br>-->
+<!--              <div class="row justify-content-start align-items-center border m-0">-->
+<!--                <div class="col-5 col-sm-5 col-md-5">-->
+<!--                  {{getMinDateRoute(device)}}-->
+<!--                </div>-->
+<!--                <div class="col-5 col-sm-5 col-md-5">-->
+<!--                  {{getMaxDateRoute(device)}}-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="col-2 col-sm-2 col-md-2">-->
+<!--              <ion-button (click)="removeDevice(device)" matTooltip="{{'geo.historical.delete_route' | translate }}  {{device.imei}}">-->
+<!--                <mat-icon class="color-red">delete</mat-icon>-->
+<!--              </ion-button>-->
+<!--            </div>-->
+          </div>
+        </div>
+        <div class="ion-text-left ml-4 mt-3">
+          <mat-label class="color-green" *ngIf="!loadingRoutes && listDevicesDisplayed?.length === 0">{{'geo.historical.not_list_routes' | translate}}</mat-label>
+        </div>
+      </div>
+      <div *ngIf="loadingRoutes" class="full-width"  style="display: flex; justify-content: center;">
+        <img src="./assets/gifs/loading.gif" alt="" height="200px">
+      </div>
+    </form>
+  </div>
+  <div *ngIf="preload" class="full-width" style="display: flex; justify-content: center;">
+    <img src="./assets/gifs/loading.gif" alt="" height="200px">
+  </div>
+</ion-content>
+<div class="ion-text-center" *ngIf="listDevicesDisplayed?.length > 0">
+  <ion-button color="primary" (click)="showInMap()">{{'geo.common.map.show_route_in_map' | translate}}</ion-button>
+</div>

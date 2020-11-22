@@ -4,7 +4,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { Credential } from '../../models/credential/credential';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Token } from 'src/app/models/token/token';
-import sha1 from 'js-sha1'
+import sha1 from 'js-sha1';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
@@ -85,7 +85,7 @@ export class LoginPage implements OnInit {
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
 
-                FCM.getToken().then(token => {
+              FCM.getToken().then(token => {
                 console.log(token);
                 FCM.onNotification().subscribe(data => {
                   if (data.wasTapped) {
@@ -113,7 +113,6 @@ export class LoginPage implements OnInit {
                 });
               });
 
-              
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {
                 let u = res.body;

@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                     (click)="this.modalController.dismiss();">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;"
+                   style="color: white !important;;">{{'geo.devices.register.title' | translate | titlecase}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row>
+        <ion-col size="12">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>{{'geo.devices.register.type' | translate }}</mat-label>
+                <mat-select [formControl]="type_selected">
+                    <mat-option *ngFor="let item of types_list" [value]="item.id">
+                        {{item.name | titlecase}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="type_selected.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <ion-col size="12">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>{{'geo.devices.register.platform_plural' | translate }}</mat-label>
+                <mat-select [formControl]="platform_selected" multiple>
+                    <mat-select-trigger>
+                        {{platform_selected.valid ? getNamePlatform() : ''}}
+                        <span *ngIf="platform_selected.value?.length > 1" class="example-additional-selection">
+                      (+{{platform_selected.value.length - 1}} {{platform_selected.value?.length === 2 ? ('geo.devices.register.other' | translate) : ('geo.devices.register.others' | translate)}}
+                            )
+                    </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let platform of platforms_list"
+                                [value]="platform.id">{{platform.name | titlecase}}</mat-option>
+                </mat-select>
+                <mat-error
+                        *ngIf="platform_selected.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <ion-col size="12">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>{{'geo.devices.register.label' | translate }}</mat-label>
+                <mat-select [formControl]="label_selected">
+                    <mat-option *ngFor="let item of labels_list" [value]="item.id">
+                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                            {{item.description | titlecase}}
+                            <img src="{{item.icon}}" width="20px" height="20px" alt="">
+                        </div>
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="label_selected.invalid">{{'geo.devices.register.mandatory' | translate }}</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <ion-col size="12">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>{{'geo.devices.register.name' | translate }}</mat-label>
+                <input matInput [formControl]="name">
+                <mat-hint align="end">{{name.value?.length || 0}}/{{maxNameLength}}</mat-hint>
+                <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <ion-col size="12">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>IMEI</mat-label>
+                <input matInput [formControl]="imei">
+                <mat-hint align="end">{{imei.value?.length || 0}}/{{maxImeiLength}}</mat-hint>
+                <mat-error *ngIf="imei.invalid">{{getErrorMessageImei()}}</mat-error>
+            </mat-form-field>
+        </ion-col>
+        <ion-col size="12" style="text-align: center;">
+            <ion-button color="warning" (click)="save()">
+                <ion-icon style="margin-right: 15px;" name="key"></ion-icon>
+                {{'geo.common.btn_create' | translate }}
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-content>
+

@@ -1,0 +1,49 @@
+<ion-content>
+    <ion-row>
+        <ion-col size="7" style="display: flex; align-items: center; justify-content: center;">
+            <ion-button color="primary" style="text-transform: none;" class="full-width" (click)="openModalRegisterGroup()">
+                <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
+                {{'geo.groups.register_title' | translate | titlecase}}
+            </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row class="justify-content: space-between">
+        <ion-col size="12" style="text-align: center !important;margin-top: 5px;">
+            <ion-label color="primary" style="font-size: 18px; font-weight: bold; text-align: center ;">{{'geo.groups.my_groups' | translate}}</ion-label>
+        </ion-col>
+    </ion-row>
+    <ion-row class="justify-content-between">
+        <ion-col size="8" id="filter-input" style="display: flex; align-items: center;">
+            <!-- Inputs with labels -->
+            <ion-item style="margin-left: 10px; width: 80%;">
+                <ion-icon name="search"></ion-icon>
+                <ion-input #input (keyup)="applyFilter(input.value)" placeholder="{{'geo.groups.name' | translate | titlecase}}" type="text"></ion-input>
+            </ion-item>
+        </ion-col>
+        <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">
+            <ion-button color="success" class="icon-option" (click)="loadGroups()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+                <ion-icon style=" font-size: 30px;" name="refresh"></ion-icon>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12">
+            <div class="center container-sim-cards">
+                <ion-card *ngFor="let item of filterGroupsList" [ngStyle]="{'background-color':item.status == 2 ? '#FFFFEC' : '#ffffff' }" class="card-sim-size" (click)="openModalSettings(item)">
+                    <ion-card-header>
+                        <ion-card-title class="title-register"></ion-card-title>
+                        <ion-card-subtitle style="font-size: 16px !important;"><strong style="color: black !important; ">{{item.name}}</strong></ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row>
+                            <ion-col size="8" style="!important; font-size: 16px; margin: auto;" class="ion-text-left">
+                                {{item.description}}
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-content>
+

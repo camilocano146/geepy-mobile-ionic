@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
-import { ToastController, PopoverController, ModalController } from '@ionic/angular';
+import {ToastController, PopoverController, ModalController, NavController} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TransacitionsModalStripeComponent } from './transacitions-modal-stripe/transacitions-modal-stripe.component';
@@ -22,12 +22,13 @@ export class TransacitionsPage implements OnInit {
   public paymentsList: any[];
 
   constructor(
-    private loadingService:LoadingService,
+    private loadingService: LoadingService,
     private userService: UserService,
     public toastController: ToastController,
     public popoverController: PopoverController,
     private translate: TranslateService,
     private modalController: ModalController,
+    private navController: NavController,
     private billingService: BillingService) {
       this.user = null;
       this.existPayments = 0;
@@ -146,5 +147,9 @@ export class TransacitionsPage implements OnInit {
       mode: 'ios',
     });
     return await popover.present();
+  }
+
+  goToHome() {
+    this.navController.navigateBack('select-platform');
   }
 }

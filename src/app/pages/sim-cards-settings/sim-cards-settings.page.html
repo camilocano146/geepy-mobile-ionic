@@ -1,9 +1,12 @@
 <ion-header>
     <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.settings.data.title' | translate}}</ion-title>
         <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
             <ion-icon name="arrow-back-outline"></ion-icon>
         </ion-buttons>
-        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.settings.data.title' | translate}}</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -14,10 +17,12 @@
                 <img src="../../../../assets/img/simcard.svg" height="80px" alt="">
             </ion-col>
             <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
+<!--                {{this.preload_permissions}}-->
                 <ion-label class="full-width"><strong>ICCID: </strong><label style="color: #737373;">{{sim_current.iccid}}</label></ion-label>
             </ion-col>
             <ion-col size="12">
                 <mat-accordion>
+                    <!--         Detalles           -->
                     <mat-expansion-panel [ngStyle]="{'display':show_details == true ? 'block' : 'none' }" expanded>
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
@@ -152,7 +157,168 @@
                             </ion-card>
                         </div>
                     </mat-expansion-panel>
-                    <!--Historicooo-->
+                    <!--Historico Llamadas-->
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.history_calls.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="historyCalls.length == 0" class="full-width center">
+                            <ion-card style="background-color: white;">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="12">
+                                            <img src="../../../assets/img/ghost.svg" height="80px" alt="">
+                                        </ion-col>
+                                        <ion-col size="12">
+                                            <ion-label>{{'simcard.data.settings.history_calls.no_data' | translate}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-card>
+                        </div>
+                        <div *ngIf="historyCalls.length > 0" class="container-cards">
+                            <ion-label color="primary" style="font-size: 20px; margin-top: 15px !important; width: 100%; text-align: center">{{'simcard.data.settings.history_calls.duration_month_time' | translate}}</ion-label>
+                            <ion-list lines="none" class="full-width mat-elevation-z4" style="border-bottom-width: 0px; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                <ion-item>
+                                    <div class="full-width center">
+                                        <strong class="strong-text">{{duration_calls}} {{'simcard.data.settings.history_calls.seconds_label' | translate}}</strong>
+                                    </div>
+                                </ion-item>
+                            </ion-list>
+                            <div class="center" style="margin-top: 15px !important;">
+                                <ion-label color="success" style="font-size: 20px;"><strong>{{'simcard.data.settings.history_calls.call_list' | translate}}</strong></ion-label>
+                            </div>
+                            <ion-card *ngFor="let item of historyCalls; let i = index" style="margin-top: 10px;" class="card-package">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details">
+                                        <strong>{{'simcard.data.settings.history_calls.call' | translate}} {{i+1}}</strong>
+                                    </ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_calls.call_date' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.calldate | date}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_calls.duration' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.duration}} </strong>
+                                                    <strong class="strong-text">{{'simcard.data.settings.history_calls.seconds_label' | translate}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_calls.origin_number' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.anum}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_calls.destination_number' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.bnum}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+<!--                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">-->
+<!--                                                <ion-label color="success">-->
+<!--                                                    <strong>{{'simcard.data.settings.history_calls.operator' | translate}} </strong>-->
+<!--                                                    <strong class="strong-text">{{item.adest}}</strong>-->
+<!--                                                </ion-label>-->
+<!--                                            </ion-col>-->
+<!--                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">-->
+<!--                                                <ion-label color="success">-->
+<!--                                                    <strong>{{'simcard.data.settings.history_calls.country_destination' | translate}} </strong>-->
+<!--                                                    <strong class="strong-text">{{item.rdest}}</strong>-->
+<!--                                                </ion-label>-->
+<!--                                            </ion-col>-->
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+
+
+                    </mat-expansion-panel>
+                    <!--Historico Pines-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_pins == true ? 'block' : 'none' }">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.history_pins.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="historyPins.length == 0" class="full-width center">
+                            <ion-card style="background-color: white;">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="12">
+                                            <img src="../../../assets/img/ghost.svg" height="80px" alt="">
+                                        </ion-col>
+                                        <ion-col size="12">
+                                            <ion-label>{{'simcard.data.settings.history_pins.no_data' | translate}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-card>
+                        </div>
+                        <div *ngIf="historyPins.length > 0" class="container-cards">
+                            <ion-card *ngFor="let item of historyPins; let i = index" style="margin-top: 10px;" class="card-package">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details">
+                                        <strong>{{'simcard.data.settings.history_pins.pin' | translate}} {{i+1}}</strong>
+                                    </ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_pins.date_used' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.used | date}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_pins.pin_type' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.pintype}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'simcard.data.settings.history_pins.amount' | translate}} </strong>
+                                                    <strong class="strong-text">{{item.amount}} {{item.currency}}</strong>
+                                                </ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--Historico Activar Pin-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_pins == true ? 'block' : 'none' }">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.history_pins.activate' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ion-label color="primary" style="font-size: 20px; margin-top: 15px !important; width: 100%; text-align: center; display: flex; justify-content: center;">{{'simcard.data.settings.history_pins.activate_message' | translate}}</ion-label>
+                        <ion-item style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                            <ion-icon name="barcode-outline" style="margin-right: 10px;"></ion-icon>
+                            <ion-input type="number" [formControl]="formControlPinActivate" style="background-color: white; border-radius: 5px;"></ion-input>
+                        </ion-item>
+                        <div *ngIf="formControlPinActivate.invalid && formControlPinActivate.touched" class="full-width">
+                            <ion-label class="full-width" style="font-size: 12px;" color="danger">{{getErrorMessagePinActivate()}}</ion-label>
+                        </div>
+                        <div class="center">
+                            <ion-button color="primary" class="btn-buy-package mt-3" (click)="activatePin()">{{'simcard.data.settings.history_pins.activate' | translate}}</ion-button>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--Historico Packages-->
                     <mat-expansion-panel [ngStyle]="{'display':show_history == true ? 'block' : 'none' }">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>

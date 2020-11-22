@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                 (click)="this.modalController.dismiss();">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title style="padding-right: 0px !important; padding-left: 0px;"
+               style="color: white !important;;">{{'geo.labels.register_title' | translate | titlecase}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="12">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>{{'geo.groups.name_create_update' | translate}}</mat-label>
+        <input matInput [formControl]="name">
+        <mat-hint align="end">{{name.value?.length || 0}}/{{maxLengthName}}</mat-hint>
+        <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+      </mat-form-field>
+    </ion-col>
+    <ion-col size="12">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>{{'geo.groups.descrip' | translate}}</mat-label>
+        <textarea matInput [formControl]="description"></textarea>
+        <mat-hint align="end">{{description.value?.length || 0}}/{{maxLengthDescription}}</mat-hint>
+        <mat-error *ngIf="description.invalid">{{getErrorMessageDescription()}}</mat-error>
+      </mat-form-field>
+    </ion-col>
+    <ion-col size="12" style="text-align: center;">
+      <ion-button color="warning" (click)="save()">
+        <ion-icon style="margin-right: 15px;" name="key"></ion-icon>
+        {{'geo.common.btn_create' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

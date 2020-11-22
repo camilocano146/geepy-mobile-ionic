@@ -1,0 +1,22 @@
+@import '../../../global.scss';
+.container-cards-packages {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card-package-size {
+    width: 290px;
+    max-width: 290px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.title-register {
+    color: white !important;
+    background-color: #67B7CF !important;
+    font-size: 20px !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+    margin-bottom: 10px;
+}

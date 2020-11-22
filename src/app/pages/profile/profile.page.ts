@@ -9,6 +9,7 @@ import { PopoverComponent } from 'src/app/common-components/popover/popover.comp
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { CountriesService } from 'src/app/services/countries/countries.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -61,6 +62,7 @@ export class ProfilePage implements OnInit {
     public popoverController: PopoverController,
     private localStorageService: LocalStorageService,
     private navController: NavController,
+    public activatedRoute: ActivatedRoute,
     private alertController: AlertController,
     private translate: TranslateService) {
     this.firstName = new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
@@ -389,5 +391,9 @@ export class ProfilePage implements OnInit {
       mode: 'ios',
     });
     return await popover.present();
+  }
+
+  goToHome() {
+    this.navController.navigateBack('select-platform');
   }
 }

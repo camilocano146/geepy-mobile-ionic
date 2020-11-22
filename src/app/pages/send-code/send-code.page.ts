@@ -54,6 +54,10 @@ export class SendCodePage implements OnInit {
             this.loadingService.dismissLoading();
             if (err.error.detail == "email don't exist") {
               this.presentToastError(this.translate.instant('send_code.error.error-user-not-found'));
+            } else if (err.status == 500) {
+              this.presentToastError(this.translate.instant('reset_password.error.server_error'));
+            } else {
+              this.presentToastError(this.translate.instant('reset_password.error.connection_internet'));
             }
         });
       });

@@ -71,11 +71,14 @@ export class ResetPasswordPage implements OnInit {
             }
           },
           err => {
+            console.log(err);
             this.loadingService.dismissLoading();
             if (err.status == 422 && err.error.detail == "unknown code") {
               this.presentToastError(this.translate.instant('reset_password.error.wrong_code'));
             } else if (err.status == 500) {
               this.presentToastError(this.translate.instant('reset_password.error.server_error'));
+            } else {
+              this.presentToastError(this.translate.instant('reset_password.error.connection_internet'));
             }
           });
       });

@@ -1,0 +1,115 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'ecommerce.orders.details' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12">
+                <ion-card style="background-color: white !important;">
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12"> <h5 style="margin: 0px !important; color: #2E2681 !important; font-size: 17px !important;">{{'ecommerce.orders.shipping' | translate}}</h5> </ion-col>
+                                <ion-col  size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'ecommerce.orders.status' | translate}}</ion-label>
+                                        <ion-input *ngIf="data.status == '1'"  value="{{'ecommerce.orders.pending' | translate}} " readonly disabled></ion-input>
+                                        <ion-input *ngIf="data.status == '2'"  value="{{'ecommerce.orders.preparation' | translate}} " readonly disabled></ion-input>
+                                        <ion-input *ngIf="data.status == '3'"  value="{{'ecommerce.orders.delivered' | translate}} " readonly disabled></ion-input>
+                                        <ion-input *ngIf="data.status == '4'"  value="{{'ecommerce.orders.canceled' | translate}} " readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col *ngIf="data.courier != null" size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'ecommerce.orders.courier' | translate}}</ion-label>
+                                        <ion-input  value="{{data.courier.name}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col *ngIf="data.guide_number != null" size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'ecommerce.orders.guide' | translate}}</ion-label>
+                                        <ion-input  value="{{data.guide_number}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                               
+                                <ion-col size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'simcard.data.buy_sims.country' | translate}}</ion-label>
+                                        <ion-input *ngIf="language == 'es'" value="{{data.country?.nombre}}" readonly disabled></ion-input>
+                                        <ion-input *ngIf="language == 'en'" value="{{data.country?.name}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                    
+                                <ion-col  size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'simcard.data.buy_sims.city' | translate}}</ion-label>
+                                        <ion-input  value="{{data.city}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col  size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'simcard.data.buy_sims.address' | translate}}</ion-label>
+                                        <ion-input  value="{{data.address}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col  size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'simcard.data.buy_sims.zip' | translate}}</ion-label>
+                                        <ion-input type="number"  value="{{data.zip}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col  size="12">
+                                    <ion-item style="border-radius: 5px;">
+                                        <ion-label position="stacked">{{'simcard.data.buy_sims.phone' | translate}}</ion-label>
+                                        <ion-input type="number"  value="{{data.phone}}" readonly disabled></ion-input>
+                                    </ion-item>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-card style="background-color: white !important;">
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12"> <h5 style="margin: 0px !important; color: #2E2681 !important; font-size: 17px !important;">{{'ecommerce.orders.products' | translate}}</h5> </ion-col>
+                                <ion-col size="12">
+                                    <ion-list class="full-width"  mode="ios"
+                                        style="border-radius: 5px; padding: 0px;">
+                                        <ion-item *ngFor="let item of data.products">
+                                            <ion-avatar slot="start" style="border: 1px solid lightblue !important;">
+                                                <img *ngIf="item.product?.images?.length > 0" src="{{item?.product?.images[0]}}">
+                                                <img *ngIf="item.product?.images?.length == 0" src="https://marketplace-omg.s3.amazonaws.com/img-blank-products/NoImageAvailable.png">
+                                            </ion-avatar>
+                                            <ion-label>
+                                                <h5 style="margin: 0px !important; color: #2E2681 !important;">{{item.product?.name}}
+                                                </h5>
+                                                <h6 *ngIf="data.currency == 'USD'"
+                                                    style="margin-top: 5px !important; margin-bottom: 5px !important; font-weight: normal !important;">
+                                                    {{'ecommerce.orders.unit' | translate}}{{item.quantity_products}} - Total: {{item.total_usd}}$</h6>
+                                                    <h6 *ngIf="data.currency == 'EUR'"
+                                                    style="margin-top: 5px !important; margin-bottom: 5px !important; font-weight: normal !important;">
+                                                    {{'ecommerce.orders.unit' | translate}}{{item.quantity_products}} - Total: {{item.total_eur}}€</h6>
+                                                <p>ID: {{item.product.id}}</p>
+                                            </ion-label>
+                                        </ion-item>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

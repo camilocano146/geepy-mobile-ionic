@@ -39,6 +39,7 @@ export class SelectPlatformPage implements OnInit {
     private popoverController: PopoverController) {
     this.isReseller = false;
     this.platforms_list = [];
+
   }
 
   ngOnInit() {
@@ -70,9 +71,6 @@ export class SelectPlatformPage implements OnInit {
         console.log(err);
         this.errorMessage = this.translate.instant('select_platform.error_get_platforms');
       });
-
-
-
     });
   }
 
@@ -81,23 +79,44 @@ export class SelectPlatformPage implements OnInit {
    */
   getOrganizationPlatforms() {
       this.organizationService.getOrganizationPlatforms(Global.organization_id).subscribe(res => {
+        console.log(res, Global.organization_id);
         if (res.status == 200) {
           this.organization_platforms_list = [];
           this.organization_platforms_list = res.body;
           this.organization_platforms_list.sort((a, b) => a.platform.name.localeCompare(b.platform.name));
+          // lista de indices para saber cuales plataformas se deben eliminar eliminar
+          const indexOfRemoveElements: number[] = [];
           for (let index = 0; index < this.organization_platforms_list.length; index++) {
             if (this.organization_platforms_list[index].is_active == false) {
-              this.organization_platforms_list.splice(index, 1);
+              indexOfRemoveElements.push(index);
+            }
+            if (this.organization_platforms_list[index].platform.id != Global.platform_voyager_id && this.organization_platforms_list[index].platform.id != Global.platform_iot_id && this.organization_platforms_list[index].platform.id != Global.iridium_platform_id && this.organization_platforms_list[index].platform.id != Global.geotrack_platform_id && this.organization_platforms_list[index].platform.id != Global.ecommerce_platform_id) {
+              const valueExist = indexOfRemoveElements.find(v => v == index);
+              if (valueExist === undefined) {
+                indexOfRemoveElements.push(index);
+              }
             }
           }
-          for (let index2 = 0; index2 < this.organization_platforms_list.length; index2++) {
-            if (this.organization_platforms_list[index2].platform.id != Global.platform_voyager_id) {
-              this.organization_platforms_list.splice(index2, 1);
+          // crear una nueva lista para guardar las plataformas que se deben mostrar, y recorrer la lista de plataformas para buscar y agregar solo las que estan habilitadas
+          const newOrganizationList = [];
+          for (let index = 0; index < this.organization_platforms_list.length; index++) {
+            const valueExist = indexOfRemoveElements.find(v => v == index);
+            if (valueExist === undefined) {
+              newOrganizationList.push(this.organization_platforms_list[index]);
             }
           }
-          this.preload = false;
-          this.loadingService.dismissLoading();
+          this.organization_platforms_list = newOrganizationList;
+          // for (let index2 = 0; index2 < this.organization_platforms_list.length; index2++) {
+          //   if (this.organization_platforms_list[index2].platform.id != Global.platform_voyager_id && this.organization_platforms_list[index2].platform.id != Global.platform_iot_id && this.organization_platforms_list[index2].platform.id != Global.iridium_platform_id && this.organization_platforms_list[index2].platform.id != Global.geotrack_platform_id && this.organization_platforms_list[index2].platform.id != Global.ecommerce_platform_id) {
+          //     const valueExist = indexOfRemoveElements.find(v => v == index2);
+          //     if (!valueExist) {
+          //       indexOfRemoveElements.push(index2);
+          //     }
+          //   }
+          // }
         }
+        this.preload = false;
+        this.loadingService.dismissLoading();
       }, err => {
         this.loadingService.dismissLoading();
         console.log(err);
@@ -129,17 +148,35 @@ export class SelectPlatformPage implements OnInit {
      */
   goPlatform(i) {
     switch (i) {
-      case Global.platform_voyager_id:
+      case Global.geotrack_platform_id:
+        this.goPlatform0();
+        break;
+      case Global.platform_iot_id:
         this.goPlatform1();
+        break;
+      case Global.iridium_platform_id:
+        this.goPlatform2();
+        break;
+      case Global.platform_voyager_id:
+        this.goPlatform3();
+        break;
+      case Global.ecommerce_platform_id:
+        this.goPlatform4();
         break;
     }
   }
 
   /**
+   * Ir a la plataforma Geotrack
+   */
+  goPlatform0() {
+    this.navController.navigateRoot('geotrack-home');
+  }
+  /**
    * Ir a la plataforma Iot
    */
   goPlatform1() {
-    this.navController.navigateRoot('home');
+    this.navController.navigateRoot('iot-m2m-connect-home');
   }
   /**
    * Ir a la plataforma voyager
@@ -148,7 +185,19 @@ export class SelectPlatformPage implements OnInit {
     this.navController.navigateRoot('iridium-home');
   }
 
+  /**
+   * Ir a la plataforma Iot
+   */
+  goPlatform3() {
+    this.navController.navigateRoot('home');
+  }
 
+  /**
+   * Ir a la plataforma Ecommerce
+   */
+  goPlatform4() {
+    this.navController.navigateRoot('shop-home');
+  }
 
   async settingsPopover(ev: any) {
     const popover = await this.popoverController.create({

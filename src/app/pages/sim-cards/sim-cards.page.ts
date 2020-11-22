@@ -57,17 +57,50 @@ export class SimCardsPage implements OnInit {
       this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
         if (res.status == 200) {
           this.simsList = res.body[1];
+          const indexOfRemoveElements: number[] = [];
           for (let index = 0; index < this.simsList.length; index++) {
             if (this.simsList[index].status == 3) {
-              this.simsList.splice(index, 1);
+              indexOfRemoveElements.push(index);
             }
           }
+          const elementsList = [];
+          for (let index = 0; index < this.simsList.length; index++) {
+            const valueExist = indexOfRemoveElements.find(v => v == index);
+            if (valueExist === undefined) {
+              elementsList.push(this.simsList[index]);
+            }
+          }
+          this.copyFull = [];
+          this.simsList = elementsList;
           this.simsList.sort((a, b) => b.id - a.id);
-          this.simsList.forEach(element => {
-            this.copyFull.push(element);
+          this.copyFull.push(...this.simsList);
+          this.simCardService.getSimCardByUserVoyager(this.user.id).subscribe(res => {
+            if (res.status == 200) {
+              const indexOfRemoveElements1: number[] = [];
+              const simsReferrals = res.body;
+              for (let index = 0; index < simsReferrals.length; index++) {
+                const simCardRepeated = this.simsList.find(s => s.id === simsReferrals[index].id);
+                if (simsReferrals.status == 3 || simCardRepeated) {
+                  indexOfRemoveElements1.push(index);
+                }
+              }
+              const elementsList1 = [];
+              for (let index = 0; index < simsReferrals.length; index++) {
+                const valueExist1 = indexOfRemoveElements1.find(v => v == index);
+                if (valueExist1 === undefined) {
+                  elementsList1.push(simsReferrals[index]);
+                }
+              }
+              this.simsList.push(...elementsList1);
+              this.simsList.sort((a, b) => b.id - a.id);
+              this.copyFull.push(...elementsList1);
+            }
+            this.preloadSims = true;
+            this.loadingService.dismissLoading();
+          }, err => {
+            this.loadingService.dismissLoading();
+            this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
           });
-          this.loadingService.dismissLoading();
-          this.preloadSims = true;
         }
       }, err => {
         this.loadingService.dismissLoading();
@@ -85,6 +118,7 @@ export class SimCardsPage implements OnInit {
    */
   applyFilter(filterValue: string) {
     if (filterValue != this.auxText) {
+      filterValue = filterValue.toLowerCase();
       this.auxText = filterValue;
       this.simsList.splice(0, this.simsList.length);
       this.copyFull.forEach(element => {
@@ -93,7 +127,8 @@ export class SimCardsPage implements OnInit {
       let aux = [];
       for (let index = 0; index < this.simsList.length; index++) {
         const element: string = this.simsList[index].iccid;
-        if (element.includes(filterValue)) {
+        const name: string = this.simsList[index].endpoint;
+        if ((element && element.includes(filterValue)) || (name && name.toLowerCase().includes(filterValue))) {
           aux.push(this.simsList[index]);
         }
       }
@@ -178,5 +213,9 @@ export class SimCardsPage implements OnInit {
       color: 'danger'
     });
     toast.present();
+  }
+
+  goToHome(){
+    this.navController.navigateBack('select-platform');
   }
 }

@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4207",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -39,7 +39,9 @@
     "@ionic/angular": "^5.0.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "ngx-gallery-9": "^1.0.6",
     "@types/googlemaps": "^3.39.9",
+    "agm-direction": "^0.8.7",
     "call-number": "^1.0.1",
     "card.io.cordova.mobilesdk": "^2.1.0",
     "com.paypal.cordova.mobilesdk": "^3.5.0",
@@ -85,6 +87,7 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "mx.ferreyra.callnumber": "0.0.2",
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
@@ -108,10 +111,16 @@
       "mx.ferreyra.callnumber": {},
       "cordova-plugin-apprate": {},
       "cordova-plugin-dialogs": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {},
+      "cordova-plugin-fcm-with-dependecy-updated": {
+        "ANDROID_FCM_VERSION": "19.0.0",
+        "ANDROID_GRADLE_TOOLS_VERSION": "3.5.3",
+        "ANDROID_GOOGLE_SERVICES_VERSION": "4.3.3",
+        "ANDROID_DEFAULT_NOTIFICATION_ICON": "@mipmap/ic_launcher"
+      },
       "cordova-plugin-inappbrowser": {},
       "com.paypal.cordova.mobilesdk": {},
-      "cordova-plugin-stripe": {}
+      "cordova-plugin-stripe": {},
+      "call-number": {}
     },
     "platforms": [
       "android"

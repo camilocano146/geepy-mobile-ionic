@@ -1,0 +1,593 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.settings.data.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
+                <img src="../../../../assets/img/simcard.svg" height="80px" alt="">
+            </ion-col>
+            <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
+                <ion-label class="full-width"><strong>ICCID: </strong><label style="color: #737373;">{{sim_current[2]}}</label></ion-label>
+            </ion-col>
+            <ion-col size="12">
+                <mat-accordion>
+                    <!--Detalles-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_details == true ? 'block' : 'none' }" expanded (opened)="setStep(0)">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.data.details' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="container-cards">
+                            <ion-card *ngIf="!preload_stats" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.data_used' | translate}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content *ngIf="!preload_stats">
+                                    <ion-segment (ionChange)="segmentChanged($event)" value="hour">
+                                        <ion-segment-button checked value="hour">
+                                            <ion-label>{{'simcard.data.settings.data.last_hour' | translate}}</ion-label>
+                                        </ion-segment-button>
+                                        <ion-segment-button value="month">
+                                            <ion-label>{{'simcard.data.settings.data.current' | translate}}</ion-label>
+                                        </ion-segment-button>
+                                        <ion-segment-button value="last">
+                                            <ion-label>{{'simcard.data.settings.data.last' | translate}}</ion-label>
+                                        </ion-segment-button>
+                                    </ion-segment>
+                                    <!-- Ultima hora-->
+                                    <ion-grid *ngIf="lastHourActivated">
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="primary"><strong>{{'simcard.data.settings.data.data' | translate}}: </strong> {{lastHourVolumen | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="success"><i class="fas fa-sort-amount-up-alt"></i>{{lastHourVolumentx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="danger"><i class="fas fa-sort-amount-down"></i>{{lastHourVolumenrx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <!-- mES ACTUAL-->
+                                    <ion-grid *ngIf="monthCurrentActivated">
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="primary"><strong>{{'simcard.data.settings.data.data' | translate}}: </strong>{{stats.current_month.data.volume | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="success"><i class="fas fa-sort-amount-up-alt"></i>{{stats.current_month.data.volume_tx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="danger"><i class="fas fa-sort-amount-down"></i>{{stats.current_month.data.volume_rx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                    <!-- mES pasado-->
+                                    <ion-grid *ngIf="lastMonthActivated">
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="primary"><strong>{{'simcard.data.settings.data.data' | translate}}: </strong>{{stats.last_month.data.volume | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="success"><i class="fas fa-sort-amount-up-alt"></i>{{stats.last_month.data.volume_tx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                            <ion-col size="6" style="text-align: center !important;">
+                                                <ion-label color="danger"><i class="fas fa-sort-amount-down"></i>{{stats.last_month.data.volume_rx | number : '1.3-3'}} MB</ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!--InformCIÓn de SIm -->
+                            <ion-card *ngIf="!preload_simcard" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_information' | translate}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label *ngIf="sim_current[3] == 0" color="success"><strong>{{'simcard.data.settings.data.registred' | translate}}</strong></ion-label>
+                                                <ion-label *ngIf="sim_current[3] == 1" color="primary"><strong>{{'simcard.data.settings.data.activated' | translate}}</strong></ion-label>
+                                                <ion-label *ngIf="sim_current[3] == 2" color="warning"><strong>{{'simcard.data.settings.data.suspended' | translate}}</strong></ion-label>
+                                                <ion-label *ngIf="sim_current[3] == 4" color="danger"><strong>{{'simcard.data.settings.data.expired' | translate}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">IMSI:</strong><label style="color: #737373;">{{current_sim_card.imsi}}</label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">MSISDN:</strong><label style="color: #737373;">{{current_sim_card.msisdn}}</label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">ICCID:</strong><label style="color: #737373;">{{current_sim_card.iccid}}</label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!--Paquete -->
+                            <ion-card *ngIf="!preload_end_point" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_plan' | translate}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="success" style="font-size: 18px; font-weight: bold;"><strong>{{current_endpoint.service_profile.name}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <strong style="color: black !important;">{{'simcard.data.settings.data.plan_data' | translate}}:</strong><label style="color: #737373;">{{current_endpoint.service_profile.description}}</label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!-- conectividad -->
+                            <ion-card *ngIf="!preload_connectivity" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_connectivity' | translate}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row *ngIf="current_conectivity.status && current_conectivity.status.description == 'OFFLINE'" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="danger" style="font-size: 18px; font-weight: bold;"><strong>OFFLINE</strong></ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="current_conectivity.status && current_conectivity.status.description == 'ATTACHED'" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <label style="font-size: 18px; font-weight: bold; color: orange;"><strong>ATTACHED</strong></label>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="current_conectivity.status && current_conectivity.status.description == 'ONLINE'" class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="success" style="font-size: 18px; font-weight: bold;"><strong>{{current_conectivity.status.description}} {{current_conectivity.pdp_context.rat_type.description}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label color="primary"><strong>{{current_conectivity.location.operator.country.name}} /
+                                                    {{current_conectivity.location.operator.name}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-segment (ionChange)="segmentChangedConnectivity($event)" value="hide">
+                                                    <ion-segment-button value="hide">
+                                                        <ion-label>{{'simcard.data.settings.data.hide' | translate}}</ion-label>
+                                                    </ion-segment-button>
+                                                    <ion-segment-button value="show">
+                                                        <ion-label>{{'simcard.data.settings.data.show' | translate}}</ion-label>
+                                                    </ion-segment-button>
+                                                </ion-segment>
+                                            </ion-col>
+                                        </ion-row>
+                                        <ion-row *ngIf="show_details_connectivity">
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>MSC:</strong> {{current_conectivity.location.msc}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>IP:</strong> {{current_endpoint.ip_address}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>Breakout IP:</strong> {{current_conectivity.pdp_context.breakout_ip}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>PDP context active:</strong> {{current_conectivity.pdp_context.duration}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>GGSN:</strong> {{current_conectivity.pdp_context.ggsn_control_plane_ip_address}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>SGSN CP:</strong> {{current_conectivity.pdp_context.ggsn_data_plane_ip_address}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: left !important;">
+                                                <strong>SGSN DP:</strong>{{current_conectivity.pdp_context.ggsn_data_plane_ip_address}}
+                                            </ion-col>
+                                            <ion-col *ngIf="current_conectivity.pdp_context.lac == null" size="12" style="text-align: left !important;">
+                                                <strong>LAC:</strong> N/A
+                                            </ion-col>
+                                            <ion-col *ngIf="current_conectivity.pdp_context.lac != null" size="12" style="text-align: left !important;">
+                                                <strong>LAC:</strong> {{current_conectivity.pdp_context.lac}} / <strong>CI:</strong> {{current_conectivity.pdp_context.ci}}
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!-- endpoint -->
+                            <ion-card *ngIf="!preload_end_point" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_end_point' | translate}}</strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+
+                                            <ion-col *ngIf="current_endpoint.imei != null" size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>IMEI: </strong></ion-label>{{current_endpoint.imei}}
+                                            </ion-col>
+                                            <ion-col *ngIf="current_endpoint.imei == null" size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>IMEI: </strong></ion-label> N/A
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important;">
+                                                <ion-label><strong style="color: black;">{{'simcard.data.settings.data.name_end_point' | translate}}: </strong>{{current_endpoint.name}}</ion-label>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--Paquete-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_packages == true ? 'block' : 'none' }" [expanded]="step === 0" style="padding: 0px !important;" id="panelsms">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.package.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ion-grid *ngIf="!preload_packages">
+                            <ion-row>
+                                <ion-col size="12" style="padding: 0px !important; margin-top: 10px; margin-bottom: 15px; display: flex; justify-content: center !important;">
+                                    <ion-card style="margin-top: 10px;" class="card-info">
+                                        <ion-card-header>
+                                            <ion-card-title class="center title-card-sim-details">{{'simcard.data.settings.package.title_box' | translate}}<strong></strong></ion-card-title>
+                                        </ion-card-header>
+                                        <ion-card-content>
+                                            <ion-grid>
+                                                <ion-row class="ion-justify-content-center">
+                                                    <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                        <ion-label color="success" style="font-size: 18px; font-weight: bold;"><strong>{{account_selected.account.description}}</strong></ion-label>
+                                                    </ion-col>
+                                                    <ion-col size="6" style="text-align: center;">
+                                                        <h2>
+                                                            <ion-label color="primary">{{'simcard.data.settings.package.price' | translate}} USD</ion-label>
+                                                        </h2>
+                                                        <h2>{{account_selected.customer_price_usd}}</h2>
+                                                    </ion-col>
+                                                    <ion-col size="6" style="text-align: center;">
+                                                        <h2>
+                                                            <ion-label color="primary">{{'simcard.data.settings.package.price' | translate}} EUR</ion-label>
+                                                        </h2>
+                                                        <h2>{{account_selected.customer_price_eur}}</h2>
+                                                    </ion-col>
+                                                    <ion-col size="12" style="text-align: center;">
+                                                        {{'simcard.data.settings.package.text' | translate}}
+                                                    </ion-col>
+                                                    <ion-col size="12">
+                                                        <ion-item style="border-radius: 5px;">
+                                                            <ion-label position="stacked">{{'simcard.data.settings.package.validity' | translate}}</ion-label>
+                                                            <ion-select [formControl]="validity" (ionChange)="calculateNewValueToPurchase()" interface="action-sheet">
+                                                                <ion-select-option value="1">1</ion-select-option>
+                                                                <ion-select-option value="2">2</ion-select-option>
+                                                                <ion-select-option value="3">3</ion-select-option>
+                                                                <ion-select-option value="4">4</ion-select-option>
+                                                                <ion-select-option value="5">5</ion-select-option>
+                                                                <ion-select-option value="6">6</ion-select-option>
+                                                                <ion-select-option value="7">7</ion-select-option>
+                                                                <ion-select-option value="8">8</ion-select-option>
+                                                                <ion-select-option value="9">9</ion-select-option>
+                                                                <ion-select-option value="10">10</ion-select-option>
+                                                                <ion-select-option value="11">11</ion-select-option>
+                                                                <ion-select-option value="12">12</ion-select-option>
+                                                            </ion-select>
+                                                        </ion-item>
+                                                    </ion-col>
+                                                    <ion-col size="12">
+                                                        <ion-item style="border-radius: 5px;">
+                                                            <ion-label position="stacked">{{'simcard.data.settings.package.currency' | translate}}</ion-label>
+                                                            <ion-select [formControl]="currency" interface="action-sheet">
+                                                                <ion-select-option value="USD">USD</ion-select-option>
+                                                                <ion-select-option value="EUR">EUR</ion-select-option>
+                                                            </ion-select>
+                                                        </ion-item>
+                                                    </ion-col>
+                                                    <ion-col size="12" style="text-align: center !important;">
+                                                        <ion-item style="border-radius: 5px;">
+                                                            <ion-label position="stacked">{{'simcard.data.settings.package.total' | translate}}</ion-label>
+                                                            <ion-input *ngIf="currency.value == 'USD'" value="{{final_price_usd}} USD" type="text" placeholder="" readonly></ion-input>
+                                                            <ion-input *ngIf="currency.value == 'EUR'" value="{{final_price_eur}} EUR" type="text" placeholder="" readonly></ion-input>
+                                                        </ion-item>
+                                                    </ion-col>
+                                                    <ion-col size="12" style="text-align: center !important;">
+                                                        <ion-button style="text-transform: none; font-size: 16px !important; width: 220px !important;" (click)="buyPackage()">
+                                                            <ion-icon style="margin-right: 15px;" slot="icon-only" name="cash-outline"></ion-icon>
+                                                            {{'simcard.data.settings.package.btn_buy' | translate}}
+                                                        </ion-button>
+                                                    </ion-col>
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-card-content>
+                                    </ion-card>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </mat-expansion-panel>
+                    <!-- Eventos -->
+                    <mat-expansion-panel [ngStyle]="{'display':show_events == true ? 'block' : 'none' }" (opened)="setStep(0)">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.data.event' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="!preload_events">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <ion-label>{{'simcard.data.settings.data.only_50' | translate}}</ion-label>
+                                    </ion-col>
+                                    <ion-col size="12">
+                                        <div class="item-list" *ngFor="let row of eventList">
+                                            <ion-label>
+                                                <h2>
+                                                    <ion-label color="primary"><strong>ID: </strong></ion-label>{{row.id}}</h2>
+                                                <ion-label>
+                                                    <h3>
+                                                        <ion-label color="success"><strong>{{'simcard.data.settings.data.date' | translate}} </strong></ion-label> {{row.timestamp | date:'medium'}}</h3>
+                                                </ion-label>
+                                                {{row.description}}
+                                            </ion-label>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--SMS-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_sms == true ? 'block' : 'none' }" style="padding: 0px !important;" id="panelsms" (opened)="setStep(0)">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.sms.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12" style="padding: 0px !important; margin-top: 10px; margin-bottom: 15px;">
+                                    <ion-card style="margin: 0px; padding: 10px; background-color: white;">
+                                        <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                        <ion-grid>
+                                            <ion-row>
+                                                <ion-col size="6" style="text-align: left;" style="display: flex; align-items: center;">
+                                                    <ion-label color="success" style="font-size: 20px; display: flex; align-items: center;"><strong>
+                                                        SMS
+                                                    </strong></ion-label>
+                                                </ion-col>
+                                                <ion-col size="6" style="text-align: right; display: flex; align-items: center; justify-content: flex-end;">
+                                                    <ion-button style="text-transform: none;" (click)="openModalSendSMS()">
+                                                        <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                                        {{'simcard.data.settings.sms.new_sms' | translate}}
+                                                    </ion-button>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ion-label style="font-size: 16px;"><strong>{{'simcard.data.settings.sms.total_sms' | translate}}</strong> {{listSMS.length}}</ion-label>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ion-col size="6" style="text-align: center;">
+                                                    <ion-label color="primary"><strong>USD: </strong></ion-label>{{total_cost_usd | number : '1.1-1'}} <strong>$</strong>
+                                                </ion-col>
+                                                <ion-col size="6" style="text-align: center;">
+                                                    <ion-label color="success"><strong>EUR: </strong></ion-label>{{total_cost_eur | number : '1.1-1'}} <strong>€</strong>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-card>
+                                </ion-col>
+                                <ion-col size="12" style="padding: 0px !important;">
+                                    <ion-list style="padding: 0px !important; border-radius: 5px;">
+                                        <ion-item *ngFor="let item of listSMS" style="padding: 0px !important;" class="hover-item-sms" detail (click)="openModalSeeSMS(item)">
+                                            <ion-label style="padding: 0px !important;" class="contenido">{{item.payload}}</ion-label>
+                                        </ion-item>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </mat-expansion-panel>
+                    <!-- Location -->
+                    <mat-expansion-panel [ngStyle]="{'display':show_location == true ? 'block' : 'none' }" *ngIf="sim_current[3] != 4 && sim_current[3] != 0" (opened)="setStep(0)">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.location.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="!preload_maps" class="container-cards" style="padding: 0px !important;">
+                            <agm-map *ngIf="showHeat == false && !preload_maps" [latitude]="lat" [longitude]="lng" [zoom]="4">
+                            </agm-map>
+                            <agm-map *ngIf="showHeat == true && !preload_maps" [latitude]="lat" [longitude]="lng" [zoom]="4" (mapReady)="onMapLoad($event)" (zoomChange)="zoomChange($event)">
+                            </agm-map>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <ion-label color="warning"><strong>{{'simcard.data.settings.location.note' | translate}}</strong></ion-label>{{'simcard.data.settings.location.note_2' | translate}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </div>
+                    </mat-expansion-panel>
+                    <!-- Settings -->
+                    <mat-expansion-panel [ngStyle]="{'display':show_settings == true ? 'block' : 'none' }" (opened)="setStep(0)">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.settings.title' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="!preload_simcard && !preload_end_point" class="container-cards">
+                            <ion-card *ngIf="sim_current[3] == 0" style="margin-top: 10px;" class="card-info">
+
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.data.no_package' | translate}}
+                                            </ion-col>
+                                            <ion-button color="success" style="text-transform: none;" (click)="openPlans()">
+                                                <ion-icon name="arrow-up-outline" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.data.btn_go' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!--Sim activada-->
+                            <ion-card *ngIf="sim_current[3] == 1" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.settings.suspend' | translate}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center;">
+                                                <ion-button color="danger" style="text-transform: none;" (click)="suspendSimCard()">
+                                                    <ion-icon name="power" style="margin-right: 10px;"></ion-icon>
+                                                    {{'simcard.data.settings.settings.btn_suspend' | translate}}
+                                                </ion-button>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!--Sim suspendida-->
+                            <ion-card *ngIf="sim_current[3] == 2" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.settings.activate' | translate}}
+                                            </ion-col>
+                                            <ion-button color="success" style="text-transform: none;" (click)="activatedSimCard()">
+                                                <ion-icon name="power" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.settings.btn_activate' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!--Sim card registrada-->
+                            <ion-card *ngIf="sim_current[3] == 4" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px; font-weight: bold;">
+                                                <ion-label color="danger"><strong>{{'simcard.data.settings.data.expired' | translate}}</strong></ion-label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.data.expire' | translate}}
+                                            </ion-col>
+                                            <ion-button color="success" style="text-transform: none;" (click)="openBuyPackages()">
+                                                <ion-icon name="arrow-up-outline" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.data.btn_go' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="sim_current[3] == 1 || sim_current[3] == 2" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.settings.reset' | translate}}
+                                            </ion-col>
+                                            <ion-button color="primary" style="text-transform: none;" (click)="restartConnectivitySimCard()">
+                                                <ion-icon name="git-compare-outline" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.settings.btn_reset' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-card *ngIf="sim_current[3] == 1 || sim_current[3] == 2" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>IMEI</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <label *ngIf="current_endpoint.imei_lock" class="center text-card-settings">  {{'simcard.data.settings.settings.enable' | translate}}</label>
+                                                <label *ngIf="!current_endpoint.imei_lock" class="center text-card-settings">  {{'simcard.data.settings.settings.disable' | translate}}</label>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <ion-toggle color="success" [checked]="current_endpoint.imei_lock" (ionChange)="lockImei()"></ion-toggle>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                            <!-- Endpoint -->
+                            <ion-card *ngIf="sim_current[3] == 1 || sim_current[3] == 2" style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                {{'simcard.data.settings.settings.customatize_sim' | translate}}
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                <mat-form-field class="example-form-field full-width">
+                                                    <input matInput type="text" [formControl]="value">
+                                                    <mat-error *ngIf="value.invalid">{{getErrorMessage()}}</mat-error>
+                                                </mat-form-field>
+                                            </ion-col>
+                                            <ion-button color="primary" style="text-transform: none; color: black !important;" (click)="updateEndpointName()">
+                                                <ion-icon name="refresh" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.settings.update_name' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+
+                            <ion-card style="margin-top: 10px;" class="card-info">
+                                <ion-card-header>
+                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <ion-row class="ion-justify-content-center">
+                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                <strong>{{'simcard.data.settings.settings.delete_sim' | translate}}</strong>
+                                            </ion-col>
+                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                                {{'simcard.data.settings.settings.delete_p1' | translate}}
+                                            </ion-col>
+                                            <ion-button color="danger" style="text-transform: none; color: black !important;" (click)="deleteSim()">
+                                                <ion-icon name="trash" style="margin-right: 10px;"></ion-icon>
+                                                {{'simcard.data.settings.settings.btn_delete' | translate}}
+                                            </ion-button>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

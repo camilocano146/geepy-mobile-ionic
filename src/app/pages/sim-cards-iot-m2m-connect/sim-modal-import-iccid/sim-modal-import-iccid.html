@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.import_iccid.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="center">
+                <img src="../../../../assets/img/import (1).svg" height="100px" alt="">
+            </ion-col>
+
+            <ion-col size="11" style="text-align: justify; margin-top: 10px;">
+                {{'simcard.data.import_iccid.p1' | translate}} <strong style="color: #2E2681 !important">ICCID </strong>{{'simcard.data.import_iccid.p2' | translate}}
+            </ion-col>
+            <ion-col size="11" style="text-align: center !important;">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'simcard.data.import_iccid.iccid_code' | translate}}</ion-label>
+                    <ion-input text-right [formControl]="iccid" type="text" placeholder="{{'simcard.data.example_iccid' | translate}}" required></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="iccid.value != null && iccid.valid" size="11" style="text-align: justify; margin-top: 10px;">
+                {{'simcard.data.import_iccid.p3' | translate}}
+            </ion-col>
+            <ion-col *ngIf="iccid.value != null && iccid.valid" size="11" style="text-align: justify;">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked">{{'simcard.data.import_iccid.service_account' | translate}}</ion-label>
+                    <ion-select (ionChange)="calculateFinalPrice()" [formControl]="accountSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of serviceAccountsList" [value]="item">{{item.account.description}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="accountSelected.value != null" size="7" style="text-align: left; display: flex; align-items: center;">
+                {{'simcard.data.import_iccid.p4' | translate}}
+            </ion-col>
+            <ion-col *ngIf="accountSelected.value != null" size="4" style="display: flex; align-items: center; justify-content: flex-end;">
+                <!-- Checked Toggle -->
+                <ion-toggle [checked]="isActive.value" color="success" [formControl]="isActive"></ion-toggle>
+            </ion-col>
+            <ion-col size="11" *ngIf="isActive.value == true">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked"> {{'simcard.data.import_iccid.currency' | translate}}</ion-label>
+                    <ion-select [formControl]="currency" interface="action-sheet">
+                        <ion-select-option value="USD">USD</ion-select-option>
+                        <ion-select-option value="EUR">EUR</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="11" *ngIf="isActive.value == true">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked"> {{'simcard.data.import_iccid.validity' | translate}}</ion-label>
+                    <ion-select [formControl]="validity" (ionChange)="calculateFinalPrice()" interface="action-sheet">
+                        <ion-select-option value="1">1</ion-select-option>
+                        <ion-select-option value="2">2</ion-select-option>
+                        <ion-select-option value="3">3</ion-select-option>
+                        <ion-select-option value="4">4</ion-select-option>
+                        <ion-select-option value="5">5</ion-select-option>
+                        <ion-select-option value="6">6</ion-select-option>
+                        <ion-select-option value="7">7</ion-select-option>
+                        <ion-select-option value="8">8</ion-select-option>
+                        <ion-select-option value="9">9</ion-select-option>
+                        <ion-select-option value="10">10</ion-select-option>
+                        <ion-select-option value="11">11</ion-select-option>
+                        <ion-select-option value="12">12</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="accountSelected.value != null && isActive.value == true" size="11" style="text-align: center !important;">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label position="stacked"> {{'simcard.data.import_iccid.price' | translate}}</ion-label>
+                    <ion-input *ngIf="currency.value == 'USD'" value="{{final_price_usd}} USD" type="text" placeholder="" readonly></ion-input>
+                    <ion-input *ngIf="currency.value == 'EUR'" value="{{final_price_eur}} EUR" type="text" placeholder="" readonly></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col *ngIf="accountSelected.value != null && iccid.value != null && iccid.valid" size="11" style="text-align: center;">
+                <ion-button style="text-transform: none; font-size: 16px !important;" (click)="import()">
+                    {{'simcard.data.import_iccid.btn_register' | translate}}
+                </ion-button>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+</ion-content>

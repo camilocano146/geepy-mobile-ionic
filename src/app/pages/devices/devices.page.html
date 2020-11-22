@@ -1,0 +1,129 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
+            <ion-icon style="color: white !important;" name="home"></ion-icon>
+        </ion-button>
+        <ion-title style="color: white !important;">{{'platform_iridium.devices.title' | translate}}</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="12" style="text-align: center !important;">
+                <ion-card style="background-color: white !important; text-align: center;">
+                    <ion-card-header style="padding-bottom: 5px !important;">
+                        <ion-card-title class="title-register" style="font-size: 16px !important;">{{'platform_iridium.devices.btn_buy' | translate}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="6">
+                                    <img src="../../../assets/img/buy.png" class="img-buy-sims" alt="">
+                                </ion-col>
+                                <ion-col size="6" style="display: flex; align-items: center; justify-content: center;">
+                                    <ion-button color="primary" style="width: 100% !important; " (click)="openModalBuySims()">
+                                        <ion-icon name="cash" style="margin-right: 10px;"></ion-icon>
+                                        {{'simcard.data.btn_order' | translate}}
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" style="text-align: center !important;">
+                <ion-card style="background-color: white !important; text-align: center;">
+                    <ion-card-header>
+                        <ion-card-title class="title-register" style="font-size: 16px !important;">{{'simcard.data.register_by' | translate}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-row class="ion-justify-content-center">
+                            <ion-col size="12" class="center">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="5" style="display: flex; align-items: center; justify-content: center;">
+                                            <ion-button color="primary" style="text-transform: none;" class="full-width" (click)="openModalImportICCID()">
+                                                <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
+                                                IMEI
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col size="7" style="display: flex; align-items: center; justify-content: flex-start; text-align: left;">
+                                            <ion-label>{{'simcard.data.example_iccid' | translate}}</ion-label>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="justify-content: space-between">
+            <ion-col size="12" style="text-align: center !important;margin-top: 5px;">
+                <ion-label color="primary" style="font-size: 18px; font-weight: bold; text-align: center ;">{{'platform_iridium.devices.my_devices' | translate}}</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="justify-content-between">
+            <ion-col size="8" id="filter-input" style="display: flex; align-items: center;">
+                <!-- Inputs with labels -->
+                <ion-item style="margin-left: 10px; width: 80%;">
+                    <ion-icon name="search"></ion-icon>
+                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="IMEI" type="number" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">
+
+                <ion-button color="success" class="icon-option" (click)="ionViewDidEnter()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+                    <ion-icon style=" font-size: 30px;" name="refresh"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <div class="center container-sim-cards">
+                    <ion-card *ngFor="let item of devices_list " class="card-sim-size" (click)="openModalSettings(item)">
+                        <ion-card-header>
+                            <ion-card-title class="title-register"></ion-card-title>
+                            <ion-card-subtitle style="font-size: 14px !important;"><strong style="color: black !important; "></strong> {{item.name}}</ion-card-subtitle>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid style="padding: 0px !important;">
+                                <ion-row>
+                                    <ion-col size="4">
+                                        <img src="../../../assets/img/devices.png" height="70px" style="margin-top: 0px;" alt="">
+                                    </ion-col>
+                                    <ion-col size="8">
+                                        <ion-grid style="padding: 0px !important;">
+                                            <ion-row>
+                                                <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                                    <strong><ion-label color="primary" *ngIf="item.networkStatus == '1'">{{'platform_iridium.devices.activated' | translate}}</ion-label></strong>
+                                                    <strong><label style="color: gray;" *ngIf="item.networkStatus == '2'">{{'platform_iridium.devices.desactivated' | translate}}</label></strong>
+                                                    <strong><ion-label color="warning" *ngIf="item.networkStatus == '3'">{{'platform_iridium.devices.suspend' | translate}}</ion-label></strong>
+                                                    <strong><ion-label color="danger" *ngIf="item.networkStatus == '4'">{{'platform_iridium.devices.expire' | translate}}</ion-label></strong>
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: left !important; font-size: 12px;">
+                                                    <strong style="color: black !important;">IMEI: </strong>{{item.imei}}
+                                                </ion-col>
+                                                <ion-col size="12" style="text-align: left !important; font-size: 12px;">
+                                                    <strong style="color: black !important;">{{'platform_iridium.devices.create' | translate}}</strong>{{item.created_at | date}}
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

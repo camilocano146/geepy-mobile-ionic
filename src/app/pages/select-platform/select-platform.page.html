@@ -13,7 +13,7 @@
             <ion-col *ngIf="isReseller == false" size="12">
                 <div class="container-platforms">
                     <ion-card class="card-platform mat-elevation-z3" (click)="goPlatform(item.platform.id)" *ngFor="let item of organization_platforms_list">
-                        <div class="full-width center-horizontal">
+                        <div class="full-width center-horizontal" style="padding-bottom: 1em">
                             <label class="title-card-platform">{{item.platform.name}}</label>
                         </div>
                         <div class="full-width center-horizontal">
@@ -39,7 +39,6 @@
                         </div>
                     </ion-card>
                 </div>
-
             </ion-col>
         </ion-row>
     </ion-grid>

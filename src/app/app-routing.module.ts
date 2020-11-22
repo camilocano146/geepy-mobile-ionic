@@ -44,12 +44,28 @@ const routes: Routes = [
     loadChildren: () => import('./pages/repurchase-package/repurchase-package.module').then( m => m.RepurchasePackagePageModule)
   },
   {
+    path: 'iridium-home',
+    loadChildren: () => import('./pages/iridium-home/iridium-home.module').then( m => m.IridiumHomePageModule)
+  },
+  {
+    path: 'iot-m2m-connect-home',
+    loadChildren: () => import('./pages/iot-m2m-connect-home/IotM2MConnect.module').then(m => m.IotM2MConnectPageModule)
+  },
+  {
     path: 'support',
     loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
   },
   {
     path: 'select-platform',
     loadChildren: () => import('./pages/select-platform/select-platform.module').then( m => m.SelectPlatformPageModule)
+  },
+  {
+    path: 'geotrack-home',
+    loadChildren: () => import('./pages/geotrack-home/geotrack-home.module').then( m => m.GeotrackHomeModule)
+  },
+  {
+    path: 'shop-home',
+    loadChildren: () => import('./pages/shop-home/shop-home.module').then( m => m.ShopHomePageModule)
   }
 ];
 

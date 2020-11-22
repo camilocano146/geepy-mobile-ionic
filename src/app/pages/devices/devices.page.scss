@@ -1,0 +1,53 @@
+@import '../../../global.scss';
+.card-sim-size {
+    width: 290px;
+    max-width: 290px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+
+.icon-option {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.container-sim-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.popover-wrapper {
+    .popover-content {
+        min-width: 300px !important;
+        width: 300px !important;
+        max-width: 300px !important;
+    }
+}
+
+.title-register {
+    color: white !important;
+    background-color: #67B7CF !important;
+    font-size: 20px !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+    margin-bottom: 10px;
+}
+
+#filter-input {
+    border-radius: 5px !important;
+}
+
+.img-buy-sims {
+    height: 70px !important;
+}
+
+.separator-horizontal {
+    text-align: center !important;
+    border-radius: 1px;
+    height: 1px !important;
+    width: 120px;
+    background-color: lightgray !important;
+    margin-right: 30px;
+    margin-left: 30px;
+}

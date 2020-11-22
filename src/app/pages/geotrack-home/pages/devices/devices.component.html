@@ -1,0 +1,75 @@
+<ion-content>
+  <ion-row>
+    <ion-col size="7" style="display: flex; align-items: center; justify-content: center;">
+      <ion-button color="primary" style="text-transform: none;" class="full-width" (click)="openModalRegisterDevice()">
+        <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>
+        {{'geo.devices.register.title' | translate | titlecase}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row class="justify-content: space-between">
+    <ion-col size="12" style="text-align: center !important;margin-top: 5px;">
+      <ion-label color="primary" style="font-size: 18px; font-weight: bold; text-align: center ;">{{'geo.devices.my_devices' | translate}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row class="justify-content-between">
+    <ion-col size="8" id="filter-input" style="display: flex; align-items: center;">
+      <!-- Inputs with labels -->
+      <ion-item style="margin-left: 10px; width: 80%;">
+        <ion-icon name="search"></ion-icon>
+        <ion-input #input (keydown.backspace)="applyFilter(input.value, true)" (keyup)="applyFilter(input.value)" placeholder="IMEI" type="number"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="4" style="text-align: right !important; display: flex; align-items: center; justify-content: flex-end;">
+      <ion-button color="success" class="icon-option" (click)="ngOnInit()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+        <ion-icon style="font-size: 30px;" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <div class="center container-sim-cards">
+        <ion-card *ngFor="let item of filterDevicesList" [ngStyle]="{'background-color':item.status == 2 ? '#FFFFEC' : '#ffffff' }" class="card-sim-size" (click)="openModalSettings(item)">
+          <ion-card-header>
+            <ion-card-title class="title-register"></ion-card-title>
+            <ion-card-subtitle style="font-size: 16px !important;"><strong style="color: black !important; ">{{item.name}}</strong></ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid style="padding: 0px !important;">
+              <ion-row>
+                <ion-col size="4">
+                  <img src="../../../assets/img/devices.png" height="70px" style="margin-top: 0px;" alt="">
+                </ion-col>
+                <ion-col size="8">
+                  <ion-grid style="padding: 0px !important;">
+                    <ion-row>
+                      <ion-col size="12" style="text-align: center !important; font-size: 18px;">
+                        <strong><ion-label style="color: gray;" *ngIf="item.status == '1'">{{'geo.devices.disabled' | translate}}</ion-label></strong>
+                        <strong><ion-label color="primary" *ngIf="item.status == '2'">{{'geo.devices.enabled' | translate}}</ion-label></strong>
+                        <strong><ion-label style="color: gray;" *ngIf="item.status == '3'">{{'geo.devices.canceled' | translate}}</ion-label></strong>
+                        <strong><ion-label color="danger" *ngIf="item.status == '4'">{{'geo.devices.deleted' | translate}}</ion-label></strong>
+                        <strong><ion-label color="warning" *ngIf="item.status == '5'">{{'geo.devices.no_pay' | translate}}</ion-label></strong>
+                        <strong><ion-label color="primary" *ngIf="item.status == '6'">{{'geo.devices.streaming' | translate}}</ion-label></strong>
+                      </ion-col>
+                      <ion-col size="12" style="text-align: left !important; font-size: 14px;">
+                        <strong style="color: black !important;">{{'geo.devices.type' | translate}}: </strong>{{item.type_device.name}}
+                      </ion-col>
+                      <ion-col size="12" style="text-align: left !important; font-size: 14px;">
+                        <strong style="color: black !important;">IMEI: </strong>{{item.imei}}
+                      </ion-col>
+                      <div class="ion-float-left">
+                        <ion-button (click)="openTrakingMap(item)" color="success" *ngIf="item.status == '2'">
+                          {{'geo.devices.tracking' | translate}}
+                        </ion-button>
+                      </div>
+                    </ion-row>
+                  </ion-grid>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>
