@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -23,6 +23,9 @@ import { PopoverModule } from 'src/app/common-components/popover/popover.module'
     MatIconModule,
     PopoverModule,
     ItineraryPageRoutingModule
+  ],
+  providers: [
+    DatePipe
   ],
   declarations: [
     ItineraryPage,

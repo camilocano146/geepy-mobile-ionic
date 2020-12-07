@@ -34,3 +34,9 @@
     font-weight: bold;
     color: white !important;
 }
+
+.field-padding {
+    .mat-form-field-infix {
+        width: 100%;
+    }
+}

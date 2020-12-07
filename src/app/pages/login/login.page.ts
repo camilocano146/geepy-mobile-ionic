@@ -36,6 +36,10 @@ export class LoginPage implements OnInit {
    */
   public errorMessage: string;
   /**
+   * Preload de sign in
+   */
+  public preloadSignIn: boolean;
+  /**
    *  Validador del email
    */
   public email: FormControl;
@@ -65,53 +69,62 @@ export class LoginPage implements OnInit {
     this.password = new FormControl("", [Validators.required]);
     this.isKeyboardOpen = false;
   }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.loadingService.dismissLoading();
+    localStorage.setItem('first-time-app', 'true');
+    // this.email.setValue(localStorage.getItem('em'));
+    // this.password.setValue(localStorage.getItem('pw'));
   }
+
   /**
    * Método de inicio de sesión
    */
   signIn() {
     if (this.email.valid && this.password.valid) {
-      this.loadingService.presentLoading().then(() => {
-        this.existUser = true;
-        let credential: Credential = new Credential(
-          this.email.value.toLowerCase(),
-          sha1(this.password.value)
-        );
-        this.authenticationService.login(credential).subscribe(res => {
+      if (!this.preloadSignIn) {
+        this.preloadSignIn = true;
+        this.loadingService.presentLoading().then(() => {
+          this.existUser = true;
+          let credential: Credential = new Credential(
+            this.email.value.toLowerCase(),
+            sha1(this.password.value)
+          );
+          this.authenticationService.login(credential).subscribe(res => {
             if (res.status == 200) {
+              // localStorage.setItem('em', this.email.value.toLowerCase());
+              // localStorage.setItem('pw', this.password.value);
               let token: Token = (res.body);
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
 
-              FCM.getToken().then(token => {
-                console.log(token);
-                FCM.onNotification().subscribe(data => {
-                  if (data.wasTapped) {
-                    let today = data.today;
-                    if (today == "true") {
-                      let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
-                      localStorage.setItem('pc_to_expire', JSON.stringify(notification));
-                      this.ngZone.run(() =>
-                        this.navCotroller.navigateRoot('repurchase-package')
-                      ).then();
-                    }
-                  }
-                });
-                let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
-                if (this.plt.is('ios')) {
-                  notificationToken.platform = "ios";
-                } else if (this.plt.is('android')) {
-                  notificationToken.platform = "android";
-                }
-                console.log(notificationToken);
-                this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
-                  console.log(res, 'Esta es la linea de envio');
-                }, err => {
-                  console.log(err);
-                });
-              });
+              // FCM.getToken().then(token => {
+              //   console.log(token);
+              //   FCM.onNotification().subscribe(data => {
+              //     if (data.wasTapped) {
+              //       let today = data.today;
+              //       if (today == "true") {
+              //         let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
+              //         localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+              //         this.ngZone.run(() =>
+              //           this.navCotroller.navigateRoot('repurchase-package')
+              //         ).then();
+              //       }
+              //     }
+              //   });
+              //   let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+              //   if (this.plt.is('ios')) {
+              //     notificationToken.platform = "ios";
+              //   } else if (this.plt.is('android')) {
+              //     notificationToken.platform = "android";
+              //   }
+              //   console.log(notificationToken);
+              //   this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+              //     console.log(res, 'Esta es la linea de envio');
+              //   }, err => {
+              //     console.log(err);
+              //   });
+              // });
 
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {
@@ -139,10 +152,16 @@ export class LoginPage implements OnInit {
                     this.loadingService.dismissLoading();
                   });
                 }
+                this.preloadSignIn = false;
+              }, error => {
+                this.preloadSignIn = false;
+                this.loadingService.dismissLoading();
+                this.presentToastError(this.translate.instant('login.error.server_error'));
               });
             }
           }, err => {
             console.log(err);
+            this.preloadSignIn = false;
             this.loadingService.dismissLoading();
             if (err.status == 403) {
               this.presentToastError(this.translate.instant('login.error.is-blocked'))
@@ -157,7 +176,8 @@ export class LoginPage implements OnInit {
               this.navCotroller.navigateRoot(["activate-account"]);
             }
           });
-      });
+        });
+      }
     }
   }
 

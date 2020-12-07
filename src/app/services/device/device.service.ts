@@ -15,8 +15,12 @@ export class DeviceService {
   /**
    * Obtener devices
    */
-  getDevices(id):Observable<any>{
-    return this.http.get<any>(`users/${id}/modems/`,{ observe : 'response'});
+  getDevices(id: any, offset?: number, limit?: number, text?: string):Observable<any>{
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/modems/?offset=${offset}&limit=${limit}${textFilter}`,{ observe : 'response'});
   }
   /**
    * Detalles de 1 device

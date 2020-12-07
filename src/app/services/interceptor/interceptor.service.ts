@@ -38,14 +38,14 @@ export class InterceptorService implements HttpInterceptor  {
         headers: request.headers.set("Authorization", "Bearer " + token.access_token),
       });
     }
-    if (!request.headers.has("Content-Type")) {
-      request = request.clone({
-        headers: request.headers.set("Content-Type", "application/json"),
-      });
-    }
-   
+    // if (!request.headers.has("Content-Type")) {
+    //   request = request.clone({
+    //     headers: request.headers.set("Content-Type", "application/json"),
+    //   });
+    // }
+
     if (request.url != "/assets/i18n/en.json" && request.url != "/assets/i18n/es.json") {
-      
+
       request = request.clone({
         url: Global.apiGeepyConnect + request.url
       });
@@ -61,11 +61,16 @@ export class InterceptorService implements HttpInterceptor  {
        // this.dismissLoading();
         if (error.status == 403 || error.status == 401) {
           this.localStorageService.removeToken();
-          localStorage.clear();
+          this.removeUserOfLocalStorage();
           this.navControler.navigateBack(["login"]);
         }
         return throwError(error);
       })
-    ); 
+    );
+  }
+
+  private removeUserOfLocalStorage() {
+    localStorage.removeItem('g_c_key');
+    localStorage.removeItem('g_c_user');
   }
 }

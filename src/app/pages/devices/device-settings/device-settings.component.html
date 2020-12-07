@@ -57,7 +57,7 @@
                                                         <ion-label color="danger" *ngIf="data.networkStatus == '4'">{{'platform_iridium.devices.expire' | translate}}</ion-label>
                                                     </div>
                                                     <div class="col-12 center">
-                                                        <ion-label color="primary" style="margin-right: 10px;"><strong>{{'platform_iridium.devices.setttings.details.status' | translate}}</strong></ion-label>{{last_susbcriber.subscriber.contract.state}}
+                                                        <ion-label color="primary" style="margin-right: 10px;"><strong>{{'platform_iridium.devices.setttings.details.status' | translate}}</strong></ion-label>{{last_susbcriber?.subscriber?.contract?.state}}
                                                     </div>
                                                 </div>
                                             </mat-card-content>

@@ -100,9 +100,9 @@ export class ItineraryModalCreate implements OnInit {
    */
   ngOnInit() {
     this.loadingService.presentLoading().then( () => {
-      this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+      this.simCardService.getSimCardIotWithoutReferrals(this.user.id, 0, 100).subscribe(res => {
         if (res.status == 200) {
-          this.sims_list = res.body[0];
+          this.sims_list = res.body.results;
           for (let index = 0; index < this.sims_list.length; index++) {
             if (this.sims_list[index].status == 3) {
               this.sims_list.splice(index, 1);

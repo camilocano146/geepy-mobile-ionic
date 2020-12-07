@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  static readonly timeMillisDelayFilter: number = 500;
 
   constructor(
     private platform: Platform,

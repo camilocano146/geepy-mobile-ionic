@@ -30,6 +30,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 $color-success-green: #10dc60;
+$color-danger-red: #f04141;
 
 /* Tema Material */
 
@@ -41,6 +42,14 @@ body {
 
 .full-width {
     width: 100%;
+}
+
+.color-red {
+    color: #f04141 !important;
+}
+
+.background-white {
+    background-color: white !important;
 }
 
 .center {

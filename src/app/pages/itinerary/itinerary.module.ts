@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
 import { ItineraryModalCreateComponent } from './itinerary-modal-create/itinerary-modal-create.component';
 import { ItineraryModalEditComponent } from './itinerary-modal-edit/itinerary-modal-edit.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { ItineraryModalEditComponent } from './itinerary-modal-edit/itinerary-mo
     //Traductor
     TranslateModule.forChild(),
     ReactiveFormsModule,
-    ItineraryPageRoutingModule
+    ItineraryPageRoutingModule,
+    MatAutocompleteModule
   ],
   declarations: [
     ItineraryPage,

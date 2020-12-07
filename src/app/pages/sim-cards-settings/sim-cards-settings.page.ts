@@ -393,9 +393,9 @@ export class SimCardsSettingsPage implements OnInit {
         this.number_to_delete.setValue(this.simCurrent.card_stat.card.enum);
         if (this.simCurrent.card_stat.discount) {
           if (this.simCurrent.card_stat.discount.gprs) {
-            this.simCurrent.card_stat.discount.gprs.init_volume = this.simCurrent.card_stat.discount.gprs.init_volume / 1048576;
-            this.simCurrent.card_stat.discount.gprs.left_volume = this.simCurrent.card_stat.discount.gprs.left_volume / 1048576;
-            this.leftData = this.simCurrent.card_stat.discount.gprs.init_volume - this.simCurrent.card_stat.discount.gprs.left_volume;
+            this.simCurrent.card_stat.discount.gprs.init_volume = this.simCurrent?.card_stat?.discount?.gprs?.init_volume / 1048576;
+            this.simCurrent.card_stat.discount.gprs.left_volume = this.simCurrent?.card_stat?.discount?.gprs?.left_volume / 1048576;
+            this.leftData = this.simCurrent?.card_stat?.discount?.gprs?.init_volume - this.simCurrent?.card_stat?.discount?.gprs?.left_volume;
           }
         }
         this.preload_simcard = false;

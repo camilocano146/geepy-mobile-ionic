@@ -1,6 +1,7 @@
 <ion-header>
     <ion-toolbar color="tertiary">
-        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                     (click)="dismiss()">
             <ion-icon name="arrow-back-outline"></ion-icon>
         </ion-buttons>
         <ion-title style="color: white !important;">{{'itinerary.create.title' | translate}}</ion-title>
@@ -18,31 +19,63 @@
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label>{{'itinerary.create.destiny' | translate}}</ion-label>
-                    <ion-select *ngIf="currentLang == 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}" [formControl]="country" interface="action-sheet" id="country">
-                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.nombre}}</ion-select-option>
+                    <ion-select *ngIf="currentLang == 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"
+                                [formControl]="country" interface="action-sheet" id="country">
+                        <ion-select-option *ngFor="let item of countriesList"
+                                           [value]="item">{{item.nombre}}</ion-select-option>
                     </ion-select>
-                    <ion-select *ngIf="currentLang != 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}" [formControl]="country" interface="action-sheet" id="country">
-                        <ion-select-option *ngFor="let item of countriesList" [value]="item">{{item.name}}</ion-select-option>
+                    <ion-select *ngIf="currentLang != 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"
+                                [formControl]="country" interface="action-sheet" id="country">
+                        <ion-select-option *ngFor="let item of countriesList"
+                                           [value]="item">{{item.name}}</ion-select-option>
                     </ion-select>
                 </ion-item>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
                     <ion-label>{{'itinerary.create.start_date' | translate}}</ion-label>
-                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="startDate" placeholder="{{'itinerary.create.start_date_ph' | translate}}" [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
+                    <ion-datetime displayFormat="DD MMMM YYYY" [formControl]="startDate"
+                                  placeholder="{{'itinerary.create.start_date_ph' | translate}}"
+                                  [min]="minDayToPlanning" [max]="maxDayToPlanning"></ion-datetime>
                 </ion-item>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label>{{'itinerary.create.sim' | translate}}</ion-label>
-                    <ion-select placeholder="{{'itinerary.create.sim_ph' | translate}}" [formControl]="simcard" interface="action-sheet">
-                        <ion-select-option *ngFor="let item of simsList " [value]="item">{{item.iccid}}</ion-select-option>
-                    </ion-select>
+                    <ion-label style="max-width: 6em">{{'itinerary.create.sim' | translate}}</ion-label>
+                    <mat-form-field class="background-white field-padding">
+                        <input type="text"
+                               aria-label="Number"
+                               matInput
+                               placeholder="{{'simcard.data.ph_search' | translate}}"
+                               (ngModelChange)="changeSimsAutocomplete()"
+                               [formControl]="simcard"
+                               [matAutocomplete]="auto">
+                        <!--                    <mat-error>{{getErrorMessageCompany()}}</mat-error>-->
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of simsList" (onSelectionChange)="onSelectOption(option)"
+                                        [value]="option.iccid">
+                                <span>{{option.endpoint}} - {{option.iccid}}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </ion-item>
+                <mat-error class="ion-text-center" *ngIf="simcard.touched && !lastSimSelected">
+                    {{'itinerary.error.select_sim' | translate}}
+                </mat-error>
             </ion-col>
+            <!--            <ion-col size="12">-->
+            <!--                <ion-item style="border-radius: 5px;">-->
+            <!--                    <ion-label>{{'itinerary.create.sim' | translate}}</ion-label>-->
+            <!--                    <ion-select placeholder="{{'itinerary.create.sim_ph' | translate}}" [formControl]="simcard" interface="action-sheet">-->
+            <!--                        <ion-select-option *ngFor="let item of simsList " [value]="item">{{item.iccid}}</ion-select-option>-->
+            <!--                    </ion-select>-->
+            <!--                </ion-item>-->
+            <!--            </ion-col>-->
             <ion-col size="12" style="text-align: center;">
-                <ion-button color="warning" (click)="searchPackages()" [disabled]="!(country.valid && startDate.valid && simcard.valid)">
-                    <mat-icon>search</mat-icon>{{'itinerary.create.btn_search_package' | translate}}</ion-button>
+                <ion-button color="warning" (click)="searchPackages()"
+                            [disabled]="!(country.valid && startDate.valid && lastSimSelected)">
+                    <mat-icon>search</mat-icon>
+                    {{'itinerary.create.btn_search_package' | translate}}</ion-button>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="existsPackages == 1">
@@ -65,24 +98,42 @@
                         <div class="container-cards">
                             <ion-card *ngFor="let item of avaiablePackages; let i = index" class="card-package">
                                 <ion-card-header>
-                                    <ion-card-title *ngIf="i > 0" class="center title-card-sim-details"><strong>{{'itinerary.create.package_code' | translate}}{{item.id}}</strong></ion-card-title>
-                                    <ion-card-title *ngIf="i == 0" class="center title-card-sim-details-2"><strong>{{'itinerary.create.recommended_package' | translate}}{{item.id}}</strong></ion-card-title>
+                                    <ion-card-title *ngIf="i > 0" class="center title-card-sim-details">
+                                        <strong>{{'itinerary.create.package_code' | translate}}{{item.id}}</strong>
+                                    </ion-card-title>
+                                    <ion-card-title *ngIf="i == 0" class="center title-card-sim-details-2">
+                                        <strong>{{'itinerary.create.recommended_package' | translate}}{{item.id}}</strong>
+                                    </ion-card-title>
                                 </ion-card-header>
                                 <ion-card-content>
                                     <ion-grid>
                                         <ion-row class="ion-justify-content-center">
-                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                <ion-label color="primary"><strong>{{item.package_name}}</strong></ion-label>
+                                            <ion-col size="12"
+                                                     style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{item.package_name}}</strong>
+                                                </ion-label>
                                             </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                <ion-label color="success"><strong>{{'itinerary.create.cost' | translate}}</strong></ion-label>
-                                                <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'USD'">{{item.activation_fee_usd}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
-                                                <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'EUR'">{{item.activation_fee_eur}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                            <ion-col size="12"
+                                                     style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="primary"><strong>{{item.selected}}</strong>
+                                                </ion-label>
                                             </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                <ion-item>
+                                            <ion-col size="12"
+                                                     style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-label color="success">
+                                                    <strong>{{'itinerary.create.cost' | translate}}</strong></ion-label>
+                                                <ion-label
+                                                        *ngIf="this.lastSimSelected?.account_top_connect?.alias == 'USD'">{{item?.activation_fee_usd}} {{this.lastSimSelected?.account_top_connect?.alias}}</ion-label>
+                                                <ion-label
+                                                        *ngIf="this.lastSimSelected?.account_top_connect?.alias == 'EUR'">{{item?.activation_fee_eur}} {{this.lastSimSelected?.account_top_connect?.alias}}</ion-label>
+                                            </ion-col>
+                                            <ion-col size="12"
+                                                     style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                                <ion-item (click)="selectPackage(item.package_code)">
                                                     <ion-label>{{'itinerary.create.select_this' | translate}}</ion-label>
-                                                    <ion-toggle slot="start" color="success" mode="ios" [checked]="item.selected" (ionChange)="selectPackage(item.package_code)" [disabled]="item.selected == true"></ion-toggle>
+                                                    <ion-toggle slot="start" color="success" mode="ios"
+                                                                [checked]="item.selected"
+                                                                [disabled]="item.selected == true"></ion-toggle>
                                                 </ion-item>
                                             </ion-col>
                                         </ion-row>
@@ -93,21 +144,29 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </ion-col>
-            <ion-col *ngIf="packageselected != null" size="12" style="text-align: center; display: flex; justify-content: center;">
+            <ion-col *ngIf="packageselected != null" size="12"
+                     style="text-align: center; display: flex; justify-content: center;">
                 <ion-card class="card-package-selected">
                     <ion-card-header>
-                        <ion-card-title class="center title-card-sim-details"><strong>{{'itinerary.create.package_selected' | translate}}</strong></ion-card-title>
+                        <ion-card-title class="center title-card-sim-details">
+                            <strong>{{'itinerary.create.package_selected' | translate}}</strong></ion-card-title>
                     </ion-card-header>
                     <ion-card-content>
                         <ion-grid>
                             <ion-row class="ion-justify-content-center">
-                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                    <ion-label color="primary"><strong>{{packageselected.package_name}}</strong></ion-label>
+                                <ion-col size="12"
+                                         style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                    <ion-label color="primary"><strong>{{packageselected.package_name}}</strong>
+                                    </ion-label>
                                 </ion-col>
-                                <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                    <ion-label color="success"><strong>{{'itinerary.create.cost' | translate}}</strong></ion-label>
-                                    <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'USD'">{{packageselected.activation_fee_usd}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
-                                    <ion-label *ngIf="this.simcard.value.account_top_connect.alias == 'EUR'">{{packageselected.activation_fee_eur}} {{this.simcard.value.account_top_connect.alias}}</ion-label>
+                                <ion-col size="12"
+                                         style="text-align: center !important; font-size: 18px; font-weight: bold;">
+                                    <ion-label color="success"><strong>{{'itinerary.create.cost' | translate}}</strong>
+                                    </ion-label>
+                                    <ion-label
+                                            *ngIf="this.lastSimSelected?.account_top_connect?.alias == 'USD'">{{packageselected?.activation_fee_usd}} {{this.lastSimSelected.account_top_connect.alias}}</ion-label>
+                                    <ion-label
+                                            *ngIf="this.lastSimSelected?.account_top_connect?.alias == 'EUR'">{{packageselected?.activation_fee_eur}} {{this.lastSimSelected.account_top_connect.alias}}</ion-label>
                                 </ion-col>
                             </ion-row>
                         </ion-grid>
@@ -116,9 +175,7 @@
             </ion-col>
             <ion-col *ngIf="packageselected != null" size="12" style="text-align: center;">
                 <ion-button (click)="create()">
-                    <mat-icon style="margin-right: 10px;">
-                        note_add
-                    </mat-icon>
+                    <ion-icon name="add-circle-outline"></ion-icon>
                     {{'itinerary.create.btn_create' | translate}}
                 </ion-button>
             </ion-col>

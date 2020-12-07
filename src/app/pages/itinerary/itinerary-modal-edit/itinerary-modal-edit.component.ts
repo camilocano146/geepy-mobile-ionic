@@ -69,9 +69,9 @@ export class ItineraryModalEditComponent implements OnInit {
       this.itineraryService.getCountries().subscribe(res => {
         if (res.status == 200) {
           this.countriesList = res.body;
-          this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+          this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 100).subscribe(res => {
             if (res.status == 200) {
-              this.simsList = res.body[1];
+              this.simsList = res.body.results;
               this.packageselected = this.data.package;
               this.country = new FormControl(this.data.destination.id, Validators.required);
               this.simcard = new FormControl(this.data.sim_card.iccid, Validators.required);

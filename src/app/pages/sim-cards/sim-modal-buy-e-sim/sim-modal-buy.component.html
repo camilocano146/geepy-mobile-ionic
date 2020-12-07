@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.buy_sim_type_e_sim.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="center">
+                <img src="../../../../assets/img/shipping-and-delivery.svg" height="100px" alt="">
+            </ion-col>
+            <ion-row>
+                <ion-col size="12" style="text-align: center;">
+                    <h5>{{'simcard.data.buy_sim_type_e_sim.description' | translate}}</h5>
+                </ion-col>
+            </ion-row>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>{{'simcard.data.buy_sim_type_e_sim.currency' | translate}}</ion-label>
+                    <ion-select placeholder="{{'simcard.data.buy_sim_type_e_sim.select_one' | translate}}" [formControl]="currencySimsSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of listCurrency" [value]="item">{{item}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12">
+                <ion-item style="border-radius: 5px;">
+                    <ion-label>{{'simcard.data.buy_sim_type_e_sim.quantity' | translate}}</ion-label>
+                    <ion-select placeholder="{{'simcard.data.buy_sim_type_e_sim.select_one' | translate}}" [formControl]="quantitySimsSelected" interface="action-sheet">
+                        <ion-select-option *ngFor="let item of listSimsQuantity" [value]="item">{{item}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center" *ngIf="currencySimsSelected.value != null && quantitySimsSelected.value != null">
+                <h5 class="color-blue">{{'simcard.data.buy_sim_type_e_sim.total_price' | translate}}: {{getPriceOfThisSims()}}</h5>
+            </ion-col>
+            <ion-col *ngIf="currencySimsSelected.value != null && quantitySimsSelected.value != null" size="12" class="ion-text-center">
+                <ion-button (click)="buy()">
+                    <ion-icon name="cart" style="margin-right: 10px;"></ion-icon>
+                    {{'simcard.data.buy_sim_type_e_sim.purchase' | translate}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

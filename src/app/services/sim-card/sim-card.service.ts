@@ -14,24 +14,82 @@ import {Bic} from '../../models/sim-card/bic';
 export class SimCardService {
 
   constructor(private http: HttpClient) { }
+
   /**
-    * Obtener sismcards de un usuario
-    */
-  getSimCardByUser(id: any): Observable<any> {
-    return this.http.get<any>("users/" + id + "/sims/", { observe: 'response' });
+   * Obtener sismcards iot de solo este usuario
+   */
+  getSimCardIotWithoutReferrals(id: any, offset: number, limit: number, text?: string) {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/my_sims_iot/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
   }
+
+  /**
+   * Obtener sismcards Voyager de solo este usuario
+   */
+  getSimCardVoyagerWithoutReferrals(id: any, offset: number, limit: number, text?: string) {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/my_sims_voyager/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
+  }
+
+  /**
+   * Obtener sismcards iot de un usuario incluyendo sims de un referido
+   */
+  getSimCardIot(id: any, offset: number, limit: number, text?: string) {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/sims_iot/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
+  }
+
+  /**
+   * Obtener sismcards Voyager de un usuario incluyendo sims de un referido
+   */
+  getSimCardVoyager(id: any, offset: number, limit: number, text?: string) {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/sims_voyager/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
+  }
+
+  // /**
+  //  * Obtener sismcards de un usuario
+  //  */
+  // getSimCardByUser(id: any, offset?: number, limit?: number, text?: string): Observable<any> {
+  //   let textFilter = '';
+  //   if (text) {
+  //     textFilter = `&regex=${text}`;
+  //   }
+  //   return this.http.get<any>(`users/${id}/sims/?offset=${offset}&limit=${limit}${textFilter}`, { observe: 'response' });
+  // }
+
   /**
    * Obtener sismcards IOT referidas de un usuario
    */
-  getSimCardByUserReferrals(id: any): Observable<any> {
-    return this.http.get<any>("users/" + id + "/sims_iot_by_referrals/", { observe: 'response' });
+  getSimCardByUserReferralsIot(id: any, offset?: number, limit?: number, text?: string): Observable<any> {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/sims_iot_by_referrals/?offset=${offset}&limit=${limit}${textFilter}`, { observe: 'response' });
   }
 
   /**
    * Obtener sismcards Voyager referidas de un usuario
    */
-  getSimCardByUserVoyager(id: any): Observable<any> {
-    return this.http.get<any>("users/" + id + "/sims_voyager_by_referrals/", { observe: 'response' });
+  getSimCardByUserVoyager(id: any, offset?: number, limit?: number, text?: string): Observable<any> {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/sims_voyager_by_referrals/?offset=${offset}&limit=${limit}${textFilter}`, { observe: 'response' });
   }
   registerSimCardByONUM(onum): Observable<any> {
     return this.http.post<any>("sim_cards_tc/create_tc_by_account/", onum, { observe: 'response' });
@@ -53,8 +111,12 @@ export class SimCardService {
     return this.http.get<any>("sim_cards_tc/" + id + "/card_stat/", { observe: 'response' });
   }
 
+  getLocationIotM2M(idSim: number) {
+    return this.http.get('sim_cards/' + idSim + "/location/", { observe: 'response' });
+  }
+
   getSimDetails(idSim: number): Observable<any> {
-    return this.http.get('sim_cards_tc/' + idSim + '/gbalance/', { observe: 'response' });
+    return this.http.get('sim_cards/' + idSim + '/details/', { observe: 'response' });
   }
   /**
    * Obtener locación
@@ -262,6 +324,13 @@ export class SimCardService {
    */
   activatePins(idSim: number, bodyPin: { pin: number }): Observable<any> {
     return this.http.post(`sim_cards_tc/${idSim}/recharge_pin/`, bodyPin, { observe: 'response' });
+  }
+
+  /**
+   * Purchase E-Sims
+   */
+  purchaseESims(body: { quantity: number, currency: string, organization: number }): Observable<any> {
+    return this.http.post(`e_sims/buy_esims/`, body, { observe: 'response' });
   }
 
   // -------------------------------------------------

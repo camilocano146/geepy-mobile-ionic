@@ -535,10 +535,18 @@ export class SimModalSettings implements OnInit {
    */
 
   restartConnectivitySimCard() {
-    this.simCardService.activateSimCard(this.sim_current[0]).subscribe(res => {
+    this.simCardService.suspendSimCard(this.sim_current[0]).subscribe(res => {
       if (res.status == 200) {
-        this.presentToastOk(this.translate.instant("simcard.data.reconnection_ok"));
-        this.ngOnInit();
+        this.presentToastOk(this.translate.instant("simcard.data.suspended_ok"));
+        this.preload_simcard = true;
+        this.simCardService.activateSimCard(this.sim_current[0]).subscribe(res => {
+          if (res.status == 200) {
+            this.presentToastOk(this.translate.instant("simcard.data.reconnection_ok"));
+            this.ngOnInit();
+          }
+        }, err => {
+          this.presentToastError(this.translate.instant("simcard.error.reconnection_error"));
+        });
       }
     }, err => {
       this.presentToastError(this.translate.instant("simcard.error.reconnection_error"));
@@ -592,7 +600,7 @@ export class SimModalSettings implements OnInit {
    * Método para la ubicación de la sim card
    */
   viewLocationDetails() {
-    this.simCardService.getLocation(this.sim_current[0]).subscribe(res => {
+    this.simCardService.getLocationIotM2M(this.sim_current[0]).subscribe(res => {
       let location: any = res.body;
       if (location.length == 0) {
         this.noCoords = true;

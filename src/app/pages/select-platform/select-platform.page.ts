@@ -46,7 +46,7 @@ export class SelectPlatformPage implements OnInit {
     this.loadingService.presentLoading().then( () => {
      let u = JSON.parse(localStorage.getItem("g_c_user"));
       console.log(u);
-      this.userService.obtainUserById(u.id).subscribe( res => {
+      this.userService.obtainUserById(u?.id).subscribe( res => {
        
         this.user =  res.body;
         console.log(this.user);

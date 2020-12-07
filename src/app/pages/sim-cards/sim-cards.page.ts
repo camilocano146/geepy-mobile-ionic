@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PopoverController, ToastController } from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IonContent, IonInfiniteScroll, IonInput, PopoverController, ToastController} from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
@@ -11,6 +11,9 @@ import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
 import { TranslateService } from '@ngx-translate/core';
 import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import {SimModalESimBuy} from './sim-modal-buy-e-sim/sim-modal-buy.component';
+import {Subscription} from 'rxjs';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-sim-cards',
@@ -26,12 +29,18 @@ export class SimCardsPage implements OnInit {
    * Lista de sims
    */
   public simsList: any[];
-  public copyFull: any[];
   public auxText: string;
   /**
    * Preload de sims
    */
   public preloadSims: boolean;
+  public pageSim = 0;
+  public limit = 30;
+  private nextPage: boolean;
+  @ViewChild(IonInfiniteScroll) ionInfiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonContent) private content: IonContent;
+  private isFilteringForText: boolean;
+  private timer: number;
 
   constructor(
     private loadingService: LoadingService,
@@ -44,69 +53,51 @@ export class SimCardsPage implements OnInit {
     private translate: TranslateService) {
     this.preloadSims = false;
     this.simsList = [];
-    this.copyFull = [];
     this.user = this.localStorageService.getStorageUser();
   }
 
   ngOnInit() {
+    if (this.simsList) {
+      this.simsList.splice(0, this.simsList.length);
+    } else {
+      this.simsList = [];
+    }
+    if (this.ionInfiniteScroll) {
+      this.ionInfiniteScroll.complete().then(value => {
+        console.log('complete')
+      });
+      this.ionInfiniteScroll.disabled = false;
+    }
+    this.pageSim = 0;
+    this.nextPage = true;
+    this.ionViewDidEnter1();
+    if (this.simsList.length === 0) {
+      this.content?.scrollToBottom(300);
+    }
   }
 
-
-  ionViewDidEnter(){
-    this.loadingService.presentLoading().then( () => {
-      this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
-        if (res.status == 200) {
-          this.simsList = res.body[1];
-          const indexOfRemoveElements: number[] = [];
-          for (let index = 0; index < this.simsList.length; index++) {
-            if (this.simsList[index].status == 3) {
-              indexOfRemoveElements.push(index);
-            }
-          }
-          const elementsList = [];
-          for (let index = 0; index < this.simsList.length; index++) {
-            const valueExist = indexOfRemoveElements.find(v => v == index);
-            if (valueExist === undefined) {
-              elementsList.push(this.simsList[index]);
-            }
-          }
-          this.copyFull = [];
-          this.simsList = elementsList;
-          this.simsList.sort((a, b) => b.id - a.id);
-          this.copyFull.push(...this.simsList);
-          this.simCardService.getSimCardByUserVoyager(this.user.id).subscribe(res => {
-            if (res.status == 200) {
-              const indexOfRemoveElements1: number[] = [];
-              const simsReferrals = res.body;
-              for (let index = 0; index < simsReferrals.length; index++) {
-                const simCardRepeated = this.simsList.find(s => s.id === simsReferrals[index].id);
-                if (simsReferrals.status == 3 || simCardRepeated) {
-                  indexOfRemoveElements1.push(index);
-                }
-              }
-              const elementsList1 = [];
-              for (let index = 0; index < simsReferrals.length; index++) {
-                const valueExist1 = indexOfRemoveElements1.find(v => v == index);
-                if (valueExist1 === undefined) {
-                  elementsList1.push(simsReferrals[index]);
-                }
-              }
-              this.simsList.push(...elementsList1);
-              this.simsList.sort((a, b) => b.id - a.id);
-              this.copyFull.push(...elementsList1);
-            }
-            this.preloadSims = true;
-            this.loadingService.dismissLoading();
-          }, err => {
-            this.loadingService.dismissLoading();
-            this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
-          });
+  ionViewDidEnter1(eventInfiniteScroll?: CustomEvent){
+    if (this.nextPage) {
+      this.simCardService.getSimCardVoyager(this.user.id, this.pageSim++ * this.limit, this.limit, this.auxText).subscribe(res => {
+        console.log(res);
+        this.nextPage = !!res.body.next;
+        if (this.isFilteringForText) {
+          this.simsList = res.body.results;
+        } else {
+          this.simsList.push(...res.body.results);
+        }
+        // @ts-ignore
+        eventInfiniteScroll?.target?.complete();
+        if (!this.nextPage) {
+          this.ionInfiniteScroll.disabled = true;
         }
       }, err => {
         this.loadingService.dismissLoading();
         this.presentToastError(this.translate.instant('simcard.error.no_load_sim'));
+        // @ts-ignore
+        eventInfiniteScroll?.target?.complete();
       });
-    });
+    }
   }
 
   test() {
@@ -117,23 +108,14 @@ export class SimCardsPage implements OnInit {
    * Filtro
    */
   applyFilter(filterValue: string) {
-    if (filterValue != this.auxText) {
-      filterValue = filterValue.toLowerCase();
-      this.auxText = filterValue;
-      this.simsList.splice(0, this.simsList.length);
-      this.copyFull.forEach(element => {
-        this.simsList.push(element);
-      });
-      let aux = [];
-      for (let index = 0; index < this.simsList.length; index++) {
-        const element: string = this.simsList[index].iccid;
-        const name: string = this.simsList[index].endpoint;
-        if ((element && element.includes(filterValue)) || (name && name.toLowerCase().includes(filterValue))) {
-          aux.push(this.simsList[index]);
-        }
-      }
-      this.simsList = aux;
+    if (this.timer) {
+      window.clearTimeout(this.timer);
     }
+    this.timer = window.setTimeout(() => {
+      this.auxText = filterValue;
+      this.isFilteringForText = true;
+      this.ngOnInit();
+    }, AppComponent.timeMillisDelayFilter);
   }
 
   /**
@@ -145,7 +127,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ionViewDidEnter();
+        this.ngOnInit();
       }
     }).catch();
 
@@ -160,7 +142,7 @@ export class SimCardsPage implements OnInit {
     });
     modal.onDidDismiss().then(res => {
       if (res.data == "imported") {
-        this.ionViewDidEnter();
+        this.ngOnInit();
       }
     }).catch();
 
@@ -217,5 +199,25 @@ export class SimCardsPage implements OnInit {
 
   goToHome(){
     this.navController.navigateBack('select-platform');
+  }
+
+  async openModalBuyE_Sims() {
+    const modal = await this.modalController.create({
+      component: SimModalESimBuy
+    });
+    modal.onDidDismiss().then(res => {
+    }).catch();
+    return await modal.present();
+  }
+
+  loadMoreData(eventInfiniteScroll: CustomEvent) {
+    this.isFilteringForText = false;
+    this.ionViewDidEnter1(eventInfiniteScroll);
+  }
+
+  rechargeContent(inputFilter: IonInput) {
+    inputFilter.value = '';
+    this.auxText = '';
+    this.ngOnInit();
   }
 }

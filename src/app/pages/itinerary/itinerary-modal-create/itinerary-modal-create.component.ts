@@ -9,6 +9,7 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 import { Itinerary } from 'src/app/models/itinerary/itinerary';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import {SimCard} from '../../../models/sim-card/simcard';
 
 @Component({
   selector: 'app-itinerary-modal-create',
@@ -25,7 +26,7 @@ export class ItineraryModalCreateComponent implements OnInit {
   public country: FormControl;
   //----------Simcard
   public simsList: any[];
-  public simcard: any;
+  public simcard: FormControl;
   //----------Fecha
   public minDayToPlanning: any;
   public maxDayToPlanning: any;
@@ -35,6 +36,8 @@ export class ItineraryModalCreateComponent implements OnInit {
   public existsPackages: number;
   public packageselected: any;
   public expanded: boolean;
+  //----- Simcard seleccionada
+  public lastSimSelected: SimCard;
 
 
   constructor(
@@ -63,9 +66,9 @@ export class ItineraryModalCreateComponent implements OnInit {
       this.itineraryService.getCountries().subscribe(res => {
         if (res.status == 200) {
           this.countriesList = res.body;
-          this.simCardService.getSimCardByUser(this.user.id).subscribe(res => {
+          this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 10).subscribe(res => {
             if (res.status == 200) {
-              this.simsList = res.body[1];
+              this.simsList = res.body.results;
             }
             this.loadingService.dismissLoading();
           }, err => {
@@ -86,6 +89,7 @@ export class ItineraryModalCreateComponent implements OnInit {
       countrie: this.country.value.id
     }
     this.itineraryService.getPackageRecommended(data).subscribe(res => {
+      console.log(res);
       if (res.status == 200) {
         this.avaiablePackages = res.body;
         if (this.avaiablePackages.length == 0) {
@@ -116,7 +120,7 @@ export class ItineraryModalCreateComponent implements OnInit {
     }
   }
 
-  selectPackage(id) {
+  selectPackage(id: any) {
     for (let index = 0; index < this.avaiablePackages.length; index++) {
       if (this.avaiablePackages[index].package_code == id) {
         this.avaiablePackages[index].selected = true;
@@ -130,13 +134,14 @@ export class ItineraryModalCreateComponent implements OnInit {
   }
 
   create() {
-    if (this.simcard.valid && this.startDate.valid && this.packageselected != null && this.country.valid) {
+    console.log(this.lastSimSelected.id);
+    if (this.lastSimSelected && this.startDate.valid && this.packageselected != null && this.country.valid) {
       this.loadingService.presentLoading().then(() => {
         let itinerary: Itinerary = new Itinerary;
         const datePipe = new DatePipe('en-US');
         itinerary.activation_date = datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
         itinerary.destination_id = this.country.value.id;
-        itinerary.sim_card_id = this.simcard.value.id;
+        itinerary.sim_card_id = this.lastSimSelected.id;
         itinerary.user = this.user.id;
         itinerary.package_id = this.packageselected.id;
         this.itineraryService.createItinerary(itinerary).subscribe(res => {
@@ -192,5 +197,18 @@ export class ItineraryModalCreateComponent implements OnInit {
       color: 'warning'
     });
     toast.present();
+  }
+
+  changeSimsAutocomplete() {
+    if (this.lastSimSelected?.iccid !== this.simcard.value) {
+      this.lastSimSelected = undefined;
+    }
+    this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 10, this.simcard.value).subscribe(res => {
+      this.simsList = res.body.results;
+    });
+  }
+
+  onSelectOption(option: SimCard) {
+    this.lastSimSelected = option;
   }
 }

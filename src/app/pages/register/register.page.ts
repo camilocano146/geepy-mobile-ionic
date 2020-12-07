@@ -81,7 +81,7 @@ export class RegisterPage implements OnInit {
     this.address_one = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.address_two = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.phone = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]);
-    this.postal_code = new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+    this.postal_code = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.language = this.translate.currentLang;
   }
 
@@ -413,9 +413,9 @@ export class RegisterPage implements OnInit {
   getErrorMessageCode() {
     return this.postal_code.hasError("required")
       ? this.translate.instant('register_user.data.write_value')
-      : this.postal_code.hasError("min")
+      : this.postal_code.hasError("minlength")
         ? this.translate.instant('register_user.data.min_3')
-        : this.postal_code.hasError("max")
+        : this.postal_code.hasError("maxlength")
           ? this.translate.instant('register_user.data.max_50')
           : "";
   }

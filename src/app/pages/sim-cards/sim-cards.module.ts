@@ -21,6 +21,7 @@ import { AgmCoreModule } from '@agm/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
 import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
 import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
+import {SimModalESimBuy} from './sim-modal-buy-e-sim/sim-modal-buy.component';
 
 
 @NgModule({
@@ -48,13 +49,15 @@ import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-rea
     SimModalImportICCID,
     SimModalImportONUM,
     SimModalBuy,
-    SimModalSeeRealComponent
+    SimModalSeeRealComponent,
+    SimModalESimBuy
   ],
   entryComponents: [
     SimModalImportICCID,
     SimModalImportONUM,
     SimModalBuy,
-    SimModalSeeRealComponent
+    SimModalSeeRealComponent,
+    SimModalESimBuy
   ]
 })
 export class SimCardsPageModule { }

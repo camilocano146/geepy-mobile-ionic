@@ -519,7 +519,8 @@
             "title": "Sim Cards",
             "register_by": "Registrar Sim Card:",
             "order": "Comprar Sim cards",
-            "btn_order": "COMPRAR",
+            "btn_order": "Ordenar Ahora",
+            "btn_buy_e_sim": "Comprar E-Sim",
             "example_iccid": "Ej: 89372040160XXXXXX",
             "or": "or",
             "example_onum": "Ej: 372810XXXXX",
@@ -528,6 +529,8 @@
             "my_sims": "Mis Sim Cards",
             "ph_search": "ICCID o Endpoint",
             "activated": "ACTIVADA",
+            "registered": "REGISTRADA",
+            "subscription_expired": "SUSCRIPCIÓN EXPIRADA",
             "suspended": "SUSPENDIDA",
             "deleted": "ELIMINADA",
             "currency": "MONEDA",
@@ -551,6 +554,18 @@
             "real_sim": {
                 "title": "Voyager SIM CARDs",
                 "text": "¡Conoce la información impresa en nuestras tarjetas SIM!"
+            },
+            "buy_sim_type_e_sim": {
+                "title": "Comprar E-Sim Cards",
+                "description": "Escoja la cantidad de E-Sims que desea comprar",
+                "quantity": "Cantidad",
+                "select_one": "Selecciona un valor",
+                "purcahse_ok": "Compra exitosa! Hemos enviado tu factura al correo electrónico.",
+                "purchase": "Comprar",
+                "currency": "Moneda",
+                "total_price": "Precio Total",
+                "not_quantity_sims": "En este momento no tenemos tal cantidad de E-Sims",
+                "error_purchase": ""
             },
             "buy_sims": {
                 "title": "Comprar Sim cards",
@@ -622,7 +637,20 @@
                     "title_card_connectivity": "Conectividad",
                     "title_card_end_point": "End point",
                     "with_out_end_point": "Sin nombre",
-                    "name_end_point": "Nombre "
+                    "name_end_point": "Nombre ",
+                    "last_hour": "Última hora",
+                    "current": "Mes actual",
+                    "last": "Último mes",
+                    "registred": "REGISTRADA",
+                    "expired": "SUSCRIPCIÓN EXPIRADA",
+                    "hide": "Ocultar info",
+                    "show": "Ver info",
+                    "event": "Eventos",
+                    "only_50": "Últimos 50 eventos",
+                    "date": "Fecha: ",
+                    "no_package": " Tu sim card no tiene ningun paquete activo. Para empezar a usar el servicio por favor ve a la pestaña de Comprar paquetes.",
+                    "btn_go": "Ir a comprar paquetes",
+                    "expire": "Para reactivar tu servicio por favor ve a la pestaña de Comprar paquetes."
                 },
                 "package": {
                     "cupon": "¿Tienes un cupón?",
@@ -635,7 +663,16 @@
                     "btn_cancel": "Cancelar",
                     "title_location": "Paquete de localización",
                     "queries": "Peticiones",
-                    "confirm_buy": "Confirma tu compra"
+                    "confirm_buy": "Confirma tu compra",
+                    "text": "¿Deseas renovar tu servicio?",
+                    "title_box": "Tu paquete",
+                    "price": "Precio",
+                    "validity": "Vigencia (meses)",
+                    "currency": "Moneda",
+                    "total": "Valor a pagar",
+                    "not_enough_money": "No tiene saldo para realizar esta transacción. Por favor recargue su cuenta.",
+                    "error_buy": "No pudimos procesar tu compra, Por favor intenta mas tarde.",
+                    "buy_ok": "Tu compra ha sido exitosa."
                 },
                 "history_package": {
                     "title": "Historial de paquetes",
@@ -843,7 +880,16 @@
             "select_this": "Seleccionar este!",
             "package_selected": "¡Paquete selecionado!",
             "btn_create": "Crear",
-            "created_ok": "Tu itinerario ha sido actualizado exitosamente."
+            "created_ok": "Tu itinerario ha sido actualizado exitosamente.",
+            "activate": "ACTIVAR SIM",
+            "suspend": "SUSPENDER SIM",
+            "action": "Acción",
+            "validity": "Vigencia (Meses)",
+            "currency": "Moneda",
+            "error_packages": "No pudimos cargar los paquetes.",
+            "server_error": "Error en el servidor.",
+            "not_enough_money": "No tiene suficiente dinero. Por favor recargue su cuenta.",
+            "error_create": "No pudimos crear este plan."
         },
         "edit": {
             "title": "Itinerario ",
@@ -865,7 +911,15 @@
             "header": "Cancel viaje?",
             "text": "¿Estás seguro?",
             "btn_yes": "Si",
-            "btn_cancel": "No"
+            "btn_cancel": "No",
+            "activate": "ACTIVAR SIM",
+            "suspend": "SUSPENDER SIM",
+            "start_date_ph": "Selecciona una fecha",
+            "sim_ph": "Selecciona una",
+            "action": "Acción",
+            "validity": "Vigencia (Meses)",
+            "currency": "Moneda",
+            "note": "Nota: "
         },
         "error": {
             "no_itineraries": "No pudimos cargar tu itinerario.",
@@ -876,7 +930,8 @@
             "server_error": "Error en el servidor",
             "created_error": "No pudimos crear este item.",
             "maximum_date": "La fecha máxima de edición ha expirado.",
-            "edit_error": "No pudimos actualizar este item."
+            "edit_error": "No pudimos actualizar este item.",
+            "select_sim": "Debe oprimir sobre una SimCard para seleccionarla"
         }
     },
     "payments": {
@@ -1201,5 +1256,11 @@
             "guide": "Número de guia",
             "unit": "Unidades: "
         }
+    },
+    "loading": {
+        "loading_more_sims": "Buscando sims...",
+        "loading_more_devices": "Buscando dispositvos...",
+        "has_no_sims": "No tiene Sims aún",
+        "has_no_devices": "No tiene Dispositivos aún"
     }
 }

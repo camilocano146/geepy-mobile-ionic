@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class SlidesPage implements OnInit {
 
-
   public show: boolean;
 
   constructor(
@@ -29,13 +28,11 @@ export class SlidesPage implements OnInit {
   }
 
   goToHome() {
-    localStorage.setItem('first-time-app', 'false');
     let token = JSON.parse(localStorage.getItem('g_c_key'));
-    if(token == null || token == undefined){
+    if(token == null){
       this.navController.navigateRoot('login');
     } else {
       this.navController.navigateRoot('select-platform');
     }
-    
   }
 }
