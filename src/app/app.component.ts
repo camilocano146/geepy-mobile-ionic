@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   static readonly timeMillisDelayFilter: number = 500;
+  static readonly limitAutocompleteValues: number = 10;
 
   constructor(
     private platform: Platform,

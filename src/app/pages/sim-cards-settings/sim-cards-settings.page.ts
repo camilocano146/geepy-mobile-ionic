@@ -206,17 +206,17 @@ export class SimCardsSettingsPage implements OnInit {
       this.info = "Me respondio el servicio";
       for (const permission of res.body) {
         if (permission.is_active == true ){
-          if (permission.module == 52) {
+          if (permission.module == 52 || permission.module == 59) {
             this.show_sms = true;
-          } else if (permission.module == 65) {
+          } else if (permission.module == 65 || permission.module == 63) {
             this.show_history = true;
-          } else if (permission.module == 66) {
+          } else if (permission.module == 66 || permission.module == 73) {
             this.show_pins = true;
-          } else if (permission.module == 51) {
+          } else if (permission.module == 51 || permission.module == 58) {
             this.show_packages = true;
-          } else if (permission.module == 53) {
+          } else if (permission.module == 53 || permission.module == 60) {
             this.show_location = true;
-          } else if (permission.module == 54) {
+          } else if (permission.module == 54 || permission.module == 61) {
             this.show_settings = true;
           }
         }

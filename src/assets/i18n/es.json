@@ -705,7 +705,7 @@
                     "activate_message": "Escribe el PIN y presiona el botón activar"
                 },
                 "history_pins": {
-                    "title": "Hisotial de piens",
+                    "title": "Historial de pines",
                     "no_data": "No hay nada aquí.",
                     "no_pins_purchased": "No pudimos obtener los pins comprados.",
                     "no_activate_pin": "No pudimos activar el pin.",
@@ -720,7 +720,12 @@
                     "pin": "Pin",
                     "p_code": "Código de Pin:",
                     "data_p": "Activar Pin",
-                    "data_purchase": "Comprar Pin"
+                    "data_purchase": "Comprar Pin",
+                    "integer_number": "El código debe ser un número entero.",
+                    "max_length": "Máximo 30 caracteres",
+                    "min_length": "Mínimo 1 caracter",
+                    "required_code": "Debe escribir un valor entero",
+                    "activate_message": "Escriba el PIN y presione el botón de activación"
                 },
                 "sms": {
                     "title": "SMS",

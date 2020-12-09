@@ -163,7 +163,7 @@
                             </ion-grid>
                         </ion-card-content>
                     </ion-card>
-                    <h5 *ngIf="ionInfiniteScroll?.disabled && simsList.length === 0" class="color-red">
+                    <h5 *ngIf="ionInfiniteScroll?.disabled && simsList.length === 0 && !this.nextPage" class="color-red">
                         {{'loading.has_no_sims' | translate}}
                     </h5>
                     <ion-infinite-scroll threshold="30px" (ionInfinite)="loadMoreData($event)">

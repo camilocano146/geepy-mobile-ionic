@@ -206,6 +206,10 @@ export class SimCardsPage implements OnInit {
       component: SimModalESimBuy
     });
     modal.onDidDismiss().then(res => {
+      console.log(res);
+      if (res.data === 'purchased') {
+        this.ngOnInit();
+      }
     }).catch();
     return await modal.present();
   }
