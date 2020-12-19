@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">
+            {{(this.COMPATIBLE_DEVICES_ANDROID ? 'simcard.e_sims.compatible_devices.title_android' : 'simcard.e_sims.compatible_devices.title_ios') | translate}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-row class="ion-justify-content-center">
+        <ion-col>
+            <h6 *ngIf="!listDevices || listDevices.length === 0" class="color-red ion-text-center">{{'simcard.e_sims.compatible_devices.not_devices' | translate}}</h6>
+            <mat-list>
+                <mat-list-item *ngFor="let item of listDevices">
+                    {{item}}
+                    <mat-divider></mat-divider>
+                </mat-list-item>
+            </mat-list>
+        </ion-col>
+    </ion-row>
+</ion-content>

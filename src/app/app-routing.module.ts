@@ -56,6 +56,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
   },
   {
+    path: 'faq',
+    loadChildren: () => import('./pages/faq/f-a-q.module').then( m => m.FAQPageModule)
+  },
+  {
     path: 'select-platform',
     loadChildren: () => import('./pages/select-platform/select-platform.module').then( m => m.SelectPlatformPageModule)
   },

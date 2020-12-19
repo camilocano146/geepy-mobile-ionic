@@ -9,9 +9,9 @@
 
 .container-slide {
     height: 100% !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    //display: flex !important;
+    //justify-content: center !important;
+    //align-items: center !important;
     background-color: #08014C;
 }
 
@@ -26,7 +26,82 @@
 }
 
 .image-logo {
-    height: 100px !important;
+    height: 70px !important;
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+}
+
+.title-two-right {
+    padding-top: 0.5em !important;
+}
+
+.icon-row-down {
+    color: white !important;
+    zoom: 1.3 !important;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.icon-row-down-steps {
+    color: white !important;
+    zoom: 1.3 !important;
+}
+
+.text-steps {
+    font-weight: bold;
+    padding-top: 0.3em !important;
+}
+
+.row-bottom {
+    display: flex;
+    justify-content: center;
+}
+
+.div-icon {
+    background-color: white;
+    margin: 1em auto 1em auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-one-icon-right {
+    background-color: white;
+    margin: 1.4em auto 1em auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-icon {
+    height: 40px !important;
+}
+
+.title-text {
+    font-size: 14px !important;
+    margin-bottom: 0.5em !important;
+    margin-top: 0 !important;
+    font-weight: lighter !important;
+}
+
+.sub-title-text {
+    font-size: 10px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    //line-height: em !important;
+}
+
+.image-head {
+    height: 40px !important;
+    position: fixed;
+    bottom: 10px;
+    right: 0;
 }
 
 .image-2 {

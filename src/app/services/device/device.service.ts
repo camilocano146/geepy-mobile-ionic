@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Global } from 'src/app/models/global/global';
 import { DeviceImportImei } from 'src/app/models/device/device-import-imei';
@@ -115,5 +115,13 @@ export class DeviceService {
 
   orderDevice(orderDevice: OrderDevice){
     return this.http.post<any>('devices_iridium/order_device/', orderDevice, { observe: 'response'});
+  }
+
+  getCompatibleDevicesDevicesCompatible(body: {ostype: string}) {
+    return this.http.post<any>('devices_compatible/', body, { observe: 'response'});
+  }
+
+  getCompatibleDevicesOsType() {
+    return this.http.get<any>(`os_type/`, { observe: 'response'});
   }
 }

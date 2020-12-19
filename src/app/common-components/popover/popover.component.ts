@@ -123,4 +123,8 @@ export class PopoverComponent implements OnInit {
   rateThisApp() {
     this.appRate.promptForRating(true);
   }
+
+  goToFAQ() {
+    this.navController.navigateRoot('faq');
+  }
 }

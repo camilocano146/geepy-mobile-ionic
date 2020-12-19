@@ -13,75 +13,101 @@
 <ion-content>
     <div class="background-all"></div>
     <ion-grid>
-        <ion-row class="ion-justify-content-center">
-            <ion-col size="12" style="text-align: center; display: flex; justify-content: center;">
-                <ion-card *ngIf="user != null" class="card-money">
+        <!--        <ion-row class="ion-justify-content-center">-->
+        <!--            <ion-col size="12" style="text-align: center; display: flex; justify-content: center;">-->
+        <!--                <ion-card *ngIf="user != null" class="card-money">-->
 
-                    <ion-card-header>
-                        <div class="title-card-sim-details"><strong>{{'payments.principal.my_account' | translate}}</strong></div>
-                        <ion-card-title class="contenido" style="font-size: 22px !important; font-weight: normal !important; margin-top: 5px; margin-bottom: 5px;">{{user.first_name}} {{user.last_name}}</ion-card-title>
-                        <ion-card-subtitle style="margin-bottom: 10px;">{{user.email}}</ion-card-subtitle>
-                    </ion-card-header>
+        <!--                    <ion-card-header>-->
+        <!--                        <div class="title-card-sim-details"><strong>{{'payments.principal.my_account' | translate}}</strong></div>-->
+        <!--                        <ion-card-title class="contenido" style="font-size: 22px !important; font-weight: normal !important; margin-top: 5px; margin-bottom: 5px;">{{user.first_name}} {{user.last_name}}</ion-card-title>-->
+        <!--                        <ion-card-subtitle style="margin-bottom: 10px;">{{user.email}}</ion-card-subtitle>-->
+        <!--                    </ion-card-header>-->
 
-                    <ion-card-content>
-                        <ion-label color="primary"><strong>USD: </strong></ion-label>
-                        <ion-label style="margin-right: 30px;"><strong>{{user.balance_usd}}</strong></ion-label>
-                        <ion-label color="success"><strong>EUR: </strong></ion-label>
-                        <ion-label><strong>{{user.balance_eur}}</strong></ion-label>
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-        <ion-row style="border-radius: 5px; ">
-            <ion-col size="12">
-                <ion-card style="padding: 0px !important; background-color: white;">
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col size="12" style="text-align: center;">
-                                <ion-label color="primary">
-                                    <div class="title-card-sim-details"><strong>{{'payments.principal.recharge' | translate}}</strong></div>
-                                </ion-label>
-                            </ion-col>
-                            <ion-col size="6" style="text-align: center;">
-                                <img src="../../../assets/img/paypal.jpg" class="img-option-pay" alt="">
-                                <ion-button class="break-word but-option-pay" color="primary" (click)="goToPayPal()">{{'payments.principal.btn_pay' | translate}}</ion-button>
-                            </ion-col>
-                            <ion-col size="6" style="text-align: center;">
-                                <img src="../../../assets/img/stripe.png" class="img-option-pay" alt="">
-                                <ion-button class="break-word but-option-pay" color="success" (click)="goToStripe()">{{'payments.principal.btn_pay' | translate}}</ion-button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card>
-            </ion-col>
-        </ion-row>
+        <!--                    <ion-card-content>-->
+        <!--                        <ion-label color="primary"><strong>USD: </strong></ion-label>-->
+        <!--                        <ion-label style="margin-right: 30px;"><strong>{{user.balance_usd}}</strong></ion-label>-->
+        <!--                        <ion-label color="success"><strong>EUR: </strong></ion-label>-->
+        <!--                        <ion-label><strong>{{user.balance_eur}}</strong></ion-label>-->
+        <!--                    </ion-card-content>-->
+        <!--                </ion-card>-->
+        <!--            </ion-col>-->
+        <!--        </ion-row>-->
         <ion-row>
             <ion-col size="12">
-                <ion-card style="padding: 0px !important; background-color: white;">
-                    <ion-grid>
+                <ion-card class="border-red" style="padding: 0px !important; background-color: white;">
+                    <ion-grid class="p-0">
                         <ion-row>
-                            <ion-col size="12" style="text-align: center;">
-                                <ion-label color="primary">
-                                    <div class="title-card-sim-details"><strong>{{'payments.principal.my_payments' | translate}}</strong></div>
-                                </ion-label>
-                            </ion-col>
-                            <ion-col size="12" *ngIf="existPayments == 1" style="text-align: center;">
+                            <div class="p-0 mt-3 ion-col-title title-card-sim-details-middle">
+                                <strong>{{'payments.principal.account_balance' | translate | uppercase}}</strong>
+                            </div>
+                            <div class="my-1 full-width">
+                                <ion-row class="row-balance">
+                                    <ion-col class="ion-text-center" size="6">
+                                        <h5>{{'payments.principal.balance' | translate | uppercase}} USD</h5>
+                                    </ion-col>
+                                    <ion-col class="ion-text-center" size="6">
+                                        <h5>{{user?.balance_usd}}</h5>
+                                    </ion-col>
+                                    <ion-col class="ion-text-center" size="6">
+                                        <h5>{{'payments.principal.balance' | translate | uppercase}} EUR</h5>
+                                    </ion-col>
+                                    <ion-col class="ion-text-center" size="6">
+                                        <h5>{{user?.balance_eur}}</h5>
+                                    </ion-col>
+                                </ion-row>
+                            </div>
+                        </ion-row>
+                        <ion-row>
+                            <div class="p-0 mt-2 ion-col-title title-card-sim-details-middle">
+                                <strong>{{'payments.principal.recharge' | translate | uppercase}}</strong>
+                            </div>
+                            <ion-row class="my-3">
+                                <ion-col class="ion-text-center" (click)="goToPayPal()" size="6">
+                                    <img src="./assets/logos/PayPal.png" width="90%" alt="">
+                                </ion-col>
+                                <ion-col class="ion-text-center" (click)="goToStripe()" size="6">
+                                    <img src="./assets/logos/Stripe.png" width="100px" height="40px" alt="">
+                                </ion-col>
+                            </ion-row>
+                        </ion-row>
+                        <ion-row>
+                            <div class="p-0 ion-col-title title-card-sim-details-middle">
+                                <strong>{{'payments.principal.orders' | translate | uppercase}}</strong>
+                            </div>
+                            <ion-col size="12" *ngIf="!this.preloadTransactions && paymentsList?.length === 0" style="text-align: center;">
                                 <img src="../../../assets/img/ghost.svg" height="80px" alt="">
                             </ion-col>
-                            <ion-col size="12" *ngIf="existPayments == 1" style="text-align: center;">
+                            <ion-col size="12" *ngIf="!this.preloadTransactions && paymentsList?.length === 0" style="text-align: center;">
                                 <ion-label>{{'payments.principal.no_payments' | translate}}</ion-label>
                             </ion-col>
-                            <ion-col size="12" *ngIf="existPayments == 2" style="padding-top: 0px;">
+                            <ion-col size="12" *ngIf="!this.preloadTransactions && paymentsList?.length > 0" style="padding-top: 0px;">
                                 <ion-list style="border-radius: 5px; padding-top: 0px;">
-                                    <ion-item detail *ngFor="let item of paymentsList" style="padding-left: 0px !important;" (click)="goToDetails(item)">
-                                        <ion-avatar slot="start" style="height: 30px !important; width: 30px !important;">
-                                            <img *ngIf="item.id_stripe_transaction != null" src="../../../assets/img/stripe.svg" height="20px" style="height: 30px !important; width: 30px !important;">
-                                            <img *ngIf="item.id_pay_pal_transaction != null" src="../../../assets/img/paypal.svg" height="20px" style="height: 30px !important; width: 30px !important;">
-                                            <img *ngIf="item.transaction.name == 'Order Sim Sets'" src="../../../assets/img/shipping-and-delivery.svg" height="20px" style="height: 30px !important; width: 30px !important;" alt="">
+                                    <ion-item detail *ngFor="let item of paymentsList"
+                                              style="padding-left: 0px !important;" (click)="goToDetails(item)">
+                                        <ion-avatar slot="start"
+                                                    style="height: 30px !important; width: 30px !important;">
+                                            <img *ngIf="item.id_stripe_transaction != null"
+                                                 src="../../../assets/img/stripe.svg" height="20px"
+                                                 style="height: 30px !important; width: 30px !important;">
+                                            <img *ngIf="item.id_pay_pal_transaction != null"
+                                                 src="../../../assets/img/paypal.svg" height="20px"
+                                                 style="height: 30px !important; width: 30px !important;">
+                                            <img *ngIf="item.transaction.name == 'Order Sim Sets'"
+                                                 src="../../../assets/img/shipping-and-delivery.svg" height="20px"
+                                                 style="height: 30px !important; width: 30px !important;" alt="">
+                                            <img *ngIf="!item.id_stripe_transaction && !item.id_pay_pal_transaction && item.transaction.name != 'Order Sim Sets'"
+                                                 src="../../../assets/icons/online-shopping.svg" height="20px"
+                                                 style="height: 30px !important; width: 30px !important;" alt="">
                                         </ion-avatar>
                                         <ion-label>
-                                            <h2 *ngIf="item.id_stripe_transaction != null || item.id_pay_pal_transaction != null"><strong><ion-label color="success">+{{item.value}} {{item.currency}}</ion-label></strong></h2>
-                                            <h2 *ngIf="item.transaction.name == 'Order Sim Sets'"><strong><ion-label color="danger">-{{item.value}} {{item.currency}}</ion-label></strong></h2>
+                                            <h2 *ngIf="item.id_stripe_transaction != null || item.id_pay_pal_transaction != null">
+                                                <strong>
+                                                    <ion-label color="success">
+                                                        +{{item.value}} {{item.currency}}</ion-label>
+                                                </strong></h2>
+                                            <h2 *ngIf="item.transaction.name == 'Order Sim Sets'"><strong>
+                                                <ion-label color="danger">-{{item.value}} {{item.currency}}</ion-label>
+                                            </strong></h2>
                                             <h3>{{item.date_generated | date}}</h3>
                                             <p *ngIf="item.id_stripe_transaction != null">{{item.id_stripe_transaction}}</p>
                                             <p *ngIf="item.id_pay_pal_transaction != null">{{item.id_pay_pal_transaction}}</p>
@@ -90,6 +116,14 @@
                                     </ion-item>
                                 </ion-list>
                             </ion-col>
+                            <div class="ion-text-center w-100 mt-3">
+                                <ion-infinite-scroll threshold="30px" (ionInfinite)="loadMoreData($event)">
+                                    <div>
+                                        <ion-spinner color="primary"></ion-spinner>
+                                    </div>
+                                    {{'loading.loading_more_transactions' | translate}}
+                                </ion-infinite-scroll>
+                            </div>
                         </ion-row>
                     </ion-grid>
                 </ion-card>

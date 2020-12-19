@@ -1,0 +1,25 @@
+@import '../../../global.scss';
+.container-cards-help {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card-help-size {
+    width: 290px;
+    max-width: 290px;
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    background-color: white !important;
+}
+
+mat-expansion-panel-header {
+    min-height: 3em !important;
+    height: auto !important;
+}
+
+li {
+    text-align: justify;
+    list-style:square;
+    color: #665de8;
+}

@@ -25,8 +25,8 @@ export class TransacitionsModalStripeComponent implements OnInit {
   public usd_tariffs: TariffRecharge[];
   public eur_tariffs: TariffRecharge[];
   //-----Stripe
-  stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
-  //stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
+  // stripe = Stripe('pk_test_621PtH4KnimaOD6tYtPJ0GPp');
+  stripe = Stripe('pk_live_lttbri0cTaHw0s4tD3vDije7');
   card: any;
 
   public coupon: FormControl;

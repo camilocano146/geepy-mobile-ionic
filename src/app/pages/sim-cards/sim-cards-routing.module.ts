@@ -6,8 +6,8 @@ import { SimCardsPage } from './sim-cards.page';
 const routes: Routes = [
   {
     path: '',
-    component: SimCardsPage
-  }
+    component: SimCardsPage,
+  },
 ];
 
 @NgModule({

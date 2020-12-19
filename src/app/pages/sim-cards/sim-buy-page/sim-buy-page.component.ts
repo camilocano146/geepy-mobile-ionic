@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController, ModalController } from '@ionic/angular';
+import {ToastController, ModalController, NavController} from '@ionic/angular';
 import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
 import { FormControl, Validators } from '@angular/forms';
 import { ZonesService } from 'src/app/services/zones/zones.service';
@@ -11,13 +11,17 @@ import { Global } from 'src/app/models/global/global';
 import { Courier } from 'src/app/models/courier/courier';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import {SimCard} from '../../../models/sim-card/simcard';
+import {Country} from '../../../models/country/Country';
+import {SimModalImportICCID} from '../sim-modal-import-iccid/sim-modal-import-iccid';
+import {SimChooseCourierCountryModal} from './sim-choose-courier-country/sim-choose-courier-country-modal.component';
 
 @Component({
   selector: 'app-sim-modal-buy',
-  templateUrl: './sim-modal-buy.component.html',
-  styleUrls: ['./sim-modal-buy.component.scss'],
+  templateUrl: './sim-buy-page.component.html',
+  styleUrls: ['./sim-buy-page.component.scss'],
 })
-export class SimModalBuy implements OnInit {
+export class SimBuyPage implements OnInit {
   //----Paquetes de sims
   public simsPackages: any[];
   public packageSelected: FormControl;
@@ -40,17 +44,20 @@ export class SimModalBuy implements OnInit {
   public accountSelected: FormControl;
   //----Lenguaje
   public language: string;
+  public lastCountrySelected: Country;
+  private copyCountriesList: Country[];
 
   constructor(
     private loadingService: LoadingService,
     private toastController: ToastController,
-    private modalController: ModalController,
     private simService: SimCardService,
     private zonesService: ZonesService,
     private serviceAccountService: ServiceAccountService,
     private translate: TranslateService,
     private courierService: CourierService,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private navController: NavController,
+    private modalController: ModalController,
   ) {
     this.packageSelected = new FormControl(null, [Validators.required]);
     this.countrySelected = new FormControl(null, [Validators.required]);
@@ -66,7 +73,6 @@ export class SimModalBuy implements OnInit {
   ngOnInit() {
     this.getSimsPackages();
   }
-
 
   /**
    * Trae pauetes de sims
@@ -90,9 +96,11 @@ export class SimModalBuy implements OnInit {
    * Trae los paises
    */
   getCountries() {
+    this.copyCountriesList = [];
     this.zonesService.getAvailableCountiresToPurchase().subscribe(res => {
       if (res.status == 200) {
         this.countriesList = res.body;
+        this.copyCountriesList.push(...this.countriesList);
         this.getServicesAccount();
       }
     }, err => {
@@ -130,11 +138,11 @@ export class SimModalBuy implements OnInit {
   }
 
   order() {
-    if (this.packageSelected.valid && this.countrySelected.valid && this.city.valid && this.address.valid && this.zip.valid && this.phone.valid) {
+    if (this.packageSelected.valid && this.lastCountrySelected && this.city.valid && this.address.valid && this.zip.valid && this.phone.valid) {
       this.loadingService.presentLoading().then(() => {
         let order: OrderSimsVoyager = new OrderSimsVoyager (
           this.zip.value,
-          this.countrySelected.value.id,
+          this.lastCountrySelected.id,
           this.city.value,
           this.address.value,
           this.phone.value,
@@ -176,14 +184,13 @@ export class SimModalBuy implements OnInit {
   openMap() {
     var options: string = "location=no,clearcache=yes,clearsessioncache=yes"
     let url = this.courier_selected.value.description;
-    console.log(url);
     const browser = this.iab.create(url, '_system');
   }
 
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss();
+    this.navController.back();
   }
   async presentToastError(text: string) {
     const toast = await this.toastController.create({
@@ -210,4 +217,43 @@ export class SimModalBuy implements OnInit {
     toast.present();
   }
 
+  changeCountryAutocomplete() {
+    if (this.lastCountrySelected && this.getCountryName(this.lastCountrySelected) !== this.countrySelected.value) {
+      this.lastCountrySelected = undefined;
+    }
+    const countryValue = this.countrySelected.value.toString().toLowerCase();
+    if (this.language === 'es') {
+      this.countriesList = this.copyCountriesList.filter(c => c.nombre.toLowerCase().includes(countryValue));
+    } else {
+      this.countriesList = this.copyCountriesList.filter(c => c.name.toLowerCase().includes(countryValue));
+    }
+  }
+
+  onSelectOption(option: Country) {
+    this.lastCountrySelected = option;
+  }
+
+  getCountryName(option: Country) {
+    return this.language === 'es' ? option.nombre : option.name;
+  }
+
+  /**
+   * Importar Modal Courier
+   */
+  async openModalCourier() {
+    // this.navController.navigateRoot('home/simcards/purchase-activate-physical-sims/choose-courier');
+    console.log(this.courier_list);
+    const modal = await this.modalController.create({
+      component: SimChooseCourierCountryModal,
+      componentProps: {
+        data: this.courier_list
+      }
+    });
+    modal.onDidDismiss().then(res => {
+      if (res.data) {
+        this.courier_selected.setValue(res.data?.courier);
+      }
+    }).catch();
+    return await modal.present();
+  }
 }

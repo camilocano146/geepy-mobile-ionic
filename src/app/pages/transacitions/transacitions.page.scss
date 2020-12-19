@@ -24,14 +24,26 @@
 }
 
 .title-card-sim-details {
-    margin-bottom: 0px !important;
-    color: white !important;
-    background-color: #67B7CF !important;
-    font-size: 15px !important;
-    padding: 2px !important;
-    border-radius: 5px !important;
+    //margin-bottom: 0px !important;
+    //color: white !important;
+    //background-color: #67B7CF !important;
+    //font-size: 15px !important;
+    //padding: 2px !important;
+    //border-radius: 5px !important;
 }
 
-.img-option-pay {
-    border-radius: 5px !important;
+ion-list {
+    ion-item {
+        border-bottom: 0 !important;
+    }
+}
+
+.col-img-recharge {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+.row-balance h5 {
+    margin: 0 !important;
 }

@@ -10,6 +10,8 @@ import { Itinerary } from 'src/app/models/itinerary/itinerary';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import {SimCard} from '../../../models/sim-card/simcard';
+import {Country} from '../../../models/country/Country';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-itinerary-modal-create',
@@ -23,6 +25,7 @@ export class ItineraryModalCreateComponent implements OnInit {
   public user: User;
   //----------Pais
   public countriesList: any[];
+  private copyCountriesList: Country[];
   public country: FormControl;
   //----------Simcard
   public simsList: any[];
@@ -38,7 +41,9 @@ export class ItineraryModalCreateComponent implements OnInit {
   public expanded: boolean;
   //----- Simcard seleccionada
   public lastSimSelected: SimCard;
-
+  //----- País seleccionado
+  public lastCountrySelected: Country;
+  private timer: number;
 
   constructor(
     private loadingService: LoadingService,
@@ -62,10 +67,12 @@ export class ItineraryModalCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.copyCountriesList = [];
     this.loadingService.presentLoading().then(() => {
       this.itineraryService.getCountries().subscribe(res => {
         if (res.status == 200) {
           this.countriesList = res.body;
+          this.copyCountriesList.push(...this.countriesList);
           this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 10).subscribe(res => {
             if (res.status == 200) {
               this.simsList = res.body.results;
@@ -86,7 +93,7 @@ export class ItineraryModalCreateComponent implements OnInit {
 
   searchPackages() {
     const data = {
-      countrie: this.country.value.id
+      countrie: this.lastCountrySelected.id
     }
     this.itineraryService.getPackageRecommended(data).subscribe(res => {
       console.log(res);
@@ -135,12 +142,12 @@ export class ItineraryModalCreateComponent implements OnInit {
 
   create() {
     console.log(this.lastSimSelected.id);
-    if (this.lastSimSelected && this.startDate.valid && this.packageselected != null && this.country.valid) {
+    if (this.lastSimSelected && this.startDate.valid && this.packageselected != null && this.lastCountrySelected) {
       this.loadingService.presentLoading().then(() => {
         let itinerary: Itinerary = new Itinerary;
         const datePipe = new DatePipe('en-US');
         itinerary.activation_date = datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
-        itinerary.destination_id = this.country.value.id;
+        itinerary.destination_id = this.lastCountrySelected.id;
         itinerary.sim_card_id = this.lastSimSelected.id;
         itinerary.user = this.user.id;
         itinerary.package_id = this.packageselected.id;
@@ -203,12 +210,38 @@ export class ItineraryModalCreateComponent implements OnInit {
     if (this.lastSimSelected?.iccid !== this.simcard.value) {
       this.lastSimSelected = undefined;
     }
-    this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 10, this.simcard.value).subscribe(res => {
-      this.simsList = res.body.results;
-    });
+    if (this.timer) {
+      window.clearTimeout(this.timer);
+    }
+    this.timer = window.setTimeout(() => {
+      this.simCardService.getSimCardVoyagerWithoutReferrals(this.user.id, 0, 10, this.simcard.value).subscribe(res => {
+        this.simsList = res.body.results;
+        console.log(this.simsList);
+      });
+    }, AppComponent.timeMillisDelayFilter);
   }
 
-  onSelectOption(option: SimCard) {
+  changeCountryAutocomplete() {
+    if (this.lastCountrySelected && this.getCountryName(this.lastCountrySelected) !== this.country.value) {
+      this.lastCountrySelected = undefined;
+    }
+    const countryValue = this.country.value.toString().toLowerCase();
+    if (this.currentLang === 'es') {
+      this.countriesList = this.copyCountriesList.filter(c => c.nombre.toLowerCase().includes(countryValue));
+    } else {
+      this.countriesList = this.copyCountriesList.filter(c => c.name.toLowerCase().includes(countryValue));
+    }
+  }
+
+  onSelectOption(option: Country) {
+    this.lastCountrySelected = option;
+  }
+
+  onSelectOptionSimCard(option: SimCard) {
     this.lastSimSelected = option;
+  }
+
+  getCountryName(option: Country) {
+    return this.currentLang === 'es' ? option.nombre : option.name;
   }
 }

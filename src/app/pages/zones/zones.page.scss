@@ -1,4 +1,5 @@
 @import '../../../global.scss';
+
 .title-card-sim-details {
     margin-bottom: 5px !important;
     color: white !important;
@@ -6,4 +7,39 @@
     font-size: 15px !important;
     padding: 2px !important;
     border-radius: 5px !important;
+}
+
+.mat-form-field-country {
+    width: 90%;
+}
+
+.ion-row-input-filter-sim {
+    height: 3em !important;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-top: 0 !important;
+    margin-top: 5px !important;
+}
+
+.input-country {
+    font-size: 20px !important;
+}
+
+.p-zones-by-country {
+    color: red;
+}
+
+.button-country {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 30px;
 }

@@ -52,3 +52,33 @@
     margin-right: 30px;
     margin-left: 30px;
 }
+
+.img-logo-geepy {
+    margin: 10px;
+}
+
+//.title-card-sim-details {
+//    border-radius: 0 !important;
+//    border-bottom-right-radius: 10px !important;
+//    border-top-right-radius: 10px !important;
+//    background-color: #ce142c;
+//    color: white;
+//    width: 50%;
+//    height: 2em;
+//    text-align: center;
+//    display: flex;
+//    justify-content: center;
+//    align-items: center;
+//}
+
+.div-background {
+    //background-image: url("../../../assets/img/fondo.png");
+}
+
+mat-divider {
+    width: 90% !important;
+}
+
+ion-item {
+    --color: #4b37fe;
+}

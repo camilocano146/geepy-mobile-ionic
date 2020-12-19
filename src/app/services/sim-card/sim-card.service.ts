@@ -12,8 +12,18 @@ import {Bic} from '../../models/sim-card/bic';
   providedIn: 'root'
 })
 export class SimCardService {
+  // tslint:disable-next-line:variable-name
+  private _lastESimsPurchased: string[];
 
   constructor(private http: HttpClient) { }
+
+  get lastESimsPurchased(): string[] {
+    return this._lastESimsPurchased;
+  }
+
+  set lastESimsPurchased(value: string[]) {
+    this._lastESimsPurchased = value;
+  }
 
   /**
    * Obtener sismcards iot de solo este usuario
@@ -57,6 +67,17 @@ export class SimCardService {
       textFilter = `&regex=${text}`;
     }
     return this.http.get<any>(`users/${id}/sims_voyager/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
+  }
+
+  /**
+   * Obtener sismcards Voyager de un usuario incluyendo sims de un referido
+   */
+  getE_SimCardVoyager(id: any, offset: number, limit: number, text?: string) {
+    let textFilter = '';
+    if (text) {
+      textFilter = `&regex=${text}`;
+    }
+    return this.http.get<any>(`users/${id}/esims_voyager/?offset=${offset}&limit=${limit}${textFilter}`, {observe: 'response'});
   }
 
   // /**

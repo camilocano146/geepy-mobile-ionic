@@ -50,7 +50,7 @@
                 <!-- Inputs with labels -->
                 <ion-item style="margin-left: 10px;">
                     <ion-icon name="search"></ion-icon>
-                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="number" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
+                    <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="text" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>
                 </ion-item>
             </ion-col>
             <ion-col size="4" style="text-align: right !important; display: flex; align-items: center !important; justify-content: flex-end;">

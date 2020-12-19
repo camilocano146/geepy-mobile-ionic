@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomePage } from './home.page';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomePage} from './home.page';
 
 
 const routes: Routes = [
@@ -15,6 +15,31 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../sim-cards/sim-cards.module').then(m => m.SimCardsPageModule)
+          },
+          {
+            path: 'purchase-activate-e-sims',
+            loadChildren: () =>
+              import('../sim-cards/e-sims/e-sims.module').then(m => m.ESimsPageModule)
+          },
+          {
+            path: 'my-e-sims',
+            loadChildren: () =>
+              import('../sim-cards/my-e-sims/my-e-sims.module').then(m => m.MyESimsPageModule)
+          },
+          {
+            path: 'purchase-activate-physical-sims',
+            loadChildren: () =>
+              import('../sim-cards/physical-sims/physical-sims.module').then(m => m.PhysicalPageModule)
+          },
+          {
+            path: 'my-physical-sims',
+            loadChildren: () =>
+              import('../sim-cards/my-physical-sims/my-physical-sims.module').then(m => m.MyPhysicalSimsPageModule)
+          },
+          {
+            path: 'physical-sims',
+            loadChildren: () =>
+              import('../sim-cards-settings/sim-cards-settings.module').then(m => m.SimCardsSettingsPageModule),
           },
           {
             path: 'settings',

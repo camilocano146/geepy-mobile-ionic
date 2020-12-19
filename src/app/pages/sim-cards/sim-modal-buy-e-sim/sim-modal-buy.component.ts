@@ -82,7 +82,7 @@ export class SimModalESimBuy implements OnInit {
         this.simService.purchaseESims(order).subscribe(res => {
           this.presentToastOk(this.translate.instant('simcard.data.buy_sims.purcahse_ok'));
           this.loadingService.dismissLoading().then(() => {
-            this.modalController.dismiss('purchased');
+            this.modalController.dismiss(res.body?.esims);
           });
         }, err => {
           console.log(err);

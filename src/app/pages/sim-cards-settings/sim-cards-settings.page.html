@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar color="tertiary">
-        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">
-            <ion-icon style="color: white !important;" name="home"></ion-icon>
-        </ion-button>
+<!--        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToHome()">-->
+<!--            <ion-icon style="color: white !important;" name="home"></ion-icon>-->
+<!--        </ion-button>-->
         <ion-title style="padding-right: 0px !important; padding-left: 0px;" style="color: white !important;;">{{'simcard.data.settings.data.title' | translate}}</ion-title>
         <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
             <ion-icon name="arrow-back-outline"></ion-icon>
@@ -14,7 +14,8 @@
     <ion-grid>
         <ion-row class="ion-justify-content-center">
             <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
-                <img src="../../../../assets/img/simcard.svg" height="80px" alt="">
+                <img *ngIf="!sim_current.qr_esim" src="../../../../assets/img/simcard.svg" height="80px" alt="">
+                <img *ngIf="sim_current.qr_esim" [src]="sim_current.qr_esim" height="120px" style="margin-top: 0px;" alt="" (click)="openPhotoViewer()">
             </ion-col>
             <ion-col size="12" style="text-align: center !important; font-size: 16px; font-weight: bold;">
                 <!--                {{this.preload_permissions}}-->
@@ -62,6 +63,7 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
+                            <ion-spinner *ngIf="preload_simcard" name="crescent"></ion-spinner>
                             <ion-card style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_information' | translate}}</strong></ion-card-title>
@@ -155,6 +157,7 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
+                            <ion-spinner *ngIf="preload_conectivity || preload_events || preload_package || preload_simcard" name="crescent"></ion-spinner>
                         </div>
                     </mat-expansion-panel>
                     <!--Historico Llamadas-->
@@ -164,7 +167,10 @@
                                 <label class="title-panel">{{'simcard.data.settings.history_calls.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <div *ngIf="historyCalls.length == 0" class="full-width center">
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_history_calls" name="crescent"></ion-spinner>
+                        </div>
+                        <div *ngIf="!preload_history_calls && historyCalls.length == 0" class="full-width center">
                             <ion-card style="background-color: white;">
                                 <ion-grid>
                                     <ion-row>
@@ -183,7 +189,7 @@
                             <ion-list lines="none" class="full-width mat-elevation-z4" style="border-bottom-width: 0px; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                 <ion-item>
                                     <div class="full-width center">
-                                        <strong class="strong-text">{{duration_calls}} {{'simcard.data.settings.history_calls.seconds_label' | translate}}</strong>
+                                        <strong class="strong-text">{{getCallDuration()}} {{'simcard.data.settings.history_calls.minutes_label' | translate}}</strong>
                                     </div>
                                 </ion-item>
                             </ion-list>
@@ -241,8 +247,6 @@
                                 </ion-card-content>
                             </ion-card>
                         </div>
-
-
                     </mat-expansion-panel>
                     <!--Historico Pines-->
                     <mat-expansion-panel [ngStyle]="{'display':show_pins == true ? 'block' : 'none' }">
@@ -251,7 +255,10 @@
                                 <label class="title-panel">{{'simcard.data.settings.history_pins.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <div *ngIf="historyPins.length == 0" class="full-width center">
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_history_pins" name="crescent"></ion-spinner>
+                        </div>
+                        <div *ngIf="!preload_history_pins && historyPins.length == 0" class="full-width center">
                             <ion-card style="background-color: white;">
                                 <ion-grid>
                                     <ion-row>
@@ -325,7 +332,10 @@
                                 <label class="title-panel">{{'simcard.data.settings.history_package.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <div *ngIf="historyPackage.length == 0" class="full-width center">
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_history" name="crescent"></ion-spinner>
+                        </div>
+                        <div *ngIf="!preload_history && historyPackage.length == 0" class="full-width center">
                             <ion-card style="background-color: white;">
                                 <ion-grid>
                                     <ion-row>
@@ -371,16 +381,17 @@
                                 </ion-card-content>
                             </ion-card>
                         </div>
-
-
                     </mat-expansion-panel>
-                    <!--Pauqtes-->
+                    <!--Paquetes-->
                     <mat-expansion-panel [ngStyle]="{'display':show_packages == true ? 'block' : 'none' }">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.package.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_avaiable_packages || preload_package" name="crescent"></ion-spinner>
+                        </div>
                         <div *ngIf="preload_avaiable_packages == false && preload_package == false">
                             <ion-label color="primary" style="font-size: 20px; margin-top: 15px !important; width: 100%; text-align: center; display: flex; justify-content: center;">{{'simcard.data.settings.package.cupon' | translate}}</ion-label>
                             <ion-item style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
@@ -542,6 +553,9 @@
                                 <label class="title-panel">{{'simcard.data.settings.location.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_avaiable_packages" name="crescent"></ion-spinner>
+                        </div>
                         <div *ngIf="location_service_on == 1 && preload_avaiable_packages == false" class="container-cards" style="padding: 0px !important;">
                             <ion-card *ngFor="let item of avaibalePackages.getserviceoptions.lbs" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
@@ -612,6 +626,9 @@
                                 <label class="title-panel">{{'simcard.data.settings.settings.title' | translate}}</label>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_simcard" name="crescent"></ion-spinner>
+                        </div>
                         <div *ngIf="preload_simcard == false" class="container-cards">
                             <ion-card *ngIf="simCurrent?.card_stat?.card?.blocked == 'false'" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
@@ -730,6 +747,9 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
+                            <div class="ion-text-center">
+                                <ion-spinner *ngIf="preload_endpoint" name="crescent"></ion-spinner>
+                            </div>
                             <ion-card *ngIf="preload_endpoint == false" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>

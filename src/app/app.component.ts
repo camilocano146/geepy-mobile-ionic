@@ -21,8 +21,9 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     let language = window.navigator.language.split('-')[0];
+    language = '';
     if (language == 'es' || language == 'en') {
-      this.translate.setDefaultLang(language)
+      this.translate.setDefaultLang(language);
       this.translate.use(language);
     } else {
       this.translate.setDefaultLang('en');

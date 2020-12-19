@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
-import {ToastController, PopoverController, ModalController, NavController} from '@ionic/angular';
+import {ToastController, PopoverController, ModalController, NavController, IonInfiniteScroll} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TransacitionsModalStripeComponent } from './transacitions-modal-stripe/transacitions-modal-stripe.component';
@@ -18,8 +18,12 @@ import { LoadingService } from 'src/app/services/loading/loading.service';
 export class TransacitionsPage implements OnInit {
 
   public user: any;
-  public existPayments: number;
   public paymentsList: any[];
+  public preloadTransactions: boolean;
+  private nextPage: boolean;
+  public pageSim = 0;
+  public limit = 40;
+  @ViewChild(IonInfiniteScroll) ionInfiniteScroll: IonInfiniteScroll;
 
   constructor(
     private loadingService: LoadingService,
@@ -31,7 +35,6 @@ export class TransacitionsPage implements OnInit {
     private navController: NavController,
     private billingService: BillingService) {
       this.user = null;
-      this.existPayments = 0;
       this.paymentsList = [];
     }
 
@@ -39,41 +42,41 @@ export class TransacitionsPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.loadingService.presentLoading().then(()=> {
+    this.preloadTransactions = true;
+    this.nextPage = true;
+    this.loadTransactions();
+    this.loadingService.presentLoading().then(() => {
       this.userService.obtainUserByToken().subscribe(res => {
-        if (res.status == 200) {
-          this.user = res.body;
-          this.billingService.getTransactions().subscribe(res => {
-            if(res.status == 200){
-              this.paymentsList = res.body;
-              if(this.paymentsList.length == 0){
-                this.existPayments = 1;
-              } else if(this.paymentsList.length > 0){
-                this.existPayments = 2;
-                this.paymentsList.sort((a,b) => b.id - a.id);
-                let aux: any[] = [];
-                this.paymentsList.forEach(element => {
-                  if(element.id_stripe_transaction != null || element.id_pay_pal_transaction != null || element.transaction.name == 'Order Sim Sets'){
-                    aux.push(element);
-                  }
-                });
-                this.paymentsList = aux;
-              }
-              this.loadingService.dismissLoading();
-            }
-          }, err => {
-            console.log(err);
-            this.loadingService.dismissLoading();
-            this.presentToastError(this.translate.instant('payments.error.no_load_payments'));
-          });
-        }
+        this.user = res.body;
+        this.loadingService.dismissLoading();
       }, error => {
         this.loadingService.dismissLoading();
         this.presentToastError(this.translate.instant('profile.error.profile'));
       });
     });
-    
   }
+
+  loadTransactions(eventInfiniteScroll?: CustomEvent) {
+    if (this.nextPage) {
+      this.billingService.getTransactions(this.pageSim++ * this.limit, this.limit).subscribe(res => {
+        this.nextPage = !!res.body.next;
+        this.preloadTransactions = false;
+        this.paymentsList.push(...res.body?.results);
+        console.log(this.paymentsList);
+        // @ts-ignore
+        eventInfiniteScroll?.target?.complete();
+        if (!this.nextPage) {
+          this.ionInfiniteScroll.disabled = true;
+        }
+      }, err => {
+        console.log(err);
+        this.preloadTransactions = false;
+        this.loadingService.dismissLoading();
+        this.presentToastError(this.translate.instant('payments.error.no_load_payments'));
+      });
+    }
+  }
+
   /**
    * Abre modal de stripe
    */
@@ -151,5 +154,9 @@ export class TransacitionsPage implements OnInit {
 
   goToHome() {
     this.navController.navigateBack('select-platform');
+  }
+
+  loadMoreData(eventInfiniteScroll: CustomEvent) {
+    this.loadTransactions(eventInfiniteScroll);
   }
 }

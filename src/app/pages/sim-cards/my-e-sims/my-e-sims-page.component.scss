@@ -1,0 +1,28 @@
+@import '../../../../global.scss';
+
+ion-item {
+  .item-native {
+    padding-left: 0 !important;
+  }
+}
+
+.h6-title-buy {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.img-buy-sims {
+  height: 70px !important;
+  width: auto !important;
+}
+
+.h6-register-sim {
+  font-size: 12px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.button-options {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}

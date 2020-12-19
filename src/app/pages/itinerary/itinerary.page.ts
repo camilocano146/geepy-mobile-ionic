@@ -46,11 +46,13 @@ export class ItineraryPage implements OnInit {
   }
 
   ionViewDidEnter(){
+    this.itinerariesList = [];
     this.loadingService.presentLoading().then( ()=>{
       this.itineraryService.getItineraries().subscribe(res => {
         if (res.status == 200) {
-          this.itinerariesList = res.body;
-         this.structureItineriryList();
+          this.copyFull = res.body;
+          this.itinerariesList.push(...res.body);
+          this.structureItineriryList();
         }
       }, err => {
         console.log(err);
@@ -61,8 +63,8 @@ export class ItineraryPage implements OnInit {
   }
 
   structureItineriryList(){
-    if(this,this.itinerariesList.length>1){
-      this.itinerariesList.sort( (a,b) => b.id - a.id) ;
+    if (this.itinerariesList.length > 1) {
+      this.itinerariesList.sort( (a,b) => b.id - a.id);
     }
     if (this.itinerariesList.length == 0) {
       this.existsItineraries = 1;
@@ -84,7 +86,8 @@ export class ItineraryPage implements OnInit {
       let aux = [];
       for (let index = 0; index < this.itinerariesList.length; index++) {
         const element: string = this.itinerariesList[index].sim_card.iccid;
-        if (element.includes(filterValue)) {
+        const endpoint: string = this.itinerariesList[index].sim_card.endpoint;
+        if (element.includes(filterValue) || element.includes(endpoint)) {
           aux.push(this.itinerariesList[index]);
         }
       }
@@ -139,6 +142,7 @@ export class ItineraryPage implements OnInit {
   }
 
   addItemToItinerariesList(package_itinerary){
+    this.copyFull.push(package_itinerary);
     this.itinerariesList.push(package_itinerary);
     this.structureItineriryList();
   }

@@ -18,6 +18,7 @@ import { SimCardsSettingsPageRoutingModule } from './sim-cards-settings-routing.
 import { SimCardsSettingsPage } from './sim-cards-settings.page';
 import { SimModalSendSmsComponent } from './sim-modal-send-sms/sim-modal-send-sms.component';
 import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.component';
+import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.c
       apiKey: "AIzaSyBMtHVqHc6m1dPc85aFmzg4uS8r6SlzosQ" + '&libraries=visualization'
     }),
     ReactiveFormsModule,
-    SimCardsSettingsPageRoutingModule
+    SimCardsSettingsPageRoutingModule,
   ],
   declarations: [
     SimCardsSettingsPage,
@@ -47,6 +48,9 @@ import { SimModalSeeSmsComponent } from './sim-modal-see-sms/sim-modal-see-sms.c
   entryComponents: [
     SimModalSendSmsComponent,
     SimModalSeeSmsComponent
+  ],
+  providers: [
+    PhotoViewer
   ]
 })
 export class SimCardsSettingsPageModule {}

@@ -9,23 +9,80 @@
 
 .card-platform {
     background-color: white;
-    border-radius: 10px;
-    border: 1px solid lightgray;
     margin: 10px;
-    width: 250px;
+    width: 95%;
     transition: 0.5s;
     padding-top: 10px;
+}
+
+ion-toolbar {
+    --background: #950415;
+}
+
+.card-e-sim {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    width: 95% !important;
+    transition: 0.5s;
+    border: 1px solid lightgrey;
+    padding: 1.5em 1em 1.5em 1em;
+}
+
+.card-devices {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    width: 95% !important;
+    transition: 0.5s;
+    padding-top: 10px;
+    border: 1px solid lightgrey;
+}
+
+.card-physical-sim {
+    padding: 1.5em 1em 1.5em 1em;
+    border: 1px solid lightgrey;
+}
+
+ion-tabs {
+    h6 {
+        color: black;
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+    }
+}
+
+.icon-row-down {
+    color: grey !important;
+    zoom: 1 !important;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .title-card-platform {
     font-weight: bold;
     font-size: 18px;
-    color: #2E2681;
+    color: #d0142b;
+}
+
+.title-other-cards {
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+    text-align: center;
 }
 
 .description-platform {
     font-size: 12px;
     padding: 10px;
+    text-align: center;
+    color: black;
+}
+
+.btn-go-to-sim {
+    --background: #141558;
+    width: 80%;
 }
 
 .center-horizontal {

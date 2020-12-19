@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToSims()">
+            <ion-icon style="color: white !important;" name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-title style="color: white !important;">E-SIM</ion-title>
+        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+            <ion-icon style="color: white !important;" name="settings"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+      <ion-grid>
+          <ion-row>
+              <ion-col class="last-e-sims-purchased" *ngIf="this.simCardService.lastESimsPurchased">
+                  <h3 (click)="closeLastESimsPurchased()" class="background-red w-auto h3-last-s-sims-purchased">
+                      X
+                  </h3>
+                  <div class="ion-text-center">
+                      <h6>{{'simcard.e_sims.title_purchased_1' | translate}}</h6>
+                  </div>
+                  <ul>
+                      <li *ngFor="let eSIM of this.simCardService.lastESimsPurchased">
+                          {{eSIM}}
+                      </li>
+                  </ul>
+                  <div class="ion-text-center">
+                      <h6>{{'simcard.e_sims.title_purchased_2' | translate}}</h6>
+                  </div>
+              </ion-col>
+              <ion-col size="12" style="text-align: center !important;">
+                  <ion-card class="border-red" style="background-color: white !important; text-align: center;">
+                      <ion-card-header style="padding-bottom: 5px !important;">
+                          <ion-card-title class="title-register">
+                              <h6 class="h6-title-buy">{{'simcard.e_sims.title_install' | translate}}</h6>
+                              <h6 class="h6-title-buy">{{'simcard.e_sims.title_functioning' | translate}}</h6>
+                          </ion-card-title>
+                      </ion-card-header>
+                      <ion-card-content style="padding-bottom: 0!important; margin-bottom: 0!important;">
+                          <div class="ion-text-center my-2">
+                              <img src="../../../assets/img/buy.png" class="img-buy-sims" alt="">
+                          </div>
+                          <div class="ion-text-center">
+                              <!--                                      <ion-button color="primary" style="text-transform: none;" (click)="openModalBuySims()">-->
+                              <!--                                          <ion-icon name="cash" style="margin-right: 10px;"></ion-icon>-->
+                              <!--                                          {{'simcard.data.btn_order' | translate}}-->
+                              <!--                                      </ion-button>-->
+                              <ion-button class="w-75" style="text-transform: none;" (click)="openModalBuyE_Sims()">
+<!--                                  <ion-icon name="phone-portrait-outline" style="margin-right: 10px;"></ion-icon>-->
+                                  {{'simcard.data.btn_buy_e_sim' | translate}}
+                              </ion-button>
+                          </div>
+                      </ion-card-content>
+                  </ion-card>
+              </ion-col>
+          </ion-row>
+          <ion-row class="my-4">
+              <ion-col size="12" style="text-align: center !important;">
+                  <ion-card style="background-color: white !important; text-align: center;">
+                      <div class="p-0 ion-col-title title-register-sims">
+                          <strong>{{'simcard.data.register_by' | translate | uppercase}}</strong>
+                      </div>
+                      <ion-card-content class="p-0 border-red-square">
+                          <ion-row class="ion-justify-content-center">
+                              <ion-col size="12" class="center p-0">
+                                  <ion-grid class="p-0">
+                                      <ion-row style="display: flex; justify-content: center; align-items: center;">
+                                          <ion-col class="pt-3 pb-2" size="10">
+                                              <div style="display: flex; align-items: center; justify-content: center;">
+                                                  <ion-button color="primary" style="text-transform: none;" class="w-75" (click)="openModalImportICCID()">
+<!--                                                      <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>-->
+                                                      ICCID
+                                                  </ion-button>
+                                              </div>
+                                              <h6 class="h6-register-sim">{{'simcard.data.example_iccid' | translate}}</h6>
+                                          </ion-col>
+<!--                                          <ion-col class="pt-3 pb-2" size="6">-->
+<!--                                              <div style="display: flex; align-items: center; justify-content: center;">-->
+<!--                                                  <ion-button color="primary" style="text-transform: none;" class="w-75" (click)="openModalImportONUM()">-->
+<!--&lt;!&ndash;                                                      <ion-icon name="log-in" style="margin-right: 10px;"></ion-icon>&ndash;&gt;-->
+<!--                                                      {{'simcard.data.btn_onum' | translate}}-->
+<!--                                                  </ion-button>-->
+<!--                                              </div>-->
+<!--                                              <h6 class="h6-register-sim">{{'simcard.data.example_onum' | translate}}</h6>-->
+<!--                                          </ion-col>-->
+                                      </ion-row>
+                                  </ion-grid>
+                              </ion-col>
+                          </ion-row>
+                      </ion-card-content>
+                  </ion-card>
+              </ion-col>
+          </ion-row>
+
+          <ion-row>
+              <ion-col size="12">
+                  <ion-button class="mt-0 button-see-sims" (click)="goToAllESims()">
+                      {{'simcard.my_account.e_sims.see' | translate | uppercase}}
+                      <img class="ml-4" src="./assets/icons/right-arrow.png" width="20px" alt="">
+                  </ion-button>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+</ion-content>

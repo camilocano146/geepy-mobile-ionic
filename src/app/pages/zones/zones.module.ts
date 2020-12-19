@@ -9,6 +9,9 @@ import { ZonesPageRoutingModule } from './zones-routing.module';
 import { ZonesPage } from './zones.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'src/app/common-components/popover/popover.module';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -19,7 +22,10 @@ import { PopoverModule } from 'src/app/common-components/popover/popover.module'
     ReactiveFormsModule,
     //Traductor
     TranslateModule.forChild(),
-    ZonesPageRoutingModule
+    ZonesPageRoutingModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   declarations: [ZonesPage]
 })

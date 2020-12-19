@@ -50,6 +50,7 @@ import { LoadingService } from './services/loading/loading.service';
 import { PermissionModuleService } from './services/module/module.service';
 import { CountriesService } from './services/countries/countries.service';
 import { OrganizationService } from './services/organization/organization.service';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,7 +87,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     ),
     AppRoutingModule,
-
+    MatAutocompleteModule,
   ],
   providers: [
     OrganizationService,

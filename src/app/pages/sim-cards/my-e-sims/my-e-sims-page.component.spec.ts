@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SimModalBuyComponent } from './sim-modal-buy.component';
+import { MyESimsPage } from './my-e-sims-page.component';
 
-describe('SimModalBuyComponent', () => {
-  let component: SimModalBuyComponent;
-  let fixture: ComponentFixture<SimModalBuyComponent>;
+describe('ESimsPage', () => {
+  let component: MyESimsPage;
+  let fixture: ComponentFixture<MyESimsPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SimModalBuyComponent ],
+      declarations: [ MyESimsPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SimModalBuyComponent);
+    fixture = TestBed.createComponent(MyESimsPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

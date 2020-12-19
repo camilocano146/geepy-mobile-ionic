@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController, ToastController, NavController } from '@ionic/angular';
+import {PopoverController, ToastController, NavController, ModalController} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganizationService } from 'src/app/services/organization/organization.service';
@@ -7,6 +7,9 @@ import { Global } from 'src/app/models/global/global';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
+import {SimModalESimsInstructionsAndroidComponent} from '../sim-cards/sim-modal-e-sim-instructions-android/sim-modal-e-sims-instructions-android.component';
+import {SimModalESimsCompatibleAndroidDevicesComponent} from './sim-modal-e-sim-compatible-android-devices/sim-modal-e-sims-compatible-android-devices.component';
+import {SimCardsPage} from '../sim-cards/sim-cards.page';
 
 @Component({
   selector: 'app-select-platform',
@@ -28,6 +31,7 @@ export class SelectPlatformPage implements OnInit {
 
   public isReseller: boolean;
   public user: User;
+  public typeDevice = SimModalESimsCompatibleAndroidDevicesComponent.COMPATIBLE_DEVICES_ANDROID;
 
   constructor(
     private userService: UserService,
@@ -36,10 +40,10 @@ export class SelectPlatformPage implements OnInit {
     private organizationService: OrganizationService,
     private translate: TranslateService,
     private toastController: ToastController,
+    private modalController: ModalController,
     private popoverController: PopoverController) {
     this.isReseller = false;
     this.platforms_list = [];
-
   }
 
   ngOnInit() {
@@ -147,6 +151,7 @@ export class SelectPlatformPage implements OnInit {
      * Redirigue a la plataforma selccionada
      */
   goPlatform(i) {
+    console.log('asdasd');
     switch (i) {
       case Global.geotrack_platform_id:
         this.goPlatform0();
@@ -215,5 +220,23 @@ export class SelectPlatformPage implements OnInit {
       color: 'danger'
     });
     toast.present();
+  }
+
+  goToSims() {
+    this.navController.navigateRoot('home/simcards/purchase-activate-physical-sims');
+  }
+
+  goToESims() {
+    this.navController.navigateRoot('home/simcards/purchase-activate-e-sims');
+  }
+
+  async openModalCompatibleDevices(type?: string) {
+    const modal = await this.modalController.create({
+      component: SimModalESimsCompatibleAndroidDevicesComponent,
+      componentProps: {
+        data: type,
+      }
+    });
+    return await modal.present();
   }
 }

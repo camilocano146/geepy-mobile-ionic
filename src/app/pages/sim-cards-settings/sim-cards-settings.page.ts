@@ -12,6 +12,7 @@ import { } from 'googlemaps';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import * as moment from 'moment';
 import { PermissionModuleService } from 'src/app/services/module/module.service';
+import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 
 @Component({
   selector: 'app-sim-cards-settings',
@@ -109,7 +110,9 @@ export class SimCardsSettingsPage implements OnInit {
     public toastController: ToastController,
     private simCardService: SimCardService,
     public popoverController: PopoverController,
-    private extraNumberService: ExtraNumbersService) {
+    private extraNumberService: ExtraNumbersService,
+    private photoViewer: PhotoViewer,
+  ) {
     this.sim_current = JSON.parse(localStorage.getItem('sim_current'));
     if (this.sim_current == null || this.sim_current == undefined) {
       this.navController.navigateBack('home/simcards');
@@ -172,19 +175,20 @@ export class SimCardsSettingsPage implements OnInit {
   stopLoading() {
     //Pregunto
     this.interval = setInterval(() => {
-      if (this.preload_permissions == false &&
-        this.preload_history == false &&
-        this.preload_simcard == false &&
-        this.preload_duration_calls == false &&
-        this.preload_history_calls == false &&
-        this.preload_history_pins == false &&
-        this.preload_package == false &&
-        this.preload_events == false &&
-        this.preload_conectivity == false &&
-        this.preload_endpoint == false &&
-        this.preload_avaiable_packages == false &&
-        this.preload_sms == false &&
-        this.preload_get_extra_numbers_list == false) {
+      if (this.preload_permissions == false
+        // this.preload_history == false &&
+        // this.preload_simcard == false &&
+        // this.preload_duration_calls == false &&
+        // this.preload_history_calls == false &&
+        // this.preload_history_pins == false &&
+        // this.preload_package == false &&
+        // this.preload_events == false &&
+        // this.preload_conectivity == false &&
+        // this.preload_endpoint == false &&
+        // this.preload_avaiable_packages == false &&
+        // this.preload_sms == false &&
+        // this.preload_get_extra_numbers_list == false
+      ) {
         clearInterval(this.interval);
         this.interval = null;
         this.loadingService.dismissLoading();
@@ -296,28 +300,29 @@ export class SimCardsSettingsPage implements OnInit {
           this.historyCalls = body.records.call;
         }
       }
-      this.historyCalls = [
-        {adest: "Colombia Mobile",
-          anum: "37259833000",
-          bdest: "Colombia",
-          billsec: "11",
-          bleg: "true",
-          bnum: "573212250010",
-          calldate: "2020-09-03 04:07:51",
-          ccost: "0.49",
-          cdir: "O",
-          conn_cost: "0.00",
-          curr: "USD",
-          duration: "26",
-          free_sec: "0",
-          imsi: null,
-          mcost: "0.49",
-          onum: "37259833000",
-          rdest: "Colombia",
-          rnum: "573144961925",
-          tsimid: "26511316",
-          uniqueid: "853258357.0b735ebdc0379c09"}
-      ];
+      console.log(body);
+      // this.historyCalls = [
+      //   {adest: "Colombia Mobile",
+      //     anum: "37259833000",
+      //     bdest: "Colombia",
+      //     billsec: "11",
+      //     bleg: "true",
+      //     bnum: "573212250010",
+      //     calldate: "2020-09-03 04:07:51",
+      //     ccost: "0.49",
+      //     cdir: "O",
+      //     conn_cost: "0.00",
+      //     curr: "USD",
+      //     duration: "26",
+      //     free_sec: "0",
+      //     imsi: null,
+      //     mcost: "0.49",
+      //     onum: "37259833000",
+      //     rdest: "Colombia",
+      //     rnum: "573144961925",
+      //     tsimid: "26511316",
+      //     uniqueid: "853258357.0b735ebdc0379c09"}
+      // ];
       this.preload_history_calls = false;
     }, err => {
       console.log(err);
@@ -577,7 +582,7 @@ export class SimCardsSettingsPage implements OnInit {
    */
   async activatePackage(item, packageToBuy, type) {
     let message = `${item.package_name} per ${item.activation_fee} ${item.currency}.`
-    if (this.cupon.valid && this.cupon.value.length == 8) {
+    if (this.cupon.valid && this.cupon?.value?.length == 8) {
       message = `${item.package_name} per ${item.activation_fee} ${item.currency} with Coupon ${this.cupon.value}.`
     }
     const alert = await this.alertController.create({
@@ -745,14 +750,14 @@ export class SimCardsSettingsPage implements OnInit {
    */
   updateEndpointName() {
     this.loadingService.presentLoading().then(() => {
-      this.preload_endpoint = false;
+      this.preload_endpoint = true;
       const endpont = {
         endpoint: this.value_endpoint.value
       }
       this.simCardService.updateEndpointVoyager(this.sim_current.id, endpont).subscribe(res => {
         if (res.status == 200) {
           this.presentToastOk(this.translate.instant("simcard.data.endpoint_ok"));
-          this.preload_endpoint = true;
+          this.preload_endpoint = false;
           this.loadingService.dismissLoading().then(() => {
             this.obtainEndPointWithOutOtherServices();
           });
@@ -1013,8 +1018,10 @@ export class SimCardsSettingsPage implements OnInit {
   }
 
   dismiss() {
-    this.navController.navigateBack('home/simcards');
+    // this.navController.navigateBack('home/simcards');
+    this.navController.back();
   }
+
   async presentToastError(text: string) {
     const toast = await this.toastController.create({
       message: text,
@@ -1109,5 +1116,21 @@ export class SimCardsSettingsPage implements OnInit {
 
   goToHome() {
     this.navController.navigateBack('select-platform');
+  }
+
+  openPhotoViewer() {
+    this.photoViewer.show(this.sim_current.qr_esim);
+  }
+
+  getCallDuration() {
+    return this.convertToFloatFixed3(this.duration_calls / 60);
+  }
+
+  convertToFloatFixed3(value: number): number {
+    try {
+      return parseFloat(parseFloat('0' + value).toFixed(3));
+    } catch (e) {
+      return 0;
+    }
   }
 }

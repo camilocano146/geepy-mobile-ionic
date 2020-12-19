@@ -1,0 +1,50 @@
+@import '../../../../global.scss';
+
+ion-item {
+  .item-native {
+    padding-left: 0 !important;
+  }
+}
+
+.h6-title-buy {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.img-buy-sims {
+  height: 70px !important;
+  width: auto !important;
+}
+
+.h6-register-sim {
+  font-size: 12px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.button-options {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+ion-card {
+  box-shadow: none !important;
+}
+
+.button-see-sims {
+  height: 2.1em;
+}
+
+.last-e-sims-purchased {
+  background-color: wheat;
+  border: 1px solid darkgrey;
+}
+
+.h3-last-s-sims-purchased {
+  width: 30px !important;
+  text-align: center;
+  height: 30px;
+  position: absolute;
+  right: 10px !important;
+  top: 0px;
+}

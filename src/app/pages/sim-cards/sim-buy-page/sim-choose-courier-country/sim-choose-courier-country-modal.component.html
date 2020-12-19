@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;"
+                     (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0 !important; padding-left: 0; color: white !important;">
+            {{'simcard.data.buy_sims.choose_courier.title' | translate}}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <agm-map [longitude]="lng"
+             [latitude]="lat"
+             [zoom]="zoom">
+        <agm-marker
+                *ngFor="let item of listCourier; let i = index;"
+                [latitude]="item.courier?.lat" [longitude]="item.courier?.lon"
+                [label]="{color: '#5e6cde', fontWeight: 'bold', text: item?.courier?.name}"
+                [iconUrl]="{url: '../../../assets/img/platfoms/local_shipping-black-24dp.svg',
+                scaledSize: {
+                  height: 30,
+                  width: 30
+                },
+                labelOrigin: {x: widthIcon/2, y: heightIcon + 10}
+            }">
+            <agm-info-window class="map-dialog-info" #infoWindow>
+                <div class="mb-2">
+                    <h4 class="font-weight-bold map-title-info">{{'simcard.data.buy_sims.choose_courier.name' | translate}}:
+                        {{item?.courier?.name}}
+                    </h4>
+                    <h4 class="font-weight-bold map-title-info">{{'simcard.data.buy_sims.choose_courier.phone' | translate}}:
+                        {{item?.courier?.phone}}
+                    </h4>
+                    <div class="ion-text-center">
+                        <ion-button class="full-width button-choose" (click)="chooseCourier(item)">{{'simcard.data.buy_sims.choose_courier.select' | translate}}</ion-button>
+                    </div>
+                </div>
+            </agm-info-window>
+        </agm-marker>
+    </agm-map>
+</ion-content>

@@ -9,8 +9,8 @@ export class BillingService {
     constructor(private http: HttpClient) { }
 
     //Trae las transcaciones
-    getTransactions(): Observable<any> {
-        return this.http.get("make_transactions/my_transactions/", { observe: 'response' });
+    getTransactions(offset: number, limit: number): Observable<any> {
+        return this.http.get(`make_transactions/my_transactions/?offset=${offset}&limit=${limit}`, { observe: 'response' });
     }
     //Cargar dinero por Stripe
     loadBalance(payment: Payment): Observable<any> {

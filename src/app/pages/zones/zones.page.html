@@ -18,61 +18,118 @@
                 <img src="../../../assets/img/global.svg" height="120px" alt="">
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="zonesList.length > 0">
-            <ion-col size="12" style="text-align: center;">
-                <ion-item style="border-radius: 5px;">
-                    <ion-label>{{'zones.zones' | translate}}</ion-label>
-                    <ion-select placeholder="{{'zones.zones_ph' | translate}}" [formControl]="zoneSelected" interface="action-sheet" (ionChange)="changeZone()">
-                        <ion-select-option *ngFor="let item of zonesList " [value]="item">{{item.name}}</ion-select-option>
-                    </ion-select>
-                </ion-item>
-            </ion-col>
-            <ion-col *ngIf="zoneSelected.value != null" size="12" style="text-align: center;">
-                <ion-card style="background-color: white;">
-                    <ion-card-header>
-                        <ion-card-title class="title-card-sim-details">{{'zones.countries' | translate}}</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <!-- Inputs with labels -->
-                        <ion-item style="margin-left: 10px;">
-                            <ion-icon name="search"></ion-icon>
-                            <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'zones.filter' | translate}}" type="text"></ion-input>
-                        </ion-item>
-                        <!-- List of Text Items -->
-                        <ion-list *ngIf="current_language == 'en'">
-                            <div *ngIf="paises.length > 0">
-                                <ion-item *ngFor="let item of countries">
-                                    <ion-label>{{item}}</ion-label>
-                                </ion-item>
-                            </div>
-                            <div *ngIf="paises.length == 0">
-                                <ion-col size="12">
-                                    <img src="../../../assets/img/ghost.svg" height="80px" alt="">
-                                </ion-col>
-                                <ion-col size="12">
-                                    <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>
-                                </ion-col>
-                            </div>
-                        </ion-list>
-                        <ion-list *ngIf="current_language == 'es'">
-                            <div *ngIf="paises.length > 0">
-                                <ion-item *ngFor="let item of paises">
-                                    <ion-label>{{item}}</ion-label>
-                                </ion-item>
-                            </div>
-                            <div *ngIf="paises.length == 0">
-                                <ion-col size="12">
-                                    <img src="../../../assets/img/ghost.svg" height="80px" alt="">
-                                </ion-col>
-                                <ion-col size="12">
-                                    <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>
-                                </ion-col>
-                            </div>
-
-                        </ion-list>
-                    </ion-card-content>
+        <ion-row>
+            <ion-col size="12" id="filter-input">
+                <ion-card class="ion-card-shadow-none">
+                    <div class="p-0 ion-col-title title-register-sims">
+                        <strong>{{'zones.where_do_you_travel' | translate | uppercase}}</strong>
+                    </div>
+                    <!-- Inputs with labels -->
+                    <div class="border-blue-square">
+                        <ion-row class="p-0 ion-row-input-filter-sim">
+                            <ion-col size="2">
+                                <img src="./assets/icons/buscar.png" width="20px">
+                            </ion-col>
+<!--                            placeholder="{{'simcard.data.ph_search' | translate}}"-->
+                            <ion-col size="10">
+                                <!--                                    <ion-label style="max-width: 6em">{{'itinerary.create.sim' | translate}}</ion-label>-->
+                                <mat-form-field class="background-white field-padding mat-form-field-country" appearance="none">
+                                    <input type="text"
+                                           aria-label="Number"
+                                           matInput
+                                           class="input-country"
+                                           (ngModelChange)="changeSimsAutocomplete()"
+                                           [formControl]="countrySelect"
+                                           [placeholder]="('zones.select_destination' | translate)"
+                                           [matAutocomplete]="auto">
+                                    <!--                    <mat-error>{{getErrorMessageCompany()}}</mat-error>-->
+                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of countriesList" (onSelectionChange)="onSelectOption(option)"
+                                                    [value]="getCountryName(option)">
+                                            <span>{{getCountryName(option)}}</span>
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </ion-col>
+<!--                            <ion-col size="10">-->
+<!--                                <ion-input #inputFilter (keyup)="applyFilter($event.target.value)" placeholder="{{'zones.select_destination' | translate}}" type="text" onkeydown="javascript: return event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>-->
+<!--                            </ion-col>-->
+                        </ion-row>
+                    </div>
                 </ion-card>
             </ion-col>
         </ion-row>
+        <ion-row>
+            <ion-col>
+                <h4 class="w-100 ion-text-center mb-0 color-blue-dark" *ngIf="countriesSelected.length > 0">
+                    {{'zones.title_each_country' | translate | uppercase}}
+                </h4>
+                <ion-list>
+                    <ion-item *ngFor="let country of countriesSelected">
+                        <ion-label>
+                            <h4>{{getCountryName(country)}}</h4>
+                            <p class="p-zones-by-country">{{getZonesOfCountry(country)}}</p>
+                            <ion-button class="button-country background-red-button" (click)="removeSelectedCountry(country)">X</ion-button>
+                        </ion-label>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+<!--        <ion-row *ngIf="zonesList.length > 0">-->
+<!--            <ion-col size="12" style="text-align: center;">-->
+<!--                <ion-item style="border-radius: 5px;">-->
+<!--                    <ion-label>{{'zones.zones' | translate}}</ion-label>-->
+<!--                    <ion-select placeholder="{{'zones.zones_ph' | translate}}" [formControl]="zoneSelected" interface="action-sheet" (ionChange)="changeZone()">-->
+<!--                        <ion-select-option *ngFor="let item of zonesList " [value]="item">{{item.name}}</ion-select-option>-->
+<!--                    </ion-select>-->
+<!--                </ion-item>-->
+<!--            </ion-col>-->
+<!--            <ion-col *ngIf="zoneSelected.value != null" size="12" style="text-align: center;">-->
+<!--                <ion-card style="background-color: white;">-->
+<!--                    <ion-card-header>-->
+<!--                        <ion-card-title class="title-card-sim-details">{{'zones.countries' | translate}}</ion-card-title>-->
+<!--                    </ion-card-header>-->
+<!--                    <ion-card-content>-->
+<!--                        &lt;!&ndash; Inputs with labels &ndash;&gt;-->
+<!--                        <ion-item style="margin-left: 10px;">-->
+<!--                            <ion-icon name="search"></ion-icon>-->
+<!--                            <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'zones.filter' | translate}}" type="text"></ion-input>-->
+<!--                        </ion-item>-->
+<!--                        &lt;!&ndash; List of Text Items &ndash;&gt;-->
+<!--                        <ion-list *ngIf="current_language == 'en'">-->
+<!--                            <div *ngIf="paises.length > 0">-->
+<!--                                <ion-item *ngFor="let item of countries">-->
+<!--                                    <ion-label>{{item}}</ion-label>-->
+<!--                                </ion-item>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="paises.length == 0">-->
+<!--                                <ion-col size="12">-->
+<!--                                    <img src="../../../assets/img/ghost.svg" height="80px" alt="">-->
+<!--                                </ion-col>-->
+<!--                                <ion-col size="12">-->
+<!--                                    <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>-->
+<!--                                </ion-col>-->
+<!--                            </div>-->
+<!--                        </ion-list>-->
+<!--                        <ion-list *ngIf="current_language == 'es'">-->
+<!--                            <div *ngIf="paises.length > 0">-->
+<!--                                <ion-item *ngFor="let item of paises">-->
+<!--                                    <ion-label>{{item}}</ion-label>-->
+<!--                                </ion-item>-->
+<!--                            </div>-->
+<!--                            <div *ngIf="paises.length == 0">-->
+<!--                                <ion-col size="12">-->
+<!--                                    <img src="../../../assets/img/ghost.svg" height="80px" alt="">-->
+<!--                                </ion-col>-->
+<!--                                <ion-col size="12">-->
+<!--                                    <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>-->
+<!--                                </ion-col>-->
+<!--                            </div>-->
+
+<!--                        </ion-list>-->
+<!--                    </ion-card-content>-->
+<!--                </ion-card>-->
+<!--            </ion-col>-->
+<!--        </ion-row>-->
     </ion-grid>
 </ion-content>

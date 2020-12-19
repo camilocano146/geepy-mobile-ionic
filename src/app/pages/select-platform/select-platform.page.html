@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="tertiary">
+    <ion-toolbar>
         <ion-title style="color: white !important;">{{'select_platform.title' | translate}}</ion-title>
         <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
             <ion-icon style="color: white !important;" name="settings"></ion-icon>
@@ -12,15 +12,54 @@
         <ion-row>
             <ion-col *ngIf="isReseller == false" size="12">
                 <div class="container-platforms">
-                    <ion-card class="card-platform mat-elevation-z3" (click)="goPlatform(item.platform.id)" *ngFor="let item of organization_platforms_list">
+                    <ion-card class="card-platform mat-elevation-z3 border-red" (click)="goPlatform(item.platform.id)" *ngFor="let item of organization_platforms_list">
                         <div class="full-width center-horizontal" style="padding-bottom: 1em">
                             <label class="title-card-platform">{{item.platform.name}}</label>
                         </div>
                         <div class="full-width center-horizontal">
                             <img src="{{item.platform.logo}}" width="120px" height="120px" alt="">
+<!--                            <img src="./assets/logos/voyager.png" width="120px" alt="">-->
                         </div>
                         <div class="full-width">
                             <p style="margin-top: 0px !important;" class="description-platform">{{item.platform.description}}</p>
+                        </div>
+                    </ion-card>
+                    <ion-card class="card-e-sim mat-elevation-z3">
+                        <div class="full-width center-horizontal" style="padding-bottom: 1em">
+                            <label class="title-other-cards">{{'select_platform.voyager.e_sim.title' | translate}}</label>
+                        </div>
+                        <div class="ion-text-center">
+                            <ion-button class="btn-go-to-sim" (click)="goToESims()">
+                                {{'select_platform.voyager.e_sim.go_to' | translate}}
+                            </ion-button>
+                        </div>
+                    </ion-card>
+                    <ion-card class="card-devices mat-elevation-z3 py-3">
+                        <div class="full-width center-horizontal" style="padding-bottom: 1em">
+                            <label class="title-other-cards">{{'select_platform.voyager.devices.title' | translate}}</label>
+                        </div>
+                        <div class="ion-text-center">
+                            <ion-icon class="icon-row-down" name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <ion-row class="ion-justify-content-around">
+                            <ion-col (click)="openModalCompatibleDevices(typeDevice)" size="6">
+                                <div style="display: flex;justify-content: center;align-items: center;">
+                                    <img style="margin-left: 1em; padding-top: .5em" src="./assets/logos/android.png" alt="">
+                                </div>
+                            </ion-col>
+                            <ion-col (click)="openModalCompatibleDevices()" size="3">
+                                <img src="./assets/logos/ios.png" alt="">
+                            </ion-col>
+                        </ion-row>
+                    </ion-card>
+                    <ion-card class="card-physical-sim mat-elevation-z3">
+                        <div class="full-width center-horizontal" style="padding-bottom: 1em">
+                            <label class="title-other-cards">{{'select_platform.voyager.physical_sim.title' | translate}}</label>
+                        </div>
+                        <div class="ion-text-center">
+                            <ion-button class="btn-go-to-sim" (click)="goToSims()">
+                                {{'select_platform.voyager.physical_sim.go_to' | translate}}
+                            </ion-button>
                         </div>
                     </ion-card>
                 </div>
@@ -43,3 +82,32 @@
         </ion-row>
     </ion-grid>
 </ion-content>
+<!--<ion-tabs>-->
+<!--    <ion-tab-bar slot="bottom">-->
+<!--        <ion-tab-button (click)="goToSims()">-->
+<!--            <img src="./assets/icons/sim.png" style="max-width: 25px !important; max-height: 25px !important;">-->
+<!--            <h6>{{'home.sims' | translate}}</h6>-->
+<!--        </ion-tab-button>-->
+
+<!--        <ion-tab-button tab="transacitions">-->
+<!--            <img src="./assets/icons/credit-cards-payment.png" style="max-width: 25px !important; max-height: 25px !important;">-->
+<!--            <h6>{{'home.payment' | translate}}</h6>-->
+<!--        </ion-tab-button>-->
+
+<!--        <ion-tab-button tab="zones">-->
+<!--            <img src="./assets/icons/map.png" style="max-width: 25px !important; max-height: 25px !important;">-->
+<!--            <h6>{{'home.zones' | translate}}</h6>-->
+<!--        </ion-tab-button>-->
+
+<!--        <ion-tab-button tab="itinerary-voyager">-->
+<!--            <img src="./assets/icons/planet-airplane.png" style="max-width: 25px !important; max-height: 25px !important;">-->
+<!--            <h6>{{'home.itinerary' | translate}}</h6>-->
+<!--        </ion-tab-button>-->
+
+<!--        <ion-tab-button tab="profile">-->
+<!--            <img src="./assets/icons/group.png" style="max-width: 25px !important; max-height: 25px !important;">-->
+<!--            <h6>{{'home.profile' | translate}}</h6>-->
+<!--        </ion-tab-button>-->
+
+<!--    </ion-tab-bar>-->
+<!--</ion-tabs>-->

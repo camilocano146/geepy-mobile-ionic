@@ -16,20 +16,44 @@
             </ion-col>
         </ion-row>
         <ion-row>
+<!--            <ion-col size="12">-->
+<!--                <ion-item style="border-radius: 5px;">-->
+<!--                    <ion-label>{{'itinerary.create.destiny' | translate}}</ion-label>-->
+<!--                    <ion-select *ngIf="currentLang == 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"-->
+<!--                                [formControl]="country" interface="action-sheet" id="country">-->
+<!--                        <ion-select-option *ngFor="let item of countriesList"-->
+<!--                                           [value]="item">{{item.nombre}}</ion-select-option>-->
+<!--                    </ion-select>-->
+<!--                    <ion-select *ngIf="currentLang != 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"-->
+<!--                                [formControl]="country" interface="action-sheet" id="country">-->
+<!--                        <ion-select-option *ngFor="let item of countriesList"-->
+<!--                                           [value]="item">{{item.name}}</ion-select-option>-->
+<!--                    </ion-select>-->
+<!--                </ion-item>-->
+<!--            </ion-col>-->
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label>{{'itinerary.create.destiny' | translate}}</ion-label>
-                    <ion-select *ngIf="currentLang == 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"
-                                [formControl]="country" interface="action-sheet" id="country">
-                        <ion-select-option *ngFor="let item of countriesList"
-                                           [value]="item">{{item.nombre}}</ion-select-option>
-                    </ion-select>
-                    <ion-select *ngIf="currentLang != 'es'" placeholder="{{'itinerary.create.destiny_ph' | translate}}"
-                                [formControl]="country" interface="action-sheet" id="country">
-                        <ion-select-option *ngFor="let item of countriesList"
-                                           [value]="item">{{item.name}}</ion-select-option>
-                    </ion-select>
+                    <ion-label style="max-width: 6em">{{'simcard.data.buy_sims.country' | translate}}</ion-label>
+                    <mat-form-field class="background-white field-padding">
+                        <input type="text"
+                               aria-label="Number"
+                               matInput
+                               placeholder="{{'simcard.data.country_name' | translate}}"
+                               (ngModelChange)="changeCountryAutocomplete()"
+                               [formControl]="country"
+                               [matAutocomplete]="autoCountry">
+                        <!--                    <mat-error>{{getErrorMessageCompany()}}</mat-error>-->
+                        <mat-autocomplete autoActiveFirstOption #autoCountry="matAutocomplete">
+                            <mat-option *ngFor="let option of countriesList" (onSelectionChange)="onSelectOption(option)"
+                                        [value]="getCountryName(option)">
+                                <span>{{getCountryName(option)}}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </ion-item>
+                <mat-error class="ion-text-center" *ngIf="country.touched && !lastCountrySelected">
+                    {{'simcard.data.buy_sims.select_country' | translate}}
+                </mat-error>
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
@@ -41,7 +65,7 @@
             </ion-col>
             <ion-col size="12">
                 <ion-item style="border-radius: 5px;">
-                    <ion-label style="max-width: 6em">{{'itinerary.create.sim' | translate}}</ion-label>
+                    <ion-label style="max-width: 5em; margin-right: 0;">{{'itinerary.create.sim' | translate}}</ion-label>
                     <mat-form-field class="background-white field-padding">
                         <input type="text"
                                aria-label="Number"
@@ -49,12 +73,12 @@
                                placeholder="{{'simcard.data.ph_search' | translate}}"
                                (ngModelChange)="changeSimsAutocomplete()"
                                [formControl]="simcard"
-                               [matAutocomplete]="auto">
+                               [matAutocomplete]="autoSim">
                         <!--                    <mat-error>{{getErrorMessageCompany()}}</mat-error>-->
-                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of simsList" (onSelectionChange)="onSelectOption(option)"
+                        <mat-autocomplete autoActiveFirstOption #autoSim="matAutocomplete">
+                            <mat-option *ngFor="let option of simsList" (onSelectionChange)="onSelectOptionSimCard(option)"
                                         [value]="option.iccid">
-                                <span>{{option.endpoint}} - {{option.iccid}}</span>
+                                <span class="span-iccid-autocomplete">{{option.iccid}}</span>
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -73,7 +97,7 @@
             <!--            </ion-col>-->
             <ion-col size="12" style="text-align: center;">
                 <ion-button color="warning" (click)="searchPackages()"
-                            [disabled]="!(country.valid && startDate.valid && lastSimSelected)">
+                            [disabled]="!(lastCountrySelected && startDate.valid && lastSimSelected)">
                     <mat-icon>search</mat-icon>
                     {{'itinerary.create.btn_search_package' | translate}}</ion-button>
             </ion-col>
@@ -111,11 +135,6 @@
                                             <ion-col size="12"
                                                      style="text-align: center !important; font-size: 18px; font-weight: bold;">
                                                 <ion-label color="primary"><strong>{{item.package_name}}</strong>
-                                                </ion-label>
-                                            </ion-col>
-                                            <ion-col size="12"
-                                                     style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                <ion-label color="primary"><strong>{{item.selected}}</strong>
                                                 </ion-label>
                                             </ion-col>
                                             <ion-col size="12"

@@ -36,7 +36,12 @@
 }
 
 .field-padding {
+    width: 70% !important;
     .mat-form-field-infix {
         width: 100%;
     }
+}
+
+.span-iccid-autocomplete {
+    font-size: 14px !important;
 }

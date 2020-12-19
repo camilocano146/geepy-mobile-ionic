@@ -1,19 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonContent, IonInfiniteScroll, IonInput, PopoverController, ToastController} from '@ionic/angular';
-import { User } from 'src/app/models/user/user';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
-import { SimCardService } from 'src/app/services/sim-card/sim-card.service';
-import { NavController, ModalController } from '@ionic/angular';
-import { SimModalImportICCID } from './sim-modal-import-iccid/sim-modal-import-iccid';
-import { SimModalImportONUM } from './sim-modal-import-onum/sim-modal-import-onum';
-import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
-import { SimModalBuy } from './sim-modal-buy/sim-modal-buy.component';
-import { TranslateService } from '@ngx-translate/core';
-import { SimModalSeeRealComponent } from './sim-modal-see-real/sim-modal-see-real.component';
-import { LoadingService } from 'src/app/services/loading/loading.service';
+import {IonContent, IonInfiniteScroll, IonInput, ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
+import {User} from 'src/app/models/user/user';
+import {LocalStorageService} from 'src/app/services/local-storage/local-storage.service';
+import {SimCardService} from 'src/app/services/sim-card/sim-card.service';
+import {SimModalImportICCID} from './sim-modal-import-iccid/sim-modal-import-iccid';
+import {SimModalImportONUM} from './sim-modal-import-onum/sim-modal-import-onum';
+import {PopoverComponent} from 'src/app/common-components/popover/popover.component';
+import {SimBuyPage} from './sim-buy-page/sim-buy-page.component';
+import {TranslateService} from '@ngx-translate/core';
+import {SimModalSeeRealComponent} from './sim-modal-see-real/sim-modal-see-real.component';
+import {LoadingService} from 'src/app/services/loading/loading.service';
 import {SimModalESimBuy} from './sim-modal-buy-e-sim/sim-modal-buy.component';
-import {Subscription} from 'rxjs';
 import {AppComponent} from '../../app.component';
+import {PopoverActivationComponent} from './popover-activation/popover-activation.component';
+import {PopoverCompatibleDevicesComponent} from './popover-compatible-devices/popover-compatible-devices.component';
 
 @Component({
   selector: 'app-sim-cards',
@@ -57,23 +57,23 @@ export class SimCardsPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.simsList) {
-      this.simsList.splice(0, this.simsList.length);
-    } else {
-      this.simsList = [];
-    }
-    if (this.ionInfiniteScroll) {
-      this.ionInfiniteScroll.complete().then(value => {
-        console.log('complete')
-      });
-      this.ionInfiniteScroll.disabled = false;
-    }
-    this.pageSim = 0;
-    this.nextPage = true;
-    this.ionViewDidEnter1();
-    if (this.simsList.length === 0) {
-      this.content?.scrollToBottom(300);
-    }
+      // if (this.simsList) {
+      //   this.simsList.splice(0, this.simsList.length);
+      // } else {
+      //   this.simsList = [];
+      // }
+      // if (this.ionInfiniteScroll) {
+      //   this.ionInfiniteScroll.complete().then(value => {
+      //     console.log('complete')
+      //   });
+      //   this.ionInfiniteScroll.disabled = false;
+      // }
+      // this.pageSim = 0;
+      // this.nextPage = true;
+      // this.ionViewDidEnter1();
+      // if (this.simsList.length === 0) {
+      //   this.content?.scrollToBottom(300);
+      // }
   }
 
   ionViewDidEnter1(eventInfiniteScroll?: CustomEvent){
@@ -160,7 +160,7 @@ export class SimCardsPage implements OnInit {
    */
   async openModalBuySims() {
     const modal = await this.modalController.create({
-      component: SimModalBuy
+      component: SimBuyPage
     });
     modal.onDidDismiss().then(res => {
     }).catch();
@@ -223,5 +223,39 @@ export class SimCardsPage implements OnInit {
     inputFilter.value = '';
     this.auxText = '';
     this.ngOnInit();
+  }
+
+  async openPopoverActivateESIM(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverActivationComponent,
+      cssClass: 'popover-activation-e-sim',
+      event: ev,
+    });
+    return await popover.present();
+  }
+
+  async openPopoverCompatibleDevices(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PopoverCompatibleDevicesComponent,
+      cssClass: 'popover-activation-e-sim',
+      event: ev,
+    });
+    return await popover.present();
+  }
+
+  goToListMyESims() {
+    this.navController.navigateRoot('home/simcards/my-e-sims');
+  }
+
+  goToPurchaseRegisterESim() {
+    this.navController.navigateRoot('home/simcards/purchase-activate-e-sims');
+  }
+
+  goToListMyPhysicalSims() {
+    this.navController.navigateRoot('home/simcards/my-physical-sims');
+  }
+
+  goToPurchaseRegisterPhysicalSim() {
+    this.navController.navigateRoot('home/simcards/purchase-activate-physical-sims');
   }
 }
