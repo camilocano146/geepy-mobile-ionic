@@ -98,33 +98,33 @@ export class LoginPage implements OnInit {
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
 
-              FCM.getToken().then(token => {
-                console.log(token);
-                FCM.onNotification().subscribe(data => {
-                  if (data.wasTapped) {
-                    let today = data.today;
-                    if (today == "true") {
-                      let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
-                      localStorage.setItem('pc_to_expire', JSON.stringify(notification));
-                      this.ngZone.run(() =>
-                        this.navCotroller.navigateRoot('repurchase-package')
-                      ).then();
-                    }
-                  }
-                });
-                let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
-                if (this.plt.is('ios')) {
-                  notificationToken.platform = "ios";
-                } else if (this.plt.is('android')) {
-                  notificationToken.platform = "android";
-                }
-                console.log(notificationToken);
-                this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
-                  console.log(res, 'Esta es la linea de envio');
-                }, err => {
-                  console.log(err);
-                });
-              });
+              // FCM.getToken().then(token => {
+              //   console.log(token);
+              //   FCM.onNotification().subscribe(data => {
+              //     if (data.wasTapped) {
+              //       let today = data.today;
+              //       if (today == "true") {
+              //         let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
+              //         localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+              //         this.ngZone.run(() =>
+              //           this.navCotroller.navigateRoot('repurchase-package')
+              //         ).then();
+              //       }
+              //     }
+              //   });
+              //   let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+              //   if (this.plt.is('ios')) {
+              //     notificationToken.platform = "ios";
+              //   } else if (this.plt.is('android')) {
+              //     notificationToken.platform = "android";
+              //   }
+              //   console.log(notificationToken);
+              //   this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+              //     console.log(res, 'Esta es la linea de envio');
+              //   }, err => {
+              //     console.log(err);
+              //   });
+              // });
 
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {
