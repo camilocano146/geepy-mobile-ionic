@@ -13,6 +13,7 @@ import { LoadingService } from 'src/app/services/loading/loading.service';
 import { Global } from 'src/app/models/global/global';
 import {FirebaseMessaging} from '@ionic-native/firebase-messaging/ngx';
 import {NotificationToken} from '../../models/token/notification-token';
+import { NotificationFCM } from 'src/app/models/notification-fcm/notification-fcm';
 
 @Component({
   selector: 'app-login',
@@ -76,7 +77,7 @@ export class LoginPage implements OnInit {
     // this.password.setValue(localStorage.getItem('pw'));
 
     this.requestFirebasePermission();
-    this.requestFirebaseToken();
+    //this.requestFirebaseToken();
   }
 
   requestFirebasePermission() {
@@ -89,6 +90,7 @@ export class LoginPage implements OnInit {
     }
   }
 
+  /**
   requestFirebaseToken() {
     try {
       this.firebaseMessaging.getToken().then((token) => {
@@ -111,6 +113,7 @@ export class LoginPage implements OnInit {
       console.log(e);
     }
   }
+   */
 
   /**
    * Método de inicio de sesión
@@ -133,33 +136,34 @@ export class LoginPage implements OnInit {
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
 
-              // FCM.getToken().then(token => {
-              //   console.log(token);
-              //   FCM.onNotification().subscribe(data => {
-              //     if (data.wasTapped) {
-              //       let today = data.today;
-              //       if (today == "true") {
-              //         let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
-              //         localStorage.setItem('pc_to_expire', JSON.stringify(notification));
-              //         this.ngZone.run(() =>
-              //           this.navCotroller.navigateRoot('repurchase-package')
-              //         ).then();
-              //       }
-              //     }
-              //   });
-              //   let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
-              //   if (this.plt.is('ios')) {
-              //     notificationToken.platform = "ios";
-              //   } else if (this.plt.is('android')) {
-              //     notificationToken.platform = "android";
-              //   }
-              //   console.log(notificationToken);
-              //   this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
-              //     console.log(res, 'Esta es la linea de envio');
-              //   }, err => {
-              //     console.log(err);
-              //   });
-              // });
+
+              this.firebaseMessaging.getToken().then(token => {
+                //debugger;
+                //console.log(token);
+                //this.presentToastWarning(token)
+                this.firebaseMessaging.onMessage().subscribe((data) => {
+                  this.loadMessage(data);
+                });
+                this.firebaseMessaging.onBackgroundMessage().subscribe((data) => {
+                  this.loadMessage(data);
+                });
+
+                let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+                if (this.plt.is('ios')) {
+                  notificationToken.platform = "ios";
+                } else if (this.plt.is('android')) {
+                  notificationToken.platform = "android";
+                }
+                console.log(notificationToken);
+                this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+                  console.log(res, 'Esta es la linea de envio');
+                }, err => {
+                  console.log(err);
+                });
+              }).catch(err=>{
+                debugger;
+                console.log(err)
+              });
 
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {
@@ -221,6 +225,20 @@ export class LoginPage implements OnInit {
   }
   focusout() {
     this.isKeyboardOpen = false;
+  }
+
+  loadMessage(data: any) {
+    console.log('New foreground FCM message: ', data);
+    if (data.wasTapped) {
+      const today = data.today;
+      if (today == 'true') {
+        const notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
+        localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+        this.ngZone.run(() =>
+          this.navCotroller.navigateRoot('repurchase-package')
+        ).then();
+      }
+    }
   }
 
   /**

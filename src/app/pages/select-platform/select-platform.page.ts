@@ -54,12 +54,14 @@ export class SelectPlatformPage implements OnInit {
   }
 
   loadFirebaseMessaging() {
+    /*
     this.firebaseMessaging.onMessage().subscribe((data) => {
       this.loadMessage(data);
     });
     this.firebaseMessaging.onBackgroundMessage().subscribe((data) => {
       this.loadMessage(data);
     });
+    */
     // canales de notificación para Adnroid 8+
     // cordova.plugins.firebase.createChannel({
     //   id: 'geepy_connect_channel_id',
