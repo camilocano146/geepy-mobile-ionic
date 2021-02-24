@@ -15,13 +15,12 @@ export class SimModalESimsCompatibleAndroidDevicesComponent implements OnInit {
   public language: string;
   public listDevices = [];
   public typeDevice = this.navParams.get('data');
-  COMPATIBLE_DEVICES_ANDROID: string = SimModalESimsCompatibleAndroidDevicesComponent.COMPATIBLE_DEVICES_ANDROID;
 
   constructor(
     private translate: TranslateService,
     private deviceService: DeviceService,
     private modalController: ModalController,
-    private  navParams: NavParams,
+    private navParams: NavParams,
     private loadingService: LoadingService,
     private toastController: ToastController,
   ) {
@@ -41,7 +40,7 @@ export class SimModalESimsCompatibleAndroidDevicesComponent implements OnInit {
   loadDevices() {
     this.loadingService.presentLoading().then( () => {
       console.log(this.typeDevice);
-      const name = this.typeDevice === SimModalESimsCompatibleAndroidDevicesComponent.COMPATIBLE_DEVICES_ANDROID ? 'Android' : 'iOS';
+      const name = this.typeDevice ? 'Android' : 'iOS';
       this.deviceService.getCompatibleDevicesOsType().subscribe(value => {
         const devices = (value.body as any[])?.find(v => v.name.toString().toUpperCase() === name.toUpperCase());
         this.listDevices = devices?.devices;

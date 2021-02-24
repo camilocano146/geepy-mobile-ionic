@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ToastController, PopoverController, NavController, ModalController} from '@ionic/angular';
+import {ToastController, PopoverController, NavController, ModalController, Platform} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import {SimModalESimsCompatibleAndroidDevicesComponent} from '../select-platform/sim-modal-e-sim-compatible-android-devices/sim-modal-e-sims-compatible-android-devices.component';
@@ -18,6 +18,7 @@ export class FAQPage implements OnInit {
   public numberOtherQuestions = 6;
 
   constructor(
+    public platform: Platform,
     private toastController: ToastController,
     private popoverController: PopoverController,
     private navController: NavController,
@@ -101,5 +102,9 @@ export class FAQPage implements OnInit {
       component: SimModalESimsInstructionsIosComponent,
     });
     return await modal.present();
+  }
+
+  isPlatformIos() {
+    return this.platform.is('ios');
   }
 }

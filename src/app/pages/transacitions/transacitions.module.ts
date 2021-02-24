@@ -16,6 +16,7 @@ import { PopoverModule } from 'src/app/common-components/popover/popover.module'
 import { TransacitionsModalPaypalComponent } from './transacitions-modal-paypal/transacitions-modal-paypal.component';
 import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transacitions-modal-see.component';
 import { TranslateModule } from '@ngx-translate/core';
+import {NgxPayPalModule} from 'ngx-paypal';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild(),
     ReactiveFormsModule,
     PopoverModule,
-    TransacitionsPageRoutingModule
+    TransacitionsPageRoutingModule,
+    NgxPayPalModule
   ],
   declarations: [
     TransacitionsPage,

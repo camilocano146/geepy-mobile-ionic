@@ -16,28 +16,54 @@
                     <div class="full-width" style="padding: 10px;">
                         <ion-item style="border-radius: 5px;">
                             <ion-label>{{'payments.principal.currency' | translate}}</ion-label>
-                            <ion-select placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="currency" interface="action-sheet">
+                            <ion-select (ionChange)="changeCurrency()" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="formControlCurrency" interface="action-sheet">
                                 <ion-select-option value="USD">USD</ion-select-option>
                                 <ion-select-option value="EUR">EUR</ion-select-option>
                             </ion-select>
                         </ion-item>
                         <ion-item style="border-radius: 5px;">
                             <ion-label>{{'payments.paypal.tariff' | translate}}</ion-label>
-                            <ion-select *ngIf="currency.value == 'USD'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
+                            <ion-select (ionChange)="payUsd()" *ngIf="formControlCurrency.value == 'USD'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
                                 <ion-select-option *ngFor="let item of usd_tariffs" [value]="item">{{item.value}}</ion-select-option>
                             </ion-select>
-                            <ion-select *ngIf="currency.value == 'EUR'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
+                            <!--                            (ionChange)="pay()"-->
+                            <ion-select (ionChange)="payEur()" *ngIf="formControlCurrency.value == 'EUR'" placeholder="{{'payments.paypal.tariff_ph' | translate}}" [formControl]="tariffSelected" interface="action-sheet">
                                 <ion-select-option *ngFor="let item of eur_tariffs" [value]="item">{{item.value}}</ion-select-option>
                             </ion-select>
                         </ion-item>
+                        <div class="mt-2">
+                            <mat-error *ngIf="tariffSelected.invalid">
+                                {{'payments.paypal.tariff_ph' | translate}}
+                                <strong>{{'payments.paypal.tariff' | translate}}</strong>
+                                {{'payments.paypal.to_recharge' | translate}}
+                            </mat-error>
+                        </div>
+
                         <ion-item style="border-radius: 5px;">
                             <ion-label>{{'payments.paypal.coupon' | translate}}</ion-label>
-                            <ion-input type="text" [attr.maxlength]="20" [formControl]="coupon"></ion-input>
+                            <ion-input (ionChange)="changeCoupon($event)" type="text" [attr.maxlength]="20" [formControl]="coupon"></ion-input>
                         </ion-item>
-                        <ion-button style="margin-top: 10px;" type="submit" color="success" expand="full" (click)="payWithPaypal()" [disabled]="!(tariffSelected.valid)">
-                            <ion-icon name="card"></ion-icon>
-                            {{'payments.paypal.btn_make_payment' | translate}}
+
+                        <ion-button *ngIf="coupon.value && !isValidCoupon" style="margin-top: 10px;" type="submit" color="success" expand="full" (click)="validCoupon()">
+                            <ion-icon class="mr-2" name="pricetag-outline"></ion-icon>
+                            <ion-label>{{'payments.paypal.verify_coupon' | translate}}</ion-label>
                         </ion-button>
+
+                        <div [ngStyle]="{'display': formControlCurrency?.value == 'USD' ? 'block' : 'none' }">
+                            <div class="mt-3" [ngStyle]="{'display': tariffSelected.valid && isValidCoupon ? 'block' : 'none' }">
+                                <ngx-paypal *ngIf="showPayPanUSD" #paypalComponentUSD [config]="payPalConfigUsd"></ngx-paypal>
+                            </div>
+                        </div>
+
+                        <div [ngStyle]="{'display': formControlCurrency?.value == 'EUR' ? 'block' : 'none' }">
+                            <div class="mt-3" [ngStyle]="{'display': tariffSelected.valid && isValidCoupon ? 'block' : 'none' }">
+                                <ngx-paypal *ngIf="showPayPanEUR" #paypalComponentEUR [config]="payPalConfigEur"></ngx-paypal>
+                            </div>
+                        </div>
+<!--                        <ion-button style="margin-top: 10px;" type="submit" color="success" expand="full" (click)="payWithPaypal()" [disabled]="!(tariffSelected.valid)">-->
+<!--                            <ion-icon name="card"></ion-icon>-->
+<!--                            {{'payments.paypal.btn_make_payment' | translate}}-->
+<!--                        </ion-button>-->
                         <div class="full-width" style="text-align: left; margin-top: 20px;">
                             <ion-label color="warning"><strong>{{'payments.paypal.note' | translate}}</strong></ion-label>
                             <ion-label>{{'payments.paypal.p1' | translate}}</ion-label>

@@ -399,4 +399,8 @@ export class SimCardService {
   buyPackage(id, data): Observable<any> {
     return this.http.post<any>('sim_cards/'+id+'/activate_movil/',data, { observe: 'response' });
   }
+
+  purchasePin(organizationAndTypePin: { type_pin: any; organization: any }) {
+    return this.http.post<any>(`pins/buy_pin/`, organizationAndTypePin, { observe: 'response' });
+  }
 }

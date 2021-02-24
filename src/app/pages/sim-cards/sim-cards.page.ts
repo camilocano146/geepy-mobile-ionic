@@ -1,5 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonContent, IonInfiniteScroll, IonInput, ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
+import {
+  IonContent,
+  IonInfiniteScroll,
+  IonInput,
+  ModalController,
+  NavController,
+  Platform,
+  PopoverController,
+  ToastController
+} from '@ionic/angular';
 import {User} from 'src/app/models/user/user';
 import {LocalStorageService} from 'src/app/services/local-storage/local-storage.service';
 import {SimCardService} from 'src/app/services/sim-card/sim-card.service';
@@ -14,6 +23,8 @@ import {SimModalESimBuy} from './sim-modal-buy-e-sim/sim-modal-buy.component';
 import {AppComponent} from '../../app.component';
 import {PopoverActivationComponent} from './popover-activation/popover-activation.component';
 import {PopoverCompatibleDevicesComponent} from './popover-compatible-devices/popover-compatible-devices.component';
+import {SimModalESimsInstructionsIosComponent} from './sim-modal-e-sim-instructions-ios/sim-modal-e-sims-instructions-ios.component';
+import {SimModalESimsCompatibleAndroidDevicesComponent} from '../select-platform/sim-modal-e-sim-compatible-android-devices/sim-modal-e-sims-compatible-android-devices.component';
 
 @Component({
   selector: 'app-sim-cards',
@@ -43,6 +54,7 @@ export class SimCardsPage implements OnInit {
   private timer: number;
 
   constructor(
+    public platform: Platform,
     private loadingService: LoadingService,
     private localStorageService: LocalStorageService,
     private simCardService: SimCardService,
@@ -226,21 +238,35 @@ export class SimCardsPage implements OnInit {
   }
 
   async openPopoverActivateESIM(ev: any) {
-    const popover = await this.popoverController.create({
-      component: PopoverActivationComponent,
-      cssClass: 'popover-activation-e-sim',
-      event: ev,
-    });
-    return await popover.present();
+    if (this.platform.is('ios')){
+      const modal = await this.modalController.create({
+        component: SimModalESimsInstructionsIosComponent,
+      });
+      return await modal.present();
+    } else {
+      const popover = await this.popoverController.create({
+        component: PopoverActivationComponent,
+        cssClass: 'popover-activation-e-sim',
+        event: ev,
+      });
+      return await popover.present();
+    }
   }
 
   async openPopoverCompatibleDevices(ev: any) {
-    const popover = await this.popoverController.create({
-      component: PopoverCompatibleDevicesComponent,
-      cssClass: 'popover-activation-e-sim',
-      event: ev,
-    });
-    return await popover.present();
+    if (this.platform.is('ios')){
+      const modal = await this.modalController.create({
+        component: SimModalESimsCompatibleAndroidDevicesComponent
+      });
+      return await modal.present();
+    } else {
+      const popover = await this.popoverController.create({
+        component: PopoverCompatibleDevicesComponent,
+        cssClass: 'popover-activation-e-sim',
+        event: ev,
+      });
+      return await popover.present();
+    }
   }
 
   goToListMyESims() {

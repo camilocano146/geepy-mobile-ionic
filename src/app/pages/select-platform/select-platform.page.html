@@ -42,7 +42,7 @@
                             <ion-icon class="icon-row-down" name="chevron-down-outline"></ion-icon>
                         </div>
                         <ion-row class="ion-justify-content-around">
-                            <ion-col (click)="openModalCompatibleDevices(typeDevice)" size="6">
+                            <ion-col *ngIf="!isIosPlatform()" (click)="openModalCompatibleDevices(typeDevice)" size="6">
                                 <div style="display: flex;justify-content: center;align-items: center;">
                                     <img style="margin-left: 1em; padding-top: .5em" src="./assets/logos/android.png" alt="">
                                 </div>

@@ -1,4 +1,12 @@
 {
+  "validations": {
+    "error-email": "Not a valid email",
+    "error-password": "Not a valid password",
+    "required-value": "You must enter a value",
+    "error-8-characteres": "Code must have 8 digits.",
+    "not_permission": "You don't have permissions to access.",
+    "error_not_money": "Hasn't enough money. Please recharge user account."
+  },
   "loader": {
     "loading": "Loading"
   },
@@ -820,6 +828,31 @@
           "minutes_label": "minutes",
           "call_list": "Lista de llamadas"
         },
+        "pins": {
+          "history_pins": "We couldn't get pins history of Sim card.",
+          "no_pins_purchased": "We couldn't get pins purchased.",
+          "no_activate_pin": "We couldn't activate the pin.",
+          "pin_activate_ok": "Pin activated successfully",
+          "activate": "Activate PIN",
+          "title": "Pins",
+          "date_used": "Date of use",
+          "pin_type": "Type",
+          "amount": "Price",
+          "no_pins": "No pins",
+          "history": "Pins history",
+          "pin": "Pin",
+          "p_code": "Pin Code:",
+          "data_p": "Activate PIN",
+          "data_purchase": "Purchase PIN",
+          "type_pin": "Type of PIN",
+          "select_one": "Select",
+          "currency": "Currency",
+          "not_pin_selected": "You must select a Type of PIN",
+          "pin_purchase_ok": "Pin purchased successfully, check your Email",
+          "pin_show": "You just bought this PIN",
+          "pin_purchase_error": "We couldn't purchased the pin.",
+          "pin_purchased_error_exist": "This type of pin not found."
+        },
         "history_pins": {
           "title": "History Pins",
           "no_data": "There is nothing here.",
@@ -1111,10 +1144,16 @@
       "tariff_ph": "Select one",
       "btn_make_payment": "Make Payment",
       "note": "Note: ",
-      "p1": "Payments by credir card Cost per transacition is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
-      "payment_ok": "Successfull payment!",
+      "p1": "Payments by credit card Cost per transaction is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
+      "payment_ok": "Successful payment!",
       "coupon": "Coupon",
-      "err_coupon": "Coupon is not valid"
+      "err_coupon": "Coupon is not valid",
+      "valid_coupon": "Valid Coupon",
+      "verify_coupon": "Verify Coupon",
+      "to_recharge": "to recharge",
+      "payment_options": "Payment options",
+      "option_one": "Option one",
+      "payment_two": "Option two"
     },
     "stripe": {
       "title": "Pay with Stripe",

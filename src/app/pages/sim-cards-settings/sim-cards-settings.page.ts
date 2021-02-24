@@ -13,6 +13,9 @@ import { LoadingService } from 'src/app/services/loading/loading.service';
 import * as moment from 'moment';
 import { PermissionModuleService } from 'src/app/services/module/module.service';
 import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
+import {Global} from '../../models/global/global';
+import {TypePinVoyager} from '../../models/pin-voyager/PinVoyager';
+import {TypesPinVoyagerService} from '../../services/types_pin-voyager/plans.service';
 
 @Component({
   selector: 'app-sim-cards-settings',
@@ -99,6 +102,12 @@ export class SimCardsSettingsPage implements OnInit {
   // Pins
   public historyPins: any[];
   public formControlPinActivate: FormControl;
+  public formControlTypePin: FormControl;
+  public preload_typesPin: boolean;
+  public formControlCurrencyTypePin: FormControl;
+  public typesPin: TypePinVoyager[];
+  public currencyTypesPin: string[];
+  public purchasedPin: string;
 
   constructor(
     private moduleService: PermissionModuleService,
@@ -112,6 +121,7 @@ export class SimCardsSettingsPage implements OnInit {
     public popoverController: PopoverController,
     private extraNumberService: ExtraNumbersService,
     private photoViewer: PhotoViewer,
+    private typePinVoyagerService: TypesPinVoyagerService,
   ) {
     this.sim_current = JSON.parse(localStorage.getItem('sim_current'));
     if (this.sim_current == null || this.sim_current == undefined) {
@@ -159,10 +169,28 @@ export class SimCardsSettingsPage implements OnInit {
     this.preload_sms = true;
     this.preload_get_extra_numbers_list = true;
     this.preload_location_point = true;
+    this.formControlCurrencyTypePin = new FormControl(null, Validators.required);
+    this.formControlTypePin = new FormControl(null, Validators.required);
   }
 
   ngOnInit(): void {
     this.startLoading();
+  }
+
+  /**
+   * Trae tipos de pin
+   */
+  getTypesPin() {
+    this.preload_typesPin = true;
+    this.typePinVoyagerService.getAllTypesPins().subscribe(
+      res => {
+        this.typesPin = res;
+        this.preload_typesPin = false;
+        this.currencyTypesPin = [...new Set(this.typesPin.map(v => v.currency))];
+      }, err => {
+        this.preload_typesPin = false;
+        this.presentToastError(this.translate.instant('platform_two.pin.create_edit.error_get'));
+      });
   }
 
   startLoading() {
@@ -261,6 +289,7 @@ export class SimCardsSettingsPage implements OnInit {
       this.obtainDurationCalls();
       this.getCallsHistory();
       this.getPinsHistory();
+      this.getTypesPin();
 
     }, err => {
       console.log(err);
@@ -325,6 +354,7 @@ export class SimCardsSettingsPage implements OnInit {
       // ];
       this.preload_history_calls = false;
     }, err => {
+      this.preload_history_calls = false;
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant('simcard.error.history_calls'));
@@ -358,6 +388,7 @@ export class SimCardsSettingsPage implements OnInit {
       // ];
       this.preload_history_pins = false;
     }, err => {
+      this.preload_history_pins = false;
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant('simcard.error.history_calls'));
@@ -375,6 +406,7 @@ export class SimCardsSettingsPage implements OnInit {
       this.historyPackage = res.body;
       this.preload_history = false;
     }, err => {
+      this.preload_history = false;
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.history_package"));
@@ -406,7 +438,7 @@ export class SimCardsSettingsPage implements OnInit {
         this.preload_simcard = false;
       }
     }, err => {
-      console.log(err);
+      this.preload_simcard = false;
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.no_details_sim"));
     });
@@ -448,6 +480,7 @@ export class SimCardsSettingsPage implements OnInit {
       }
     }, err => {
       console.log(err);
+      this.preload_package = false;
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.no_packages_sim"));
     });
@@ -461,6 +494,7 @@ export class SimCardsSettingsPage implements OnInit {
       this.preload_events = false;
     }, err => {
       console.log(err);
+      this.preload_events = false;
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.no_events_sim"));
     });
@@ -475,6 +509,7 @@ export class SimCardsSettingsPage implements OnInit {
         this.preload_conectivity = false;
       }
     }, err => {
+      this.preload_conectivity = false;
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.no_connectivity_sim"));
@@ -571,6 +606,7 @@ export class SimCardsSettingsPage implements OnInit {
         this.preload_avaiable_packages = false;
       }
     }, err => {
+      this.preload_avaiable_packages = false;
       console.log(err);
       this.loadingService.dismissLoading();
       this.presentToastError(this.translate.instant("simcard.error.no_avaiable_package"));
@@ -1132,5 +1168,60 @@ export class SimCardsSettingsPage implements OnInit {
     } catch (e) {
       return 0;
     }
+  }
+
+  /**
+   * Crear pin
+   */
+  purchasePin() {
+    if (this.formControlTypePin.valid) {
+      this.startLoading();
+      const newPin = {
+        organization: Global.organization_id,
+        type_pin: this.formControlTypePin.value
+      };
+      this.simCardService.purchasePin(newPin).subscribe(res => {
+        this.presentToastOk(this.translate.instant('psimcard.data.settings.pins.pin_purchase_ok'));
+        this.stopLoading();
+        this.purchasedPin = res.body.pin;
+      }, err => {
+        this.stopLoading();
+        if(err.error.detail) {
+          if (err.status === 400 && err.error.detail === 'Pins of this value not found') {
+            this.presentToastError(this.translate.instant('simcard.data.settings.pins.pin_purchased_error_exist'));
+          }
+        } else if (err.status === 500) {
+          this.presentToastError(this.translate.instant('simcard.error.server_error'));
+        } else {
+          this.presentToastError(this.translate.instant('simcard.data.settings.pins.pin_purchase_error'));
+        }
+        if (err.status === 402) {
+          this.presentToastError(this.translate.instant('validations.error_not_money'));
+        }
+      });
+    } else {
+      this.presentToastError(this.translate.instant('simcard.data.settings.pins.not_pin_selected'));
+      this.formControlTypePin.markAsTouched();
+    }
+  }
+
+  changeCurrencyTypePin() {
+    this.formControlTypePin.reset();
+  }
+
+  getTypesOfPinByCurrency() {
+    return this.typesPin?.filter(t => t.currency == this.formControlCurrencyTypePin.value);
+  }
+
+  copyPurchasedPin(inputPurchasedPin: HTMLInputElement): void {
+    inputPurchasedPin.select();
+    inputPurchasedPin.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+  }
+
+  extraN() {
+    console.log(this.simCurrent);
+    console.log(this.simCurrent?.card_stat);
+    console.log(this.simCurrent?.card_stat?.card);
   }
 }

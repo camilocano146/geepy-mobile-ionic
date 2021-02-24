@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SimModalESimsInstructionsAndroidComponent} from '../sim-modal-e-sim-instructions-android/sim-modal-e-sims-instructions-android.component';
 import {SimModalESimsInstructionsIosComponent} from '../sim-modal-e-sim-instructions-ios/sim-modal-e-sims-instructions-ios.component';
-import {ModalController} from '@ionic/angular';
+import {ModalController, Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-popover-activation',
@@ -11,6 +11,7 @@ import {ModalController} from '@ionic/angular';
 export class PopoverActivationComponent implements OnInit {
 
   constructor(
+    public platform: Platform,
     private modalController: ModalController,
   ) { }
 
@@ -28,5 +29,9 @@ export class PopoverActivationComponent implements OnInit {
       component: SimModalESimsInstructionsIosComponent,
     });
     return await modal.present();
+  }
+
+  isIosPlatform(): boolean {
+    return this.platform.is('ios');
   }
 }

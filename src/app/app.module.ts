@@ -7,7 +7,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { FCM } from '@ionic-native/fcm/ngx';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 /**Tradcutor */
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
@@ -51,6 +50,8 @@ import { PermissionModuleService } from './services/module/module.service';
 import { CountriesService } from './services/countries/countries.service';
 import { OrganizationService } from './services/organization/organization.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {FirebaseMessaging} from '@ionic-native/firebase-messaging/ngx';
+import {NgxPayPalModule} from 'ngx-paypal';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    NgxPayPalModule,
 
     //Traductor
     TranslateModule.forRoot({
@@ -110,7 +112,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRate,
     CallNumber,
     InAppBrowser,
-    FCM,
     AndroidPermissions,
     PermissionModuleService,
     ItineraryService,
@@ -120,7 +121,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
-    }
+    },
+    FirebaseMessaging,
   ],
   bootstrap: [AppComponent]
 })

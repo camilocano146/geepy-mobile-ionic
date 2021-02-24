@@ -9,11 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastController, NavController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { User } from 'src/app/models/user/user';
-import { FCM } from "cordova-plugin-fcm-with-dependecy-updated/ionic";
-import { NotificationToken } from 'src/app/models/token/notification-token';
-import { NotificationFCM } from 'src/app/models/notification-fcm/notification-fcm';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { Global } from 'src/app/models/global/global';
+import {FirebaseMessaging} from '@ionic-native/firebase-messaging/ngx';
+import {NotificationToken} from '../../models/token/notification-token';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,6 @@ import { Global } from 'src/app/models/global/global';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
 
   /**
    * Campo de ocultar contraseña 
@@ -62,6 +60,7 @@ export class LoginPage implements OnInit {
     private userService: UserService,
     public plt: Platform,
     private ngZone: NgZone,
+    private firebaseMessaging: FirebaseMessaging,
   ) {
     this.hide = true;
     this.existUser = true;
@@ -75,6 +74,42 @@ export class LoginPage implements OnInit {
     localStorage.setItem('first-time-app', 'true');
     // this.email.setValue(localStorage.getItem('em'));
     // this.password.setValue(localStorage.getItem('pw'));
+
+    this.requestFirebasePermission();
+    this.requestFirebaseToken();
+  }
+
+  requestFirebasePermission() {
+    try {
+      this.firebaseMessaging.requestPermission({forceShow: true}).then(() => {
+        console.log('You\'ll get foreground notifications when a push message arrives');
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  requestFirebaseToken() {
+    try {
+      this.firebaseMessaging.getToken().then((token) => {
+        console.log(token);
+
+        const notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+        if (this.plt.is('ios')) {
+          notificationToken.platform = 'ios';
+        } else if (this.plt.is('android')) {
+          notificationToken.platform = 'android';
+        }
+        console.log(notificationToken);
+        this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+          console.log(res, 'Esta es la linea de envío');
+        }, err => {
+          console.log(err);
+        });
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   /**
@@ -98,33 +133,33 @@ export class LoginPage implements OnInit {
               this.localStorageService.storageToken(token);
               //--------------Token de Firebase
 
-              FCM.getToken().then(token => {
-                console.log(token);
-                FCM.onNotification().subscribe(data => {
-                  if (data.wasTapped) {
-                    let today = data.today;
-                    if (today == "true") {
-                      let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
-                      localStorage.setItem('pc_to_expire', JSON.stringify(notification));
-                      this.ngZone.run(() =>
-                        this.navCotroller.navigateRoot('repurchase-package')
-                      ).then();
-                    }
-                  }
-                });
-                let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
-                if (this.plt.is('ios')) {
-                  notificationToken.platform = "ios";
-                } else if (this.plt.is('android')) {
-                  notificationToken.platform = "android";
-                }
-                console.log(notificationToken);
-                this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
-                  console.log(res, 'Esta es la linea de envio');
-                }, err => {
-                  console.log(err);
-                });
-              });
+              // FCM.getToken().then(token => {
+              //   console.log(token);
+              //   FCM.onNotification().subscribe(data => {
+              //     if (data.wasTapped) {
+              //       let today = data.today;
+              //       if (today == "true") {
+              //         let notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
+              //         localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+              //         this.ngZone.run(() =>
+              //           this.navCotroller.navigateRoot('repurchase-package')
+              //         ).then();
+              //       }
+              //     }
+              //   });
+              //   let notificationToken: NotificationToken = new NotificationToken(this.translate.currentLang, token);
+              //   if (this.plt.is('ios')) {
+              //     notificationToken.platform = "ios";
+              //   } else if (this.plt.is('android')) {
+              //     notificationToken.platform = "android";
+              //   }
+              //   console.log(notificationToken);
+              //   this.authenticationService.sendNotificationsToken(notificationToken).subscribe(res => {
+              //     console.log(res, 'Esta es la linea de envio');
+              //   }, err => {
+              //     console.log(err);
+              //   });
+              // });
 
               //-----------------------------------------
               this.userService.obtainUserByToken().subscribe(res => {

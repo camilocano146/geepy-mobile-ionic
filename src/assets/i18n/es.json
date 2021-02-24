@@ -1,4 +1,12 @@
 {
+  "validations": {
+    "error-email": "No es un correo valido",
+    "error-password": "No es una contraseña valida",
+    "required-value": "Debe ingresar un valor",
+    "error-8-carácteres": "El código debete tener 8 digitos.",
+    "not_permission": "No tiene permisos para acceder.",
+    "error_not_money": "No tiene suficiente dinero. Por favor recargue la cuenta del usuario."
+  },
   "loader": {
     "loading": "Cargando"
   },
@@ -860,6 +868,31 @@
           "integer_number": "El código debe ser un número entero.",
           "activate_message": "Escribe el PIN y presiona el botón activar"
         },
+        "pins": {
+          "history_pins": "No pudimos obtener el historial de pins.",
+          "no_pins_purchased": "No pudimos obtener los pins comprados.",
+          "no_activate_pin": "No pudimos activar el pin.",
+          "pin_activate_ok": "Pin activado correctamente",
+          "activate": "Activar PIN",
+          "title": "Pines",
+          "date_used": "Fecha de uso",
+          "pin_type": "Tipo",
+          "amount": "Precio",
+          "no_pins": "No hay pins",
+          "history": "Historial de pins",
+          "pin": "Pin",
+          "p_code": "Código de PIN:",
+          "data_p": "Activar PIN",
+          "data_purchase": "Comprar PIN",
+          "type_pin": "Tipo de PIN",
+          "select_one": "Seleccione",
+          "currency": "Moneda",
+          "not_pin_selected": "Debe seleccionar un tipo de PIN",
+          "pin_purchase_ok": "Pin comprado correctamente, revisa tu Correo electrónico",
+          "pin_show": "Acabas de comprar este PIN",
+          "pin_purchase_error": "No pudimos comprar el pin.",
+          "pin_purchased_error_exist": "No se encuentraron pines de este tipo."
+        },
         "history_pins": {
           "title": "Historial de pines",
           "no_data": "No hay nada aquí.",
@@ -1152,8 +1185,14 @@
       "note": "Nota: ",
       "p1": "El costo por transacción es del 6% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 6.00 + 0.30 USD.",
       "payment_ok": "¡Pago exitoso!",
-      "coupon": "Cúpon",
-      "err_coupon": "El cúpon no es valido"
+      "coupon": "Cupón",
+      "err_coupon": "El cupón no es valido",
+      "valid_coupon": "Cupón Valido",
+      "verify_coupon": "Verificar Cupón",
+      "to_recharge": "para recargar",
+      "payment_options": "Opciones de pago",
+      "option_one": "Opción uno",
+      "payment_two": "Opción dos"
     },
     "stripe": {
       "title": "Pagar con Stripe",

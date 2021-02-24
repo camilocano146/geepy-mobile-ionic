@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {PopoverController, ToastController, NavController, ModalController} from '@ionic/angular';
+import { Component, NgZone, OnInit } from '@angular/core';
+import {PopoverController, ToastController, NavController, ModalController, Platform} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { TranslateService } from '@ngx-translate/core';
 import { OrganizationService } from 'src/app/services/organization/organization.service';
@@ -10,6 +10,8 @@ import { User } from 'src/app/models/user/user';
 import {SimModalESimsInstructionsAndroidComponent} from '../sim-cards/sim-modal-e-sim-instructions-android/sim-modal-e-sims-instructions-android.component';
 import {SimModalESimsCompatibleAndroidDevicesComponent} from './sim-modal-e-sim-compatible-android-devices/sim-modal-e-sims-compatible-android-devices.component';
 import {SimCardsPage} from '../sim-cards/sim-cards.page';
+import {FirebaseMessaging} from '@ionic-native/firebase-messaging/ngx';
+import {NotificationFCM} from '../../models/notification-fcm/notification-fcm';
 
 @Component({
   selector: 'app-select-platform',
@@ -35,15 +37,49 @@ export class SelectPlatformPage implements OnInit {
 
   constructor(
     private userService: UserService,
+    private platform: Platform,
     private loadingService: LoadingService,
     private navController: NavController,
     private organizationService: OrganizationService,
     private translate: TranslateService,
     private toastController: ToastController,
     private modalController: ModalController,
-    private popoverController: PopoverController) {
+    private popoverController: PopoverController,
+    private firebaseMessaging: FirebaseMessaging,
+    private ngZone: NgZone,
+  ) {
     this.isReseller = false;
     this.platforms_list = [];
+    this.loadFirebaseMessaging();
+  }
+
+  loadFirebaseMessaging() {
+    this.firebaseMessaging.onMessage().subscribe((data) => {
+      this.loadMessage(data);
+    });
+    this.firebaseMessaging.onBackgroundMessage().subscribe((data) => {
+      this.loadMessage(data);
+    });
+    // canales de notificación para Adnroid 8+
+    // cordova.plugins.firebase.createChannel({
+    //   id: 'geepy_connect_channel_id',
+    //   name: 'Geepy Connect Channel',
+    //   importance: 3
+    // });
+  }
+
+  loadMessage(data: any) {
+    console.log('New foreground FCM message: ', data);
+    if (data.wasTapped) {
+      const today = data.today;
+      if (today == 'true') {
+        const notification: NotificationFCM = new NotificationFCM(data.today, data.sim_id, data.package, data.onum);
+        localStorage.setItem('pc_to_expire', JSON.stringify(notification));
+        this.ngZone.run(() =>
+          this.navController.navigateRoot('repurchase-package')
+        ).then();
+      }
+    }
   }
 
   ngOnInit() {
@@ -238,5 +274,9 @@ export class SelectPlatformPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  isIosPlatform(): boolean {
+    return this.platform.is('ios');
   }
 }

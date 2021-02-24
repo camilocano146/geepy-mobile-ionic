@@ -64,7 +64,7 @@
                                 </ion-card-content>
                             </ion-card>
                             <ion-spinner *ngIf="preload_simcard" name="crescent"></ion-spinner>
-                            <ion-card style="margin-top: 10px;" class="card-info">
+                            <ion-card *ngIf="preload_simcard && sim_current" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_information' | translate}}</strong></ion-card-title>
                                 </ion-card-header>
@@ -93,7 +93,7 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
-                            <ion-card *ngIf="preload_package == false" style="margin-top: 10px;" class="card-info">
+                            <ion-card *ngIf="preload_package == false && package" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_plan' | translate}}</strong></ion-card-title>
                                 </ion-card-header>
@@ -114,7 +114,7 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
-                            <ion-card *ngIf="preload_conectivity == false && preload_events == false" style="margin-top: 10px;" class="card-info">
+                            <ion-card *ngIf="preload_conectivity == false && preload_events == false && conectivity && lastEvents" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.data.title_card_connectivity' | translate}}</strong></ion-card-title>
                                 </ion-card-header>
@@ -306,8 +306,56 @@
                             </ion-card>
                         </div>
                     </mat-expansion-panel>
-                    <!--Historico Activar Pin-->
-                    <mat-expansion-panel [ngStyle]="{'display':show_pins == true ? 'block' : 'none' }">
+                    <!--Comprar Pin-->
+                    <mat-expansion-panel [ngStyle]="{'display': show_pins == true ? 'block' : 'none' }">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.pins.data_purchase' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ion-item style="border-radius: 5px;">
+                            <ion-label>{{'simcard.data.settings.pins.currency' | translate}}</ion-label>
+                            <ion-select (ionChange)="changeCurrencyTypePin()" placeholder="{{'simcard.data.settings.pins.select_one' | translate}}" [formControl]="formControlCurrencyTypePin" interface="action-sheet">
+                                <ion-select-option *ngFor="let item of currencyTypesPin" [value]="item">{{item}}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item style="border-radius: 5px;">
+                            <ion-label>{{'simcard.data.settings.pins.type_pin' | translate}}</ion-label>
+                            <ion-select [disabled]="this.formControlCurrencyTypePin.invalid" placeholder="{{'simcard.data.settings.pins.select_one' | translate}}" [formControl]="formControlTypePin" interface="action-sheet">
+                                <ion-select-option *ngFor="let item of getTypesOfPinByCurrency()" [value]="item">{{item.value}} {{item.currency}}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <div *ngIf="preload_typesPin" class="ion-text-center">
+                            <ion-spinner name="crescent"></ion-spinner>
+                        </div>
+                        <div *ngIf="!preload_typesPin" class="center full-width">
+<!--                            <mat-form-field class="w-75">-->
+<!--                                <mat-label>{{'platform_two.pins.create_edit.type_pin' | translate}}</mat-label>-->
+<!--                                <mat-select [formControl]="formControlTypePin">-->
+<!--                                    <mat-option *ngFor="let item of typesPin" [value]="item.id">{{item.value}} {{item.currency}}-->
+<!--                                    </mat-option>-->
+<!--                                </mat-select>-->
+<!--                                <mat-error *ngIf="formControlTypePin.invalid">{{'platform_two.pins.create_edit.selected' | translate}}</mat-error>-->
+<!--                            </mat-form-field>-->
+                            <ion-button class="w-50 mt-3" (click)="purchasePin()">{{'simcard.data.settings.pins.data_purchase' | translate}}</ion-button>
+                        </div>
+                        <div *ngIf="purchasedPin" class="mt-3">
+                            <div class="ion-text-center">
+                                <h5 style="color: orange;">{{'simcard.data.settings.pins.pin_show' | translate}}</h5>
+                            </div>
+                            <ion-row>
+                                <ion-col size="10" class="ion-text-center">
+<!--                                    <ion-label>{{purchasedPin}}</ion-label>-->
+                                    <input style="width: 80%; text-align: center;" [readOnly]="true" #inputPurchasedPin type="text" [value]="purchasedPin">
+                                </ion-col>
+                                <ion-col size="2" style="display: flex; align-items: center;">
+                                    <ion-icon style="transform: scale(2)" name="copy-outline" (click)="copyPurchasedPin(inputPurchasedPin)"></ion-icon>
+                                </ion-col>
+                            </ion-row>
+                        </div>
+                    </mat-expansion-panel>
+                    <!--Activar Pin-->
+                    <mat-expansion-panel [ngStyle]="{'display': show_pins == true ? 'block' : 'none' }">
                         <mat-expansion-panel-header class="panel-header">
                             <mat-panel-title>
                                 <label class="title-panel">{{'simcard.data.settings.history_pins.activate' | translate}}</label>
@@ -424,7 +472,7 @@
                                 </ion-card-content>
                             </ion-card>
                             <div *ngIf="!avaibalePackages?.getserviceoptions?.gprs?.activation_fee" class="container-cards">
-                                <ion-card *ngFor="let item of avaibalePackages.getserviceoptions.gprs" style="margin-top: 10px;" class="card-package">
+                                <ion-card *ngFor="let item of avaibalePackages?.getserviceoptions?.gprs" style="margin-top: 10px;" class="card-package">
                                     <ion-card-header>
                                         <ion-card-title class="center title-card-sim-details"><strong>{{'simcard.data.settings.package.package_code' | translate}}: {{item.package_code}}</strong></ion-card-title>
                                     </ion-card-header>
@@ -432,15 +480,15 @@
                                         <ion-grid>
                                             <ion-row class="ion-justify-content-center">
                                                 <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                    <ion-label color="primary"><strong>{{item.package_name}}</strong></ion-label>
+                                                    <ion-label color="primary"><strong>{{item?.package_name}}</strong></ion-label>
                                                 </ion-col>
                                                 <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
                                                     <ion-label color="success"><strong>{{'simcard.data.settings.package.cost' | translate}}: </strong></ion-label>
-                                                    <ion-label>{{item?.activation_fee}} {{item.currency}}</ion-label>
+                                                    <ion-label>{{item?.activation_fee}} {{item?.currency}}</ion-label>
                                                 </ion-col>
                                                 <ion-col size="12" style="text-align: center !important; font-size: 18px; font-weight: bold;">
-                                                    <ion-button *ngIf="package.package_code != item.package_code" (click)="activatePackage(item,item.package_code, 'dailygprs')">{{'simcard.data.settings.package.btn_buy' | translate}}</ion-button>
-                                                    <ion-button color="danger" *ngIf="package.package_code == item.package_code" (click)="cancelPackage(item.package_code, 'dailygprs')">{{'simcard.data.settings.package.btn_cancel' | translate}}</ion-button>
+                                                    <ion-button *ngIf="package?.package_code != item?.package_code" (click)="activatePackage(item, item?.package_code, 'dailygprs')">{{'simcard.data.settings.package.btn_buy' | translate}}</ion-button>
+                                                    <ion-button color="danger" *ngIf="package?.package_code == item?.package_code" (click)="cancelPackage(item?.package_code, 'dailygprs')">{{'simcard.data.settings.package.btn_cancel' | translate}}</ion-button>
                                                 </ion-col>
                                             </ion-row>
                                         </ion-grid>
@@ -720,6 +768,7 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
+                            {{extraN()}}
                             <ion-card *ngIf="simCurrent?.card_stat?.card?.enum !=  null" style="margin-top: 10px;" class="card-info">
                                 <ion-card-header>
                                     <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
