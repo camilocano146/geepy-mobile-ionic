@@ -7,6 +7,6 @@ keytool -genkey -v -keystore geepy.keystore -alias mobile -keyalg RSA -keysize 2
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore geepy.keystore app-release-unsigned.apk mobile
 
-zipalign -v 4 app-release-unsigned.apk geepy-mobile.apk
+/mnt/2A22CBF122CBC055/Android/Sdk/build-tools/30.0.3/zipalign -v 4 app-release-unsigned.apk geepy-mobile.apk
 
 cd 

@@ -160,9 +160,8 @@ export class LoginPage implements OnInit {
                 }, err => {
                   console.log(err);
                 });
-              }).catch(err=>{
-                debugger;
-                console.log(err)
+              }).catch(err => {
+                console.log(err);
               });
 
               //-----------------------------------------

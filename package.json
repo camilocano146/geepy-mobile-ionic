@@ -74,7 +74,6 @@
     "codelyzer": "^5.1.2",
     "com-sarriaroman-photoviewer": "^1.2.5",
     "cordova-android": "^9.0.0",
-    "cordova-ios": "^6.2.0",
     "cordova-plugin-androidx": "^3.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.1",
     "cordova-plugin-device": "^2.0.2",

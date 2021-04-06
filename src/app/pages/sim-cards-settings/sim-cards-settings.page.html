@@ -322,7 +322,7 @@
                         <ion-item style="border-radius: 5px;">
                             <ion-label>{{'simcard.data.settings.pins.type_pin' | translate}}</ion-label>
                             <ion-select [disabled]="this.formControlCurrencyTypePin.invalid" placeholder="{{'simcard.data.settings.pins.select_one' | translate}}" [formControl]="formControlTypePin" interface="action-sheet">
-                                <ion-select-option *ngFor="let item of getTypesOfPinByCurrency()" [value]="item">{{item.value}} {{item.currency}}</ion-select-option>
+                                <ion-select-option *ngFor="let item of getTypesOfPinByCurrency()" [value]="item.id">{{item.value}} {{item.currency}}</ion-select-option>
                             </ion-select>
                         </ion-item>
                         <div *ngIf="preload_typesPin" class="ion-text-center">
@@ -667,6 +667,78 @@
                             </ion-grid>
                         </div>
                     </mat-expansion-panel>
+                    <!--Números Extra-->
+                    <mat-expansion-panel [ngStyle]="{'display':show_settings == true ? 'block' : 'none' }">
+                        <mat-expansion-panel-header class="panel-header">
+                            <mat-panel-title>
+                                <label class="title-panel">{{'simcard.data.settings.settings.buy_extra' | translate}}</label>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="ion-text-center">
+                            <ion-spinner *ngIf="preload_simcard" name="crescent"></ion-spinner>
+                        </div>
+                        <ion-card *ngIf="simCurrent?.card_stat?.card?.enum ==  null" style="margin-top: 10px;" class="card-info">
+                            <ion-card-header>
+                                <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                                <ion-grid>
+                                    <ion-row class="ion-justify-content-center">
+                                        <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                            <strong>{{'simcard.data.settings.settings.buy_extra' | translate}}</strong>
+                                        </ion-col>
+                                        <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                            <ion-label *ngIf="sim_current.account_top_connect.alias == 'USD'">{{'simcard.data.settings.settings.buy_extra_usd' | translate}}</ion-label>
+                                            <ion-label *ngIf="sim_current.account_top_connect.alias == 'EUR'">{{'simcard.data.settings.settings.buy_extra_eur' | translate}}</ion-label>
+                                        </ion-col>
+                                        <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                            <mat-form-field class="full-width">
+                                                <mat-label>{{'simcard.data.settings.settings.numbers_avaiable' | translate}}</mat-label>
+                                                <mat-select [formControl]="newNumber">
+                                                    <mat-option *ngFor="let item of extraNumbersList" [value]="item.enum">
+                                                        {{item.enum}} - {{item.countrie.code}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error *ngIf="newNumber.invalid">{{getErrorMessageNew()}}
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </ion-col>
+                                        <ion-button color="success" style="text-transform: none;" (click)="addNewNumber()">
+                                            <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                            {{'simcard.data.settings.settings.btn_buy_extra' | translate}}
+                                        </ion-button>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-card *ngIf="simCurrent?.card_stat?.card?.enum !=  null" style="margin-top: 10px;" class="card-info">
+                            <ion-card-header>
+                                <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                                <ion-grid>
+                                    <ion-row class="ion-justify-content-center">
+                                        <ion-col size="12" style="text-align: center !important; font-size: 16px;">
+                                            <strong>{{'simcard.data.settings.settings.remove_extra' | translate}}</strong>
+                                        </ion-col>
+                                        <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                            {{'simcard.data.settings.settings.non_refundable' | translate}}
+                                        </ion-col>
+                                        <ion-col size="12" style="text-align: center !important; font-size: 14px;">
+                                            <mat-form-field class="example-form-field full-width">
+                                                <mat-label> {{'simcard.data.settings.settings.extra_number' | translate}}</mat-label>
+                                                <input matInput type="text" [formControl]="number_to_delete" readonly>
+                                            </mat-form-field>
+                                        </ion-col>
+                                        <ion-button color="warning" style="text-transform: none; color: black !important;" (click)="deleteNumber()">
+                                            <ion-icon name="remove-circle-outline" style="margin-right: 10px;"></ion-icon>
+                                            {{'simcard.data.settings.settings.remove_number' | translate}}
+                                        </ion-button>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-card-content>
+                        </ion-card>
+                    </mat-expansion-panel>
                     <!--Settings-->
                     <mat-expansion-panel [ngStyle]="{'display':show_settings == true ? 'block' : 'none' }">
                         <mat-expansion-panel-header class="panel-header">
@@ -729,68 +801,6 @@
                                             <ion-button color="primary" style="text-transform: none;" (click)="reconect()">
                                                 <ion-icon name="refresh" style="margin-right: 10px;"></ion-icon>
                                                 {{'simcard.data.settings.settings.btn_reset' | translate}}
-                                            </ion-button>
-                                        </ion-row>
-                                    </ion-grid>
-                                </ion-card-content>
-                            </ion-card>
-                            <ion-card *ngIf="simCurrent?.card_stat?.card?.enum ==  null" style="margin-top: 10px;" class="card-info">
-                                <ion-card-header>
-                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
-                                </ion-card-header>
-                                <ion-card-content>
-                                    <ion-grid>
-                                        <ion-row class="ion-justify-content-center">
-                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
-                                                <strong>{{'simcard.data.settings.settings.buy_extra' | translate}}</strong>
-                                            </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
-                                                <ion-label *ngIf="sim_current.account_top_connect.alias == 'USD'">{{'simcard.data.settings.settings.buy_extra_usd' | translate}}</ion-label>
-                                                <ion-label *ngIf="sim_current.account_top_connect.alias == 'EUR'">{{'simcard.data.settings.settings.buy_extra_eur' | translate}}</ion-label>
-                                            </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
-                                                <mat-form-field class="full-width">
-                                                    <mat-label>{{'simcard.data.settings.settings.numbers_avaiable' | translate}}</mat-label>
-                                                    <mat-select [formControl]="newNumber">
-                                                        <mat-option *ngFor="let item of extraNumbersList" [value]="item.enum">
-                                                            {{item.enum}} - {{item.countrie.code}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                    <mat-error *ngIf="newNumber.invalid">{{getErrorMessageNew()}}
-                                                    </mat-error>
-                                                </mat-form-field>
-                                            </ion-col>
-                                            <ion-button color="success" style="text-transform: none;" (click)="addNewNumber()">
-                                                <ion-icon name="add-circle-outline" style="margin-right: 10px;"></ion-icon>
-                                                {{'simcard.data.settings.settings.btn_buy_extra' | translate}}
-                                            </ion-button>
-                                        </ion-row>
-                                    </ion-grid>
-                                </ion-card-content>
-                            </ion-card>
-                            {{extraN()}}
-                            <ion-card *ngIf="simCurrent?.card_stat?.card?.enum !=  null" style="margin-top: 10px;" class="card-info">
-                                <ion-card-header>
-                                    <ion-card-title class="center title-card-sim-details"><strong></strong></ion-card-title>
-                                </ion-card-header>
-                                <ion-card-content>
-                                    <ion-grid>
-                                        <ion-row class="ion-justify-content-center">
-                                            <ion-col size="12" style="text-align: center !important; font-size: 16px;">
-                                                <strong>{{'simcard.data.settings.settings.remove_extra' | translate}}</strong>
-                                            </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
-                                                {{'simcard.data.settings.settings.non_refundable' | translate}}
-                                            </ion-col>
-                                            <ion-col size="12" style="text-align: center !important; font-size: 14px;">
-                                                <mat-form-field class="example-form-field full-width">
-                                                    <mat-label> {{'simcard.data.settings.settings.extra_number' | translate}}</mat-label>
-                                                    <input matInput type="text" [formControl]="number_to_delete" readonly>
-                                                </mat-form-field>
-                                            </ion-col>
-                                            <ion-button color="warning" style="text-transform: none; color: black !important;" (click)="deleteNumber()">
-                                                <ion-icon name="remove-circle-outline" style="margin-right: 10px;"></ion-icon>
-                                                {{'simcard.data.settings.settings.remove_number' | translate}}
                                             </ion-button>
                                         </ion-row>
                                     </ion-grid>

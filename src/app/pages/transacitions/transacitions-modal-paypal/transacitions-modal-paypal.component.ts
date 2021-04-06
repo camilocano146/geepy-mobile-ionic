@@ -110,7 +110,7 @@ export class TransacitionsModalPaypalComponent implements OnInit {
             }
           },
           items: [{
-            name: 'Recharge in iGlobalSat',
+            name: 'Recharge in Geepy Mobile',
             quantity: '1',
             category: 'DIGITAL_GOODS',
             unit_amount: {
@@ -149,7 +149,7 @@ export class TransacitionsModalPaypalComponent implements OnInit {
             }
           },
           items: [{
-            name: 'Recharge in iGlobalSat',
+            name: 'Recharge in Geepy Mobile',
             quantity: '1',
             category: 'DIGITAL_GOODS',
             unit_amount: {
@@ -181,7 +181,7 @@ export class TransacitionsModalPaypalComponent implements OnInit {
             }
           },
           items: [{
-            name: 'Recharge in iGlobalSat',
+            name: 'Recharge in Geepy Mobile',
             quantity: '1',
             category: 'DIGITAL_GOODS',
             unit_amount: {

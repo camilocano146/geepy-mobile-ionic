@@ -1146,6 +1146,7 @@
       "note": "Note: ",
       "p1": "Payments by credit card Cost per transaction is 6% + 0.30 USD/EUR. For example, if pay USD 100 with a credit card, the rate would be USD 6.00 + 0.30 USD.",
       "payment_ok": "Successful payment!",
+      "payment_approved": "Payment approved, awaiting authorization.",
       "coupon": "Coupon",
       "err_coupon": "Coupon is not valid",
       "valid_coupon": "Valid Coupon",

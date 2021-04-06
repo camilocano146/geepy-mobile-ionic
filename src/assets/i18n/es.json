@@ -1185,6 +1185,7 @@
       "note": "Nota: ",
       "p1": "El costo por transacción es del 6% + 0.30 USD / EUR. Por ejemplo, si paga USD 100 con una tarjeta de crédito, la tasa sería USD 6.00 + 0.30 USD.",
       "payment_ok": "¡Pago exitoso!",
+      "payment_approved": "Pago aprobado, esperando autorización.",
       "coupon": "Cupón",
       "err_coupon": "El cupón no es valido",
       "valid_coupon": "Cupón Valido",
