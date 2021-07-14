@@ -9,7 +9,7 @@
 <ion-content>
     <div class="background-all"></div>
     <ion-row class="ion-justify-content-center mt-3">
-        <ion-col>
+        <ion-col class="px-3" style="font-style: oblique; font-family: cursive;">
             <div *ngIf="router.url.includes('itinerary-voyager')">
                 <h6>
                     {{'help.itinerary_voyager.text1' | translate}}
@@ -22,16 +22,10 @@
                 <h6>
                     {{'help.sim_cards.text1' | translate}}
                 </h6>
-                <h6>
-                    {{'help.sim_cards.text2' | translate}}
-                </h6>
             </div>
             <div *ngIf="router.url.includes('transacitions')">
                 <h6>
                     {{'help.sim_cards.text1' | translate}}
-                </h6>
-                <h6>
-                    {{'help.sim_cards.text2' | translate}}
                 </h6>
             </div>
             <div *ngIf="router.url.includes('zones')">
@@ -46,8 +40,10 @@
                 <h6>
                     {{'help.sim_cards.text1' | translate}}
                 </h6>
+            </div>
+            <div *ngIf="router.url.includes('select-platform')">
                 <h6>
-                    {{'help.sim_cards.text2' | translate}}
+                    {{'help.select_platform.text1' | translate}}
                 </h6>
             </div>
         </ion-col>

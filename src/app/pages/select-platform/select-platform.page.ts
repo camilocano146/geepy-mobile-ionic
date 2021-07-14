@@ -12,6 +12,7 @@ import {SimModalESimsCompatibleAndroidDevicesComponent} from './sim-modal-e-sim-
 import {SimCardsPage} from '../sim-cards/sim-cards.page';
 import {FirebaseMessaging} from '@ionic-native/firebase-messaging/ngx';
 import {NotificationFCM} from '../../models/notification-fcm/notification-fcm';
+import {HelpComponent} from '../../common-components/help/help.component';
 
 @Component({
   selector: 'app-select-platform',
@@ -280,5 +281,12 @@ export class SelectPlatformPage implements OnInit {
 
   isIosPlatform(): boolean {
     return this.platform.is('ios');
+  }
+
+  async helpDialog($event: MouseEvent) {
+    const modal = await this.modalController.create({
+      component: HelpComponent
+    });
+    return await modal.present();
   }
 }

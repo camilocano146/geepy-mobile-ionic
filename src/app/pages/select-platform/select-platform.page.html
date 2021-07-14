@@ -1,9 +1,14 @@
 <ion-header>
     <ion-toolbar>
         <ion-title style="color: white !important;">{{'select_platform.title' | translate}}</ion-title>
-        <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
-            <ion-icon style="color: white !important;" name="settings"></ion-icon>
-        </ion-button>
+        <ion-buttons slot="end">
+            <ion-button class="button-toolbar-info" slot="start" fill="clear" (click)="helpDialog($event)">
+                <ion-icon style="transform: scale(1.2)" name="help-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+                <ion-icon style="color: white !important;" name="settings"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content>

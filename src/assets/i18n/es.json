@@ -1558,6 +1558,9 @@
     },
     "profile": {
       "text1": "Aquí puede ver y actualizar sus datos personales."
+    },
+    "select_platform": {
+      "text1": "Esta es la venta inicial en la que puede seleccionar la plataforma Voyager y ver todas los productos que tenemos para ti, también puedes ver desde aquí instrucciones para adquirir eSims."
     }
   }
 }
