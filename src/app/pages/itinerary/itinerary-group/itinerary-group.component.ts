@@ -195,7 +195,7 @@ export class ItineraryGroupComponent implements OnInit {
           handler: () => {
             this.loadingService.presentLoading().then(() => {
               this.itineraryService.removeGroup(this.idGroup).subscribe(res => {
-                if (res.status == 204) {
+                if (res.status == 200) {
                   this.presentToastOk(this.translateService.instant('itinerary.edit.edit_ok'));
                   this.loadingService.dismissLoading().then(() => {
                     this.navController.navigateBack('home/itinerary-voyager');
