@@ -1,0 +1,135 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-button slot="start" fill="clear" style="z-index: 100;" (click)="goToItineraryHome()">
+      <ion-icon style="color: white !important;" name="arrow-back-outline"></ion-icon>
+    </ion-button>
+    <ion-title style="color: white !important;">
+      {{'itinerary.group.title' | translate}} {{group?.name}}
+    </ion-title>
+    <ion-button class="button-toolbar-info" slot="end" fill="clear" (click)="helpDialog($event)">
+      <ion-icon style="transform: scale(1.2)" name="help-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="background-all"></div>
+  <ion-grid>
+    <ion-row class="mt-4" *ngIf="showGroupEdit">
+      <ion-col>
+        <div class="pb-3 ion-text-center">
+          <ion-label>
+            {{'itinerary.group.select_name' | translate}}
+          </ion-label>
+        </div>
+        <ion-col size="3" style="text-align: center !important;">
+          <mat-form-field class="full-width" appearance="outline">
+            <input placeholder="{{'itinerary.group.group_name' | translate}}"
+                   class="center"
+                   matInput
+                   maxlength="50" [formControl]="formControlGroupName">
+          </mat-form-field>
+        </ion-col>
+        <div class="ion-text-center">
+          <ion-button color="primary" (click)="saveGroup()">
+            <ion-icon name="add-circle-outline" class="mr-2"></ion-icon>{{'itinerary.group.save' | translate}}
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <div *ngIf="!showGroupEdit">
+      <ion-row>
+        <ion-col class="m-0 p-0" size="10">
+          <a (click)="showGroupEdit = true" class="underline">
+            {{'itinerary.group.change_name' | translate}}
+          </a>
+        </ion-col>
+        <ion-col class="m-0 p-0" size="2">
+          <ion-button class="m-0 p-0" color="warn" (click)="removeGroup()">
+            <ion-icon name="remove-circle-outline" class="mr-2 color-red"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="m-0 p-0"size="4" style="text-align: left;">
+        </ion-col>
+        <ion-col class="m-0 p-0"size="8" style="text-align: right;">
+          <ion-button color="primary" (click)="openModalCreate()">
+            <ion-icon name="add-circle-outline" class="mr-2"></ion-icon>{{'itinerary.group.add_itinerary' | translate}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" style="text-align: center;">
+          <h5 class="mt-0 mb-0">{{'itinerary.group.description' | translate}}</h5>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="existsItineraries == 1">
+        <ion-col size="12" style="text-align: center;">
+          <ion-card style="background-color: white;">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="12">
+                  <div class="title-card-sim-details"><strong>{{'itinerary.group.itineraries_of_this_group' | translate}}</strong></div>
+                </ion-col>
+                <ion-col size="12">
+                  <img src="../../../assets/img/ghost.svg" height="80px" alt="">
+                </ion-col>
+                <ion-col size="12">
+                  <ion-label>{{'itinerary.principal.no_itineraries' | translate}}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row class="m-0 p-0" *ngIf="existsItineraries == 2">
+        <ion-col class="m-0 p-0" size="8" id="filter-input" style="display: flex; align-items: center !important;">
+          <!-- Inputs with labels -->
+          <!--        <ion-item style="margin-left: 10px;">-->
+          <!--          <ion-icon name="search"></ion-icon>-->
+          <!--          <ion-input (keyup)="applyFilter($event.target.value)" placeholder="{{'simcard.data.ph_search' | translate}}" type="text" onkeydown="javascript: return event.keyCode == 69 || event.keyCode == 187 || event.keyCode == 189 ? false : true"></ion-input>-->
+          <!--        </ion-item>-->
+        </ion-col>
+        <ion-col class="m-0 p-0" size="4" style="text-align: right !important; display: flex; align-items: center !important; justify-content: flex-end;">
+          <ion-button color="success" (click)="ionViewDidEnter()" fill="clear" style="padding: 0px !important; text-align: right !important;">
+            <ion-icon style=" font-size: 30px;" name="refresh"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="m-0 p-0" *ngIf="existsItineraries == 2">
+        <ion-col class="m-0 p-0" size="12">
+          <ion-card style="background-color: white;">
+            <ion-grid class="m-0 p-0">
+              <ion-row class="m-0 p-0">
+                <ion-col class="m-0 p-0"size="12" style="text-align: center;">
+                  <div class="title-card-sim-details">
+                    <strong>{{'itinerary.group.itineraries_of_this_group' | translate}}</strong>
+                  </div>
+                </ion-col>
+                <ion-col class="m-0 p-0" size="12" style="padding: 0px;">
+                  <ion-list mode="ios" style="border-radius: 5px; padding: 0px;">
+                    <ion-item *ngFor="let item of itinerariesList" detail (click)="goToSeeEdit(item)">
+                      <ion-avatar slot="start">
+                        <img src="../../../assets/img/suitcase.svg">
+                      </ion-avatar>
+                      <ion-label>
+                        <h5 *ngIf="currentLang == 'es'">{{item.destination.nombre}}</h5>
+                        <h5 *ngIf="currentLang != 'es'">{{item.destination.name}}</h5>
+                        <h6>{{item.sim_card.iccid}}</h6>
+                        <p>{{item.package.package_name}}</p>
+                        <ion-label>{{item.activation_date | date}}</ion-label>
+                        <ion-label *ngIf="item.status == '1'" color="primary">{{'itinerary.principal.programmed' | translate}}</ion-label>
+                        <ion-label *ngIf="item.status == '3'" color="success">{{'itinerary.principal.activated' | translate}}</ion-label>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+</ion-content>

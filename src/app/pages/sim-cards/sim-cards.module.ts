@@ -29,6 +29,7 @@ import {PopoverCompatibleDevicesComponent} from './popover-compatible-devices/po
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {SimChooseCourierCountryModal} from './sim-buy-page/sim-choose-courier-country/sim-choose-courier-country-modal.component';
 import {AgmDirectionModule} from 'agm-direction';
+import {HelpModule} from '../../common-components/help/help.module';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {AgmDirectionModule} from 'agm-direction';
     MatDividerModule,
     MatAutocompleteModule,
     AgmDirectionModule,
+    HelpModule,
   ],
   declarations: [
     SimCardsPage,

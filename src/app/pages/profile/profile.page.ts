@@ -3,13 +3,14 @@ import { FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user/user';
 import { UserService } from 'src/app/services/user/user.service';
 import sha1 from 'js-sha1'
-import { ToastController, PopoverController, NavController, AlertController } from '@ionic/angular';
+import {ToastController, PopoverController, NavController, AlertController, ModalController} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { CountriesService } from 'src/app/services/countries/countries.service';
 import {ActivatedRoute} from '@angular/router';
+import {HelpComponent} from '../../common-components/help/help.component';
 
 @Component({
   selector: 'app-profile',
@@ -64,7 +65,9 @@ export class ProfilePage implements OnInit {
     private navController: NavController,
     public activatedRoute: ActivatedRoute,
     private alertController: AlertController,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private modalController: ModalController,
+  ) {
     this.firstName = new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.lastName = new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
    
@@ -395,5 +398,12 @@ export class ProfilePage implements OnInit {
 
   goToHome() {
     this.navController.navigateBack('select-platform');
+  }
+
+  async helpDialog($event: MouseEvent) {
+    const modal = await this.modalController.create({
+      component: HelpComponent
+    });
+    return await modal.present();
   }
 }

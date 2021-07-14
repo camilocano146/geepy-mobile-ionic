@@ -1084,15 +1084,32 @@
   },
   "itinerary": {
     "principal": {
+      "individual": "individuales",
+      "group": "grupales",
       "title": "Itinerario",
       "description": "Esta función se utiliza para programar la activación de servicios de datos en fechas especificas.",
-      "btn_create": "Crear",
+      "btn_create": "Crear Itinerario",
+      "btn_create_group": "Crear Grupo",
       "no_itineraries": "No hay nada aquí.",
       "my_itineraries": "Mis Itinerarios",
+      "my_groups": "Mis Groups",
       "programmed": "Programado",
       "activated": "Activado",
       "activate": "ACTIVAR SIM",
       "suspend": "SUSPENDER SIM"
+    },
+    "group": {
+      "title": "Grupo",
+      "add_itinerary": "Agregar Itinerario",
+      "description": "Aquí puede organizar una guía de viaje agregando itinerarios a este grupo",
+      "save": "Guardar",
+      "saved": "Grupo guardado",
+      "itineraries_of_this_group": "Itinerarios de este grupo",
+      "select_name": "Seleccione un Nombre para el Grupo",
+      "group_name": "Nombre del Grupo",
+      "change_name": "Cambiar nombre de grupo",
+      "remove_header": "Cancelar Viaje y Eliminar grupo ?",
+      "remove_text": "¿Estás seguro?"
     },
     "create": {
       "title": "Nuevo itinerario",
@@ -1138,7 +1155,7 @@
       "cancel": "Cancelar",
       "p2": "Solo puede cambiar la fecha o cancelar este plan con 48 horas de anticipación.",
       "edit_ok": "Tu Itinerario ha sido actualizado exitosamente.",
-      "header": "Cancel viaje?",
+      "header": "Cancelar viaje?",
       "text": "¿Estás seguro?",
       "btn_yes": "Si",
       "btn_cancel": "No",
@@ -1161,7 +1178,8 @@
       "created_error": "No pudimos crear este item.",
       "maximum_date": "La fecha máxima de edición ha expirado.",
       "edit_error": "No pudimos actualizar este item.",
-      "select_sim": "Debe oprimir sobre una SimCard para seleccionarla"
+      "select_sim": "Debe oprimir sobre una SimCard para seleccionarla",
+      "no_group_saved": "No fue posible guardar el grupo, por favor intente nuevamente"
     }
   },
   "payments": {
@@ -1520,5 +1538,25 @@
     "has_no_transactions": "No transacciones aún",
     "has_no_sims": "No tiene Sims aún",
     "has_no_devices": "No tiene Dispositivos aún"
+  },
+  "help": {
+    "title": "Ayuda",
+    "sim_cards": {
+      "text1": "En esta sección encontrará todo lo relacionado con la manipulación de eSims y simcards físicas."
+    },
+    "itinerary_voyager": {
+      "text1": "El itinerario le permite programar un viaje adquiriendo paquetes que se activarán un día específico.",
+      "text2": "Puede programar rutas individuales que son aquellas en las que solo hay un destino de viaje y un único paquete a activar, y rutas grupales en las que puede seleccionar multiples países de viaje y un paquete a ser activado en cada uno de ellos, Cada paquete está destinado a acivarse en una sim card espcífica. "
+    },
+    "transacitions": {
+      "text1": "Aquí puede recargar su dinero en su cuenta, los pago se pueden realizar mediante la opción de PayPal (permite comprar con tarjeta de crédito o usando una cuenta de PayPal) o usando Stripe (el cuál tambien le permite pagar mediante tarjeta de crédito)"
+    },
+    "zones": {
+      "text1": "Si necesita saber en que zonas de cobertura se encuentra un país, aquí puede seleccionar uno o varios países y visualizar sus zonas.",
+      "text2": "Esto resulta ideal cuando desea viajar a uno o varios países y necesita indigar si disponen de la misma zona de cobertura."
+    },
+    "profile": {
+      "text1": "Aquí puede ver y actualizar sus datos personales."
+    }
   }
 }

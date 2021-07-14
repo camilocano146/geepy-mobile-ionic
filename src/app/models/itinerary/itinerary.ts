@@ -6,4 +6,9 @@ export class Itinerary{
     public package_id: number;
     public destination_id: number;
     public id: any;
+    destination: any;
+    sim_card: any;
+    package: any;
+    status: string;
+    group: number;
 }

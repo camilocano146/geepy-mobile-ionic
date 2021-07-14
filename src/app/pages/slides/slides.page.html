@@ -3,65 +3,176 @@
 <ion-content>
     <ion-slides *ngIf="show" class="full-height full-width" [options]="slideOpts">
         <ion-slide>
-            <ion-grid class="container-slide" style="overflow-y: auto">
-                <ion-row>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
                     <ion-col size="12" style="text-align: center;">
                         <ion-row>
                             <ion-col size="12" style="text-align: center;">
+                                <ion-label class="full-width" style="text-align: center !important; color: white">{{'slides.p1' | translate}}</ion-label>
+                            </ion-col>
+                            <ion-col size="12" style="text-align: center;">
                                 <img src="../../../assets/Logo/BANNER.png" class="image-logo" alt="">
                             </ion-col>
-                            <ion-row>
-                                <ion-col size="6" style="text-align: center !important;">
-                                    <h5 class="title-text" style="text-align: center !important; color: white">{{'slides.title_one_left' | translate}}</h5>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">{{'slides.response_one_left' | translate}}</h6>
-                                    <div class="div-icon">
-                                        <img class="img-icon" alt="sim" src="./assets/icons/sim.png">
-                                    </div>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">{{'slides.message_one_left' | translate}}</h6>
-                                    <ion-icon class="icon-row-down" name="chevron-down-outline"></ion-icon>
-                                    <h5 class="title-text" style="text-align: center !important; color: white">{{'slides.title_two_left' | translate}}</h5>
-                                    <div class="div-icon">
-                                        <img class="img-icon" alt="sim" src="./assets/icons/world.png">
-                                    </div>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">{{'slides.message_two_left' | translate}}</h6>
-                                </ion-col>
-                                <ion-col size="6" style="text-align: center !important;">
-                                    <h5 class="title-text title-two-right" style="text-align: center !important; color: white">{{'slides.title_one_right' | translate}}</h5>
-                                    <div class="div-one-icon-right">
-                                        <img class="img-icon" alt="sim" src="./assets/icons/planet-airplane.png">
-                                    </div>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">
-                                        {{'slides.message_one_right' | translate}}
-                                    </h6>
-                                    <ion-icon class="icon-row-down" name="chevron-down-outline"></ion-icon>
-                                    <h5 class="title-text" style="text-align: center !important; color: white">{{'slides.title_two_right' | translate}}</h5>
-                                    <div class="div-icon">
-                                        <img class="img-icon" alt="sim" src="./assets/icons/number-one.png">
-                                    </div>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">
-                                        {{'slides.message_two_right' | translate}}
-                                    </h6>
-                                </ion-col>
-                            </ion-row>
-                            <ion-row class="row-bottom">
-                                <ion-col size="6">
-                                    <ion-icon class="icon-row-down-steps" name="chevron-down-outline"></ion-icon>
-                                    <h5 class="title-text" style="text-align: center !important; color: white">{{'slides.title_bottom' | translate}}</h5>
-                                    <h6 class="sub-title-text" style="text-align: center !important; color: white">{{'slides.sub_title_bottom' | translate}}</h6>
-                                    <div style="height: .5em"></div>
-                                    <h6 class="sub-title-text text-steps" style="text-align: center !important; color: white">{{'slides.step_one' | translate}}</h6>
-                                    <h6 class="sub-title-text text-steps" style="text-align: center !important; color: white">{{'slides.step_two' | translate}}</h6>
-                                    <h6 class="sub-title-text text-steps" style="text-align: center !important; color: white">{{'slides.step_three' | translate}}</h6>
-                                    <h6 class="sub-title-text text-steps" style="text-align: center !important; color: white">{{'slides.step_four' | translate}}</h6>
-                                    <h6 class="sub-title-text text-steps" style="text-align: center !important; color: white">{{'slides.step_five' | translate}}</h6>
-                                </ion-col>
-                            </ion-row>
-                            <div class="center"></div>
-                            <img src="../../../assets/img/swipe.png" class="image-head" alt="">
+                            <ion-col size="12" style="text-align: center !important;">
+                                <ion-label style="text-align: center !important; color: white">{{'slides.p1-1' | translate}}</ion-label>
+                            </ion-col>
+                            <ion-col size="12" style="text-align: center !important;" class="">
+                                <img src="../../../assets/img/swipe.png" style="height: 80px !important;" alt="">
+                            </ion-col>
+
                         </ion-row>
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div class="container-points">
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12">
+                        <ion-grid>
+                            <ion-row>
+                                <ion-col size="12" style="text-align: center;">
+                                    <h2>
+                                        <ion-label color="danger"><b>{{'slides.p3' | translate}}</b></ion-label>
+                                    </h2>
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; margin-bottom: 20px;">
+                                    <ion-col size="12" style="text-align: center;color: white;">{{'slides.p4' | translate}}</ion-col>
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; margin-bottom: 20px;">
+                                    <img src="../../../assets/img/dual.svg" class="image-2" alt="">
+                                </ion-col>
+                                <ion-col size="12" style="text-align: center; color: white !important;">
+                                    {{'slides.p5' | translate}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/travel.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="color: white !important">
+                            {{'slides.p6' | translate}}
+                        </div>
+                        <h3>
+                            <ion-label color="success"><u>{{'slides.p7' | translate}}</u></ion-label>
+                        </h3>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/global.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="color: white !important">
+                            {{'slides.p8' | translate}}
+                        </div>
+                        <h3>
+                            <ion-label color="danger">{{'slides.p9' | translate}}</ion-label>
+                        </h3>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <img src="../../../assets/img/start.svg" class="image-1" style="margin-bottom: 20px;" alt="">
+                        <div class="full-width" style="text-align: justify !important;">
+                            <h4>
+                                <ion-label color="warning">{{'slides.p11' | translate}}
+                                </ion-label>
+                            </h4>
+                        </div>
+                        <ol style="text-align: left !important; color: white !important; margin-bottom: 10px !important;">
+                            <li>{{'slides.p11-1' | translate}}</li>
+                            <li>{{'slides.p11-2' | translate}}</li>
+                            <li>{{'slides.p11-3' | translate}}</li>
+                            <li>{{'slides.p11-4' | translate}}</li>
+                            <li>{{'slides.p11-5' | translate}}</li>
+                        </ol>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="container-slide">
+                <ion-row class="horizontal-vertical-align">
+                    <ion-col size="12" style="text-align: center; margin-bottom: 10px;">
+                        <h5 style="margin-bottom: 20px !important;">
+                            <ion-label style="color: white !important;">{{'slides.p11-6' | translate}}</ion-label>
+                        </h5>
+                        <img src="../../../assets/img/gold-medal.svg" class="image-1" style="margin-bottom: 10px;" alt="">
+                        <h4>
+                            <ion-label color="danger">
+                                {{'slides.p11-7' | translate}}
+                            </ion-label>
+                        </h4>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div class="container-points">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo-red"></div>
+                <div class="circulo"></div>
+            </div>
         </ion-slide>
         <ion-slide>
             <ion-grid class="container-slide" style="z-index: 19999999999 !important;">

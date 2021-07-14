@@ -17,6 +17,8 @@ import { PopoverModule } from 'src/app/common-components/popover/popover.module'
 import { ItineraryModalCreateComponent } from './itinerary-modal-create/itinerary-modal-create.component';
 import { ItineraryModalEditComponent } from './itinerary-modal-edit/itinerary-modal-edit.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {ItineraryHomeComponent} from './itinerary-home/itinerary-home.component';
+import {ItineraryGroupComponent} from './itinerary-group/itinerary-group.component';
 
 @NgModule({
   imports: [
@@ -34,12 +36,14 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     TranslateModule.forChild(),
     ReactiveFormsModule,
     ItineraryPageRoutingModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
   declarations: [
     ItineraryPage,
     ItineraryModalCreateComponent,
-    ItineraryModalEditComponent
+    ItineraryModalEditComponent,
+    ItineraryHomeComponent,
+    ItineraryGroupComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "en-US" },

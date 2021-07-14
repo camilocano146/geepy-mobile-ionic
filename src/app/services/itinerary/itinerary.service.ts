@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Itinerary } from 'src/app/models/itinerary/itinerary';
 import {Plan} from '../../models/plan/plan';
+import {GroupItineraryVoyager} from '../../models/group-itinerary-voyager/GroupItineraryVoyager';
 
 @Injectable({
   providedIn: 'root'
@@ -51,10 +52,16 @@ export class ItineraryService {
     return this.http.post<any>('packages_landing/recommend_packages/',country, {observe: 'response'});
   }
   /**
-   * ontine los itinerarios de un usuario
+   * Obtine los itinerarios individuales de un usuario
    */
-  getItineraries():Observable<any>{
+  getItineraries(): Observable<any> {
     return this.http.get<any>('itineraries/list_by_user/',{ observe: 'response'});
+  }
+  /**
+   * Obtine los itinerarios grupales de un usuario
+   */
+  getGroups(): Observable<any> {
+    return this.http.get<any>('group_itineraries/',{ observe: 'response'});
   }
   /**
    * Crea un itinerario
@@ -73,5 +80,21 @@ export class ItineraryService {
    */
   cancelItinerary(id: any):Observable<any>{
     return this.http.delete<any>(`itineraries/${id}/`, {observe: 'response'});
+  }
+
+  createGroup(body: GroupItineraryVoyager): Observable<any> {
+    return this.http.post<any>(`group_itineraries/`, body, {observe: 'response'});
+  }
+
+  editGroup(id: number, body: GroupItineraryVoyager): Observable<any> {
+    return this.http.patch<any>(`group_itineraries/${id}/edit/`, body, {observe: 'response'});
+  }
+
+  getItinerariesOfGroup(idGroup: number): Observable<any> {
+    return this.http.get<any>(`group_itineraries/${idGroup}/list_itineraries/`, { observe: 'response'});
+  }
+
+  removeGroup(idGroup: number): Observable<any> {
+    return this.http.delete<any>(`group_itineraries/${idGroup}/`, { observe: 'response'});
   }
 }

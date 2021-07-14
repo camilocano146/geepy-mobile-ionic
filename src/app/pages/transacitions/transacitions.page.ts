@@ -8,6 +8,7 @@ import { TransacitionsModalPaypalComponent } from './transacitions-modal-paypal/
 import { BillingService } from 'src/app/services/billing/billing.service';
 import { TransacitionsModalSeeComponent } from './transacitions-modal-see/transacitions-modal-see.component';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import {HelpComponent} from '../../common-components/help/help.component';
 
 @Component({
   selector: 'app-transacitions',
@@ -158,5 +159,12 @@ export class TransacitionsPage implements OnInit {
 
   loadMoreData(eventInfiniteScroll: CustomEvent) {
     this.loadTransactions(eventInfiniteScroll);
+  }
+
+  async helpDialog($event: MouseEvent) {
+    const modal = await this.modalController.create({
+      component: HelpComponent
+    });
+    return await modal.present();
   }
 }

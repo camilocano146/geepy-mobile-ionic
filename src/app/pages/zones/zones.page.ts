@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NavController, PopoverController, ToastController} from '@ionic/angular';
+import {ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
 import { PopoverComponent } from 'src/app/common-components/popover/popover.component';
 import { ZonesService } from 'src/app/services/zones/zones.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/services/loading/loading.service';
 import {CountriesService} from '../../services/countries/countries.service';
 import {Country} from '../../models/country/Country';
 import {Zone} from '../../models/zone/Zone';
+import {HelpComponent} from '../../common-components/help/help.component';
 
 @Component({
   selector: 'app-zones',
@@ -49,6 +50,7 @@ export class ZonesPage implements OnInit {
     private toastController: ToastController,
     private navController: NavController,
     private countriesService: CountriesService,
+    private modalController: ModalController,
   ) {
     this.zonesList = [];
     this.paises = [];
@@ -203,5 +205,12 @@ export class ZonesPage implements OnInit {
     if (index !== -1) {
       this.countriesSelected.splice(index, 1);
     }
+  }
+
+  async helpDialog($event: MouseEvent) {
+    const modal = await this.modalController.create({
+      component: HelpComponent
+    });
+    return await modal.present();
   }
 }

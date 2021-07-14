@@ -1,0 +1,55 @@
+<ion-header>
+    <ion-toolbar color="tertiary">
+        <ion-buttons slot="start" fill="outline" style="color: white !important; font-size: 20px; margin-left: 15px;" (click)="dismiss()">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title style="padding-right: 0px !important; padding-left: 0px;">{{'help.title' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="background-all"></div>
+    <ion-row class="ion-justify-content-center mt-3">
+        <ion-col>
+            <div *ngIf="router.url.includes('itinerary-voyager')">
+                <h6>
+                    {{'help.itinerary_voyager.text1' | translate}}
+                </h6>
+                <h6>
+                    {{'help.itinerary_voyager.text2' | translate}}
+                </h6>
+            </div>
+            <div *ngIf="router.url.includes('simcards')">
+                <h6>
+                    {{'help.sim_cards.text1' | translate}}
+                </h6>
+                <h6>
+                    {{'help.sim_cards.text2' | translate}}
+                </h6>
+            </div>
+            <div *ngIf="router.url.includes('transacitions')">
+                <h6>
+                    {{'help.sim_cards.text1' | translate}}
+                </h6>
+                <h6>
+                    {{'help.sim_cards.text2' | translate}}
+                </h6>
+            </div>
+            <div *ngIf="router.url.includes('zones')">
+                <h6>
+                    {{'help.sim_cards.text1' | translate}}
+                </h6>
+                <h6>
+                    {{'help.sim_cards.text2' | translate}}
+                </h6>
+            </div>
+            <div *ngIf="router.url.includes('profile')">
+                <h6>
+                    {{'help.sim_cards.text1' | translate}}
+                </h6>
+                <h6>
+                    {{'help.sim_cards.text2' | translate}}
+                </h6>
+            </div>
+        </ion-col>
+    </ion-row>
+</ion-content>

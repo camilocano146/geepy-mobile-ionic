@@ -80,7 +80,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
 
-
     IonicModule.forRoot(
       {
         mode: 'ios',

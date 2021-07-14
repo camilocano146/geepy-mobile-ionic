@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, ChangeDetectorRef, AfterViewInit,} from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user/user';
 import { FormControl, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { LoadingService } from 'src/app/services/loading/loading.service';
 import {SimCard} from '../../../models/sim-card/simcard';
 import {Country} from '../../../models/country/Country';
 import {AppComponent} from '../../../app.component';
+import {GroupItineraryVoyager} from '../../../models/group-itinerary-voyager/GroupItineraryVoyager';
 
 @Component({
   selector: 'app-itinerary-modal-create',
@@ -44,6 +45,7 @@ export class ItineraryModalCreateComponent implements OnInit {
   //----- País seleccionado
   public lastCountrySelected: Country;
   private timer: number;
+  private group: GroupItineraryVoyager;
 
   constructor(
     private loadingService: LoadingService,
@@ -151,6 +153,7 @@ export class ItineraryModalCreateComponent implements OnInit {
         itinerary.sim_card_id = this.lastSimSelected.id;
         itinerary.user = this.user.id;
         itinerary.package_id = this.packageselected.id;
+        itinerary.group = this.group.id;
         this.itineraryService.createItinerary(itinerary).subscribe(res => {
           if (res.status == 201) {
             this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));

@@ -1045,15 +1045,30 @@
   },
   "itinerary": {
     "principal": {
+      "individual": "individuals",
+      "group": "groups",
       "title": "Trips",
       "description": "This feature is used to schedule data services activation on specific dates",
-      "btn_create": "Create",
+      "btn_create": "Create Trip",
+      "btn_create_group": "Create Group",
       "no_itineraries": "There is nothing here.",
       "my_itineraries": "My Trips",
+      "my_groups": "My Groups",
       "programmed": "Programmed",
       "activated": "Activated",
       "activate": "ACTIVATE SIM",
       "suspend": "SUSPEND SIM"
+    },
+    "group": {
+      "title": "Group",
+      "add_itinerary": "Add Trip",
+      "description": "Here you can organize a travel group by adding trips to this group",
+      "save": "Save",
+      "saved": "Group saved",
+      "itineraries_of_this_group": "Trips of this group",
+      "select_name": "Change Group Name",
+      "group_name": "Group Name",
+      "change_name": "Change Group Name"
     },
     "create": {
       "title": "New trip",
@@ -1122,7 +1137,8 @@
       "created_error": "We couldn't create this item.",
       "maximum_date": "Maximum refund date has expired.",
       "edit_error": "We couldn't update this item.",
-      "select_sim": "You must click on a SimCard to select"
+      "select_sim": "You must click on a SimCard to select",
+      "no_group_saved": "It was not possible to save the group, please try again"
     }
   },
   "payments": {
@@ -1482,5 +1498,11 @@
     "has_no_transactions": "Hast not Transactions yet",
     "has_no_sims": "Has no Sims yet",
     "has_no_devices": "Has no Devices yet"
+  },
+  "help": {
+    "title": "Help",
+    "sim_cards": {
+      "text1": "In this module"
+    }
   }
 }

@@ -25,6 +25,7 @@ import {PopoverActivationComponent} from './popover-activation/popover-activatio
 import {PopoverCompatibleDevicesComponent} from './popover-compatible-devices/popover-compatible-devices.component';
 import {SimModalESimsInstructionsIosComponent} from './sim-modal-e-sim-instructions-ios/sim-modal-e-sims-instructions-ios.component';
 import {SimModalESimsCompatibleAndroidDevicesComponent} from '../select-platform/sim-modal-e-sim-compatible-android-devices/sim-modal-e-sims-compatible-android-devices.component';
+import {HelpComponent} from '../../common-components/help/help.component';
 
 @Component({
   selector: 'app-sim-cards',
@@ -283,5 +284,12 @@ export class SimCardsPage implements OnInit {
 
   goToPurchaseRegisterPhysicalSim() {
     this.navController.navigateRoot('home/simcards/purchase-activate-physical-sims');
+  }
+
+  async helpDialog($event: MouseEvent) {
+    const modal = await this.modalController.create({
+      component: HelpComponent
+    });
+    return await modal.present();
   }
 }
