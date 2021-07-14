@@ -1068,7 +1068,8 @@
       "itineraries_of_this_group": "Trips of this group",
       "select_name": "Change Group Name",
       "group_name": "Group Name",
-      "change_name": "Change Group Name"
+      "change_name": "Change Group Name",
+      "remove_ok": "Group successfully remove."
     },
     "create": {
       "title": "New trip",

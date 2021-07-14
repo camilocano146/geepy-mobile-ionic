@@ -1092,7 +1092,7 @@
       "btn_create_group": "Crear Grupo",
       "no_itineraries": "No hay nada aquí.",
       "my_itineraries": "Mis Itinerarios",
-      "my_groups": "Mis Groups",
+      "my_groups": "Mis Grupos",
       "programmed": "Programado",
       "activated": "Activado",
       "activate": "ACTIVAR SIM",
@@ -1109,7 +1109,8 @@
       "group_name": "Nombre del Grupo",
       "change_name": "Cambiar nombre de grupo",
       "remove_header": "Cancelar Viaje y Eliminar grupo ?",
-      "remove_text": "¿Estás seguro?"
+      "remove_text": "¿Estás seguro?",
+      "remove_ok": "Gropo eliminado correctamente."
     },
     "create": {
       "title": "Nuevo itinerario",
