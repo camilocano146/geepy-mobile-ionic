@@ -16,6 +16,8 @@ import {PhotoViewer} from '@ionic-native/photo-viewer/ngx';
 import {Global} from '../../models/global/global';
 import {TypePinVoyager} from '../../models/pin-voyager/PinVoyager';
 import {TypesPinVoyagerService} from '../../services/types_pin-voyager/plans.service';
+import { CountriesService } from 'src/app/services/countries/countries.service';
+import { ZonesService } from 'src/app/services/zones/zones.service';
 
 @Component({
   selector: 'app-sim-cards-settings',
@@ -109,6 +111,14 @@ export class SimCardsSettingsPage implements OnInit {
   public currencyTypesPin: string[];
   public purchasedPin: string;
 
+  // countries
+  public list_countries:any[]= [];
+  public formControlCountry:FormControl;
+
+  // zones 
+  public list_zones:any[]= [];
+  public formControlZones:FormControl;
+
   constructor(
     private moduleService: PermissionModuleService,
     private loadingService: LoadingService,
@@ -118,6 +128,8 @@ export class SimCardsSettingsPage implements OnInit {
     private alertController: AlertController,
     public toastController: ToastController,
     private simCardService: SimCardService,
+    private countriesService: CountriesService,
+    private zonesService:ZonesService,
     public popoverController: PopoverController,
     private extraNumberService: ExtraNumbersService,
     private photoViewer: PhotoViewer,
@@ -133,7 +145,10 @@ export class SimCardsSettingsPage implements OnInit {
     this.formControlPinActivate = new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(30), Validators.pattern('[0-9]+')]);
     this.formControlCurrencyTypePin = new FormControl(null, Validators.required);
     this.formControlTypePin = new FormControl(null, Validators.required);
+    this.formControlCountry = new FormControl(null);
+    this.formControlZones = new FormControl(null);
     this.cupon = new FormControl('', [Validators.minLength(8), Validators.maxLength(8)]);
+
   }
 
   ngOnInit(): void {
@@ -291,6 +306,7 @@ export class SimCardsSettingsPage implements OnInit {
       this.getCallsHistory();
       this.getPinsHistory();
       this.getTypesPin();
+      this.getZones();
 
     }, err => {
       console.log(err);
@@ -559,7 +575,7 @@ export class SimCardsSettingsPage implements OnInit {
  * Obtiene paquetes disponibles
  */
   obtainAvaiablesPackages() {
-    this.simCardService.getAvaiablePackages(this.sim_current.id).subscribe(res => {
+    this.simCardService.getAvaiablePackages(this.sim_current.id, this.formControlZones.value, this.formControlCountry.value).subscribe(res => {
       if (res.status == 200) {
         this.avaibalePackages = res.body;
         if (this.avaibalePackages.getserviceoptions.gprs) {
@@ -618,6 +634,45 @@ export class SimCardsSettingsPage implements OnInit {
       this.presentToastError(this.translate.instant("simcard.error.no_avaiable_package"));
     });
   }
+
+  getZones(){
+    this.zonesService.getZonesWithoutCountries().subscribe(res => {
+      this.list_zones = res.body;
+    });
+  }
+  
+  get_locations(event){
+    if(event.path[0].value.length>5){
+      this.countriesService.getCountriesPaginate(event.path[0].value,0, 10).subscribe(res=>{
+        console.log(res.body.results);
+        this.list_countries= res.body.results;
+      });
+    }
+  }
+
+  /**
+   * 
+   * @param event 
+   */
+  selectZones(event){
+    this.preload_avaiable_packages= true;
+    this.formControlCountry.setValue("");
+    this.avaibalePackages=[];
+    this.obtainAvaiablesPackages();
+  }
+
+  /**
+   * 
+   * @param event 
+   */
+  selectCountry(event){
+    this.preload_avaiable_packages= true;
+    this.formControlZones.setValue(""); 
+    this.avaibalePackages=[];
+    this.obtainAvaiablesPackages();
+       
+  }
+
 
   /**
    * Activar paquete datos

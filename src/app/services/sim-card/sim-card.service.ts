@@ -200,8 +200,17 @@ export class SimCardService {
     return this.http.post<any>("sim_cards_tc/" + idSim + "/send_sms_app/", sms, { observe: 'response' });
   }
 
-  getAvaiablePackages(idSim: number): Observable<any> {
-    return this.http.get<any>("sim_cards_tc/" + idSim + "/getserviceoptions/", { observe: 'response' });
+  getAvaiablePackages(idSim: number, zonaId?:number, countryId?:number): Observable<any> {
+    let url = `sim_cards_tc/${idSim}/getserviceoptions/`
+    let params="?"
+    if (zonaId){
+      params += `zona_id=${zonaId}&`;
+    }
+    if(countryId){
+      params+=`country_id=${countryId}`;
+    }
+    
+    return this.http.get<any>(`sim_cards_tc/${idSim}/getserviceoptions/${params}`, { observe: 'response' });
   }
 
   addPackageToSim(idSim: number, packageToBuy: BuyPackageTop) {

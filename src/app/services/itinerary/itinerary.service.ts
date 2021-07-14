@@ -95,6 +95,6 @@ export class ItineraryService {
   }
 
   removeGroup(idGroup: number): Observable<any> {
-    return this.http.delete<any>(`group_itineraries/${idGroup}/`, { observe: 'response'});
+    return this.http.delete<any>(`group_itineraries/${idGroup}/delete/`, { observe: 'response'});
   }
 }

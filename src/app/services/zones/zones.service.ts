@@ -21,6 +21,10 @@ export class ZonesService {
   getZones(): Observable<any>{
     return this.http.get<any>('zones/', { observe: 'response'});
   }
+
+  getZonesWithoutCountries(): Observable<any>{
+    return this.http.get<any>('zones/list_zones/', { observe: 'response'});
+  }
   /**
    * Paises
    */

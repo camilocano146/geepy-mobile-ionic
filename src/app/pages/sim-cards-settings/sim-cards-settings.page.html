@@ -446,6 +446,7 @@
                                 <ion-icon name="gift" style="margin-right: 10px;"></ion-icon>
                                 <ion-input [formControl]="cupon" style="background-color: white; border-radius: 5px;"></ion-input>
                             </ion-item>
+                            
                             <div *ngIf="cupon.invalid" class="full-width">
                                 <ion-label class="full-width" style="font-size: 12px;" color="danger">{{'simcard.data.settings.package.error_cupon' | translate}}</ion-label>
                             </div>
@@ -471,6 +472,38 @@
                                     </ion-grid>
                                 </ion-card-content>
                             </ion-card>
+                            <ion-item style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                <mat-form-field class="w-100">
+                                    <mat-select [disableOptionCentering]="true" placeholder="Seleccione una locacion" [formControl]="formControlCountry" (selectionChange)="selectCountry($event.value)"> 
+                                        <mat-option  disabled>
+                                            <input type="search"
+                                                placeholder="Buscar"
+                                                class="form-control"
+                                                (keyup)= "get_locations($event)"
+                                                style="width: 100%;"
+                                            >
+                                        </mat-option>
+                                        <mat-option >
+                                            -------
+                                        </mat-option>
+                                        <mat-option *ngFor="let country of list_countries" [value]="country.id">
+                                            {{country.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </ion-item>
+                            <ion-item style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                <mat-form-field class="w-100">
+                                    <mat-select [disableOptionCentering]="true" placeholder="Seleccione una zona" [formControl]="formControlZones" (selectionChange)="selectZones($event.value)"> 
+                                        <mat-option>
+                                            -------
+                                        </mat-option>
+                                        <mat-option *ngFor="let zone of list_zones" [value]="zone.id">
+                                            {{zone.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </ion-item>
                             <div *ngIf="!avaibalePackages?.getserviceoptions?.gprs?.activation_fee" class="container-cards">
                                 <ion-card *ngFor="let item of avaibalePackages?.getserviceoptions?.gprs" style="margin-top: 10px;" class="card-package">
                                     <ion-card-header>
