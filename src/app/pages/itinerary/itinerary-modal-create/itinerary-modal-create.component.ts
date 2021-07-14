@@ -46,6 +46,7 @@ export class ItineraryModalCreateComponent implements OnInit {
   public lastCountrySelected: Country;
   private timer: number;
   private group: GroupItineraryVoyager;
+  public preloadPackages: boolean;
 
   constructor(
     private loadingService: LoadingService,
@@ -94,9 +95,10 @@ export class ItineraryModalCreateComponent implements OnInit {
   }
 
   searchPackages() {
+    this.preloadPackages = true;
     const data = {
       countrie: this.lastCountrySelected.id
-    }
+    };
     this.itineraryService.getPackageRecommended(data).subscribe(res => {
       console.log(res);
       if (res.status == 200) {
@@ -113,6 +115,7 @@ export class ItineraryModalCreateComponent implements OnInit {
           this.expanded = true;
         }
       }
+      this.preloadPackages = false;
     }, err => {
       console.log(err);
       if (err.status == 400 && err.error.countrie) {
@@ -120,6 +123,7 @@ export class ItineraryModalCreateComponent implements OnInit {
       } else {
         this.presentToastError(this.translate.instant('itinerary.error.no_search_packages'));
       }
+      this.preloadPackages = false;
     });
   }
 
@@ -153,7 +157,7 @@ export class ItineraryModalCreateComponent implements OnInit {
         itinerary.sim_card_id = this.lastSimSelected.id;
         itinerary.user = this.user.id;
         itinerary.package_id = this.packageselected.id;
-        itinerary.group = this.group.id;
+        itinerary.group = this.group?.id;
         this.itineraryService.createItinerary(itinerary).subscribe(res => {
           if (res.status == 201) {
             this.presentToastOk(this.translate.instant('itinerary.create.created_ok'));

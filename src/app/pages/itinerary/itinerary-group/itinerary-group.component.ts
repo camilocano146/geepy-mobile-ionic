@@ -47,23 +47,27 @@ export class ItineraryGroupComponent implements OnInit {
     });
 
     this.group = ManageLocalStorage.getGroupItineraryVoyager();
-    this.formControlGroupName.setValue(this.group.name);
+    if (this.group) {
+      this.formControlGroupName.setValue(this.group.name);
+    }
   }
 
-  ionViewDidEnter(){
-    this.itinerariesList = [];
-    this.loadingService.presentLoading().then( () => {
-      this.itineraryService.getItinerariesOfGroup(this.idGroup).subscribe(res => {
-        if (res.status == 200) {
-          this.itinerariesList.push(...res.body);
-          this.structureItineriryList();
-        }
-      }, err => {
-        console.log(err);
-        this.loadingService.dismissLoading();
-        this.presentToastError(this.translateService.instant('itinerary.error.no_itineraries'));
+  ionViewDidEnter() {
+    if (this.idGroup) {
+      this.itinerariesList = [];
+      this.loadingService.presentLoading().then( () => {
+        this.itineraryService.getItinerariesOfGroup(this.idGroup).subscribe(res => {
+          if (res.status == 200) {
+            this.itinerariesList.push(...res.body);
+            this.structureItineriryList();
+          }
+        }, err => {
+          console.log(err);
+          this.loadingService.dismissLoading();
+          this.presentToastError(this.translateService.instant('itinerary.error.no_itineraries'));
+        });
       });
-    });
+    }
   }
 
   async presentToastError(text: string) {
@@ -105,7 +109,7 @@ export class ItineraryGroupComponent implements OnInit {
             this.showGroupEdit = false;
             this.presentToastOk(this.translateService.instant('itinerary.group.saved'));
             this.loadingService.dismissLoading();
-            this.group.name = this.formControlGroupName.value;
+            this.group = res.body;
           }, err => {
             this.presentToastError(this.translateService.instant('itinerary.error.no_group_saved'));
             this.loadingService.dismissLoading();
@@ -115,7 +119,8 @@ export class ItineraryGroupComponent implements OnInit {
             this.presentToastOk(this.translateService.instant('itinerary.group.saved'));
             this.showGroupEdit = false;
             this.loadingService.dismissLoading();
-            this.group.name = this.formControlGroupName.value;
+            this.group = res.body;
+            this.idGroup = res.body?.id;
           }, err => {
             this.presentToastError(this.translateService.instant('itinerary.error.no_group_saved'));
             this.loadingService.dismissLoading();

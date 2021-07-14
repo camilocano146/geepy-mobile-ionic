@@ -214,6 +214,7 @@ export class ItineraryHomeComponent implements OnInit {
   }
 
   openModalCreateGroup() {
+    ManageLocalStorage.removeGroupItineraryVoyager();
     this.navController.navigateForward('home/itinerary-voyager/group');
   }
 

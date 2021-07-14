@@ -9,4 +9,8 @@ export class ManageLocalStorage {
   static getGroupItineraryVoyager(): GroupItineraryVoyager {
     return JSON.parse(localStorage.getItem('groupItineraryVoyager'));
   }
+
+  static removeGroupItineraryVoyager(): void {
+    localStorage.removeItem('groupItineraryVoyager');
+  }
 }

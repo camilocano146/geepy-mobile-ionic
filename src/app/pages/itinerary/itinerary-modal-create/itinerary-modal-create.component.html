@@ -101,6 +101,10 @@
                     <mat-icon>search</mat-icon>
                     {{'itinerary.create.btn_search_package' | translate}}</ion-button>
             </ion-col>
+
+            <ion-col size="12" class="ion-text-center mt-3" *ngIf="preloadPackages">
+                <ion-spinner name="crescent"></ion-spinner>
+            </ion-col>
         </ion-row>
         <ion-row *ngIf="existsPackages == 1">
             <ion-col size="12" style="text-align: center;">
