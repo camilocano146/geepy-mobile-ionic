@@ -216,7 +216,7 @@
     "packages": "Packages",
     "itinerary": "Trips",
     "profile": "Profile",
-    "payment": "Payment",
+    "payment": "Recharges",
     "zones": "Zones"
   },
   "geo": {
@@ -644,7 +644,7 @@
       "country_name": "Country name",
       "my_e_sims": "MY eSIMs",
       "search": "Search",
-      "ph_search": "ICCID or Endpoint",
+      "ph_search": "Number or Endpoint",
       "activated": "ACTIVATED",
       "registered": "REGISTERED",
       "subscription_expired": "SUBSCRIPTION EXPIRED",
@@ -1144,11 +1144,11 @@
   },
   "payments": {
     "principal": {
-      "title": "Payments",
+      "title": "Recharges",
       "my_account": "My account",
       "recharge": "Recharge",
       "btn_pay": "Pay",
-      "my_payments": "My Payments",
+      "my_payments": "My recharges",
       "orders": "Transactions",
       "account_balance": "Account balance",
       "balance": "Balance",
